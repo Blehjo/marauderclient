@@ -8,15 +8,12 @@
     <IsPackable>false</IsPackable>
     <SpaRoot>ClientApp\</SpaRoot>
     <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
-    <SpaProxyServerUrl>https://localhost:44469</SpaProxyServerUrl>
+    <SpaProxyServerUrl>https://localhost:44430</SpaProxyServerUrl>
     <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="7.0.7" />
   </ItemGroup>
@@ -25,32 +22,14 @@
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Content Remove="$(SpaRoot)**" />
     <None Remove="$(SpaRoot)**" />
-    <Content Remove="ClientApp\package-lock.json" />
-    <None Include="ClientApp\package-lock.json" />
-    <Content Remove="ClientApp\package.json" />
-    <None Include="ClientApp\package.json" />
-    <Content Remove="ClientApp\public\manifest.json" />
-    <None Include="ClientApp\public\manifest.json" />
-    <None Remove="ClientApp\" />
-    <None Include="ClientApp\src\app\favicon.ico" />
-    <None Include="ClientApp\src\app\globals.css" />
-    <None Include="ClientApp\src\app\layout.tsx" />
-    <None Include="ClientApp\src\app\page.tsx" />
-    <None Remove="src\app\favicon.ico" />
-    <None Remove="src\app\layout.tsx" />
-    <None Remove="src\app\page.tsx" />
-    <None Remove="src\app\globals.css" />
-    <None Include="ClientApp\public\next.svg" />
-    <None Include="ClientApp\public\vercel.svg" />
-    <None Remove="public\vercel.svg" />
-    <None Remove="public\next.svg" />
+    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+    <None Remove="ClientApp\nextjs-blog\public\favicon.ico" />
+    <None Remove="ClientApp\nextjs-blog\public\images\profile.jpg" />
+    <None Remove="ClientApp\nextjs-blog\components\layout.js" />
+    <None Remove="ClientApp\nextjs-blog\components\date.js" />
+    <None Remove="ClientApp\nextjs-blog\components\layout.module.css" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ClientApp\" />
-    <Folder Include="ClientApp\src\" />
-    <Folder Include="ClientApp\public\" />
-  </ItemGroup>
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
     <!-- Ensure Node.js is installed -->
     <Exec Command="node --version" ContinueOnError="true">
