@@ -1,0 +1,37 @@
+import { Brick } from "./builder.reducer";
+
+export enum BUILDER_ACTION_TYPES  {
+    CREATE_START = 'builder/CREATE_START',
+    CREATE_SUCCESS = 'builder/CREATE_SUCCESS',
+    CREATE_FAILED = 'builder/CREATE_FAILED',
+    UPDATE_START = 'builder/UPDATE_START',
+    UPDATE_SUCCESS = 'builder/UPDATE_SUCCESS',
+    UPDATE_FAILED = 'builder/UPDATE_FAILED',
+    DELETE_START = 'builder/DELETE_START',
+    DELETE_SUCCESS = 'builder/DELETE_SUCCESS',
+    DELETE_FAILED = 'builder/DELETE_FAILED',
+    FETCH_SINGLE_START = 'builder/FETCH_SINGLE_START',
+    FETCH_SINGLE_SUCCESS = 'builder/FETCH_SINGLE_SUCCESS',
+    FETCH_SINGLE_FAILED = 'builder/FETCH_SINGLE_FAILED',
+    FETCH_USER_BUILDER_START = 'builder/FETCH_USER_BUILDER_START',
+    FETCH_USER_BUILDER_SUCCESS = 'builder/FETCH_USER_BUILDER_SUCCESS',
+    FETCH_USER_BUILDER_FAILED = 'builder/FETCH_USER_BUILDER_FAILED',
+    FETCH_OTHER_USER_BUILDER_START = 'builder/FETCH_OTHER_USER_BUILDER_START',
+    FETCH_OTHER_USER_BUILDER_SUCCESS = 'builder/FETCH_OTHER_USER_BUILDER_SUCCESS',
+    FETCH_OTHER_USER_BUILDER_FAILED = 'builder/FETCH_OTHER_USER_BUILDER_FAILED',
+    FETCH_ALL_START = 'builder/FETCH_ALL_START',
+    FETCH_ALL_SUCCESS = 'builder/FETCH_ALL_SUCCESS',
+    FETCH_ALL_FAILED = 'builder/FETCH_ALL_FAILED',
+    SET_MODE = 'builder/SET_MODE',
+    SET_COLOR = 'builder/SET_COLOR',
+    TOGGLE_GRID = 'builder/TOGGLE_GRID',
+    SET_BRICK = 'builder/SET_BRICK'
+};
+
+export type Builder = {
+    mode: string;
+    grid: boolean;
+    color: string;
+    brick: Brick;
+    isLoading: boolean;
+}

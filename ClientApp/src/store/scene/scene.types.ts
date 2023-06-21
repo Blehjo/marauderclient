@@ -1,0 +1,38 @@
+export enum SCENE_ACTION_TYPES  {
+    CREATE_START = 'scene/CREATE_START',
+    CREATE_SUCCESS = 'scene/CREATE_SUCCESS',
+    CREATE_FAILED = 'scene/CREATE_FAILED',
+    UPDATE_START = 'scene/UPDATE_START',
+    UPDATE_SUCCESS = 'scene/UPDATE_SUCCESS',
+    UPDATE_FAILED = 'scene/UPDATE_FAILED',
+    DELETE_START = 'scene/DELETE_START',
+    DELETE_SUCCESS = 'scene/DELETE_SUCCESS',
+    DELETE_FAILED = 'scene/DELETE_FAILED',
+    FETCH_SINGLE_START = 'scene/FETCH_SINGLE_START',
+    FETCH_SINGLE_SUCCESS = 'scene/FETCH_SINGLE_SUCCESS',
+    FETCH_SINGLE_FAILED = 'scene/FETCH_SINGLE_FAILED',
+    FETCH_USER_SCENE_START = 'scene/FETCH_USER_SCENE_START',
+    FETCH_USER_SCENE_SUCCESS = 'scene/FETCH_USER_SCENE_SUCCESS',
+    FETCH_USER_SCENE_FAILED = 'scene/FETCH_USER_SCENE_FAILED',
+    FETCH_OTHER_USER_SCENE_START = 'scene/FETCH_OTHER_USER_SCENE_START',
+    FETCH_OTHER_USER_SCENE_SUCCESS = 'scene/FETCH_OTHER_USER_SCENE_SUCCESS',
+    FETCH_OTHER_USER_SCENE_FAILED = 'scene/FETCH_OTHER_USER_SCENE_FAILED',
+    FETCH_ALL_START = 'scene/FETCH_ALL_START',
+    FETCH_ALL_SUCCESS = 'scene/FETCH_ALL_SUCCESS',
+    FETCH_ALL_FAILED = 'scene/FETCH_ALL_FAILED',
+    ADD_BRICK = 'scene/ADD_BRICK',
+    REMOVE_BRICK = 'scene/REMOVE_BRICK',
+    UPDATE_BRICK = 'scene/UPDATE_BRICK',
+    RESET_SCENE = 'scene/RESET_SCENE',
+    SET_SCENE = 'scene/SET_SCENE'
+};
+
+export type Scene = {
+    artificialIntelligenceId: number;
+    name: string;
+    role: string | null;
+    imageLink: string | null;
+    imageSource: string;
+    dateCreated: Date | null;
+    userId: number | null,
+}
