@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Badge, Card, Row, Col } from "react-bootstrap";
+import { Badge, Card, Row, Col, Modal } from "react-bootstrap";
 import { ArrowsFullscreen, Chat, Rocket } from "react-bootstrap-icons";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { BadgeContainer } from "../../styles/responsivememory/responsivememory.styles";
@@ -8,6 +8,7 @@ import { PostRouteProps } from "../../pages/posts";
 import { ChatRouteProps } from "../../pages/chats";
 import { utcConverter } from "../../utils/date/date.utils";
 import { DragAndDropContainer } from "../../styles/draganddrop/draganddrop.styles";
+import ModalContent from "../modal/modal.component";
 
 interface IDefaultFormFields {
     commentValue: string;
@@ -17,6 +18,12 @@ interface IDefaultFormFields {
 }
 
 class ResponsiveMemory extends Component<any, IDefaultFormFields> {
+    state: IDefaultFormFields = {
+        commentValue: "",
+        imageSource: null,
+        imageFile: null,
+        show: false,
+    }
 
     handleLike(postId: number, type: string): void {
         this.props.likePost(postId, type);
@@ -28,9 +35,13 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
         });
     }
 
-    handleClick(postId: number): void {
-        this.props.getPost(postId);
-        this.props.getComments(postId);
+    handleClick(id: number, type: string): void {
+        if (type === "chat") {
+            this.props.getChat(id);
+        } else if (type === "post") {
+            this.props.getPost(id);
+            // this.props.getComments(id);
+        } 
         this.setState({
             show: !this.state.show
         });
@@ -44,7 +55,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                 <Card.ImgOverlay>
                     <div style={{ cursor: "pointer", position: "absolute", left: "0", top: "0" }}>
                         <BadgeContainer>
-                            <Badge style={{ color: 'black' }} bg="light"><ArrowsFullscreen style={{ cursor: 'pointer' }} onClick={() => this.handleClick(postId)} size={15}/></Badge>
+                            <Badge style={{ color: 'black' }} bg="light"><ArrowsFullscreen style={{ cursor: 'pointer' }} onClick={() => this.handleClick(postId, type)} size={15}/></Badge>
                         </BadgeContainer>
                         {
                             <BadgeContainer><Badge style={{ color: 'black' }} bg="light">
@@ -71,16 +82,16 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
     }
 
     chatFunction(prop: any) {
-        const { chatId, title, type, userId, comments, chatComments, favorites, dateCreated } = prop;
+        const { chatId, title, type, userId, comments, chatComments, favorites, dateCreated, getChat } = prop;
         return (
-            <Card bg="dark" style={{ margin: '1rem', color: 'white'}} key={chatId}>
+            <Card bg="dark" style={{ margin: '.3rem', color: 'white'}} key={chatId}>
                 <Row>
                 <Card.Img  src={"https://www.artlog.net/sites/default/files/styles/al_colorbox_rules/public/turrell_cregis_golay_federal_studio.jpg?itok=2M4Pyn0A"}/>
                 <Card.ImgOverlay>
                 <div style={{ cursor: "pointer", position: "absolute", left: "0", top: "0" }}>
                 <Col>
                 <BadgeContainer>
-                    <Badge style={{ color: 'black' }} bg="light"><ArrowsFullscreen style={{ cursor: 'pointer' }} size={15} onClick={() => this.handleClick(chatId)}/></Badge>
+                    <Badge style={{ color: 'black' }} bg="light"><ArrowsFullscreen style={{ cursor: 'pointer' }} size={15} onClick={() => this.handleClick(chatId, type)}/></Badge>
                 </BadgeContainer>
                 </Col>
                 <Col>
@@ -121,7 +132,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                 <Card.ImgOverlay>
                     <div style={{ cursor: "pointer", position: "absolute", left: "0", top: "0" }}>
                         <BadgeContainer>
-                            <Badge style={{ color: 'black' }} bg="light"><ArrowsFullscreen style={{ cursor: 'pointer' }} onClick={() => this.handleClick(postId)} size={15}/></Badge>
+                            <Badge style={{ color: 'black' }} bg="light"><ArrowsFullscreen style={{ cursor: 'pointer' }} onClick={() => this.handleClick(postId, type)} size={15}/></Badge>
                         </BadgeContainer>
                         {
                             <BadgeContainer><Badge style={{ color: 'black' }} bg="light">
@@ -150,6 +161,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
     checkType() {
         const content = [];
         const { posts, chats, profiles } = this.props;
+        console.log("THIS.PROPS: ", this.props);
 
         if (posts != undefined) {
             for (let i = 0; i < posts.length; i++) {
@@ -171,12 +183,18 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
     render() {
         return (
             <DragAndDropContainer>
-
-            <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 3, 1050: 4 }}>
-                <Masonry>
-                    {this.checkType()}
-                </Masonry>
-            </ResponsiveMasonry>
+                <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 3, 1050: 4 }}>
+                    <Masonry>
+                        {this.checkType()}
+                    </Masonry>
+                </ResponsiveMasonry>
+                <Modal
+                    size="lg"
+                    show={this.state.show} 
+                    onHide={() => this.handleClose()}
+                >
+                    <ModalContent show={this.state.show} { ...this.props }/>
+                </Modal>
             </DragAndDropContainer>
         );
     }
