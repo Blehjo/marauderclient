@@ -10,4 +10,5 @@ export const SidebarMenuContainer = styled.div`
     margin-top: 3rem; 
     overflow-x: hidden;
     border: 1px solid orangered;
+    padding-bottom: 15rem;
 `;

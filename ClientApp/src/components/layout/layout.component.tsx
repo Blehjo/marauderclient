@@ -16,7 +16,7 @@ export class Layout extends Component<Props> {
     <LayoutContainer>
       <NavMenu />
       <Sidebar />
-      <Container tag="main">
+      <Container style={{ height: '100vh' }} tag="main">
         {this.props.children}
       </Container>
     </LayoutContainer>

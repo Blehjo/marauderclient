@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { Button, Container, Form, Nav, Navbar, NavDropdown } from 'react-bootstrap';
-import { NavmenuContainer } from '../../styles/navmenu/navmenu.styles';
+import { NavmenuContainer, PersonContainer } from '../../styles/navmenu/navmenu.styles';
+import { Person, PersonCircle } from 'react-bootstrap-icons';
 
 class NavMenu extends Component {
     render() {
@@ -8,7 +9,7 @@ class NavMenu extends Component {
         <NavmenuContainer className="fixed-top">
             <Navbar style={{ border: "1px solid orangered" }} variant="dark" bg="dark" sticky="top" expand="lg" >
                 <Container fluid>
-                <Navbar.Brand href="/">Capsule</Navbar.Brand>
+                <Navbar.Brand href="/">Marauder</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll">
                     <Nav
@@ -16,21 +17,14 @@ class NavMenu extends Component {
                     style={{ maxHeight: '100px' }}
                     navbarScroll
                     >
-                    <Nav.Link href="/">Home</Nav.Link>
-                    <Nav.Link href="/arduino">CapCom</Nav.Link>
-                    <NavDropdown title="Link" id="navbarScrollingDropdown">
-                        <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                        <NavDropdown.Item href="#action4">
-                        Another action
-                        </NavDropdown.Item>
+                    <Nav.Link href="/dash">Dashboard</Nav.Link>
+                    <Nav.Link href="/capcom">CapCom</Nav.Link>
+                    <NavDropdown title="Comms" id="navbarScrollingDropdown">
+                        <NavDropdown.Item href="/devices">Devices</NavDropdown.Item>
+                        <NavDropdown.Item href="/chats">Chats</NavDropdown.Item>
                         <NavDropdown.Divider />
-                        <NavDropdown.Item href="#action5">
-                        Something else here
-                        </NavDropdown.Item>
+                        <NavDropdown.Item href="/projects">Projects</NavDropdown.Item>
                     </NavDropdown>
-                    <Nav.Link href="#" disabled>
-                        Help
-                    </Nav.Link>
                     </Nav>
                     <Form className="d-flex">
                     <Form.Control
@@ -39,8 +33,11 @@ class NavMenu extends Component {
                         className="me-2"
                         aria-label="Search"
                     />
-                    <Button variant="outline-success">Search</Button>
+                    <Button variant="outline-light">Search</Button>
                     </Form>
+                    <PersonContainer>
+                        <PersonCircle size={30}/>
+                    </PersonContainer>
                 </Navbar.Collapse>
                 </Container>
             </Navbar>

@@ -1,34 +1,35 @@
-import { Component } from "react";
+import { Component, Dispatch } from "react";
 import { Nav, Row } from "react-bootstrap";
-import { Airplane, ChatDots, ChatLeft, Collection, Eye, Globe, Hexagon, Lightbulb, Moon, Person, PersonBadge, Robot, Star } from 'react-bootstrap-icons';
+import { ChatDots, ChatLeft, Collection, Controller, DeviceHdd, DeviceSsd, Eye, Gear, GraphUp, LayoutTextWindowReverse, Lightbulb, PersonBadge, Robot, RocketTakeoff, Screwdriver, Star } from 'react-bootstrap-icons';
+import { ConnectedProps, connect } from "react-redux";
+import { RootState } from "../../store/store";
+import { CheckUserSession, checkUserSession } from "../../store/user/user.action";
+import { UserprofileFetchSingleStart, userprofileFetchSingleStart } from "../../store/userprofile/userprofile.action";
 import { SidebarMenuContainer } from "../../styles/sidebarmenu/sidebarmenu.styles";
 
-export class SidebarMenu extends Component {
+type SidebarMenuProps = ConnectedProps<typeof connector>;
+
+export class SidebarMenu extends Component<SidebarMenuProps> {
+    handleClick() {
+        this.props.getUser(this.props.user)
+    }
     render() {
         return (
-            <SidebarMenuContainer className='mt-5 pb-5 fixed-top bg-dark'>
+            <SidebarMenuContainer className='mt-5 fixed-top bg-dark'>
                 <Row 
                 xs={1} 
                 >
                     <Nav.Item className="ms-4 d-flex align-items-center">
                         <a href="/voyager">
-                        <Airplane className='icons' color="white" />
+                        <LayoutTextWindowReverse className='icons' color="white" />
                         </a>
                         <Nav.Link href="/voyager" className="ms-4">
-                            Voyage
-                        </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item className="ms-4 d-flex align-items-center">
-                        <a href="/fractal">
-                        <Hexagon className='icons' color="white" />
-                        </a>
-                        <Nav.Link href="/fractal" className="ms-4">
-                            Fractals
+                            Comms
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item className="ms-4 d-flex align-items-center">
                         <a href="/builder">
-                        <Lightbulb className='icons' color="white" />
+                        <Screwdriver className='icons' color="white" />
                         </a>
                         <Nav.Link href="/builder" className="ms-4">
                             Builder
@@ -36,20 +37,21 @@ export class SidebarMenu extends Component {
                     </Nav.Item>
                     <Nav.Item className="ms-4 d-flex align-items-center">
                         <a href="/vitals">
-                        <Person className='icons' color="white" />
+                        <Controller className='icons' color="white" />
                         </a>
                         <Nav.Link href="/vitals" className="ms-4">
                             Vitals
                         </Nav.Link>
                     </Nav.Item>
-                    {/* <Nav.Item className="ms-4 d-flex align-items-center">
+                    <Nav.Item className="ms-4 d-flex align-items-center">
                         <a onClick={this.handleClick} href="/profile">
-                        <House className='icons' color="white" />
+                        <DeviceHdd className='icons' color="white" />
                         </a>
                         <Nav.Link onClick={this.handleClick} href="/profile" className="ms-4">
                             Profile
                         </Nav.Link>
-                    </Nav.Item> */}
+                    </Nav.Item>
+                    <hr style={{ color: 'white' }}/>
                     <Nav.Item className="ms-4 d-flex align-items-center">
                         <a href="/crew">
                         <Robot className='icons' color="white"  />
@@ -75,27 +77,28 @@ export class SidebarMenu extends Component {
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item className="ms-4 d-flex align-items-center">
-                        <a href="/planets">
-                        <Globe className='icons' color="white"  />
+                        <a href="/devices">
+                        <DeviceSsd className='icons' color="white"  />
                         </a>
-                        <Nav.Link href="/planets" className="ms-4">
-                            Planets
+                        <Nav.Link href="/devices" className="ms-4">
+                            Devices
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item className="ms-4 d-flex align-items-center">
-                        <a href="/moons">
-                        <Moon className='icons' color="white" />
+                        <a href="/projects">
+                        <Lightbulb className='icons' color="white" />
                         </a>
-                        <Nav.Link href="/moons" className="ms-4">
-                            Moons
+                        <Nav.Link href="/projects" className="ms-4">
+                            Projects
                         </Nav.Link>
                     </Nav.Item >
+                    <hr style={{ color: 'white' }}/>
                     <Nav.Item className="ms-4 d-flex align-items-center">
-                        <a href="/pilots">
+                        <a href="/marauders">
                         <PersonBadge className='icons' color="white" />
                         </a>
-                        <Nav.Link href="/pilots" className="ms-4">
-                            Pilots
+                        <Nav.Link href="/marauders" className="ms-4">
+                            Marauders
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item className="ms-4 d-flex align-items-center">
@@ -122,8 +125,31 @@ export class SidebarMenu extends Component {
                             Favorites
                         </Nav.Link>
                     </Nav.Item>
+                    <hr />
+                    <Nav.Item className="ms-4 d-flex align-items-center">
+                        <a href="/settings">
+                        <Gear className='icons' color="white" />
+                        </a>
+                        <Nav.Link href="/settings" className="ms-4">
+                            Settings
+                        </Nav.Link>
+                    </Nav.Item>
                 </Row>
             </SidebarMenuContainer>
         );
     }
 }
+
+const mapStateToProps = (state: RootState) => ({
+    user: state.user.currentUser?.userId,
+    userprofile: state.userprofile
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<UserprofileFetchSingleStart | CheckUserSession>) => ({
+    getCurrentUser: () => dispatch(checkUserSession()),
+    getUser: (userId: number | undefined) => dispatch(userprofileFetchSingleStart(userId))
+});
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+export default connector(SidebarMenu);

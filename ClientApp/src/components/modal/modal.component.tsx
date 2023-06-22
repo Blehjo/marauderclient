@@ -185,7 +185,7 @@ class ModalContent extends Component<any> {
                                     </Row>
                                 </Col>
                                 <Col xs={12}>
-                                    <button id={postId.toString()} style={{ textAlign: 'center', width: '100%', height: '100%'}} className="btn btn-light" type="submit">
+                                    <button style={{ textAlign: 'center', width: '100%', height: '100%'}} className="btn btn-light" type="submit">
                                         <Send/>
                                     </button>
                                 </Col>                

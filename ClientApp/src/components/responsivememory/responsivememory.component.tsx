@@ -2,7 +2,7 @@ import { Component } from "react";
 import { Badge, Card, Row, Col, Modal } from "react-bootstrap";
 import { ArrowsFullscreen, Chat, Rocket } from "react-bootstrap-icons";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
-import { BadgeContainer } from "../../styles/responsivememory/responsivememory.styles";
+import { BadgeContainer, ResponsiveMemoryContainer } from "../../styles/responsivememory/responsivememory.styles";
 import { Pilot } from "../../store/pilot/pilot.types";
 import { PostRouteProps } from "../../pages/posts";
 import { ChatRouteProps } from "../../pages/chats";
@@ -38,9 +38,10 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
     handleClick(id: number, type: string): void {
         if (type === "chat") {
             this.props.getChat(id);
+            this.props.getChatComments(id);
         } else if (type === "post") {
             this.props.getPost(id);
-            // this.props.getComments(id);
+            this.props.getPostComments(id);
         } 
         this.setState({
             show: !this.state.show
@@ -127,7 +128,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
     postFunction(prop: any) {
         const { postId, postValue, mediaLink, comments, favorites, type, imageSource } = prop;
         return (
-            <Card bg="dark" style={{ margin: '1rem', color: 'white'}}>
+            <Card bg="dark" style={{ margin: '.3rem', color: 'white'}}>
                 <Card.Img src={mediaLink ? imageSource : "https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"}/>
                 <Card.ImgOverlay>
                     <div style={{ cursor: "pointer", position: "absolute", left: "0", top: "0" }}>
@@ -159,22 +160,38 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
     }
 
     checkType() {
-        const content = [];
-        const { posts, chats, profiles } = this.props;
-        console.log("THIS.PROPS: ", this.props);
+        const content: any = [];
+        const { posts, chats, profiles, favorites } = this.props;
 
-        if (posts != undefined) {
+        if (posts && posts.length > 0) {
             for (let i = 0; i < posts.length; i++) {
                 content.push(this.postFunction(posts[i]));
             }
-        } else if (chats != undefined) {
+        } else if (chats && chats.length > 0) {
             for (let i = 0; i < chats.length; i++) {
                 content.push(this.chatFunction(chats[i]));
             }
-        } else if (profiles != undefined) {
+        } else if (profiles && profiles.length > 0) {
             for (let i = 0; i < profiles.length; i++) {
                 content.push(this.profileFunction(profiles[i]));
             }
+        } else if (favorites && favorites.length > 0) {
+            for (let i = 0; i < favorites.favorites?.length!; i++) {
+                if (favorites.favorites[i].type === "post") {
+                    content.push(this.postFunction(favorites.favorites[i]))
+                }
+                if (favorites.favorites[i].type === "chat") {
+                    content.push(this.chatFunction(favorites.favorites[i]))
+                }
+            }
+        } else {
+            content.push(
+                <Card key="default" bg="dark" style={{ margin: '.3rem', textAlign: 'center', color: 'white'}} >
+                    <Card.Body>
+                        <Card.Text>Currently no content</Card.Text>
+                    </Card.Body>
+                </Card>
+            )
         }
 
         return content;
@@ -182,20 +199,20 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
 
     render() {
         return (
-            <DragAndDropContainer>
+            <ResponsiveMemoryContainer>
                 <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 3, 1050: 4 }}>
                     <Masonry>
                         {this.checkType()}
                     </Masonry>
-                </ResponsiveMasonry>
                 <Modal
                     size="lg"
                     show={this.state.show} 
                     onHide={() => this.handleClose()}
-                >
+                    >
                     <ModalContent show={this.state.show} { ...this.props }/>
                 </Modal>
-            </DragAndDropContainer>
+                </ResponsiveMasonry>
+            </ResponsiveMemoryContainer>
         );
     }
 }
