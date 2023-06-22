@@ -9,7 +9,7 @@ class NavMenu extends Component {
         <NavmenuContainer className="fixed-top">
             <Navbar style={{ border: "1px solid orangered" }} variant="dark" bg="dark" sticky="top" expand="lg" >
                 <Container fluid>
-                <Navbar.Brand href="/">Marauder</Navbar.Brand>
+                <Navbar.Brand href="/">Marauders</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll">
                     <Nav

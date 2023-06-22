@@ -10,35 +10,35 @@ class Index extends Component {
       <HomeContainer>
         <ImageContainer>
           <TextContainer>
-            WELCOME TO CAPSULE
+            M A R A U D E R S
           </TextContainer>
-          <Image style={{ borderRadius: '.2rem' }} src="/home.jpg"/>
+          <Image style={{ borderRadius: '1rem', objectFit: 'cover', width: '100rem', height: '45rem' }} src="/home.jpeg"/>
         </ImageContainer>
         <Row xs={1}>
           <ImageContainer>
           <TextContainer>
               DEVICES
             </TextContainer>
-            <Image style={{ borderRadius: '.2rem', objectFit: 'cover', width: '100rem', height: '30rem' }} src="/arduino-home-page.jpg" />
+            <Image style={{ borderRadius: '1rem', objectFit: 'cover', width: '100rem', height: '30rem' }} src="/arduino-home-page.jpg" />
           </ImageContainer>
           <ImageContainer>
             <TextContainer>
               IoThings
             </TextContainer>
-            <Image style={{ borderRadius: '.2rem', objectFit: 'cover', width: '100rem', height: '30rem' }} src="/arduino-device.jpeg" />
+            <Image style={{ borderRadius: '1rem', objectFit: 'cover', width: '100rem', height: '30rem' }} src="/arduino-device.jpeg" />
           </ImageContainer>
           <ImageContainer>
             <TextContainer>
               INTERACTIVE DASHBOARD
             </TextContainer>
-            <Image style={{ borderRadius: '.2rem', objectFit: 'cover', width: '100rem', height: '30rem' }} src="/dashboard.jpeg" />
+            <Image style={{ borderRadius: '1rem', objectFit: 'cover', width: '100rem', height: '30rem' }} src="/dashboard.jpeg" />
           </ImageContainer>
           <Col xs={6}>
           <ImageContainer>
             <TextContainer>
               ESP-32
             </TextContainer>
-            <Image style={{ borderRadius: '.2rem', objectFit: 'cover', width: '100rem', height: '30rem' }} src="/esp32-image.jpeg" />
+            <Image style={{ borderRadius: '1rem', objectFit: 'cover', width: '100rem', height: '30rem' }} src="/esp32-image.jpeg" />
           </ImageContainer>
           </Col>
           <Col xs={6}>
@@ -46,7 +46,7 @@ class Index extends Component {
             <TextContainer>
               SCHEMATICS
             </TextContainer>
-            <Image style={{ borderRadius: '.2rem', objectFit: 'cover', width: '100rem', height: '30rem' }} src="/schematics.jpg" />
+            <Image style={{ borderRadius: '1rem', objectFit: 'cover', width: '100rem', height: '30rem' }} src="/schematics.jpg" />
           </ImageContainer>
           </Col>
         </Row>
