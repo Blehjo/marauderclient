@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { Button, Container, Form, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { NavmenuContainer, PersonContainer } from '../../styles/navmenu/navmenu.styles';
-import { Person, PersonCircle } from 'react-bootstrap-icons';
+import { List, Person, PersonCircle } from 'react-bootstrap-icons';
 
 class NavMenu extends Component {
     render() {
@@ -9,6 +9,7 @@ class NavMenu extends Component {
         <NavmenuContainer className="fixed-top">
             <Navbar style={{ border: "1px solid orangered" }} variant="dark" bg="dark" sticky="top" expand="lg" >
                 <Container fluid>
+                <List style={{ marginLeft: '.75rem', border: '1px solid white', marginRight: '1rem', padding: '.02rem', borderRadius: '.2rem' }} className="d-flex align-items-center"/>
                 <Navbar.Brand href="/">Marauders</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll">

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Pilot } from "../../store/pilot/pilot.types";
+import { Pilot } from "../../store/marauder/marauder.types";
 import { User } from "../../store/user/user.types";
 
 const api = "https://planetnineserver.azurewebsites.net/api/user";

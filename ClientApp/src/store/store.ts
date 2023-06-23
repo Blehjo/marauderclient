@@ -4,7 +4,7 @@ import storage from 'redux-persist/lib/storage';
 import logger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 
-// import { rootSaga } from './root-saga';
+import { rootSaga } from './root-saga';
 
 import { rootReducer } from './root-reducer';
 
@@ -36,9 +36,9 @@ const middleWares = [
 ].filter((middleware): middleware is Middleware => Boolean(middleware));
 
 const composeEnhancer =
-  // (process.env.NODE_ENV !== 'production' &&
-  //   window &&
-  //   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+  (process.env.NODE_ENV !== 'production' &&
+    window &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
   compose;
 
 const composedEnhancers = composeEnhancer(applyMiddleware(...middleWares));
@@ -49,6 +49,6 @@ export const store = createStore(
   composedEnhancers
 );
 
-// sagaMiddleware.run(rootSaga);
+sagaMiddleware.run(rootSaga);
 
 export const persistor = persistStore(store);

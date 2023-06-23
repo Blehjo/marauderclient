@@ -38,7 +38,7 @@ const INITIAL_STATE: MoonCommentState = {
     error: null,
 };
 
-export const moonCommentReducer = (
+export const noteReducer = (
     state = INITIAL_STATE, action: AnyAction
 ): MoonCommentState => {
     if (

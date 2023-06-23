@@ -1,14 +1,14 @@
 ﻿import { AnyAction } from 'redux';
 
-import { 
+import {
     setIsArtificialIntelligenceOpen,
-    setIsVitalsOpen,
+    setIsMaraudersOpen,
+    setIsMessagesOpen,
+    setIsMoonsOpen,
+    setIsPlanetsOpen,
     setIsPostOpen,
     setIsSolarSystemOpen,
-    setIsPlanetsOpen,
-    setIsMoonsOpen,
-    setIsPilotsOpen,
-    setIsMessagesOpen
+    setIsVitalsOpen
 } from './toolbox.action';
 
 export type ToolboxState = {
@@ -18,7 +18,7 @@ export type ToolboxState = {
   readonly isSolarSystemOpen: boolean;
   readonly isPlanetsOpen: boolean;
   readonly isMoonsOpen: boolean;
-  readonly isPilotsOpen: boolean;
+  readonly IsMaraudersOpen: boolean;
   readonly isMessagesOpen: boolean;
 };
 
@@ -29,7 +29,7 @@ const INITIAL_STATE: ToolboxState = {
     isSolarSystemOpen: false,
     isPlanetsOpen: false,
     isMoonsOpen: false,
-    isPilotsOpen: false,
+    IsMaraudersOpen: false,
     isMessagesOpen: false
 };
 
@@ -73,10 +73,10 @@ export const toolboxReducer = (
         isMoonsOpen: action.payload,
       };
     }
-    if (setIsPilotsOpen.match(action)) {
+    if (setIsMaraudersOpen.match(action)) {
       return {
         ...state,
-        isPilotsOpen: action.payload,
+        IsMaraudersOpen: action.payload,
       };
     }
     if (setIsMessagesOpen.match(action)) {

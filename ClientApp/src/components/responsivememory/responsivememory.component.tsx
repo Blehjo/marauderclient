@@ -1,13 +1,9 @@
 import { Component } from "react";
-import { Badge, Card, Row, Col, Modal } from "react-bootstrap";
+import { Badge, Card, Col, Modal, Row } from "react-bootstrap";
 import { ArrowsFullscreen, Chat, Rocket } from "react-bootstrap-icons";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { BadgeContainer, ResponsiveMemoryContainer } from "../../styles/responsivememory/responsivememory.styles";
-import { Pilot } from "../../store/pilot/pilot.types";
-import { PostRouteProps } from "../../pages/posts";
-import { ChatRouteProps } from "../../pages/chats";
 import { utcConverter } from "../../utils/date/date.utils";
-import { DragAndDropContainer } from "../../styles/draganddrop/draganddrop.styles";
 import ModalContent from "../modal/modal.component";
 
 interface IDefaultFormFields {

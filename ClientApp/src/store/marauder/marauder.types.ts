@@ -4,16 +4,16 @@ import { Moon } from "../moon/moon.types";
 import { Planet } from "../planet/planet.types";
 import { Post } from "../post/post.types";
 
-export enum PILOT_ACTION_TYPES  {
-    FETCH_SINGLE_START = 'pilot/FETCH_SINGLE_START',
-    FETCH_SINGLE_SUCCESS = 'pilot/FETCH_SINGLE_SUCCESS',
-    FETCH_SINGLE_FAILED = 'pilot/FETCH_SINGLE_FAILED',
-    FETCH_ALL_START = 'pilot/FETCH_ALL_START',
-    FETCH_ALL_SUCCESS = 'pilot/FETCH_ALL_SUCCESS',
-    FETCH_ALL_FAILED = 'pilot/FETCH_ALL_FAILED',
+export enum MARAUDER_ACTION_TYPES  {
+    FETCH_SINGLE_START = 'marauder/FETCH_SINGLE_START',
+    FETCH_SINGLE_SUCCESS = 'marauder/FETCH_SINGLE_SUCCESS',
+    FETCH_SINGLE_FAILED = 'marauder/FETCH_SINGLE_FAILED',
+    FETCH_ALL_START = 'marauder/FETCH_ALL_START',
+    FETCH_ALL_SUCCESS = 'marauder/FETCH_ALL_SUCCESS',
+    FETCH_ALL_FAILED = 'marauder/FETCH_ALL_FAILED',
 };
 
-export type Pilot = {
+export type Marauder = {
     userId: number;
     username: string;
     firstName: string;

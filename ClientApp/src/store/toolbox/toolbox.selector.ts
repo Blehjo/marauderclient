@@ -35,9 +35,9 @@ export const selectIsMoonsOpen = createSelector(
     (toolbox) => toolbox.isMoonsOpen
 );
 
-export const selectIsPilotsOpen = createSelector(
+export const selectIsMaraudersOpen = createSelector(
     [selectToolboxReducer],
-    (toolbox) => toolbox.isPilotsOpen
+    (toolbox) => toolbox.IsMaraudersOpen
 );
 
 export const selectIsMessagesOpen = createSelector(

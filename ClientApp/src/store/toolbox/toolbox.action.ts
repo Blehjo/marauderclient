@@ -1,9 +1,9 @@
-﻿import { TOOLBOX_ACTION_TYPES } from "./toolbox.types";
-import {
+﻿import {
+    ActionWithPayload,
     createAction,
     withMatcher,
-    ActionWithPayload,
 } from '../../utils/reducer/reducer.utils';
+import { TOOLBOX_ACTION_TYPES } from "./toolbox.types";
 
 export type SetIsArtificialIntelligenceOpen = ActionWithPayload<
   TOOLBOX_ACTION_TYPES.SET_IS_ARTIFICIALINTELLIGENCE_OPEN,
@@ -35,8 +35,8 @@ export type SetIsMoonsOpen = ActionWithPayload<
   boolean
 >;
 
-export type SetIsPilotsOpen = ActionWithPayload<
-  TOOLBOX_ACTION_TYPES.SET_IS_PILOTS_OPEN,
+export type SetIsMaraudersOpen = ActionWithPayload<
+  TOOLBOX_ACTION_TYPES.SET_IS_MARAUDERS_OPEN,
   boolean
 >;
 
@@ -75,9 +75,9 @@ export const setIsMoonsOpen = withMatcher(
     createAction(TOOLBOX_ACTION_TYPES.SET_IS_MOONS_OPEN, boolean)
 );
 
-export const setIsPilotsOpen = withMatcher(
-    (boolean: boolean): SetIsPilotsOpen =>
-    createAction(TOOLBOX_ACTION_TYPES.SET_IS_PILOTS_OPEN, boolean)
+export const setIsMaraudersOpen = withMatcher(
+    (boolean: boolean): SetIsMaraudersOpen =>
+    createAction(TOOLBOX_ACTION_TYPES.SET_IS_MARAUDERS_OPEN, boolean)
 );
 
 export const setIsMessagesOpen = withMatcher(

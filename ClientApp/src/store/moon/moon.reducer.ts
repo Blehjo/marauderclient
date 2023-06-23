@@ -44,7 +44,7 @@ const INITIAL_STATE: MoonState = {
     error: null
 };
 
-export const moonReducer = (
+export const memberReducer = (
     state = INITIAL_STATE, action: AnyAction
 ): MoonState => {
     if (
