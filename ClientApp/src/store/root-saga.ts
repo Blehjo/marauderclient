@@ -1,18 +1,18 @@
 import { all, call } from 'typed-redux-saga/macro';
 
 import { artificialIntelligenceSagas } from './artificialintelligence/artificialintelligence.saga';
+import { moonCommentSagas } from './channel/channel.saga';
+import { planetcommentSagas } from './channelcomment/channelcomment.saga';
 import { chatSagas } from './chat/chat.saga';
 import { chatCommentSagas } from './chatcomment/chatcomment.saga';
 import { commentSagas } from './comment/comment.saga';
+import { planetSagas } from './community/community.saga';
 import { favoriteSagas } from './favorite/favorite.saga';
 import { followerSagas } from './follower/follower.saga';
+import { marauderSagas } from './marauder/marauder.saga';
+import { moonSagas } from './member/member.saga';
 import { messageSagas } from './message/message.saga';
 import { messageCommentSagas } from './messagecomment/messagecomment.saga';
-import { moonSagas } from './moon/moon.saga';
-import { moonCommentSagas } from './mooncomment/mooncomment.saga';
-import { marauderSagas } from './marauder/marauder.saga';
-import { planetSagas } from './planet/planet.saga';
-import { planetcommentSagas } from './planetcomment/planetcomment.saga';
 import { postSagas } from './post/post.saga';
 import { toolSagas } from './tool/tool.saga';
 import { userSagas } from './user/user.saga';

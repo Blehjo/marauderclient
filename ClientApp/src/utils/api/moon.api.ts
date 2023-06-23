@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Moon } from "../../store/moon/moon.types";
+import { Moon } from "../../store/member/member.types";
 
 const api = "https://planetnineserver.azurewebsites.net/api/moon";
 

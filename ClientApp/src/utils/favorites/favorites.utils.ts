@@ -2,8 +2,8 @@ import axios from "axios";
 import { Chat } from "../../store/chat/chat.types";
 import { ChatComment } from "../../store/chatcomment/chatcomment.types";
 import { Comment } from "../../store/comment/comment.types";
-import { Moon } from "../../store/moon/moon.types";
-import { Planet } from "../../store/planet/planet.types";
+import { Planet } from "../../store/community/community.types";
+import { Moon } from "../../store/member/member.types";
 import { Post } from "../../store/post/post.types";
 
 const api = "https://planetnineserver.azurewebsites.net/api";

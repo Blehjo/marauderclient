@@ -1,5 +1,5 @@
 import axios from "axios";
-import { MoonComment } from "../../store/mooncomment/mooncomment.types";
+import { MoonComment } from "../../store/channel/channel.types";
 
 const api = "https://planetnineserver.azurewebsites.net/api/mooncomment";
 

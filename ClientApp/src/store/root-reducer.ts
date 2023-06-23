@@ -1,19 +1,23 @@
 import { combineReducers } from 'redux';
+
+import { actionReducer } from './action/action.reducer';
 import { artificialIntelligenceReducer } from './artificialintelligence/artificialintelligence.reducer';
 import { builderReducer } from './builder/builder.reducer';
+import { channelReducer } from './channel/channel.reducer';
+import { channelcommentReducer } from './channelcomment/channelcomment.reducer';
 import { chatReducer } from './chat/chat.reducer';
 import { chatcommentReducer } from './chatcomment/chatcomment.reducer';
 import { commentReducer } from './comment/comment.reducer';
+import { communityReducer } from './community/community.reducer';
 import { favoriteReducer } from './favorite/favorite.reducer';
 import { followerReducer } from './follower/follower.reducer';
 import { interfaceReducer } from './interface/interface.reducer';
 import { marauderReducer } from './marauder/marauder.reducer';
+import { memberReducer } from './member/member.reducer';
 import { messageReducer } from './message/message.reducer';
 import { messagecommentReducer } from './messagecomment/messagecomment.reducer';
-import { memberReducer } from './moon/moon.reducer';
-import { noteReducer } from './mooncomment/mooncomment.reducer';
-import { planetReducer } from './planet/planet.reducer';
-import { planetcommentReducer } from './planetcomment/planetcomment.reducer';
+import { noteReducer } from './note/note.reducer';
+import { pinReducer } from './pin/pin.reducer';
 import { postReducer } from './post/post.reducer';
 import { profileReducer } from './profile/profile.reducer';
 import { sceneReducer } from './scene/scene.reducer';
@@ -21,6 +25,8 @@ import { toolReducer } from './tool/tool.reducer';
 import { toolboxReducer } from './toolbox/toolbox.reducer';
 import { userReducer } from './user/user.reducer';
 import { userprofileReducer } from './userprofile/userprofile.reducer';
+import { deviceReducer } from './device/device.reducer';
+import { gltfReducer } from './gltf/gltf.reducer';
 
 export const rootReducer = combineReducers({
   action: actionReducer,
@@ -35,6 +41,7 @@ export const rootReducer = combineReducers({
   device: deviceReducer,
   favorite: favoriteReducer,
   follower: followerReducer,
+  gltf: gltfReducer,
   pin: pinReducer,
   message: messageReducer,
   messagecomment: messagecommentReducer,

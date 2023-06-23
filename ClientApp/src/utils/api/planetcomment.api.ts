@@ -1,5 +1,5 @@
 import axios from "axios";
-import { PlanetComment } from "../../store/planetcomment/planetcomment.types";
+import { PlanetComment } from "../../store/channelcomment/channelcomment.types";
 
 
 const api = "https://planetnineserver.azurewebsites.net/api/planetcomment";

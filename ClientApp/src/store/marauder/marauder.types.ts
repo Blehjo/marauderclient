@@ -1,7 +1,7 @@
+import { Planet } from "../community/community.types";
 import { Favorite } from "../favorite/favorite.types";
 import { Follower } from "../follower/follower.types";
-import { Moon } from "../moon/moon.types";
-import { Planet } from "../planet/planet.types";
+import { Moon } from "../member/member.types";
 import { Post } from "../post/post.types";
 
 export enum MARAUDER_ACTION_TYPES  {

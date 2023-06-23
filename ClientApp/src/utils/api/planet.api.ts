@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Planet } from "../../store/planet/planet.types";
+import { Planet } from "../../store/community/community.types";
 
 const api = "https://planetnineserver.azurewebsites.net/api/planet";
 
