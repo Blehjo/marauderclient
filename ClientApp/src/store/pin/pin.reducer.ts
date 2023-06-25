@@ -3,17 +3,17 @@ import { AnyAction } from 'redux';
 import { Pin } from './pin.types';
 
 import {
-    noteCreateFailed,
-    noteCreateSuccess,
-    noteDeleteFailed,
-    noteDeleteSuccess,
-    noteFetchAllFailed,
-    noteFetchAllStart,
-    noteFetchAllSuccess,
-    noteFetchSingleFailed,
-    noteFetchSingleSuccess,
-    noteUpdateFailed,
-    noteUpdateSuccess
+    pinCreateFailed,
+    pinCreateSuccess,
+    pinDeleteFailed,
+    pinDeleteSuccess,
+    pinFetchAllFailed,
+    pinFetchAllStart,
+    pinFetchAllSuccess,
+    pinFetchSingleFailed,
+    pinFetchSingleSuccess,
+    pinUpdateFailed,
+    pinUpdateSuccess
 } from './pin.action';
 
 export type PinState = {
@@ -38,29 +38,29 @@ export const pinReducer = (
     state = INITIAL_STATE, action: AnyAction
 ): PinState => {
     if (
-        noteFetchAllStart.match(action) 
+        pinFetchAllStart.match(action) 
     ) {
         return { ...state, isLoading: true }
     }
     if (
-        noteFetchSingleSuccess.match(action) 
+        pinFetchSingleSuccess.match(action) 
     ) {
-        return { ...state, isLoading: false, pins: action.payload }
+        return { ...state, isLoading: false, singlePin: action.payload }
     }
     if (
-        noteCreateSuccess.match(action) ||
-        noteUpdateSuccess.match(action) ||
-        noteDeleteSuccess.match(action) ||
-        noteFetchAllSuccess.match(action) 
+        pinCreateSuccess.match(action) ||
+        pinUpdateSuccess.match(action) ||
+        pinDeleteSuccess.match(action) ||
+        pinFetchAllSuccess.match(action) 
     ) {
         return { ...state, isLoading: false, pins: action.payload };
     } 
     if (
-        noteCreateFailed.match(action) ||
-        noteUpdateFailed.match(action) ||
-        noteDeleteFailed.match(action) ||
-        noteFetchSingleFailed.match(action) ||
-        noteFetchAllFailed.match(action) 
+        pinCreateFailed.match(action) ||
+        pinUpdateFailed.match(action) ||
+        pinDeleteFailed.match(action) ||
+        pinFetchSingleFailed.match(action) ||
+        pinFetchAllFailed.match(action) 
     ) {
       return { ...state, isLoading: false, error: action.payload };
     }

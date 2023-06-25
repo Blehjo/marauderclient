@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Pilot } from "../../store/marauder/marauder.types";
+import { Marauder } from "../../store/marauder/marauder.types";
 import { User } from "../../store/user/user.types";
 
 const api = "https://planetnineserver.azurewebsites.net/api/user";
@@ -20,7 +20,7 @@ export async function getSingleUser(userId: number | undefined): Promise<User> {
   return result;
 }
 
-export async function getSinglePilot(userId: number): Promise<Pilot> {
+export async function getSingleMarauder(userId: number): Promise<Marauder> {
   const response = await axios({
     method: 'get',
     url:`${api}/${userId}`,
@@ -42,7 +42,7 @@ export async function getUsers(): Promise<User[]> {
   return result;
 }
 
-export async function getPilots(): Promise<Pilot[]> {
+export async function getMarauders(): Promise<Marauder[]> {
   const response = await axios({
     method: 'get',
     url: api,

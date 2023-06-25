@@ -27,6 +27,7 @@ import { userReducer } from './user/user.reducer';
 import { userprofileReducer } from './userprofile/userprofile.reducer';
 import { deviceReducer } from './device/device.reducer';
 import { gltfReducer } from './gltf/gltf.reducer';
+import { panelReducer } from './panel/panel.reducer';
 
 export const rootReducer = combineReducers({
   action: actionReducer,
@@ -42,12 +43,14 @@ export const rootReducer = combineReducers({
   favorite: favoriteReducer,
   follower: followerReducer,
   gltf: gltfReducer,
+  interface: interfaceReducer,
   pin: pinReducer,
   message: messageReducer,
   messagecomment: messagecommentReducer,
   member: memberReducer,
   marauder: marauderReducer,
   note: noteReducer,
+  panel: panelReducer,
   post: postReducer,
   profile: profileReducer,
   scene: sceneReducer,

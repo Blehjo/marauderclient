@@ -3,225 +3,108 @@ import { all, call, put, takeLatest } from 'typed-redux-saga';
 import { MEMBER_ACTION_TYPES } from './member.types';
 
 import {
-    MoonCreateStart,
-    MoonDeleteStart,
-    MoonFetchOtherUserMoonsStart,
-    MoonFetchSingleStart,
-    MoonFetchUserMoonsStart,
-    MoonUpdateStart,
-    moonCreateFailed,
-    moonCreateSuccess,
-    moonDeleteFailed,
-    moonDeleteSuccess,
-    moonFetchAllFailed,
-    moonFetchAllSuccess,
-    moonFetchOtherUserMoonsFailed,
-    moonFetchOtherUserMoonsSuccess,
-    moonFetchSingleFailed,
-    moonFetchSingleSuccess,
-    moonFetchUserMoonsFailed,
-    moonFetchUserMoonsSuccess,
-    moonUpdateSuccess
+    MemberCreateStart,
+    memberCreateFailed,
+    memberCreateSuccess,
+    memberDeleteFailed,
+    memberDeleteSuccess,
+    memberFetchAllFailed,
+    memberFetchAllSuccess,
+    memberFetchSingleFailed,
+    memberFetchSingleSuccess,
+    MemberDeleteStart,
+    MemberFetchSingleStart
 } from './member.action';
 
 import {
-    addMoon,
-    deleteMoon,
-    editMoon,
-    getMoons,
-    getSingleMoon,
-    getUserMoons,
-    getUsersMoons
-} from '../../utils/api/moon.api';
+    addMember,
+    deleteMember,
+    getAllMembers,
+    getSingleMember
+} from '../../utils/api/member.api';
 
-export function* createMoon({ payload: { 
-    moonName,
-    moonMass,
-    perihelion,
-    aphelion,
-    gravity,
-    temperature,
-    planetId,
-    imageLink,
-    imageFile
-}}: MoonCreateStart ) {
-    const formData = new FormData();
-    formData.append('moonName', moonName);
-    formData.append('moonMass', moonMass);
-    formData.append('perihelion', perihelion);
-    formData.append('aphelion', aphelion);
-    formData.append('gravity', gravity);
-    formData.append('temperature', temperature);
-    formData.append('imageLink', imageLink);
-    formData.append('imageFile', imageFile);
+export function* createMember({ payload: { 
+    communityId
+}}: MemberCreateStart ) {
     try {
-        const moon = yield* call(
-            addMoon,
-            planetId!,
-            formData
+        const members = yield* call(
+            addMember,
+            communityId
+
         ); 
-        yield* put(moonCreateSuccess(moon));
+        yield* put(memberCreateSuccess(members));
     } catch (error) {
-        yield* put(moonCreateFailed(error as Error));
+        yield* put(memberCreateFailed(error as Error));
     }
 }
 
-export function* updateMoon({ payload: { 
-    moonId,
-    moonName,
-    moonMass,
-    perihelion,
-    aphelion,
-    gravity,
-    temperature,
-    planetId,
-    imageLink,
-    imageFile 
-}}: MoonUpdateStart) {
+export function* removemember({ payload: { memberId }}: MemberDeleteStart) {
     try {
-        const moon = yield* call(
-            editMoon,
-            moonId,
-            moonName,
-            moonMass,
-            perihelion,
-            aphelion,
-            gravity,
-            temperature,
-            planetId,
-            imageLink,
-            imageFile
+        const members = yield* call(
+            deleteMember,
+            memberId
         ); 
-        yield* put(moonUpdateSuccess(moon));
+        yield* put(memberDeleteSuccess(members));
     } catch (error) {
-        yield* put(moonCreateFailed(error as Error));
+        yield* put(memberDeleteFailed(error as Error));
     }
 }
 
-
-export function* removeMoon({ payload: { moonId }}: MoonDeleteStart) {
+export function* fetchSingleMember({ 
+    payload: { memberId } }: MemberFetchSingleStart) {
     try {
-        const moons = yield* call(
-            deleteMoon,
-            moonId
-        ); 
-        yield* put(moonDeleteSuccess(moons));
-    } catch (error) {
-        yield* put(moonDeleteFailed(error as Error));
-    }
-}
-
-export function* fetchUserMoons() {
-    try {
-        const moon = yield* call(getUserMoons);
-        if (!moon) return;
-        yield* put(moonFetchUserMoonsSuccess(moon));
-    } catch (error) {
-        yield* put(moonFetchUserMoonsFailed(error as Error));
-    }
-}
-
-export function* fetchOtherUserMoons({ payload: { userId }}: MoonFetchOtherUserMoonsStart) {
-    try {
-        const moon = yield* call(getUsersMoons, userId);
-        if (!moon) return;
-        yield* put(moonFetchOtherUserMoonsSuccess(moon));
-    } catch (error) {
-        yield* put(moonFetchOtherUserMoonsFailed(error as Error));
-    }
-}
-
-export function* fetchOtherUsersMoons({}: MoonFetchUserMoonsStart) {
-    try {
-        const Moons = yield* call(
-            getUserMoons,
+        const memberSnapshot = yield* call(
+            getSingleMember,
+            memberId 
         );
-        if (!Moons) return;
-        yield* call(moonFetchAllSuccess, Moons);
+        yield* put(memberFetchSingleSuccess(memberSnapshot));
     } catch (error) {
-        yield* put(moonFetchAllFailed(error as Error));
+        yield* put(memberFetchSingleFailed(error as Error));
     }
 }
 
-export function* fetchSingleMoonAsync({ 
-    payload: { moonId } }: MoonFetchSingleStart) {
+export function* fetchAllMembers() {
     try {
-        const MoonSnapshot = yield* call(
-            getSingleMoon,
-            moonId 
-        );
-        yield* put(moonFetchSingleSuccess(MoonSnapshot));
+        const members = yield* call(getAllMembers);
+        yield* put(memberFetchAllSuccess(members));
     } catch (error) {
-        yield* put(moonFetchSingleFailed(error as Error));
-    }
-}
-
-export function* fetchAllMoonsAsync() {
-    try {
-        const Moons = yield* call(getMoons);
-        yield* put(moonFetchAllSuccess(Moons));
-    } catch (error) {
-        yield* put(moonFetchAllFailed(error as Error));
+        yield* put(memberFetchAllFailed(error as Error));
     }
 }
 
 export function* onCreateStart() {
     yield* takeLatest(
         MEMBER_ACTION_TYPES.CREATE_START, 
-        createMoon
-    );
-}
-
-export function* onUpdateStart() {
-    yield* takeLatest(
-        MEMBER_ACTION_TYPES.UPDATE_START, 
-        updateMoon
+        createMember
     );
 }
 
 export function* onDeleteStart() {
     yield* takeLatest(
         MEMBER_ACTION_TYPES.DELETE_START, 
-        removeMoon
+        removemember
     );
 }
 
-export function* onFetchUserMoonsStart() {
-    yield* takeLatest(
-        MEMBER_ACTION_TYPES.FETCH_USER_MOONS_START, 
-        fetchUserMoons
-    );
-}
-
-export function* onFetchOtherUserMoonsStart() {
-    yield* takeLatest(
-        MEMBER_ACTION_TYPES.FETCH_OTHER_USER_MOONS_START, 
-        fetchOtherUserMoons
-    );
-}
-
-export function* onFetchSingleMoonStart() {
+export function* onFetchSinglememberStart() {
     yield* takeLatest(
         MEMBER_ACTION_TYPES.FETCH_SINGLE_START, 
-        fetchSingleMoonAsync
+        fetchSingleMember
     );
 }
   
-export function* onFetchMoonsStart() {
+export function* onFetchmembersStart() {
     yield* takeLatest(
         MEMBER_ACTION_TYPES.FETCH_ALL_START,
-        fetchAllMoonsAsync
+        fetchAllMembers
     );
 }
 
-export function* moonSagas() {
+export function* memberSagas() {
     yield* all([
         call(onCreateStart),
-        call(onUpdateStart),
         call(onDeleteStart),
-        call(onFetchUserMoonsStart),
-        call(onFetchOtherUserMoonsStart),
-        call(onFetchSingleMoonStart),
-        call(onFetchMoonsStart)
+        call(onFetchSinglememberStart),
+        call(onFetchmembersStart)
     ]);
 }

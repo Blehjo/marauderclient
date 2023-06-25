@@ -1,31 +1,31 @@
 import { createSelector } from 'reselect';
 
 import { RootState } from '../store';
-import { MoonCommentState } from './gltf.reducer';
+import { GltfState } from './gltf.reducer';
 
-export const selectMoonCommentReducer = (state: RootState): MoonCommentState => state.mooncomment;
+export const selectGltfReducer = (state: RootState): GltfState => state.gltf;
 
-export const selectIsMoonCommentLoading = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.isLoading
+export const selectIsGltfLoading = createSelector(
+    [selectGltfReducer],
+    (gltf) => gltf.isLoading
 );
 
-export const selectMoonCommentId = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.moonCommentId
+export const selectGltfId = createSelector(
+    [selectGltfReducer],
+    (gltf) => gltf.gltfId
 );
 
-export const selectMoonSingleComment = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.singleComment
+export const selectSingleGltf = createSelector(
+    [selectGltfReducer],
+    (gltf) => gltf.singleGltf
 );
 
-export const selectUserMoonComments = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.userComments
+export const selectUserGltfs = createSelector(
+    [selectGltfReducer],
+    (gltf) => gltf.userGltfs
 );
 
-export const selectAllMoonComments = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.mooncomments
+export const selectAllGltfs = createSelector(
+    [selectGltfReducer],
+    (gltf) => gltf.gltfs
 );

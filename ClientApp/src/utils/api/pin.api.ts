@@ -1,17 +1,17 @@
 import axios from "axios";
-import { Planet } from "../../store/community/community.types";
+import { Pin } from "../../store/pin/pin.types";
 
-const api = "https://planetnineserver.azurewebsites.net/api/planet";
+const api = "https://planetnineserver.azurewebsites.net/api/pin";
 
 const headers = {
   'Accept': 'application/x-www-form-urlencoded',
   'Content-Type': 'application/x-www-form-urlencoded' 
 }
 
-export async function getSinglePlanet(planetId: number): Promise<Planet> {
+export async function getSinglePin(pinId: number): Promise<Pin> {
   const response = await axios({
     method: 'get',
-    url: `${api}/${planetId}`,
+    url: `${api}/${pinId}`,
     headers: headers,
     withCredentials: true
   });
@@ -19,10 +19,10 @@ export async function getSinglePlanet(planetId: number): Promise<Planet> {
   return result;
 }
 
-export async function getPlanets(): Promise<Planet[]> {
+export async function getUserPins(userId: number): Promise<Pin[]> {
   const response = await axios({
     method: 'get',
-    url: api, 
+    url: `${api}/${userId}`,
     headers: headers,
     withCredentials: true
   });
@@ -30,10 +30,10 @@ export async function getPlanets(): Promise<Planet[]> {
   return result;
 }
 
-export async function getUserPlanets(userId: number): Promise<Planet[]> {
+export async function getAllPins(): Promise<Pin[]> {
   const response = await axios({
     method: 'get',
-    url: `${api}/user/${userId}`, 
+    url: api,
     headers: headers,
     withCredentials: true
   });
@@ -41,22 +41,15 @@ export async function getUserPlanets(userId: number): Promise<Planet[]> {
   return result;
 }
 
-export async function getUsersPlanets(): Promise<Planet[]> {
-  const response = await axios({
-    method: 'get',
-    url: `${api}/user`, 
-    headers: headers,
-    withCredentials: true
-  });
-  const result = await response.data;
-  return result;
-}
-
-export async function addPlanet(formData: FormData): Promise<Planet[]> {
+export async function addPin(pinLocation: string, isAnalog: boolean, deviceId: number): Promise<Pin[]> {
   const response = await axios({
     method: 'post',
     url: api, 
-    data: formData,
+    data: {
+      pinLocation,
+      isAnalog,
+      deviceId
+    },
     headers: headers,
     withCredentials: true
   });
@@ -64,11 +57,16 @@ export async function addPlanet(formData: FormData): Promise<Planet[]> {
   return result;
 }
 
-export async function editPlanet(planetId: number, formData: FormData): Promise<Planet> {
+export async function editPin(pinId: number, pinLocation: string, isAnalog: boolean, deviceId: number): Promise<Pin[]> {
   const response = await axios({
     method: 'put',
-    url:`${api}/${planetId}`, 
-    data: formData,
+    url:`${api}/${pinId}`, 
+    data: {
+      pinId,
+      pinLocation,
+      isAnalog,
+      deviceId
+    },
     headers: headers,
     withCredentials: true
   });
@@ -76,10 +74,10 @@ export async function editPlanet(planetId: number, formData: FormData): Promise<
   return result;
 }
 
-export async function deletePlanet(planetId: number): Promise<Planet[]> {
+export async function deletePin(pinId: number): Promise<Pin[]> {
   const response = await axios({
     method: 'delete',
-    url: `${api}/${planetId}`,
+    url: `${api}/${pinId}`,
     headers: headers,
     withCredentials: true
   });

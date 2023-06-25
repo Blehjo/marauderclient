@@ -1,31 +1,31 @@
 import { createSelector } from 'reselect';
 
 import { RootState } from '../store';
-import { MoonCommentState } from './pin.reducer';
+import { PinState } from './pin.reducer';
 
-export const selectMoonCommentReducer = (state: RootState): MoonCommentState => state.mooncomment;
+export const selectPinReducer = (state: RootState): PinState => state.pin;
 
-export const selectIsMoonCommentLoading = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.isLoading
+export const selectIsPinLoading = createSelector(
+    [selectPinReducer],
+    (pin) => pin.isLoading
 );
 
-export const selectMoonCommentId = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.moonCommentId
+export const selectPinId = createSelector(
+    [selectPinReducer],
+    (pin) => pin.pinId
 );
 
-export const selectMoonSingleComment = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.singleComment
+export const selectSinglePin = createSelector(
+    [selectPinReducer],
+    (pin) => pin.singlePin
 );
 
-export const selectUserMoonComments = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.userComments
+export const selectUserPins = createSelector(
+    [selectPinReducer],
+    (pin) => pin.userPins
 );
 
-export const selectAllMoonComments = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.mooncomments
+export const selectAllPins = createSelector(
+    [selectPinReducer],
+    (pin) => pin.pins
 );

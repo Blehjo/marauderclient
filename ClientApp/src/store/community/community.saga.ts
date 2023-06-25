@@ -1,216 +1,179 @@
 import { all, call, put, takeLatest } from 'typed-redux-saga';
 
-import { PLANET_ACTION_TYPES, Planet } from './community.types';
+import { COMMUNITY_ACTION_TYPES, Community } from './community.types';
 
 import {
-    PlanetCreateStart,
-    PlanetDeleteStart,
-    PlanetFetchOtherUserPlanetsStart,
-    PlanetFetchSingleStart,
-    PlanetUpdateStart,
-    planetCreateFailed,
-    planetCreateSuccess,
-    planetDeleteFailed,
-    planetDeleteSuccess,
-    planetFetchAllFailed,
-    planetFetchAllSuccess,
-    planetFetchOtherUserPlanetsFailed,
-    planetFetchOtherUserPlanetsSuccess,
-    planetFetchSingleFailed,
-    planetFetchSingleSuccess,
-    planetFetchUserPlanetsFailed,
-    planetFetchUserPlanetsSuccess,
-    planetUpdateFailed,
-    planetUpdateSuccess
+    CommunityCreateStart, CommunityDeleteStart, CommunityFetchOtherUsercommunitiesStart, CommunityFetchSingleStart, CommunityUpdateStart, communityCreateFailed, communityCreateSuccess, communityDeleteFailed, communityDeleteSuccess, communityFetchAllFailed, communityFetchAllSuccess, communityFetchOtherUsercommunitiesFailed, communityFetchOtherUsercommunitiesSuccess, communityFetchSingleFailed, communityFetchSingleSuccess, communityFetchUsercommunitiesFailed, communityFetchUsercommunitiesSuccess, communityUpdateSuccess,
 } from './community.action';
 
 import {
-    addPlanet,
-    deletePlanet,
-    editPlanet,
-    getPlanets,
-    getSinglePlanet,
-    getUserPlanets,
-    getUsersPlanets
-} from '../../utils/api/planet.api';
+    getSingleCommunity,
+    getAllCommunities,
+    getUserCommunities,
+    getUsersCommunities,
+    addCommunity,
+    editCommunity,
+    deleteCommunity
+} from '../../utils/api/community.api';
+import { commentCreateFailed, commentCreateSuccess } from '../comment/comment.action';
 
-export function* createPlanet({ payload: { 
-    planetName,
-    planetMass,
-    perihelion,
-    aphelion,
-    gravity,
-    temperature,
-    imageLink,
+export function* createCommunity({ payload: { 
+    communityName,
+    description,
     imageFile
-}}: PlanetCreateStart) {
+}}: CommunityCreateStart) {
     const formData = new FormData();
-    formData.append("planetName", planetName);
-    formData.append("planetMass", planetMass);
-    formData.append("perihelion", perihelion);
-    formData.append("aphelion", aphelion);
-    formData.append("gravity", gravity);
-    formData.append("temperature", temperature);
-    formData.append("imageLink", imageLink);
+    formData.append("communityName", communityName);
+    formData.append("description", description);
     formData.append("imageFile", imageFile);
     try {
-        const planets = yield* call(
-            addPlanet,
+        const communities = yield* call(
+            addCommunity,
             formData
         ); 
-        yield* put(planetCreateSuccess(planets));
+        yield* put(communityCreateSuccess(communities));
     } catch (error) {
-        yield* put(planetCreateFailed(error as Error));
+        yield* put(communityCreateFailed(error as Error));
     }
 }
 
-export function* updatePlanet({ payload: { 
-    planetId,
-    planetName,
-    planetMass,
-    perihelion,
-    aphelion,
-    gravity,
-    temperature,
-    imageLink,
-    imageFile
-}}: PlanetUpdateStart) {
+export function* updateCommunity({ payload: { 
+    communityId,
+    communityName,
+    description,
+    imageFile,
+}}: CommunityUpdateStart) {
     const formData = new FormData();
-    formData.append("planetName", planetName);
-    formData.append("planetMass", planetMass);
-    formData.append("perihelion", perihelion);
-    formData.append("aphelion", aphelion);
-    formData.append("gravity", gravity);
-    formData.append("temperature", temperature);
-    formData.append("imageLink", imageLink);
+    formData.append("communityName", communityName);
+    formData.append("description", description);
     formData.append("imageFile", imageFile);
     try {
-        const planet = yield* call(
-            editPlanet,
-            planetId,
+        const community = yield* call(
+            editCommunity,
+            communityId,
             formData
         ); 
-        yield* put(planetUpdateSuccess(planet));
+        yield* put(communityUpdateSuccess(community));
     } catch (error) {
-        yield* put(planetUpdateFailed(error as Error));
+        yield* put(communityCreateFailed(error as Error));
     }
 }
 
 
-export function* removePlanet({ payload: { planetId }}: PlanetDeleteStart) {
+export function* removeCommunity({ payload: { communityId }}: CommunityDeleteStart) {
     try {
-        const planets = yield* call(
-            deletePlanet,
-            planetId
+        const communities = yield* call(
+            deleteCommunity,
+            communityId
         ); 
-        yield* put(planetDeleteSuccess(planets));
+        yield* put(communityDeleteSuccess(communities));
     } catch (error) {
-        yield* put(planetDeleteFailed(error as Error));
+        yield* put(communityDeleteFailed(error as Error));
     }
 }
 
-export function* fetchUserPlanets() {
+export function* fetchUserCommunities() {
     try {
-        const planets = yield* call(getUsersPlanets);
+        const planets = yield* call(getUsersCommunities);
         if (!planets) return;
-        yield* put(planetFetchUserPlanetsSuccess(planets));
+        yield* put(communityFetchUsercommunitiesSuccess(planets));
     } catch (error) {
-        yield* put(planetFetchUserPlanetsFailed(error as Error));
+        yield* put(communityFetchUsercommunitiesFailed(error as Error));
     }
 }
 
-export function* fetchOtherUsersPlanets({ payload: { userId } }: PlanetFetchOtherUserPlanetsStart) {
+export function* fetchOtherUsersCommunities({ payload: { userId } }: CommunityFetchOtherUsercommunitiesStart) {
     try {
-        const planets = yield* call(
-            getUserPlanets,
+        const communities = yield* call(
+            getUserCommunities,
             userId
         );
-        if (!planets) return;
-        yield* put(planetFetchOtherUserPlanetsSuccess(planets));
+        if (!communities) return;
+        yield* put(communityFetchOtherUsercommunitiesSuccess(communities));
     } catch (error) {
-        yield* put(planetFetchOtherUserPlanetsFailed(error as Error));
+        yield* put(communityFetchOtherUsercommunitiesFailed(error as Error));
     }
 }
 
-export function* fetchSinglePlanetAsync({ 
-    payload: { planetId } }: PlanetFetchSingleStart) {
+export function* fetchSingleCommunity({ 
+    payload: { communityId } }: CommunityFetchSingleStart) {
     try {
         const planetSnapshot = yield* call(
-            getSinglePlanet,
-            planetId 
+            getSingleCommunity,
+            communityId 
         );
-        yield* put(planetFetchSingleSuccess(planetSnapshot as Planet));
+        yield* put(communityFetchSingleSuccess(planetSnapshot as Community));
     } catch (error) {
-        yield* put(planetFetchSingleFailed(error as Error));
+        yield* put(communityFetchSingleFailed(error as Error));
     }
 }
 
-export function* fetchAllPlanetsAsync() {
+export function* fetchAllCommunities() {
     try {
-        const planets = yield* call(getPlanets);
-        yield* put(planetFetchAllSuccess(planets));
+        const planets = yield* call(getAllCommunities);
+        yield* put(communityFetchAllSuccess(planets));
     } catch (error) {
-        yield* put(planetFetchAllFailed(error as Error));
+        yield* put(communityFetchAllFailed(error as Error));
     }
 }
 
 export function* onCreateStart() {
     yield* takeLatest(
-        PLANET_ACTION_TYPES.CREATE_START, 
-        createPlanet
+        COMMUNITY_ACTION_TYPES.CREATE_START, 
+        createCommunity
     );
 }
 
 export function* onUpdateStart() {
     yield* takeLatest(
-        PLANET_ACTION_TYPES.UPDATE_START, 
-        updatePlanet
+        COMMUNITY_ACTION_TYPES.UPDATE_START, 
+        updateCommunity
     );
 }
 
 export function* onDeleteStart() {
     yield* takeLatest(
-        PLANET_ACTION_TYPES.DELETE_START, 
-        removePlanet
+        COMMUNITY_ACTION_TYPES.DELETE_START, 
+        removeCommunity
     );
 }
 
-export function* onFetchUserPlanetsStart() {
+export function* onFetchUserCommunitiesStart() {
     yield* takeLatest(
-        PLANET_ACTION_TYPES.FETCH_USER_PLANETS_START, 
-        fetchUserPlanets
+        COMMUNITY_ACTION_TYPES.FETCH_USER_COMMUNITIES_START, 
+        fetchUserCommunities
     );
 }
 
-export function* onFetchOtherUserPlanetsStart() {
+export function* onFetchOtherUserCommunitiesStart() {
     yield* takeLatest(
-        PLANET_ACTION_TYPES.FETCH_OTHER_USER_PLANETS_START, 
-        fetchOtherUsersPlanets
+        COMMUNITY_ACTION_TYPES.FETCH_OTHER_USER_COMMUNITIES_START, 
+        fetchOtherUsersCommunities
     );
 }
 
-export function* onFetchSinglePlanetStart() {
+export function* onFetchSingleCommunityStart() {
     yield* takeLatest(
-        PLANET_ACTION_TYPES.FETCH_SINGLE_START, 
-        fetchSinglePlanetAsync
+        COMMUNITY_ACTION_TYPES.FETCH_SINGLE_START, 
+        fetchSingleCommunity
     );
 }
   
-export function* onFetchPlanetsStart() {
+export function* onFetchCommunitiesStart() {
     yield* takeLatest(
-        PLANET_ACTION_TYPES.FETCH_ALL_START,
-        fetchAllPlanetsAsync
+        COMMUNITY_ACTION_TYPES.FETCH_ALL_START,
+        fetchAllCommunities
     );
 }
 
-export function* planetSagas() {
+export function* communitySagas() {
     yield* all([
         call(onCreateStart),
         call(onUpdateStart),
         call(onDeleteStart),
-        call(onFetchUserPlanetsStart),
-        call(onFetchOtherUserPlanetsStart),
-        call(onFetchSinglePlanetStart),
-        call(onFetchPlanetsStart)
+        call(onFetchUserCommunitiesStart),
+        call(onFetchOtherUserCommunitiesStart),
+        call(onFetchSingleCommunityStart),
+        call(onFetchCommunitiesStart)
     ]);
 }

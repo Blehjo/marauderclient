@@ -1,4 +1,4 @@
-import { MOON_COMMENT_ACTION_TYPES, MoonComment } from './device.types';
+import { DEVICE_ACTION_TYPES, Device } from './device.types';
 
 import {
     Action,
@@ -7,180 +7,150 @@ import {
     withMatcher
 } from '../../utils/reducer/reducer.utils';
 
-export type MoonCommentCreateStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.CREATE_START, { commentValue: string, imageFile: File, moonId: number }
+export type DeviceCreateStart = ActionWithPayload<
+    DEVICE_ACTION_TYPES.CREATE_START, { deviceName: string, deviceType: number }
 >;
 
-export type MoonCommentCreateSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.CREATE_SUCCESS, 
-    MoonComment[]
+export type DeviceCreateSuccess = ActionWithPayload<
+    DEVICE_ACTION_TYPES.CREATE_SUCCESS, 
+    Device[]
 >;
 
-export type MoonCommentCreateFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.CREATE_FAILED,
+export type DeviceCreateFailed = ActionWithPayload<
+    DEVICE_ACTION_TYPES.CREATE_FAILED,
     Error
 >;
 
-export type MoonCommentUpdateStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.UPDATE_START,
-    { moonCommentId: number, commentValue: string, mediaLink: string }
+export type DeviceUpdateStart = ActionWithPayload<
+    DEVICE_ACTION_TYPES.UPDATE_START,
+    { deviceId: number, deviceName: string, deviceType: number }
 >;
 
-export type MoonCommentUpdateSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.UPDATE_SUCCESS, 
-    MoonComment[]
+export type DeviceUpdateSuccess = ActionWithPayload<
+    DEVICE_ACTION_TYPES.UPDATE_SUCCESS, 
+    Device[]
 >;
 
-export type MoonCommentUpdateFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.UPDATE_FAILED,
-    Error
->;
-   
-export type MoonCommentDeleteStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.DELETE_START,
-    { moonCommentId: number }
->;
-
-export type MoonCommentDeleteSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.DELETE_SUCCESS, 
-    MoonComment[]
->;
-
-export type MoonCommentDeleteteFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.DELETE_FAILED,
+export type DeviceUpdateFailed = ActionWithPayload<
+    DEVICE_ACTION_TYPES.UPDATE_FAILED,
     Error
 >;
    
-export type MoonCommentFetchSingleStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_START,
-    { moonCommentId: number }
+export type DeviceDeleteStart = ActionWithPayload<
+    DEVICE_ACTION_TYPES.DELETE_START,
+    { deviceId: number }
 >;
 
-export type MoonCommentFetchSingleSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_SUCCESS, 
-    MoonComment[]
+export type DeviceDeleteSuccess = ActionWithPayload<
+    DEVICE_ACTION_TYPES.DELETE_SUCCESS, 
+    Device[]
 >;
 
-export type MoonCommentFetchSingleFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_FAILED,
+export type DeviceDeleteteFailed = ActionWithPayload<
+    DEVICE_ACTION_TYPES.DELETE_FAILED,
+    Error
+>;
+   
+export type DeviceFetchSingleStart = ActionWithPayload<
+    DEVICE_ACTION_TYPES.FETCH_SINGLE_START,
+    { deviceId: number }
+>;
+
+export type DeviceFetchSingleSuccess = ActionWithPayload<
+    DEVICE_ACTION_TYPES.FETCH_SINGLE_SUCCESS, 
+    Device
+>;
+
+export type DeviceFetchSingleFailed = ActionWithPayload<
+    DEVICE_ACTION_TYPES.FETCH_SINGLE_FAILED,
     Error
 >;
 
-export type MoonCommentFetchUserChatsStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_START,
-    { userId: number }
+export type DeviceFetchAllStart = Action<
+    DEVICE_ACTION_TYPES.FETCH_ALL_START
 >;
 
-export type MoonCommentFetchUserChatsSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_SUCCESS, 
-    MoonComment[]
+export type DeviceFetchAllSuccess = ActionWithPayload<
+    DEVICE_ACTION_TYPES.FETCH_ALL_SUCCESS, 
+    Device[]
 >;
 
-export type MoonCommentFetchUserChatsFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_FAILED,
+export type DeviceFetchAllFailed = ActionWithPayload<
+    DEVICE_ACTION_TYPES.FETCH_ALL_FAILED,
     Error
 >;
 
-export type MoonCommentFetchAllStart = Action<
-    MOON_COMMENT_ACTION_TYPES.FETCH_ALL_START
->;
-
-export type MoonCommentFetchAllSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_ALL_SUCCESS, 
-    MoonComment[]
->;
-
-export type MoonCommentFetchAllFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_ALL_FAILED,
-    Error
->;
-
-export const moonCommentCreateStart = withMatcher(
-    (commentValue: string, imageFile: File, moonId: number ): MoonCommentCreateStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.CREATE_START, { commentValue, imageFile, moonId })
+export const deviceCreateStart = withMatcher(
+    (deviceName: string, deviceType: number ): DeviceCreateStart => 
+    createAction(DEVICE_ACTION_TYPES.CREATE_START, { deviceName, deviceType })
 );
 
-export const moonCommentCreateSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentCreateSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.CREATE_SUCCESS, mooncomment)
+export const deviceCreateSuccess = withMatcher(
+    (device: Device[]): DeviceCreateSuccess => 
+    createAction(DEVICE_ACTION_TYPES.CREATE_SUCCESS, device)
 );
 
-export const moonCommentCreateFailed = withMatcher(
+export const deviceCreateFailed = withMatcher(
     (error: Error) => 
-    createAction(MOON_COMMENT_ACTION_TYPES.CREATE_START, error)
+    createAction(DEVICE_ACTION_TYPES.CREATE_START, error)
 );
  
-export const moonCommentUpdateStart = withMatcher(
-    (moonCommentId: number, commentValue: string, mediaLink: string, userId: number): MoonCommentUpdateStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.UPDATE_START, { moonCommentId, commentValue, mediaLink, userId })
+export const deviceUpdateStart = withMatcher(
+    (deviceId: number, deviceName: string, deviceType: number): DeviceUpdateStart => 
+    createAction(DEVICE_ACTION_TYPES.UPDATE_START, { deviceId, deviceName, deviceType })
 );
 
-export const moonCommentUpdateSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentUpdateSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.UPDATE_SUCCESS, mooncomment)
+export const deviceUpdateSuccess = withMatcher(
+    (device: Device[]): DeviceUpdateSuccess => 
+    createAction(DEVICE_ACTION_TYPES.UPDATE_SUCCESS, device)
 );
 
-export const moonCommentUpdateFailed = withMatcher(
-    (error: Error): MoonCommentUpdateFailed => 
-    createAction(MOON_COMMENT_ACTION_TYPES.UPDATE_FAILED, error)
+export const deviceUpdateFailed = withMatcher(
+    (error: Error): DeviceUpdateFailed => 
+    createAction(DEVICE_ACTION_TYPES.UPDATE_FAILED, error)
 );
 
-export const moonCommentDeleteStart = withMatcher(
-    (moonCommentId: number): MoonCommentDeleteStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.DELETE_START, { moonCommentId })
+export const deviceDeleteStart = withMatcher(
+    (deviceId: number): DeviceDeleteStart => 
+    createAction(DEVICE_ACTION_TYPES.DELETE_START, { deviceId })
 );
 
-export const moonCommentDeleteSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentDeleteSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.DELETE_SUCCESS, mooncomment)
+export const deviceDeleteSuccess = withMatcher(
+    (device: Device[]): DeviceDeleteSuccess => 
+    createAction(DEVICE_ACTION_TYPES.DELETE_SUCCESS, device)
 );
 
-export const moonCommentDeleteFailed = withMatcher(
+export const deviceDeleteFailed = withMatcher(
     (error: Error) => 
-    createAction(MOON_COMMENT_ACTION_TYPES.DELETE_START, error)
+    createAction(DEVICE_ACTION_TYPES.DELETE_START, error)
 );
 
-export const moonCommentFetchSingleStart = withMatcher(
-    (moonCommentId: number): MoonCommentFetchSingleStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_START, { moonCommentId })
+export const deviceFetchSingleStart = withMatcher(
+    (deviceId: number): DeviceFetchSingleStart => 
+    createAction(DEVICE_ACTION_TYPES.FETCH_SINGLE_START, { deviceId })
 );
 
-export const moonCommentFetchSingleSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentFetchSingleSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_SUCCESS, mooncomment)
+export const deviceFetchSingleSuccess = withMatcher(
+    (device: Device): DeviceFetchSingleSuccess => 
+    createAction(DEVICE_ACTION_TYPES.FETCH_SINGLE_SUCCESS, device)
 );
 
-export const moonCommentFetchSingleFailed = withMatcher(
-    (error: Error): MoonCommentFetchSingleFailed => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_FAILED, error)
+export const deviceFetchSingleFailed = withMatcher(
+    (error: Error): DeviceFetchSingleFailed => 
+    createAction(DEVICE_ACTION_TYPES.FETCH_SINGLE_FAILED, error)
 );
 
-export const moonCommentFetchUserChatsStart = withMatcher(
-    (userId: number): MoonCommentFetchUserChatsStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_START, { userId })
+export const deviceFetchAllStart = withMatcher(
+    (device: Device[]): DeviceFetchAllStart => 
+    createAction(DEVICE_ACTION_TYPES.FETCH_ALL_START, device)
 );
 
-export const moonCommentFetchUserChatsSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentFetchUserChatsSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_SUCCESS, mooncomment)
+export const deviceFetchAllSuccess = withMatcher(
+    (device: Device[]): DeviceFetchAllSuccess => 
+    createAction(DEVICE_ACTION_TYPES.FETCH_ALL_SUCCESS, device)
 );
 
-export const moonCommentFetchUserChatsFailed = withMatcher(
-    (error: Error): MoonCommentFetchUserChatsFailed => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_FAILED, error)
-);
-
-export const moonCommentFetchAllStart = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentFetchAllStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_ALL_START, mooncomment)
-);
-
-export const moonCommentFetchAllSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentFetchAllSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_ALL_SUCCESS, mooncomment)
-);
-
-export const moonCommentFetchAllFailed = withMatcher(
-    (error: Error): MoonCommentFetchAllFailed => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_ALL_FAILED, error)
+export const deviceFetchAllFailed = withMatcher(
+    (error: Error): DeviceFetchAllFailed => 
+    createAction(DEVICE_ACTION_TYPES.FETCH_ALL_FAILED, error)
 );

@@ -45,7 +45,7 @@ export const actionReducer = (
     if (
         actionFetchSingleSuccess.match(action) 
     ) {
-        return { ...state, isLoading: false, actions: action.payload }
+        return { ...state, isLoading: false, singleAction: action.payload }
     }
     if (
         actionCreateSuccess.match(action) ||

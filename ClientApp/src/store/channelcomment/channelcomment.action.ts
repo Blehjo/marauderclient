@@ -1,4 +1,4 @@
-import { PLANET_COMMENT_ACTION_TYPES, PlanetComment } from './channelcomment.types';
+import { CHANNEL_COMMENT_ACTION_TYPES, ChannelComment } from './channelcomment.types';
 
 import {
     Action,
@@ -6,181 +6,154 @@ import {
     createAction,
     withMatcher
 } from '../../utils/reducer/reducer.utils';
+import { channel } from 'diagnostics_channel';
 
-export type PlanetCommentCreateStart = ActionWithPayload<
-    PLANET_COMMENT_ACTION_TYPES.CREATE_START, { commentValue: string, imageFile: File, planetId: number }
+export type ChannelCommentCreateStart = ActionWithPayload<
+    CHANNEL_COMMENT_ACTION_TYPES.CREATE_START, { commentValue: string, channelId: number, imageFile: File }
 >;
 
-export type PlanetCommentCreateSuccess = ActionWithPayload<
-    PLANET_COMMENT_ACTION_TYPES.CREATE_SUCCESS, 
-    PlanetComment[]
+export type ChannelCommentCreateSuccess = ActionWithPayload<
+    CHANNEL_COMMENT_ACTION_TYPES.CREATE_SUCCESS, 
+    ChannelComment[]
 >;
 
-export type PlanetCommentCreateFailed = ActionWithPayload<
-    PLANET_COMMENT_ACTION_TYPES.CREATE_FAILED,
+export type ChannelCommentCreateFailed = ActionWithPayload<
+    CHANNEL_COMMENT_ACTION_TYPES.CREATE_FAILED,
     Error
 >;
 
-export type PlanetCommentUpdateStart = ActionWithPayload<
-    PLANET_COMMENT_ACTION_TYPES.UPDATE_START,
-    { planetCommentId: number, commentValue: string, mediaLink: string }
+export type ChannelCommentUpdateStart = ActionWithPayload<
+    CHANNEL_COMMENT_ACTION_TYPES.UPDATE_START,
+    { channelCommentId: number, commentValue: string, imageFile: File }
 >;
 
-export type PlanetCommentUpdateSuccess = ActionWithPayload<
-    PLANET_COMMENT_ACTION_TYPES.UPDATE_SUCCESS, 
-    PlanetComment[]
+export type ChannelCommentUpdateSuccess = ActionWithPayload<
+    CHANNEL_COMMENT_ACTION_TYPES.UPDATE_SUCCESS, 
+    ChannelComment[]
 >;
 
-export type PlanetCommentUpdateFailed = ActionWithPayload<
-    PLANET_COMMENT_ACTION_TYPES.UPDATE_FAILED,
-    Error
->;
-   
-export type PlanetCommentDeleteStart = ActionWithPayload<
-    PLANET_COMMENT_ACTION_TYPES.DELETE_START,
-    { commentId: number }
->;
-
-export type PlanetCommentDeleteSuccess = ActionWithPayload<
-    PLANET_COMMENT_ACTION_TYPES.DELETE_SUCCESS, 
-    PlanetComment[]
->;
-
-export type PlanetCommentDeleteteFailed = ActionWithPayload<
-    PLANET_COMMENT_ACTION_TYPES.DELETE_FAILED,
+export type ChannelCommentUpdateFailed = ActionWithPayload<
+    CHANNEL_COMMENT_ACTION_TYPES.UPDATE_FAILED,
     Error
 >;
    
-export type PlanetCommentFetchSingleStart = ActionWithPayload<
-    PLANET_COMMENT_ACTION_TYPES.FETCH_SINGLE_START,
+export type ChannelCommentDeleteStart = ActionWithPayload<
+    CHANNEL_COMMENT_ACTION_TYPES.DELETE_START,
     { commentId: number }
 >;
 
-export type PlanetCommentFetchSingleSuccess = ActionWithPayload<
-    PLANET_COMMENT_ACTION_TYPES.FETCH_SINGLE_SUCCESS, 
-    PlanetComment[]
+export type ChannelCommentDeleteSuccess = ActionWithPayload<
+    CHANNEL_COMMENT_ACTION_TYPES.DELETE_SUCCESS, 
+    ChannelComment[]
 >;
 
-export type PlanetCommentFetchSingleFailed = ActionWithPayload<
-    PLANET_COMMENT_ACTION_TYPES.FETCH_SINGLE_FAILED,
+export type ChannelCommentDeleteteFailed = ActionWithPayload<
+    CHANNEL_COMMENT_ACTION_TYPES.DELETE_FAILED,
+    Error
+>;
+   
+export type ChannelCommentFetchSingleStart = ActionWithPayload<
+    CHANNEL_COMMENT_ACTION_TYPES.FETCH_SINGLE_START,
+    { commentId: number }
+>;
+
+export type ChannelCommentFetchSingleSuccess = ActionWithPayload<
+    CHANNEL_COMMENT_ACTION_TYPES.FETCH_SINGLE_SUCCESS, 
+    ChannelComment[]
+>;
+
+export type ChannelCommentFetchSingleFailed = ActionWithPayload<
+    CHANNEL_COMMENT_ACTION_TYPES.FETCH_SINGLE_FAILED,
     Error
 >;
 
-export type PlanetCommentFetchUserChatsStart = ActionWithPayload<
-    PLANET_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_START,
-    { userId: number }
+export type ChannelCommentFetchAllStart = ActionWithPayload<
+    CHANNEL_COMMENT_ACTION_TYPES.FETCH_ALL_START, {
+        channelId: number
+    }
 >;
 
-export type PlanetCommentFetchUserChatsSuccess = ActionWithPayload<
-    PLANET_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_SUCCESS, 
-    PlanetComment[]
+export type ChannelCommentFetchAllSuccess = ActionWithPayload<
+    CHANNEL_COMMENT_ACTION_TYPES.FETCH_ALL_SUCCESS, 
+    ChannelComment[]
 >;
 
-export type PlanetCommentFetchUserChatsFailed = ActionWithPayload<
-    PLANET_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_FAILED,
+export type ChannelCommentFetchAllFailed = ActionWithPayload<
+    CHANNEL_COMMENT_ACTION_TYPES.FETCH_ALL_FAILED,
     Error
 >;
 
-export type PlanetCommentFetchAllStart = Action<
-    PLANET_COMMENT_ACTION_TYPES.FETCH_ALL_START
->;
-
-export type PlanetCommentFetchAllSuccess = ActionWithPayload<
-    PLANET_COMMENT_ACTION_TYPES.FETCH_ALL_SUCCESS, 
-    PlanetComment[]
->;
-
-export type PlanetCommentFetchAllFailed = ActionWithPayload<
-    PLANET_COMMENT_ACTION_TYPES.FETCH_ALL_FAILED,
-    Error
->;
-
-export const planetcommentCreateStart = withMatcher(
-    (commentValue: string, imageFile: File, planetId: number ): PlanetCommentCreateStart => 
-    createAction(PLANET_COMMENT_ACTION_TYPES.CREATE_START, { commentValue, imageFile, planetId })
+export const channelcommentCreateStart = withMatcher(
+    (commentValue: string, channelId: number, imageFile: File): ChannelCommentCreateStart => 
+    createAction(CHANNEL_COMMENT_ACTION_TYPES.CREATE_START, { commentValue, imageFile, channelId })
 );
 
-export const planetcommentCreateSuccess = withMatcher(
-    (comment: PlanetComment[]): PlanetCommentCreateSuccess => 
-    createAction(PLANET_COMMENT_ACTION_TYPES.CREATE_SUCCESS, comment)
+export const channelcommentCreateSuccess = withMatcher(
+    (comment: ChannelComment[]): ChannelCommentCreateSuccess => 
+    createAction(CHANNEL_COMMENT_ACTION_TYPES.CREATE_SUCCESS, comment)
 );
 
-export const planetcommentCreateFailed = withMatcher(
+export const channelcommentCreateFailed = withMatcher(
     (error: Error) => 
-    createAction(PLANET_COMMENT_ACTION_TYPES.CREATE_START, error)
+    createAction(CHANNEL_COMMENT_ACTION_TYPES.CREATE_START, error)
 );
  
-export const planetcommentUpdateStart = withMatcher(
-    (planetCommentId: number, commentValue: string, mediaLink: string, userId: number): PlanetCommentUpdateStart => 
-    createAction(PLANET_COMMENT_ACTION_TYPES.UPDATE_START, { planetCommentId, commentValue, mediaLink, userId })
+export const channelcommentUpdateStart = withMatcher(
+    (channelCommentId: number, commentValue: string, imageFile: File): ChannelCommentUpdateStart => 
+    createAction(CHANNEL_COMMENT_ACTION_TYPES.UPDATE_START, { channelCommentId, commentValue, imageFile })
 );
 
-export const planetcommentUpdateSuccess = withMatcher(
-    (comment: PlanetComment[]): PlanetCommentUpdateSuccess => 
-    createAction(PLANET_COMMENT_ACTION_TYPES.UPDATE_SUCCESS, comment)
+export const channelcommentUpdateSuccess = withMatcher(
+    (comment: ChannelComment[]): ChannelCommentUpdateSuccess => 
+    createAction(CHANNEL_COMMENT_ACTION_TYPES.UPDATE_SUCCESS, comment)
 );
 
-export const planetcommentUpdateFailed = withMatcher(
-    (error: Error): PlanetCommentUpdateFailed => 
-    createAction(PLANET_COMMENT_ACTION_TYPES.UPDATE_FAILED, error)
+export const channelcommentUpdateFailed = withMatcher(
+    (error: Error): ChannelCommentUpdateFailed => 
+    createAction(CHANNEL_COMMENT_ACTION_TYPES.UPDATE_FAILED, error)
 );
 
-export const planetcommentDeleteStart = withMatcher(
-    (commentId: number): PlanetCommentDeleteStart => 
-    createAction(PLANET_COMMENT_ACTION_TYPES.DELETE_START, { commentId })
+export const channelcommentDeleteStart = withMatcher(
+    (commentId: number): ChannelCommentDeleteStart => 
+    createAction(CHANNEL_COMMENT_ACTION_TYPES.DELETE_START, { commentId })
 );
 
-export const planetcommentDeleteSuccess = withMatcher(
-    (comment: PlanetComment[]): PlanetCommentDeleteSuccess => 
-    createAction(PLANET_COMMENT_ACTION_TYPES.DELETE_SUCCESS, comment)
+export const channelcommentDeleteSuccess = withMatcher(
+    (comment: ChannelComment[]): ChannelCommentDeleteSuccess => 
+    createAction(CHANNEL_COMMENT_ACTION_TYPES.DELETE_SUCCESS, comment)
 );
 
-export const planetcommentDeleteFailed = withMatcher(
+export const channelcommentDeleteFailed = withMatcher(
     (error: Error) => 
-    createAction(PLANET_COMMENT_ACTION_TYPES.DELETE_START, error)
+    createAction(CHANNEL_COMMENT_ACTION_TYPES.DELETE_START, error)
 );
 
-export const planetcommentFetchSingleStart = withMatcher(
-    (commentId: number): PlanetCommentFetchSingleStart => 
-    createAction(PLANET_COMMENT_ACTION_TYPES.FETCH_SINGLE_START, { commentId })
+export const channelcommentFetchSingleStart = withMatcher(
+    (commentId: number): ChannelCommentFetchSingleStart => 
+    createAction(CHANNEL_COMMENT_ACTION_TYPES.FETCH_SINGLE_START, { commentId })
 );
 
-export const planetcommentFetchSingleSuccess = withMatcher(
-    (comment: PlanetComment[]): PlanetCommentFetchSingleSuccess => 
-    createAction(PLANET_COMMENT_ACTION_TYPES.FETCH_SINGLE_SUCCESS, comment)
+export const channelcommentFetchSingleSuccess = withMatcher(
+    (comment: ChannelComment[]): ChannelCommentFetchSingleSuccess => 
+    createAction(CHANNEL_COMMENT_ACTION_TYPES.FETCH_SINGLE_SUCCESS, comment)
 );
 
-export const planetcommentFetchSingleFailed = withMatcher(
-    (error: Error): PlanetCommentFetchSingleFailed => 
-    createAction(PLANET_COMMENT_ACTION_TYPES.FETCH_SINGLE_FAILED, error)
+export const channelcommentFetchSingleFailed = withMatcher(
+    (error: Error): ChannelCommentFetchSingleFailed => 
+    createAction(CHANNEL_COMMENT_ACTION_TYPES.FETCH_SINGLE_FAILED, error)
 );
 
-export const planetcommentFetchUserChatsStart = withMatcher(
-    (userId: number): PlanetCommentFetchUserChatsStart => 
-    createAction(PLANET_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_START, { userId })
+export const channelcommentFetchAllStart = withMatcher(
+    (channelId: number): ChannelCommentFetchAllStart => 
+    createAction(CHANNEL_COMMENT_ACTION_TYPES.FETCH_ALL_START, { channelId })
 );
 
-export const planetcommentFetchUserChatsSuccess = withMatcher(
-    (comment: PlanetComment[]): PlanetCommentFetchUserChatsSuccess => 
-    createAction(PLANET_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_SUCCESS, comment)
+export const channelcommentFetchAllSuccess = withMatcher(
+    (comment: ChannelComment[]): ChannelCommentFetchAllSuccess => 
+    createAction(CHANNEL_COMMENT_ACTION_TYPES.FETCH_ALL_SUCCESS, comment)
 );
 
-export const planetcommentFetchUserChatsFailed = withMatcher(
-    (error: Error): PlanetCommentFetchUserChatsFailed => 
-    createAction(PLANET_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_FAILED, error)
-);
-
-export const planetcommentFetchAllStart = withMatcher(
-    (comment: PlanetComment[]): PlanetCommentFetchAllStart => 
-    createAction(PLANET_COMMENT_ACTION_TYPES.FETCH_ALL_START, comment)
-);
-
-export const planetcommentFetchAllSuccess = withMatcher(
-    (comment: PlanetComment[]): PlanetCommentFetchAllSuccess => 
-    createAction(PLANET_COMMENT_ACTION_TYPES.FETCH_ALL_SUCCESS, comment)
-);
-
-export const planetcommentFetchAllFailed = withMatcher(
-    (error: Error): PlanetCommentFetchAllFailed => 
-    createAction(PLANET_COMMENT_ACTION_TYPES.FETCH_ALL_FAILED, error)
+export const channelcommentFetchAllFailed = withMatcher(
+    (error: Error): ChannelCommentFetchAllFailed => 
+    createAction(CHANNEL_COMMENT_ACTION_TYPES.FETCH_ALL_FAILED, error)
 );

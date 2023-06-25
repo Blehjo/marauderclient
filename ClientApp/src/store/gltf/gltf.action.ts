@@ -1,4 +1,4 @@
-import { MOON_COMMENT_ACTION_TYPES, MoonComment } from './gltf.types';
+import { GLTF_ACTION_TYPES, Gltf } from './gltf.types';
 
 import {
     Action,
@@ -7,180 +7,181 @@ import {
     withMatcher
 } from '../../utils/reducer/reducer.utils';
 
-export type MoonCommentCreateStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.CREATE_START, { commentValue: string, imageFile: File, moonId: number }
+export type GltfCreateStart = ActionWithPayload<
+    GLTF_ACTION_TYPES.CREATE_START, { fileInformation: string }
 >;
 
-export type MoonCommentCreateSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.CREATE_SUCCESS, 
-    MoonComment[]
+export type GltfCreateSuccess = ActionWithPayload<
+    GLTF_ACTION_TYPES.CREATE_SUCCESS, 
+    Gltf[]
 >;
 
-export type MoonCommentCreateFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.CREATE_FAILED,
+export type GltfCreateFailed = ActionWithPayload<
+    GLTF_ACTION_TYPES.CREATE_FAILED,
     Error
 >;
 
-export type MoonCommentUpdateStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.UPDATE_START,
-    { moonCommentId: number, commentValue: string, mediaLink: string }
+export type GltfUpdateStart = ActionWithPayload<
+    GLTF_ACTION_TYPES.UPDATE_START,
+    { gltfId: number, fileInformation: string }
 >;
 
-export type MoonCommentUpdateSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.UPDATE_SUCCESS, 
-    MoonComment[]
+export type GltfUpdateSuccess = ActionWithPayload<
+    GLTF_ACTION_TYPES.UPDATE_SUCCESS, 
+    Gltf[]
 >;
 
-export type MoonCommentUpdateFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.UPDATE_FAILED,
-    Error
->;
-   
-export type MoonCommentDeleteStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.DELETE_START,
-    { moonCommentId: number }
->;
-
-export type MoonCommentDeleteSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.DELETE_SUCCESS, 
-    MoonComment[]
->;
-
-export type MoonCommentDeleteteFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.DELETE_FAILED,
+export type GltfUpdateFailed = ActionWithPayload<
+    GLTF_ACTION_TYPES.UPDATE_FAILED,
     Error
 >;
    
-export type MoonCommentFetchSingleStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_START,
-    { moonCommentId: number }
+export type GltfDeleteStart = ActionWithPayload<
+    GLTF_ACTION_TYPES.DELETE_START,
+    { gltfId: number }
 >;
 
-export type MoonCommentFetchSingleSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_SUCCESS, 
-    MoonComment[]
+export type GltfDeleteSuccess = ActionWithPayload<
+    GLTF_ACTION_TYPES.DELETE_SUCCESS, 
+    Gltf[]
 >;
 
-export type MoonCommentFetchSingleFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_FAILED,
+export type GltfDeleteteFailed = ActionWithPayload<
+    GLTF_ACTION_TYPES.DELETE_FAILED,
+    Error
+>;
+   
+export type GltfFetchSingleStart = ActionWithPayload<
+    GLTF_ACTION_TYPES.FETCH_SINGLE_START,
+    { gltfId: number }
+>;
+
+export type GltfFetchSingleSuccess = ActionWithPayload<
+    GLTF_ACTION_TYPES.FETCH_SINGLE_SUCCESS, 
+    Gltf
+>;
+
+export type GltfFetchSingleFailed = ActionWithPayload<
+    GLTF_ACTION_TYPES.FETCH_SINGLE_FAILED,
     Error
 >;
 
-export type MoonCommentFetchUserChatsStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_START,
-    { userId: number }
+export type GltfFetchAllStart = Action<
+    GLTF_ACTION_TYPES.FETCH_ALL_START
 >;
 
-export type MoonCommentFetchUserChatsSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_SUCCESS, 
-    MoonComment[]
+export type GltfFetchAllSuccess = ActionWithPayload<
+    GLTF_ACTION_TYPES.FETCH_ALL_SUCCESS, 
+    Gltf[]
 >;
 
-export type MoonCommentFetchUserChatsFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_FAILED,
+export type GltfFetchAllFailed = ActionWithPayload<
+    GLTF_ACTION_TYPES.FETCH_ALL_FAILED,
     Error
 >;
 
-export type MoonCommentFetchAllStart = Action<
-    MOON_COMMENT_ACTION_TYPES.FETCH_ALL_START
+export type GltfFetchUserStart = ActionWithPayload<
+    GLTF_ACTION_TYPES.FETCH_USER_START, {
+        userId: number
+    }
 >;
 
-export type MoonCommentFetchAllSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_ALL_SUCCESS, 
-    MoonComment[]
+export type GltfFetchUserSuccess = ActionWithPayload<
+    GLTF_ACTION_TYPES.FETCH_USER_SUCCESS, 
+    Gltf[]
 >;
 
-export type MoonCommentFetchAllFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_ALL_FAILED,
+export type GltfFetchUserFailed = ActionWithPayload<
+    GLTF_ACTION_TYPES.FETCH_USER_FAILED,
     Error
 >;
 
-export const moonCommentCreateStart = withMatcher(
-    (commentValue: string, imageFile: File, moonId: number ): MoonCommentCreateStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.CREATE_START, { commentValue, imageFile, moonId })
+export const gltfCreateStart = withMatcher(
+    (fileInformation: string, userId: number ): GltfCreateStart => 
+    createAction(GLTF_ACTION_TYPES.CREATE_START, { fileInformation, userId })
 );
 
-export const moonCommentCreateSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentCreateSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.CREATE_SUCCESS, mooncomment)
+export const gltfCreateSuccess = withMatcher(
+    (gltf: Gltf[]): GltfCreateSuccess => 
+    createAction(GLTF_ACTION_TYPES.CREATE_SUCCESS, gltf)
 );
 
-export const moonCommentCreateFailed = withMatcher(
+export const gltfCreateFailed = withMatcher(
     (error: Error) => 
-    createAction(MOON_COMMENT_ACTION_TYPES.CREATE_START, error)
+    createAction(GLTF_ACTION_TYPES.CREATE_START, error)
 );
  
-export const moonCommentUpdateStart = withMatcher(
-    (moonCommentId: number, commentValue: string, mediaLink: string, userId: number): MoonCommentUpdateStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.UPDATE_START, { moonCommentId, commentValue, mediaLink, userId })
+export const gltfUpdateStart = withMatcher(
+    (gltfId: number,  fileInformation: string): GltfUpdateStart => 
+    createAction(GLTF_ACTION_TYPES.UPDATE_START, { gltfId, fileInformation })
 );
 
-export const moonCommentUpdateSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentUpdateSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.UPDATE_SUCCESS, mooncomment)
+export const gltfUpdateSuccess = withMatcher(
+    (gltf: Gltf[]): GltfUpdateSuccess => 
+    createAction(GLTF_ACTION_TYPES.UPDATE_SUCCESS, gltf)
 );
 
-export const moonCommentUpdateFailed = withMatcher(
-    (error: Error): MoonCommentUpdateFailed => 
-    createAction(MOON_COMMENT_ACTION_TYPES.UPDATE_FAILED, error)
+export const gltfUpdateFailed = withMatcher(
+    (error: Error): GltfUpdateFailed => 
+    createAction(GLTF_ACTION_TYPES.UPDATE_FAILED, error)
 );
 
-export const moonCommentDeleteStart = withMatcher(
-    (moonCommentId: number): MoonCommentDeleteStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.DELETE_START, { moonCommentId })
+export const gltfDeleteStart = withMatcher(
+    (gltfId: number): GltfDeleteStart => 
+    createAction(GLTF_ACTION_TYPES.DELETE_START, { gltfId })
 );
 
-export const moonCommentDeleteSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentDeleteSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.DELETE_SUCCESS, mooncomment)
+export const gltfDeleteSuccess = withMatcher(
+    (gltf: Gltf[]): GltfDeleteSuccess => 
+    createAction(GLTF_ACTION_TYPES.DELETE_SUCCESS, gltf)
 );
 
-export const moonCommentDeleteFailed = withMatcher(
+export const gltfDeleteFailed = withMatcher(
     (error: Error) => 
-    createAction(MOON_COMMENT_ACTION_TYPES.DELETE_START, error)
+    createAction(GLTF_ACTION_TYPES.DELETE_START, error)
 );
 
-export const moonCommentFetchSingleStart = withMatcher(
-    (moonCommentId: number): MoonCommentFetchSingleStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_START, { moonCommentId })
+export const gltfFetchSingleStart = withMatcher(
+    (gltfId: number): GltfFetchSingleStart => 
+    createAction(GLTF_ACTION_TYPES.FETCH_SINGLE_START, { gltfId })
 );
 
-export const moonCommentFetchSingleSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentFetchSingleSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_SUCCESS, mooncomment)
+export const gltfFetchSingleSuccess = withMatcher(
+    (gltf: Gltf): GltfFetchSingleSuccess => 
+    createAction(GLTF_ACTION_TYPES.FETCH_SINGLE_SUCCESS, gltf)
 );
 
-export const moonCommentFetchSingleFailed = withMatcher(
-    (error: Error): MoonCommentFetchSingleFailed => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_FAILED, error)
+export const gltfFetchSingleFailed = withMatcher(
+    (error: Error): GltfFetchSingleFailed => 
+    createAction(GLTF_ACTION_TYPES.FETCH_SINGLE_FAILED, error)
 );
 
-export const moonCommentFetchUserChatsStart = withMatcher(
-    (userId: number): MoonCommentFetchUserChatsStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_START, { userId })
+export const gltfFetchUserStart = withMatcher(
+    (userId: number): GltfFetchUserStart => 
+    createAction(GLTF_ACTION_TYPES.FETCH_USER_START, { userId })
 );
 
-export const moonCommentFetchUserChatsSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentFetchUserChatsSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_SUCCESS, mooncomment)
+export const gltfFetchUserSuccess = withMatcher(
+    (gltf: Gltf[]): GltfFetchUserSuccess => 
+    createAction(GLTF_ACTION_TYPES.FETCH_USER_SUCCESS, gltf)
 );
 
-export const moonCommentFetchUserChatsFailed = withMatcher(
-    (error: Error): MoonCommentFetchUserChatsFailed => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_FAILED, error)
+export const gltfFetchUserFailed = withMatcher(
+    (error: Error): GltfFetchUserFailed => 
+    createAction(GLTF_ACTION_TYPES.FETCH_USER_FAILED, error)
 );
 
-export const moonCommentFetchAllStart = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentFetchAllStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_ALL_START, mooncomment)
+export const gltfFetchAllStart = withMatcher(
+    (gltf: Gltf[]): GltfFetchAllStart => 
+    createAction(GLTF_ACTION_TYPES.FETCH_ALL_START, gltf)
 );
 
-export const moonCommentFetchAllSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentFetchAllSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_ALL_SUCCESS, mooncomment)
+export const gltfFetchAllSuccess = withMatcher(
+    (gltf: Gltf[]): GltfFetchAllSuccess => 
+    createAction(GLTF_ACTION_TYPES.FETCH_ALL_SUCCESS, gltf)
 );
 
-export const moonCommentFetchAllFailed = withMatcher(
-    (error: Error): MoonCommentFetchAllFailed => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_ALL_FAILED, error)
+export const gltfFetchAllFailed = withMatcher(
+    (error: Error): GltfFetchAllFailed => 
+    createAction(GLTF_ACTION_TYPES.FETCH_ALL_FAILED, error)
 );

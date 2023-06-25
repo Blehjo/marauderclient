@@ -1,4 +1,4 @@
-import { PLANET_ACTION_TYPES, Planet } from './community.types';
+import { COMMUNITY_ACTION_TYPES, Community } from './community.types';
 
 import {
     Action,
@@ -7,263 +7,233 @@ import {
     withMatcher
 } from '../../utils/reducer/reducer.utils';
 
-export type PlanetCreateStart = ActionWithPayload<
-    PLANET_ACTION_TYPES.CREATE_START, { 
-        planetName: string, 
-        planetMass: string, 
-        perihelion: string, 
-        aphelion: string, 
-        gravity: string, 
-        temperature: string, 
-        imageLink: string,
+export type CommunityCreateStart = ActionWithPayload<
+    COMMUNITY_ACTION_TYPES.CREATE_START, { 
+        communityName: string, 
+        description: string, 
         imageFile: File  
     }
 >;
 
-export type PlanetCreateSuccess = ActionWithPayload<
-    PLANET_ACTION_TYPES.CREATE_SUCCESS, 
-    Planet[]
+export type CommunityCreateSuccess = ActionWithPayload<
+    COMMUNITY_ACTION_TYPES.CREATE_SUCCESS, 
+    Community[]
 >;
 
-export type PlanetCreateFailed = ActionWithPayload<
-    PLANET_ACTION_TYPES.CREATE_FAILED,
+export type CommunityCreateFailed = ActionWithPayload<
+    COMMUNITY_ACTION_TYPES.CREATE_FAILED,
     Error
 >;
 
-export type PlanetUpdateStart = ActionWithPayload<
-    PLANET_ACTION_TYPES.UPDATE_START, { 
-        planetId: number,
-        planetName: string, 
-        planetMass: string, 
-        perihelion: string, 
-        aphelion: string, 
-        gravity: string, 
-        temperature: string, 
-        imageLink: string,
+export type CommunityUpdateStart = ActionWithPayload<
+    COMMUNITY_ACTION_TYPES.UPDATE_START, { 
+        communityId: number,
+        communityName: string, 
+        description: string, 
         imageFile: File
     }
 >;
 
-export type PlanetUpdateSuccess = ActionWithPayload<
-    PLANET_ACTION_TYPES.UPDATE_SUCCESS, 
-    Planet
+export type CommunityUpdateSuccess = ActionWithPayload<
+    COMMUNITY_ACTION_TYPES.UPDATE_SUCCESS, 
+    Community
 >;
 
-export type PlanetUpdateFailed = ActionWithPayload<
-    PLANET_ACTION_TYPES.UPDATE_FAILED,
+export type CommunityUpdateFailed = ActionWithPayload<
+    COMMUNITY_ACTION_TYPES.UPDATE_FAILED,
     Error
 >;
    
-export type PlanetDeleteStart = ActionWithPayload<
-    PLANET_ACTION_TYPES.DELETE_START,
-    { planetId: number }
+export type CommunityDeleteStart = ActionWithPayload<
+    COMMUNITY_ACTION_TYPES.DELETE_START,
+    { communityId: number }
 >;
 
-export type PlanetDeleteSuccess = ActionWithPayload<
-    PLANET_ACTION_TYPES.DELETE_SUCCESS, 
-    Planet[]
+export type CommunityDeleteSuccess = ActionWithPayload<
+    COMMUNITY_ACTION_TYPES.DELETE_SUCCESS, 
+    Community[]
 >;
 
-export type PlanetDeleteteFailed = ActionWithPayload<
-    PLANET_ACTION_TYPES.DELETE_FAILED,
+export type CommunityDeleteteFailed = ActionWithPayload<
+    COMMUNITY_ACTION_TYPES.DELETE_FAILED,
     Error
 >;
    
-export type PlanetFetchSingleStart = ActionWithPayload<
-    PLANET_ACTION_TYPES.FETCH_SINGLE_START,
-    { planetId: number }
+export type CommunityFetchSingleStart = ActionWithPayload<
+    COMMUNITY_ACTION_TYPES.FETCH_SINGLE_START,
+    { communityId: number }
 >;
 
-export type PlanetFetchSingleSuccess = ActionWithPayload<
-    PLANET_ACTION_TYPES.FETCH_SINGLE_SUCCESS, 
-    Planet
+export type CommunityFetchSingleSuccess = ActionWithPayload<
+    COMMUNITY_ACTION_TYPES.FETCH_SINGLE_SUCCESS, 
+    Community
 >;
 
-export type PlanetFetchSingleFailed = ActionWithPayload<
-    PLANET_ACTION_TYPES.FETCH_SINGLE_FAILED,
+export type CommunityFetchSingleFailed = ActionWithPayload<
+    COMMUNITY_ACTION_TYPES.FETCH_SINGLE_FAILED,
     Error
 >;
 
-export type PlanetFetchUserPlanetsStart = Action<
-    PLANET_ACTION_TYPES.FETCH_USER_PLANETS_START
+export type CommunityFetchUsercommunitiesStart = Action<
+    COMMUNITY_ACTION_TYPES.FETCH_USER_COMMUNITIES_START
 >;
 
-export type PlanetFetchUserPlanetsSuccess = ActionWithPayload<
-    PLANET_ACTION_TYPES.FETCH_USER_PLANETS_SUCCESS, 
-    Planet[]
+export type CommunityFetchUsercommunitiesSuccess = ActionWithPayload<
+    COMMUNITY_ACTION_TYPES.FETCH_USER_COMMUNITIES_SUCCESS, 
+    Community[]
 >;
 
-export type PlanetFetchUserPlanetsFailed = ActionWithPayload<
-    PLANET_ACTION_TYPES.FETCH_USER_PLANETS_FAILED,
+export type CommunityFetchUsercommunitiesFailed = ActionWithPayload<
+    COMMUNITY_ACTION_TYPES.FETCH_USER_COMMUNITIES_FAILED,
     Error
 >;
 
-export type PlanetFetchOtherUserPlanetsStart = ActionWithPayload<
-    PLANET_ACTION_TYPES.FETCH_OTHER_USER_PLANETS_START,
+export type CommunityFetchOtherUsercommunitiesStart = ActionWithPayload<
+    COMMUNITY_ACTION_TYPES.FETCH_OTHER_USER_COMMUNITIES_START,
     { userId: number }
 >;
 
-export type PlanetFetchOtherUserPlanetsSuccess = ActionWithPayload<
-    PLANET_ACTION_TYPES.FETCH_OTHER_USER_PLANETS_SUCCESS, 
-    Planet[]
+export type CommunityFetchOtherUsercommunitiesSuccess = ActionWithPayload<
+    COMMUNITY_ACTION_TYPES.FETCH_OTHER_USER_COMMUNITIES_SUCCESS, 
+    Community[]
 >;
 
-export type PlanetFetchOtherUserPlanetsFailed = ActionWithPayload<
-    PLANET_ACTION_TYPES.FETCH_OTHER_USER_PLANETS_FAILED,
+export type CommunityFetchOtherUsercommunitiesFailed = ActionWithPayload<
+    COMMUNITY_ACTION_TYPES.FETCH_OTHER_USER_COMMUNITIES_FAILED,
     Error
 >;
 
-export type PlanetFetchAllStart = Action<
-    PLANET_ACTION_TYPES.FETCH_ALL_START
+export type CommunityFetchAllStart = Action<
+    COMMUNITY_ACTION_TYPES.FETCH_ALL_START
 >;
 
-export type PlanetFetchAllSuccess = ActionWithPayload<
-    PLANET_ACTION_TYPES.FETCH_ALL_SUCCESS, 
-    Planet[]
+export type CommunityFetchAllSuccess = ActionWithPayload<
+    COMMUNITY_ACTION_TYPES.FETCH_ALL_SUCCESS, 
+    Community[]
 >;
 
-export type PlanetFetchAllFailed = ActionWithPayload<
-    PLANET_ACTION_TYPES.FETCH_ALL_FAILED,
+export type CommunityFetchAllFailed = ActionWithPayload<
+    COMMUNITY_ACTION_TYPES.FETCH_ALL_FAILED,
     Error
 >;
 
-export const planetCreateStart = withMatcher(
-    (   planetName: string, 
-        planetMass: string, 
-        perihelion: string, 
-        aphelion: string, 
-        gravity: string, 
-        temperature: string, 
-        imageLink: string,
-        imageFile: File 
-): PlanetCreateStart => 
-    createAction(PLANET_ACTION_TYPES.CREATE_START, {
-        planetName, 
-        planetMass, 
-        perihelion, 
-        aphelion, 
-        gravity, 
-        temperature, 
-        imageLink,
+export const communityCreateStart = withMatcher(
+    (   communityName: string, 
+        description: string, 
+        imageFile: File  
+): CommunityCreateStart => 
+    createAction(COMMUNITY_ACTION_TYPES.CREATE_START, {
+        communityName, 
+        description, 
         imageFile 
     })
 );
 
-export const planetCreateSuccess = withMatcher(
-    (planets: Planet[]): PlanetCreateSuccess => 
-    createAction(PLANET_ACTION_TYPES.CREATE_SUCCESS, planets)
+export const communityCreateSuccess = withMatcher(
+    (communities: Community[]): CommunityCreateSuccess => 
+    createAction(COMMUNITY_ACTION_TYPES.CREATE_SUCCESS, communities)
 );
 
-export const planetCreateFailed = withMatcher(
+export const communityCreateFailed = withMatcher(
     (error: Error) => 
-    createAction(PLANET_ACTION_TYPES.CREATE_START, error)
+    createAction(COMMUNITY_ACTION_TYPES.CREATE_START, error)
 );
  
-export const planetUpdateStart = withMatcher(
-    (   planetId: number,
-        planetName: string, 
-        planetMass: string, 
-        perihelion: string, 
-        aphelion: string, 
-        gravity: string, 
-        temperature: string, 
-        imageLink: string, 
+export const communityUpdateStart = withMatcher(
+    (   communityId: number,
+        communityName: string, 
+        description: string, 
         imageFile: File
-): PlanetUpdateStart => 
-    createAction(PLANET_ACTION_TYPES.UPDATE_START, {
-        planetId,
-        planetName, 
-        planetMass, 
-        perihelion, 
-        aphelion, 
-        gravity, 
-        temperature, 
-        imageLink, 
+): CommunityUpdateStart => 
+    createAction(COMMUNITY_ACTION_TYPES.UPDATE_START, {
+        communityId,
+        communityName, 
+        description, 
         imageFile
     })
 );
 
-export const planetUpdateSuccess = withMatcher(
-    (planet: Planet): PlanetUpdateSuccess => 
-    createAction(PLANET_ACTION_TYPES.UPDATE_SUCCESS, planet)
+export const communityUpdateSuccess = withMatcher(
+    (community: Community): CommunityUpdateSuccess => 
+    createAction(COMMUNITY_ACTION_TYPES.UPDATE_SUCCESS, community)
 );
 
-export const planetUpdateFailed = withMatcher(
-    (error: Error): PlanetUpdateFailed => 
-    createAction(PLANET_ACTION_TYPES.UPDATE_FAILED, error)
+export const communityUpdateFailed = withMatcher(
+    (error: Error): CommunityUpdateFailed => 
+    createAction(COMMUNITY_ACTION_TYPES.UPDATE_FAILED, error)
 );
 
-export const planetDeleteStart = withMatcher(
-    (planetId: number): PlanetDeleteStart => 
-    createAction(PLANET_ACTION_TYPES.DELETE_START, { planetId })
+export const communityDeleteStart = withMatcher(
+    (communityId: number): CommunityDeleteStart => 
+    createAction(COMMUNITY_ACTION_TYPES.DELETE_START, { communityId })
 );
 
-export const planetDeleteSuccess = withMatcher(
-    (planet: Planet[]): PlanetDeleteSuccess => 
-    createAction(PLANET_ACTION_TYPES.DELETE_SUCCESS, planet)
+export const communityDeleteSuccess = withMatcher(
+    (community: Community[]): CommunityDeleteSuccess => 
+    createAction(COMMUNITY_ACTION_TYPES.DELETE_SUCCESS, community)
 );
 
-export const planetDeleteFailed = withMatcher(
+export const communityDeleteFailed = withMatcher(
     (error: Error) => 
-    createAction(PLANET_ACTION_TYPES.DELETE_START, error)
+    createAction(COMMUNITY_ACTION_TYPES.DELETE_START, error)
 );
 
-export const planetFetchSingleStart = withMatcher(
-    (planetId: number): PlanetFetchSingleStart => 
-    createAction(PLANET_ACTION_TYPES.FETCH_SINGLE_START, { planetId })
+export const communityFetchSingleStart = withMatcher(
+    (communityId: number): CommunityFetchSingleStart => 
+    createAction(COMMUNITY_ACTION_TYPES.FETCH_SINGLE_START, { communityId })
 );
 
-export const planetFetchSingleSuccess = withMatcher(
-    (planet: Planet): PlanetFetchSingleSuccess => 
-    createAction(PLANET_ACTION_TYPES.FETCH_SINGLE_SUCCESS, planet)
+export const communityFetchSingleSuccess = withMatcher(
+    (community: Community): CommunityFetchSingleSuccess => 
+    createAction(COMMUNITY_ACTION_TYPES.FETCH_SINGLE_SUCCESS, community)
 );
 
-export const planetFetchSingleFailed = withMatcher(
-    (error: Error): PlanetFetchSingleFailed => 
-    createAction(PLANET_ACTION_TYPES.FETCH_SINGLE_FAILED, error)
+export const communityFetchSingleFailed = withMatcher(
+    (error: Error): CommunityFetchSingleFailed => 
+    createAction(COMMUNITY_ACTION_TYPES.FETCH_SINGLE_FAILED, error)
 );
 
-export const planetFetchUserPlanetsStart = withMatcher(
-    (): PlanetFetchUserPlanetsStart => 
-    createAction(PLANET_ACTION_TYPES.FETCH_USER_PLANETS_START)
+export const communityFetchUsercommunitiesStart = withMatcher(
+    (): CommunityFetchUsercommunitiesStart => 
+    createAction(COMMUNITY_ACTION_TYPES.FETCH_USER_COMMUNITIES_START)
 );
 
-export const planetFetchUserPlanetsSuccess = withMatcher(
-    (planet: Planet[]): PlanetFetchUserPlanetsSuccess => 
-    createAction(PLANET_ACTION_TYPES.FETCH_USER_PLANETS_SUCCESS, planet)
+export const communityFetchUsercommunitiesSuccess = withMatcher(
+    (community: Community[]): CommunityFetchUsercommunitiesSuccess => 
+    createAction(COMMUNITY_ACTION_TYPES.FETCH_USER_COMMUNITIES_SUCCESS, community)
 );
 
-export const planetFetchUserPlanetsFailed = withMatcher(
-    (error: Error): PlanetFetchUserPlanetsFailed => 
-    createAction(PLANET_ACTION_TYPES.FETCH_USER_PLANETS_FAILED, error)
+export const communityFetchUsercommunitiesFailed = withMatcher(
+    (error: Error): CommunityFetchUsercommunitiesFailed => 
+    createAction(COMMUNITY_ACTION_TYPES.FETCH_USER_COMMUNITIES_FAILED, error)
 );
 
-export const planetFetchOtherUserPlanetsStart = withMatcher(
-    (userId: number): PlanetFetchOtherUserPlanetsStart => 
-    createAction(PLANET_ACTION_TYPES.FETCH_OTHER_USER_PLANETS_START, { userId })
+export const communityFetchOtherUsercommunitiesStart = withMatcher(
+    (userId: number): CommunityFetchOtherUsercommunitiesStart => 
+    createAction(COMMUNITY_ACTION_TYPES.FETCH_OTHER_USER_COMMUNITIES_START, { userId })
 );
 
-export const planetFetchOtherUserPlanetsSuccess = withMatcher(
-    (planet: Planet[]): PlanetFetchOtherUserPlanetsSuccess => 
-    createAction(PLANET_ACTION_TYPES.FETCH_OTHER_USER_PLANETS_SUCCESS, planet)
+export const communityFetchOtherUsercommunitiesSuccess = withMatcher(
+    (community: Community[]): CommunityFetchOtherUsercommunitiesSuccess => 
+    createAction(COMMUNITY_ACTION_TYPES.FETCH_OTHER_USER_COMMUNITIES_SUCCESS, community)
 );
 
-export const planetFetchOtherUserPlanetsFailed = withMatcher(
-    (error: Error): PlanetFetchOtherUserPlanetsFailed => 
-    createAction(PLANET_ACTION_TYPES.FETCH_OTHER_USER_PLANETS_FAILED, error)
+export const communityFetchOtherUsercommunitiesFailed = withMatcher(
+    (error: Error): CommunityFetchOtherUsercommunitiesFailed => 
+    createAction(COMMUNITY_ACTION_TYPES.FETCH_OTHER_USER_COMMUNITIES_FAILED, error)
 );
 
-export const planetFetchAllStart = withMatcher(
-    (): PlanetFetchAllStart => 
-    createAction(PLANET_ACTION_TYPES.FETCH_ALL_START)
+export const communityFetchAllStart = withMatcher(
+    (): CommunityFetchAllStart => 
+    createAction(COMMUNITY_ACTION_TYPES.FETCH_ALL_START)
 );
 
-export const planetFetchAllSuccess = withMatcher(
-    (planet: Planet[]): PlanetFetchAllSuccess => 
-    createAction(PLANET_ACTION_TYPES.FETCH_ALL_SUCCESS, planet)
+export const communityFetchAllSuccess = withMatcher(
+    (community: Community[]): CommunityFetchAllSuccess => 
+    createAction(COMMUNITY_ACTION_TYPES.FETCH_ALL_SUCCESS, community)
 );
 
-export const planetFetchAllFailed = withMatcher(
-    (error: Error): PlanetFetchAllFailed => 
-    createAction(PLANET_ACTION_TYPES.FETCH_ALL_FAILED, error)
+export const communityFetchAllFailed = withMatcher(
+    (error: Error): CommunityFetchAllFailed => 
+    createAction(COMMUNITY_ACTION_TYPES.FETCH_ALL_FAILED, error)
 );

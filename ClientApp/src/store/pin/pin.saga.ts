@@ -1,170 +1,138 @@
 import { all, call, put, takeLatest } from 'typed-redux-saga';
 
-import { MOON_COMMENT_ACTION_TYPES } from './pin.types';
+import { PIN_ACTION_TYPES } from './pin.types';
 
 import {
-    MoonCommentCreateStart,
-    MoonCommentDeleteStart,
-    MoonCommentFetchSingleStart,
-    MoonCommentFetchUserChatsStart,
-    MoonCommentUpdateStart,
-    moonCommentCreateFailed,
-    moonCommentCreateSuccess,
-    moonCommentDeleteFailed,
-    moonCommentDeleteSuccess,
-    moonCommentFetchAllFailed,
-    moonCommentFetchAllSuccess,
-    moonCommentFetchSingleFailed,
-    moonCommentFetchSingleSuccess,
-    moonCommentUpdateSuccess
+    PinCreateStart,
+    PinDeleteStart,
+    PinFetchSingleStart,
+    PinUpdateStart,
+    pinCreateFailed,
+    pinCreateSuccess,
+    pinDeleteFailed,
+    pinDeleteSuccess,
+    pinFetchAllFailed,
+    pinFetchAllSuccess,
+    pinFetchSingleFailed,
+    pinFetchSingleSuccess,
+    pinUpdateFailed,
+    pinUpdateSuccess
 } from './pin.action';
 
 import {
-    addComment,
-    deleteComment,
-    editComment,
-    getAllComments,
-    getSingleComment,
-    getUserComments,
-    getUsersComments
-} from '../../utils/api/mooncomment.api';
+    addPin,
+    deletePin,
+    editPin,
+    getAllPins,
+    getSinglePin,
+    getUserPins
+} from '../../utils/api/pin.api';
+import { PanelCreateStart } from '../panel/panel.action';
 
-export function* createMoonComment({ payload: { commentValue, imageFile, moonId }}: MoonCommentCreateStart ) {
-    const formData = new FormData();
-    formData.append('commentValue', commentValue);
-    formData.append('imageFile', imageFile);
+export function* createPin({ payload: { pinLocation, isAnalog, deviceId }}: PinCreateStart ) {
     try {
-        const comments = yield* call(
-            addComment,
-            moonId,
-            formData
+        const pins = yield* call(
+            addPin,
+            pinLocation,
+            isAnalog,
+            deviceId
         ); 
-        yield* put(moonCommentCreateSuccess(comments));
+        yield* put(pinCreateSuccess(pins));
     } catch (error) {
-        yield* put(moonCommentCreateFailed(error as Error));
+        yield* put(pinCreateFailed(error as Error));
     }
 }
 
-export function* updateMoonComment({ payload: { moonCommentId, commentValue, mediaLink }}: MoonCommentUpdateStart) {
+export function* updatePin({ payload: { pinId, pinLocation, isAnalog, deviceId }}: PinUpdateStart) {
     try {
-        const comment = yield* call(
-            editComment,
-            moonCommentId,
-            commentValue,
-            mediaLink
+        const pin = yield* call(
+            editPin,
+            pinId,
+            pinLocation,
+            isAnalog,
+            deviceId
         ); 
-        yield* put(moonCommentUpdateSuccess(comment));
+        yield* put(pinUpdateSuccess(pin));
     } catch (error) {
-        yield* put(moonCommentCreateFailed(error as Error));
+        yield* put(pinUpdateFailed(error as Error));
     }
 }
 
-export function* removeMoonComment({ payload: { moonCommentId }}: MoonCommentDeleteStart) {
+export function* removePin({ payload: { pinId }}: PinDeleteStart) {
     try {
-        const comments = yield* call(
-            deleteComment,
-            moonCommentId
+        const pins = yield* call(
+            deletePin,
+            pinId
         ); 
-        yield* put(moonCommentDeleteSuccess(comments));
+        yield* put(pinDeleteSuccess(pins));
     } catch (error) {
-        yield* put(moonCommentDeleteFailed(error as Error));
+        yield* put(pinDeleteFailed(error as Error));
     }
 }
 
-export function* fetchUserMoonComments() {
+export function* fetchSinglePin({ 
+    payload: { pinId } }: PinFetchSingleStart) {
     try {
-        const comment  = yield* call(getUsersComments);
-        if (!comment) return;
-        yield* put(moonCommentFetchAllSuccess(comment));
-    } catch (error) {
-        yield* put(moonCommentFetchAllFailed(error as Error));
-    }
-}
-
-export function* fetchOtherUsersMoonComments({ payload: { userId } }: MoonCommentFetchUserChatsStart) {
-    try {
-        const comments = yield* call(
-            getUserComments,
-            userId
+        const pin = yield* call(
+            getSinglePin,
+            pinId 
         );
-        if (!comments) return;
-        yield* put(moonCommentFetchAllSuccess(comments));
+        yield* put(pinFetchSingleSuccess(pin));
     } catch (error) {
-        yield* put(moonCommentFetchAllFailed(error as Error));
+        yield* put(pinFetchSingleFailed(error as Error));
     }
 }
 
-export function* fetchSingleMoonCommentAsync({ 
-    payload: { moonCommentId } }: MoonCommentFetchSingleStart) {
+export function* fetchAllPins() {
     try {
-        const commentSnapshot = yield* call(
-            getSingleComment,
-            moonCommentId 
-        );
-        yield* put(moonCommentFetchSingleSuccess(commentSnapshot));
+        const pins = yield* call(getAllPins);
+        yield* put(pinFetchAllSuccess(pins));
     } catch (error) {
-        yield* put(moonCommentFetchSingleFailed(error as Error));
-    }
-}
-
-export function* fetchAllMoonCommentsAsync() {
-    try {
-        const comments = yield* call(getAllComments);
-        yield* put(moonCommentFetchAllSuccess(comments));
-    } catch (error) {
-        yield* put(moonCommentFetchAllFailed(error as Error));
+        yield* put(pinFetchAllFailed(error as Error));
     }
 }
 
 export function* onCreateStart() {
     yield* takeLatest(
-        MOON_COMMENT_ACTION_TYPES.CREATE_START, 
-        createMoonComment
+        PIN_ACTION_TYPES.CREATE_START, 
+        createPin
     );
 }
 
 export function* onUpdateStart() {
     yield* takeLatest(
-        MOON_COMMENT_ACTION_TYPES.UPDATE_START, 
-        updateMoonComment
+        PIN_ACTION_TYPES.UPDATE_START, 
+        updatePin
     );
 }
 
 export function* onDeleteStart() {
     yield* takeLatest(
-        MOON_COMMENT_ACTION_TYPES.DELETE_START, 
-        removeMoonComment
-    );
-}
-
-export function* onFetchUserMoonCommentsStart() {
-    yield* takeLatest(
-        MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_START, 
-        fetchUserMoonComments
+        PIN_ACTION_TYPES.DELETE_START, 
+        removePin
     );
 }
 
 export function* onFetchSingleStart() {
     yield* takeLatest(
-        MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_START, 
-        fetchSingleMoonCommentAsync
+        PIN_ACTION_TYPES.FETCH_SINGLE_START, 
+        fetchSinglePin
     );
 }
   
-export function* onFetchsStart() {
+export function* onFetchStart() {
     yield* takeLatest(
-        MOON_COMMENT_ACTION_TYPES.FETCH_ALL_START,
-        fetchAllMoonCommentsAsync
+        PIN_ACTION_TYPES.FETCH_ALL_START,
+        fetchAllPins
     );
 }
 
-export function* moonCommentSagas() {
+export function* pinSagas() {
     yield* all([
         call(onCreateStart),
         call(onUpdateStart),
         call(onDeleteStart),
-        call(onFetchUserMoonCommentsStart),
         call(onFetchSingleStart),
-        call(onFetchsStart)
+        call(onFetchStart)
     ]);
 }

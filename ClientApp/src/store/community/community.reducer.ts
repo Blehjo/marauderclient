@@ -11,13 +11,13 @@ import {
     communityFetchAllFailed,
     communityFetchAllStart,
     communityFetchAllSuccess,
-    communityFetchOtherUserCommunitiesStart,
-    communityFetchOtherUserCommunitiesSuccess,
+    communityFetchOtherUsercommunitiesStart,
+    communityFetchOtherUsercommunitiesSuccess,
     communityFetchSingleFailed,
     communityFetchSingleStart,
     communityFetchSingleSuccess,
-    communityFetchUserCommunitiesStart,
-    communityFetchUserCommunitiesSuccess,
+    communityFetchUsercommunitiesStart,
+    communityFetchUsercommunitiesSuccess,
     communityUpdateFailed,
     communityUpdateSuccess
 } from './community.action';
@@ -25,8 +25,8 @@ import {
 export type CommunityState = {
     readonly communityId: number | null;
     readonly singleCommunity: Community | null;
-    readonly userCommunities: Community[] | null;
-    readonly communities: Community[] | null;
+    readonly userCommunities: Community[];
+    readonly communities: Community[];
     readonly isLoading: boolean;
     readonly error: Error | null;
 };
@@ -46,14 +46,14 @@ export const communityReducer = (
     if (
         communityFetchAllStart.match(action) ||
         communityFetchSingleStart.match(action) ||
-        communityFetchUserCommunitiesStart.match(action) ||
-        communityFetchOtherUserCommunitiesStart.match(action) ||
+        communityFetchUsercommunitiesStart.match(action) ||
+        communityFetchOtherUsercommunitiesStart.match(action) ||
         communityCreateStart.match(action)
     ) {
         return { ...state, isLoading: true }
     }
     if (
-        communityFetchUserCommunitiesSuccess.match(action) 
+        communityFetchUsercommunitiesSuccess.match(action) 
     ) {
         return { ...state, isLoading: false, userCommunities: action.payload }
     }
@@ -65,7 +65,7 @@ export const communityReducer = (
     }
     if (
         communityFetchAllSuccess.match(action) || 
-        communityFetchOtherUserCommunitiesSuccess.match(action)
+        communityFetchOtherUsercommunitiesSuccess.match(action)
     ) {
         return { ...state, isLoading: false, communities: action.payload };
     } 

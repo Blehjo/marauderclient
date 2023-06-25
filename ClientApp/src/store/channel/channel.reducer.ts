@@ -18,8 +18,7 @@ import {
 
 export type ChannelState = {
     readonly channelId: number | null;
-    readonly singleComment: Channel | null;
-    readonly userComments: Channel[] | null;
+    readonly singleChannel: Channel | null;
     readonly channels: Channel[] | null;
     readonly isLoading: boolean;
     readonly error: Error | null;
@@ -27,8 +26,7 @@ export type ChannelState = {
 
 const INITIAL_STATE: ChannelState = {
     channelId: null,
-    singleComment: null,
-    userComments: [],
+    singleChannel: null,
     channels: [],
     isLoading: false,
     error: null,
@@ -45,7 +43,7 @@ export const channelReducer = (
     if (
         channelFetchSingleSuccess.match(action) 
     ) {
-        return { ...state, isLoading: false, channels: action.payload }
+        return { ...state, isLoading: false, singleChannel: action.payload }
     }
     if (
         channelCreateSuccess.match(action) ||

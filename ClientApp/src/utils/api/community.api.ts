@@ -1,18 +1,17 @@
 import axios from "axios";
-import { PlanetComment } from "../../store/channelcomment/channelcomment.types";
+import { Community } from "../../store/community/community.types";
 
-
-const api = "https://planetnineserver.azurewebsites.net/api/planetcomment";
+const api = "https://planetnineserver.azurewebsites.net/api/community";
 
 const headers = {
   'Accept': 'application/x-www-form-urlencoded',
-  'Content-Type': 'application/x-www-form-urlencoded'
+  'Content-Type': 'application/x-www-form-urlencoded' 
 }
 
-export async function getSingleComment(postId: number): Promise<PlanetComment[]> {
+export async function getSingleCommunity(communityId: number): Promise<Community> {
   const response = await axios({
     method: 'get',
-    url: `${api}/planet/${postId}`,
+    url: `${api}/${communityId}`,
     headers: headers,
     withCredentials: true
   });
@@ -20,7 +19,7 @@ export async function getSingleComment(postId: number): Promise<PlanetComment[]>
   return result;
 }
 
-export async function getAllComments(): Promise<PlanetComment[]> {
+export async function getAllCommunities(): Promise<Community[]> {
   const response = await axios({
     method: 'get',
     url: api,
@@ -31,7 +30,7 @@ export async function getAllComments(): Promise<PlanetComment[]> {
   return result;
 }
 
-export async function getUserComments(userId: number): Promise<PlanetComment[]> {
+export async function getUserCommunities(userId: number | undefined): Promise<Community[]> {
   const response = await axios({
     method: 'get',
     url: `${api}/user/${userId}`,
@@ -42,7 +41,7 @@ export async function getUserComments(userId: number): Promise<PlanetComment[]> 
   return result;
 }
 
-export async function getUsersComments(): Promise<PlanetComment[]> {
+export async function getUsersCommunities(): Promise<Community[]> {
   const response = await axios({
     method: 'get',
     url: `${api}/user`,
@@ -53,21 +52,10 @@ export async function getUsersComments(): Promise<PlanetComment[]> {
   return result;
 }
 
-export async function getComments(): Promise<PlanetComment[]> {
-  const response = await axios({
-    method: 'get',
-    url: `${api}/user/planetcomments`,
-    headers: headers,
-    withCredentials: true
-  });
-  const result = await response.data;
-  return result;
-}
-
-export async function addComment(planetId: number, formData: FormData): Promise<PlanetComment[]> {
+export async function addCommunity(formData: FormData): Promise<Community[]> {
   const response = await axios({
     method: 'post',
-    url: `${api}/${planetId}`,
+    url: api, 
     data: formData,
     headers: headers,
     withCredentials: true
@@ -76,15 +64,11 @@ export async function addComment(planetId: number, formData: FormData): Promise<
   return result;
 }
 
-export async function editComment(planetCommentId: number, commentValue: string, mediaLink: string): Promise<PlanetComment[]> {
+export async function editCommunity(communityId: number, formData: FormData): Promise<Community> {
   const response = await axios({
     method: 'put',
-    url: `${api}/${planetCommentId}`, 
-    data: {
-      planetCommentId,
-      commentValue,
-      mediaLink
-    },
+    url:`${api}/${communityId}`, 
+    data: formData,
     headers: headers,
     withCredentials: true
   });
@@ -92,10 +76,10 @@ export async function editComment(planetCommentId: number, commentValue: string,
   return result;
 }
 
-export async function deleteComment(planetCommentId: number): Promise<PlanetComment[]> {
+export async function deleteCommunity(communityId: number): Promise<Community[]> {
   const response = await axios({
     method: 'delete',
-    url: `${api}/${planetCommentId}`,
+    url: `${api}/${communityId}`,
     headers: headers,
     withCredentials: true
   });

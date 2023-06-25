@@ -1,31 +1,26 @@
 import { createSelector } from 'reselect';
 
 import { RootState } from '../store';
-import { MoonCommentState } from './channel.reducer';
+import { ChannelState } from './channel.reducer';
 
-export const selectMoonCommentReducer = (state: RootState): MoonCommentState => state.mooncomment;
+export const selectChannelReducer = (state: RootState): ChannelState => state.channel;
 
-export const selectIsMoonCommentLoading = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.isLoading
+export const selectChannelId = createSelector(
+    [selectChannelReducer],
+    (channel) => channel.channelId
 );
 
-export const selectMoonCommentId = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.moonCommentId
+export const selectSingleChannel = createSelector(
+    [selectChannelReducer],
+    (channel) => channel.singleChannel
 );
 
-export const selectMoonSingleComment = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.singleComment
+export const selectAllchannels = createSelector(
+    [selectChannelReducer],
+    (channel) => channel.channels
 );
 
-export const selectUserMoonComments = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.userComments
-);
-
-export const selectAllMoonComments = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.mooncomments
+export const selectIsChannelLoading = createSelector(
+    [selectChannelReducer],
+    (channel) => channel.isLoading
 );

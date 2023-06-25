@@ -1,4 +1,4 @@
-import { MOON_COMMENT_ACTION_TYPES, MoonComment } from './pin.types';
+import { PIN_ACTION_TYPES, Pin } from './pin.types';
 
 import {
     Action,
@@ -7,180 +7,150 @@ import {
     withMatcher
 } from '../../utils/reducer/reducer.utils';
 
-export type MoonCommentCreateStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.CREATE_START, { commentValue: string, imageFile: File, moonId: number }
+export type PinCreateStart = ActionWithPayload<
+    PIN_ACTION_TYPES.CREATE_START, { pinLocation: string, isAnalog: boolean, deviceId: number }
 >;
 
-export type MoonCommentCreateSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.CREATE_SUCCESS, 
-    MoonComment[]
+export type PinCreateSuccess = ActionWithPayload<
+    PIN_ACTION_TYPES.CREATE_SUCCESS, 
+    Pin[]
 >;
 
-export type MoonCommentCreateFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.CREATE_FAILED,
+export type PinCreateFailed = ActionWithPayload<
+    PIN_ACTION_TYPES.CREATE_FAILED,
     Error
 >;
 
-export type MoonCommentUpdateStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.UPDATE_START,
-    { moonCommentId: number, commentValue: string, mediaLink: string }
+export type PinUpdateStart = ActionWithPayload<
+    PIN_ACTION_TYPES.UPDATE_START,
+    { pinId: number, pinLocation: string, isAnalog: boolean, deviceId: number }
 >;
 
-export type MoonCommentUpdateSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.UPDATE_SUCCESS, 
-    MoonComment[]
+export type PinUpdateSuccess = ActionWithPayload<
+    PIN_ACTION_TYPES.UPDATE_SUCCESS, 
+    Pin[]
 >;
 
-export type MoonCommentUpdateFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.UPDATE_FAILED,
-    Error
->;
-   
-export type MoonCommentDeleteStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.DELETE_START,
-    { moonCommentId: number }
->;
-
-export type MoonCommentDeleteSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.DELETE_SUCCESS, 
-    MoonComment[]
->;
-
-export type MoonCommentDeleteteFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.DELETE_FAILED,
+export type PinUpdateFailed = ActionWithPayload<
+    PIN_ACTION_TYPES.UPDATE_FAILED,
     Error
 >;
    
-export type MoonCommentFetchSingleStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_START,
-    { moonCommentId: number }
+export type PinDeleteStart = ActionWithPayload<
+    PIN_ACTION_TYPES.DELETE_START,
+    { pinId: number }
 >;
 
-export type MoonCommentFetchSingleSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_SUCCESS, 
-    MoonComment[]
+export type PinDeleteSuccess = ActionWithPayload<
+    PIN_ACTION_TYPES.DELETE_SUCCESS, 
+    Pin[]
 >;
 
-export type MoonCommentFetchSingleFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_FAILED,
+export type PinDeleteteFailed = ActionWithPayload<
+    PIN_ACTION_TYPES.DELETE_FAILED,
+    Error
+>;
+   
+export type PinFetchSingleStart = ActionWithPayload<
+    PIN_ACTION_TYPES.FETCH_SINGLE_START,
+    { pinId: number }
+>;
+
+export type PinFetchSingleSuccess = ActionWithPayload<
+    PIN_ACTION_TYPES.FETCH_SINGLE_SUCCESS, 
+    Pin
+>;
+
+export type PinFetchSingleFailed = ActionWithPayload<
+    PIN_ACTION_TYPES.FETCH_SINGLE_FAILED,
     Error
 >;
 
-export type MoonCommentFetchUserChatsStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_START,
-    { userId: number }
+export type PinFetchAllStart = Action<
+    PIN_ACTION_TYPES.FETCH_ALL_START
 >;
 
-export type MoonCommentFetchUserChatsSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_SUCCESS, 
-    MoonComment[]
+export type PinFetchAllSuccess = ActionWithPayload<
+    PIN_ACTION_TYPES.FETCH_ALL_SUCCESS, 
+    Pin[]
 >;
 
-export type MoonCommentFetchUserChatsFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_FAILED,
+export type PinFetchAllFailed = ActionWithPayload<
+    PIN_ACTION_TYPES.FETCH_ALL_FAILED,
     Error
 >;
 
-export type MoonCommentFetchAllStart = Action<
-    MOON_COMMENT_ACTION_TYPES.FETCH_ALL_START
->;
-
-export type MoonCommentFetchAllSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_ALL_SUCCESS, 
-    MoonComment[]
->;
-
-export type MoonCommentFetchAllFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_ALL_FAILED,
-    Error
->;
-
-export const moonCommentCreateStart = withMatcher(
-    (commentValue: string, imageFile: File, moonId: number ): MoonCommentCreateStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.CREATE_START, { commentValue, imageFile, moonId })
+export const pinCreateStart = withMatcher(
+    (pinLocation: string, isAnalog: boolean, deviceId: number ): PinCreateStart => 
+    createAction(PIN_ACTION_TYPES.CREATE_START, { pinLocation, isAnalog, deviceId })
 );
 
-export const moonCommentCreateSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentCreateSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.CREATE_SUCCESS, mooncomment)
+export const pinCreateSuccess = withMatcher(
+    (pins: Pin[]): PinCreateSuccess => 
+    createAction(PIN_ACTION_TYPES.CREATE_SUCCESS, pins)
 );
 
-export const moonCommentCreateFailed = withMatcher(
+export const pinCreateFailed = withMatcher(
     (error: Error) => 
-    createAction(MOON_COMMENT_ACTION_TYPES.CREATE_START, error)
+    createAction(PIN_ACTION_TYPES.CREATE_START, error)
 );
  
-export const moonCommentUpdateStart = withMatcher(
-    (moonCommentId: number, commentValue: string, mediaLink: string, userId: number): MoonCommentUpdateStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.UPDATE_START, { moonCommentId, commentValue, mediaLink, userId })
+export const pinUpdateStart = withMatcher(
+    (pinId: number, pinLocation: string, isAnalog: boolean, deviceId: number): PinUpdateStart => 
+    createAction(PIN_ACTION_TYPES.UPDATE_START, { pinId, pinLocation, isAnalog, deviceId })
 );
 
-export const moonCommentUpdateSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentUpdateSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.UPDATE_SUCCESS, mooncomment)
+export const pinUpdateSuccess = withMatcher(
+    (Pin: Pin[]): PinUpdateSuccess => 
+    createAction(PIN_ACTION_TYPES.UPDATE_SUCCESS, Pin)
 );
 
-export const moonCommentUpdateFailed = withMatcher(
-    (error: Error): MoonCommentUpdateFailed => 
-    createAction(MOON_COMMENT_ACTION_TYPES.UPDATE_FAILED, error)
+export const pinUpdateFailed = withMatcher(
+    (error: Error): PinUpdateFailed => 
+    createAction(PIN_ACTION_TYPES.UPDATE_FAILED, error)
 );
 
-export const moonCommentDeleteStart = withMatcher(
-    (moonCommentId: number): MoonCommentDeleteStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.DELETE_START, { moonCommentId })
+export const pinDeleteStart = withMatcher(
+    (pinId: number): PinDeleteStart => 
+    createAction(PIN_ACTION_TYPES.DELETE_START, { pinId })
 );
 
-export const moonCommentDeleteSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentDeleteSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.DELETE_SUCCESS, mooncomment)
+export const pinDeleteSuccess = withMatcher(
+    (pins: Pin[]): PinDeleteSuccess => 
+    createAction(PIN_ACTION_TYPES.DELETE_SUCCESS, pins)
 );
 
-export const moonCommentDeleteFailed = withMatcher(
+export const pinDeleteFailed = withMatcher(
     (error: Error) => 
-    createAction(MOON_COMMENT_ACTION_TYPES.DELETE_START, error)
+    createAction(PIN_ACTION_TYPES.DELETE_START, error)
 );
 
-export const moonCommentFetchSingleStart = withMatcher(
-    (moonCommentId: number): MoonCommentFetchSingleStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_START, { moonCommentId })
+export const pinFetchSingleStart = withMatcher(
+    (pinId: number): PinFetchSingleStart => 
+    createAction(PIN_ACTION_TYPES.FETCH_SINGLE_START, { pinId })
 );
 
-export const moonCommentFetchSingleSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentFetchSingleSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_SUCCESS, mooncomment)
+export const pinFetchSingleSuccess = withMatcher(
+    (pins: Pin): PinFetchSingleSuccess => 
+    createAction(PIN_ACTION_TYPES.FETCH_SINGLE_SUCCESS, pins)
 );
 
-export const moonCommentFetchSingleFailed = withMatcher(
-    (error: Error): MoonCommentFetchSingleFailed => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_FAILED, error)
+export const pinFetchSingleFailed = withMatcher(
+    (error: Error): PinFetchSingleFailed => 
+    createAction(PIN_ACTION_TYPES.FETCH_SINGLE_FAILED, error)
 );
 
-export const moonCommentFetchUserChatsStart = withMatcher(
-    (userId: number): MoonCommentFetchUserChatsStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_START, { userId })
+export const pinFetchAllStart = withMatcher(
+    (): PinFetchAllStart => 
+    createAction(PIN_ACTION_TYPES.FETCH_ALL_START)
 );
 
-export const moonCommentFetchUserChatsSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentFetchUserChatsSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_SUCCESS, mooncomment)
+export const pinFetchAllSuccess = withMatcher(
+    (pins: Pin[]): PinFetchAllSuccess => 
+    createAction(PIN_ACTION_TYPES.FETCH_ALL_SUCCESS, pins)
 );
 
-export const moonCommentFetchUserChatsFailed = withMatcher(
-    (error: Error): MoonCommentFetchUserChatsFailed => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_FAILED, error)
-);
-
-export const moonCommentFetchAllStart = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentFetchAllStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_ALL_START, mooncomment)
-);
-
-export const moonCommentFetchAllSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentFetchAllSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_ALL_SUCCESS, mooncomment)
-);
-
-export const moonCommentFetchAllFailed = withMatcher(
-    (error: Error): MoonCommentFetchAllFailed => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_ALL_FAILED, error)
+export const pinFetchAllFailed = withMatcher(
+    (error: Error): PinFetchAllFailed => 
+    createAction(PIN_ACTION_TYPES.FETCH_ALL_FAILED, error)
 );

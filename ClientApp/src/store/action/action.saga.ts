@@ -1,169 +1,119 @@
 import { all, call, put, takeLatest } from 'typed-redux-saga';
 
-import { MOON_COMMENT_ACTION_TYPES } from './action.types';
-
 import {
-    MoonCommentCreateStart,
-    MoonCommentDeleteStart,
-    MoonCommentFetchSingleStart,
-    MoonCommentFetchUserChatsStart,
-    MoonCommentUpdateStart,
-    moonCommentCreateFailed,
-    moonCommentCreateSuccess,
-    moonCommentDeleteFailed,
-    moonCommentDeleteSuccess,
-    moonCommentFetchAllFailed,
-    moonCommentFetchAllSuccess,
-    moonCommentFetchSingleFailed,
-    moonCommentFetchSingleSuccess,
-    moonCommentUpdateSuccess
-} from './action.action';
+  getSingleAction,
+  getActions,
+  addAction,
+  editAction,
+  deleteAction
+} from '../../utils/api/action.api';
+import { ActionCreateStart, ActionDeleteStart, ActionFetchSingleStart, ActionUpdateStart, actionCreateFailed, actionCreateSuccess, actionDeleteFailed, actionDeleteStart, actionDeleteSuccess, actionFetchAllFailed, actionFetchAllStart, actionFetchAllSuccess, actionFetchSingleFailed, actionFetchSingleSuccess, actionUpdateFailed, actionUpdateSuccess } from './action.action';
+import { ACTION_TYPES } from './action.types';
 
-import {
-    addComment,
-    deleteComment,
-    editComment,
-    getAllComments,
-    getSingleComment,
-    getUserComments,
-    getUsersComments
-} from '../../utils/api/mooncomment.api';
-
-export function* createMoonComment({ payload: { commentValue, imageFile, moonId }}: MoonCommentCreateStart ) {
-    const formData = new FormData();
-    formData.append('commentValue', commentValue);
-    formData.append('imageFile', imageFile);
+export function* createAction({ payload: { eventType, activity, pinId }}: ActionCreateStart ) {
     try {
-        const comments = yield* call(
-            addComment,
-            moonId,
-            formData
+        const actions = yield* call(
+            addAction,
+            eventType,
+            activity,
+            pinId
         ); 
-        yield* put(moonCommentCreateSuccess(comments));
+        yield* put(actionCreateSuccess(actions));
     } catch (error) {
-        yield* put(moonCommentCreateFailed(error as Error));
+        yield* put(actionCreateFailed(error as Error));
     }
 }
 
-export function* updateMoonComment({ payload: { moonCommentId, commentValue, mediaLink }}: MoonCommentUpdateStart) {
+export function* updateAction({ payload: { actionId, eventType, activity, pinId }}: ActionUpdateStart) {
     try {
-        const comment = yield* call(
-            editComment,
-            moonCommentId,
-            commentValue,
-            mediaLink
+        const actions = yield* call(
+            editAction,
+            actionId,
+            eventType,
+            activity,
+            pinId
         ); 
-        yield* put(moonCommentUpdateSuccess(comment));
+        yield* put(actionUpdateSuccess(actions));
     } catch (error) {
-        yield* put(moonCommentCreateFailed(error as Error));
+        yield* put(actionUpdateFailed(error as Error));
     }
 }
 
-export function* removeMoonComment({ payload: { moonCommentId }}: MoonCommentDeleteStart) {
+export function* removeAction({ payload: { actionId }}: ActionDeleteStart) {
     try {
-        const comments = yield* call(
-            deleteComment,
-            moonCommentId
+        const actions = yield* call(
+            deleteAction,
+            actionId
         ); 
-        yield* put(moonCommentDeleteSuccess(comments));
+        yield* put(actionDeleteSuccess(actions));
     } catch (error) {
-        yield* put(moonCommentDeleteFailed(error as Error));
+        yield* put(actionDeleteFailed(error as Error));
     }
 }
 
-export function* fetchUserMoonComments() {
+export function* fetchActions() {
     try {
-        const comment  = yield* call(getUsersComments);
-        if (!comment) return;
-        yield* put(moonCommentFetchAllSuccess(comment));
+        const actions  = yield* call(getActions);
+        if (!actions) return;
+        yield* put(actionFetchAllSuccess(actions));
     } catch (error) {
-        yield* put(moonCommentFetchAllFailed(error as Error));
+        yield* put(actionFetchAllFailed(error as Error));
     }
 }
 
-export function* fetchOtherUsersMoonComments({ payload: { userId } }: MoonCommentFetchUserChatsStart) {
+export function* fetchSingleAction({ 
+    payload: { actionId } }: ActionFetchSingleStart) {
     try {
-        const comments = yield* call(
-            getUserComments,
-            userId
+        const action = yield* call(
+            getSingleAction,
+            actionId 
         );
-        if (!comments) return;
-        yield* put(moonCommentFetchAllSuccess(comments));
+        yield* put(actionFetchSingleSuccess(action));
     } catch (error) {
-        yield* put(moonCommentFetchAllFailed(error as Error));
-    }
-}
-
-export function* fetchSingleMoonCommentAsync({ 
-    payload: { moonCommentId } }: MoonCommentFetchSingleStart) {
-    try {
-        const commentSnapshot = yield* call(
-            getSingleComment,
-            moonCommentId 
-        );
-        yield* put(moonCommentFetchSingleSuccess(commentSnapshot));
-    } catch (error) {
-        yield* put(moonCommentFetchSingleFailed(error as Error));
-    }
-}
-
-export function* fetchAllMoonCommentsAsync() {
-    try {
-        const comments = yield* call(getAllComments);
-        yield* put(moonCommentFetchAllSuccess(comments));
-    } catch (error) {
-        yield* put(moonCommentFetchAllFailed(error as Error));
+        yield* put(actionFetchSingleFailed(error as Error));
     }
 }
 
 export function* onCreateStart() {
     yield* takeLatest(
-        MOON_COMMENT_ACTION_TYPES.CREATE_START, 
-        createMoonComment
+        ACTION_TYPES.CREATE_START, 
+        createAction
     );
 }
 
 export function* onUpdateStart() {
     yield* takeLatest(
-        MOON_COMMENT_ACTION_TYPES.UPDATE_START, 
-        updateMoonComment
+        ACTION_TYPES.UPDATE_START, 
+        updateAction
     );
 }
 
 export function* onDeleteStart() {
     yield* takeLatest(
-        MOON_COMMENT_ACTION_TYPES.DELETE_START, 
-        removeMoonComment
-    );
-}
-
-export function* onFetchUserMoonCommentsStart() {
-    yield* takeLatest(
-        MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_START, 
-        fetchUserMoonComments
+        ACTION_TYPES.DELETE_START, 
+        removeAction
     );
 }
 
 export function* onFetchSingleStart() {
     yield* takeLatest(
-        MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_START, 
-        fetchSingleMoonCommentAsync
+        ACTION_TYPES.FETCH_SINGLE_START, 
+        fetchSingleAction
     );
 }
   
 export function* onFetchsStart() {
     yield* takeLatest(
-        MOON_COMMENT_ACTION_TYPES.FETCH_ALL_START,
-        fetchAllMoonCommentsAsync
+        ACTION_TYPES.FETCH_ALL_START,
+        fetchActions
     );
 }
 
-export function* moonCommentSagas() {
+export function* actionSagas() {
     yield* all([
         call(onCreateStart),
         call(onUpdateStart),
         call(onDeleteStart),
-        call(onFetchUserMoonCommentsStart),
         call(onFetchSingleStart),
         call(onFetchsStart)
     ]);

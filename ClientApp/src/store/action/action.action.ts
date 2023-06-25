@@ -1,4 +1,4 @@
-import { MOON_COMMENT_ACTION_TYPES, MoonComment } from './action.types';
+import { ACTION_TYPES, Action as Act } from './action.types';
 
 import {
     Action,
@@ -7,180 +7,159 @@ import {
     withMatcher
 } from '../../utils/reducer/reducer.utils';
 
-export type MoonCommentCreateStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.CREATE_START, { commentValue: string, imageFile: File, moonId: number }
+export type ActionCreateStart = ActionWithPayload<
+    ACTION_TYPES.CREATE_START, { 
+        eventType: string, 
+        activity: string, 
+        pinId: number 
+    }
 >;
 
-export type MoonCommentCreateSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.CREATE_SUCCESS, 
-    MoonComment[]
+export type ActionCreateSuccess = ActionWithPayload<
+    ACTION_TYPES.CREATE_SUCCESS, 
+    Act[]
 >;
 
-export type MoonCommentCreateFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.CREATE_FAILED,
+export type ActionCreateFailed = ActionWithPayload<
+    ACTION_TYPES.CREATE_FAILED,
     Error
 >;
 
-export type MoonCommentUpdateStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.UPDATE_START,
-    { moonCommentId: number, commentValue: string, mediaLink: string }
+export type ActionUpdateStart = ActionWithPayload<
+    ACTION_TYPES.UPDATE_START,
+    { 
+        actionId: number,
+        eventType: string, 
+        activity: string, 
+        pinId: number 
+    }
 >;
 
-export type MoonCommentUpdateSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.UPDATE_SUCCESS, 
-    MoonComment[]
+export type ActionUpdateSuccess = ActionWithPayload<
+    ACTION_TYPES.UPDATE_SUCCESS, 
+    Act[]
 >;
 
-export type MoonCommentUpdateFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.UPDATE_FAILED,
-    Error
->;
-   
-export type MoonCommentDeleteStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.DELETE_START,
-    { moonCommentId: number }
->;
-
-export type MoonCommentDeleteSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.DELETE_SUCCESS, 
-    MoonComment[]
->;
-
-export type MoonCommentDeleteteFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.DELETE_FAILED,
+export type ActionUpdateFailed = ActionWithPayload<
+    ACTION_TYPES.UPDATE_FAILED,
     Error
 >;
    
-export type MoonCommentFetchSingleStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_START,
-    { moonCommentId: number }
+export type ActionDeleteStart = ActionWithPayload<
+    ACTION_TYPES.DELETE_START,
+    { actionId: number }
 >;
 
-export type MoonCommentFetchSingleSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_SUCCESS, 
-    MoonComment[]
+export type ActionDeleteSuccess = ActionWithPayload<
+    ACTION_TYPES.DELETE_SUCCESS, 
+    Act[]
 >;
 
-export type MoonCommentFetchSingleFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_FAILED,
+export type ActionDeleteteFailed = ActionWithPayload<
+    ACTION_TYPES.DELETE_FAILED,
     Error
 >;
 
-export type MoonCommentFetchUserChatsStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_START,
-    { userId: number }
+export type ActionFetchSingleStart = ActionWithPayload<
+    ACTION_TYPES.FETCH_SINGLE_START,
+    { actionId: number }
 >;
 
-export type MoonCommentFetchUserChatsSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_SUCCESS, 
-    MoonComment[]
+export type ActionFetchSingleSuccess = ActionWithPayload<
+    ACTION_TYPES.FETCH_SINGLE_SUCCESS, 
+    Act
 >;
 
-export type MoonCommentFetchUserChatsFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_FAILED,
+export type ActionFetchSingleFailed = ActionWithPayload<
+    ACTION_TYPES.FETCH_SINGLE_FAILED,
     Error
 >;
 
-export type MoonCommentFetchAllStart = Action<
-    MOON_COMMENT_ACTION_TYPES.FETCH_ALL_START
+export type ActionFetchAllStart = Action<
+    ACTION_TYPES.FETCH_ALL_START
 >;
 
-export type MoonCommentFetchAllSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_ALL_SUCCESS, 
-    MoonComment[]
+export type ActionFetchAllSuccess = ActionWithPayload<
+    ACTION_TYPES.FETCH_ALL_SUCCESS, 
+    Act[]
 >;
 
-export type MoonCommentFetchAllFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_ALL_FAILED,
+export type ActionFetchAllFailed = ActionWithPayload<
+    ACTION_TYPES.FETCH_ALL_FAILED,
     Error
 >;
 
-export const moonCommentCreateStart = withMatcher(
-    (commentValue: string, imageFile: File, moonId: number ): MoonCommentCreateStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.CREATE_START, { commentValue, imageFile, moonId })
+export const actionCreateStart = withMatcher(
+    (eventType: string, activity: string, pinId: number ): ActionCreateStart => 
+    createAction(ACTION_TYPES.CREATE_START, { eventType, activity, pinId })
 );
 
-export const moonCommentCreateSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentCreateSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.CREATE_SUCCESS, mooncomment)
+export const actionCreateSuccess = withMatcher(
+    (action: Act[]): ActionCreateSuccess => 
+    createAction(ACTION_TYPES.CREATE_SUCCESS, action)
 );
 
-export const moonCommentCreateFailed = withMatcher(
+export const actionCreateFailed = withMatcher(
     (error: Error) => 
-    createAction(MOON_COMMENT_ACTION_TYPES.CREATE_START, error)
+    createAction(ACTION_TYPES.CREATE_START, error)
 );
  
-export const moonCommentUpdateStart = withMatcher(
-    (moonCommentId: number, commentValue: string, mediaLink: string, userId: number): MoonCommentUpdateStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.UPDATE_START, { moonCommentId, commentValue, mediaLink, userId })
+export const actionUpdateStart = withMatcher(
+    (actionId: number, eventType: string, activity: string, pinId: number): ActionUpdateStart => 
+    createAction(ACTION_TYPES.UPDATE_START, { actionId, eventType, activity, pinId })
 );
 
-export const moonCommentUpdateSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentUpdateSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.UPDATE_SUCCESS, mooncomment)
+export const actionUpdateSuccess = withMatcher(
+    (action: Act[]): ActionUpdateSuccess => 
+    createAction(ACTION_TYPES.UPDATE_SUCCESS, action)
 );
 
-export const moonCommentUpdateFailed = withMatcher(
-    (error: Error): MoonCommentUpdateFailed => 
-    createAction(MOON_COMMENT_ACTION_TYPES.UPDATE_FAILED, error)
+export const actionUpdateFailed = withMatcher(
+    (error: Error): ActionUpdateFailed => 
+    createAction(ACTION_TYPES.UPDATE_FAILED, error)
 );
 
-export const moonCommentDeleteStart = withMatcher(
-    (moonCommentId: number): MoonCommentDeleteStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.DELETE_START, { moonCommentId })
+export const actionDeleteStart = withMatcher(
+    (actionId: number): ActionDeleteStart => 
+    createAction(ACTION_TYPES.DELETE_START, { actionId })
 );
 
-export const moonCommentDeleteSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentDeleteSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.DELETE_SUCCESS, mooncomment)
+export const actionDeleteSuccess = withMatcher(
+    (action: Act[]): ActionDeleteSuccess => 
+    createAction(ACTION_TYPES.DELETE_SUCCESS, action)
 );
 
-export const moonCommentDeleteFailed = withMatcher(
+export const actionDeleteFailed = withMatcher(
     (error: Error) => 
-    createAction(MOON_COMMENT_ACTION_TYPES.DELETE_START, error)
+    createAction(ACTION_TYPES.DELETE_START, error)
 );
 
-export const moonCommentFetchSingleStart = withMatcher(
-    (moonCommentId: number): MoonCommentFetchSingleStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_START, { moonCommentId })
+export const actionFetchSingleStart = withMatcher(
+    (actionId: number): ActionFetchSingleStart => 
+    createAction(ACTION_TYPES.FETCH_SINGLE_START, { actionId })
 );
 
-export const moonCommentFetchSingleSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentFetchSingleSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_SUCCESS, mooncomment)
+export const actionFetchSingleSuccess = withMatcher(
+    (action: Act): ActionFetchSingleSuccess => 
+    createAction(ACTION_TYPES.FETCH_SINGLE_SUCCESS, action)
 );
 
-export const moonCommentFetchSingleFailed = withMatcher(
-    (error: Error): MoonCommentFetchSingleFailed => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_FAILED, error)
+export const actionFetchSingleFailed = withMatcher(
+    (error: Error): ActionFetchSingleFailed => 
+    createAction(ACTION_TYPES.FETCH_SINGLE_FAILED, error)
 );
 
-export const moonCommentFetchUserChatsStart = withMatcher(
-    (userId: number): MoonCommentFetchUserChatsStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_START, { userId })
+export const actionFetchAllStart = withMatcher(
+    (action: Act[]): ActionFetchAllStart => 
+    createAction(ACTION_TYPES.FETCH_ALL_START, action)
 );
 
-export const moonCommentFetchUserChatsSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentFetchUserChatsSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_SUCCESS, mooncomment)
+export const actionFetchAllSuccess = withMatcher(
+    (action: Act[]): ActionFetchAllSuccess => 
+    createAction(ACTION_TYPES.FETCH_ALL_SUCCESS, action)
 );
 
-export const moonCommentFetchUserChatsFailed = withMatcher(
-    (error: Error): MoonCommentFetchUserChatsFailed => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_FAILED, error)
-);
-
-export const moonCommentFetchAllStart = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentFetchAllStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_ALL_START, mooncomment)
-);
-
-export const moonCommentFetchAllSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentFetchAllSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_ALL_SUCCESS, mooncomment)
-);
-
-export const moonCommentFetchAllFailed = withMatcher(
-    (error: Error): MoonCommentFetchAllFailed => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_ALL_FAILED, error)
+export const actionFetchAllFailed = withMatcher(
+    (error: Error): ActionFetchAllFailed => 
+    createAction(ACTION_TYPES.FETCH_ALL_FAILED, error)
 );

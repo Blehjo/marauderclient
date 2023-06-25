@@ -1,186 +1,155 @@
-import { MOON_COMMENT_ACTION_TYPES, MoonComment } from './channel.types';
+import { CHANNEL_ACTION_TYPES, Channel } from './channel.types';
 
 import {
-    Action,
     ActionWithPayload,
     createAction,
     withMatcher
 } from '../../utils/reducer/reducer.utils';
 
-export type MoonCommentCreateStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.CREATE_START, { commentValue: string, imageFile: File, moonId: number }
+export type ChannelCreateStart = ActionWithPayload<
+    CHANNEL_ACTION_TYPES.CREATE_START, { description: string, communityId: number }
 >;
 
-export type MoonCommentCreateSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.CREATE_SUCCESS, 
-    MoonComment[]
+export type ChannelCreateSuccess = ActionWithPayload<
+    CHANNEL_ACTION_TYPES.CREATE_SUCCESS, 
+    Channel[]
 >;
 
-export type MoonCommentCreateFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.CREATE_FAILED,
+export type ChannelCreateFailed = ActionWithPayload<
+    CHANNEL_ACTION_TYPES.CREATE_FAILED,
     Error
 >;
 
-export type MoonCommentUpdateStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.UPDATE_START,
-    { moonCommentId: number, commentValue: string, mediaLink: string }
+export type ChannelUpdateStart = ActionWithPayload<
+    CHANNEL_ACTION_TYPES.UPDATE_START,
+    { channelId: number, description: string }
 >;
 
-export type MoonCommentUpdateSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.UPDATE_SUCCESS, 
-    MoonComment[]
+export type ChannelUpdateSuccess = ActionWithPayload<
+    CHANNEL_ACTION_TYPES.UPDATE_SUCCESS, 
+    Channel[]
 >;
 
-export type MoonCommentUpdateFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.UPDATE_FAILED,
-    Error
->;
-   
-export type MoonCommentDeleteStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.DELETE_START,
-    { moonCommentId: number }
->;
-
-export type MoonCommentDeleteSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.DELETE_SUCCESS, 
-    MoonComment[]
->;
-
-export type MoonCommentDeleteteFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.DELETE_FAILED,
+export type ChannelUpdateFailed = ActionWithPayload<
+    CHANNEL_ACTION_TYPES.UPDATE_FAILED,
     Error
 >;
    
-export type MoonCommentFetchSingleStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_START,
-    { moonCommentId: number }
+export type ChannelDeleteStart = ActionWithPayload<
+    CHANNEL_ACTION_TYPES.DELETE_START,
+    { channelId: number }
 >;
 
-export type MoonCommentFetchSingleSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_SUCCESS, 
-    MoonComment[]
+export type ChannelDeleteSuccess = ActionWithPayload<
+    CHANNEL_ACTION_TYPES.DELETE_SUCCESS, 
+    Channel[]
 >;
 
-export type MoonCommentFetchSingleFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_FAILED,
+export type ChannelDeleteteFailed = ActionWithPayload<
+    CHANNEL_ACTION_TYPES.DELETE_FAILED,
+    Error
+>;
+   
+export type ChannelFetchSingleStart = ActionWithPayload<
+    CHANNEL_ACTION_TYPES.FETCH_SINGLE_START,
+    { channelId: number }
+>;
+
+export type ChannelFetchSingleSuccess = ActionWithPayload<
+    CHANNEL_ACTION_TYPES.FETCH_SINGLE_SUCCESS, 
+    Channel
+>;
+
+export type ChannelFetchSingleFailed = ActionWithPayload<
+    CHANNEL_ACTION_TYPES.FETCH_SINGLE_FAILED,
     Error
 >;
 
-export type MoonCommentFetchUserChatsStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_START,
-    { userId: number }
+export type ChannelFetchAllStart = ActionWithPayload<
+    CHANNEL_ACTION_TYPES.FETCH_ALL_START, { communityId: number }
 >;
 
-export type MoonCommentFetchUserChatsSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_SUCCESS, 
-    MoonComment[]
+export type ChannelFetchAllSuccess = ActionWithPayload<
+    CHANNEL_ACTION_TYPES.FETCH_ALL_SUCCESS, 
+    Channel[]
 >;
 
-export type MoonCommentFetchUserChatsFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_FAILED,
+export type ChannelFetchAllFailed = ActionWithPayload<
+    CHANNEL_ACTION_TYPES.FETCH_ALL_FAILED,
     Error
 >;
 
-export type MoonCommentFetchAllStart = Action<
-    MOON_COMMENT_ACTION_TYPES.FETCH_ALL_START
->;
-
-export type MoonCommentFetchAllSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_ALL_SUCCESS, 
-    MoonComment[]
->;
-
-export type MoonCommentFetchAllFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_ALL_FAILED,
-    Error
->;
-
-export const moonCommentCreateStart = withMatcher(
-    (commentValue: string, imageFile: File, moonId: number ): MoonCommentCreateStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.CREATE_START, { commentValue, imageFile, moonId })
+export const channelCreateStart = withMatcher(
+    (description: string, communityId: number ): ChannelCreateStart => 
+    createAction(CHANNEL_ACTION_TYPES.CREATE_START, { description, communityId })
 );
 
-export const moonCommentCreateSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentCreateSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.CREATE_SUCCESS, mooncomment)
+export const channelCreateSuccess = withMatcher(
+    (channel: Channel[]): ChannelCreateSuccess => 
+    createAction(CHANNEL_ACTION_TYPES.CREATE_SUCCESS, channel)
 );
 
-export const moonCommentCreateFailed = withMatcher(
+export const channelCreateFailed = withMatcher(
     (error: Error) => 
-    createAction(MOON_COMMENT_ACTION_TYPES.CREATE_START, error)
+    createAction(CHANNEL_ACTION_TYPES.CREATE_FAILED, error)
 );
  
-export const moonCommentUpdateStart = withMatcher(
-    (moonCommentId: number, commentValue: string, mediaLink: string, userId: number): MoonCommentUpdateStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.UPDATE_START, { moonCommentId, commentValue, mediaLink, userId })
+export const channelUpdateStart = withMatcher(
+    (channelId: number, description: string): ChannelUpdateStart => 
+    createAction(CHANNEL_ACTION_TYPES.UPDATE_START, { channelId, description })
 );
 
-export const moonCommentUpdateSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentUpdateSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.UPDATE_SUCCESS, mooncomment)
+export const channelUpdateSuccess = withMatcher(
+    (channel: Channel[]): ChannelUpdateSuccess => 
+    createAction(CHANNEL_ACTION_TYPES.UPDATE_SUCCESS, channel)
 );
 
-export const moonCommentUpdateFailed = withMatcher(
-    (error: Error): MoonCommentUpdateFailed => 
-    createAction(MOON_COMMENT_ACTION_TYPES.UPDATE_FAILED, error)
+export const channelUpdateFailed = withMatcher(
+    (error: Error): ChannelUpdateFailed => 
+    createAction(CHANNEL_ACTION_TYPES.UPDATE_FAILED, error)
 );
 
-export const moonCommentDeleteStart = withMatcher(
-    (moonCommentId: number): MoonCommentDeleteStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.DELETE_START, { moonCommentId })
+export const channelDeleteStart = withMatcher(
+    (channelId: number): ChannelDeleteStart => 
+    createAction(CHANNEL_ACTION_TYPES.DELETE_START, { channelId })
 );
 
-export const moonCommentDeleteSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentDeleteSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.DELETE_SUCCESS, mooncomment)
+export const channelDeleteSuccess = withMatcher(
+    (channel: Channel[]): ChannelDeleteSuccess => 
+    createAction(CHANNEL_ACTION_TYPES.DELETE_SUCCESS, channel)
 );
 
-export const moonCommentDeleteFailed = withMatcher(
+export const channelDeleteFailed = withMatcher(
     (error: Error) => 
-    createAction(MOON_COMMENT_ACTION_TYPES.DELETE_START, error)
+    createAction(CHANNEL_ACTION_TYPES.DELETE_START, error)
 );
 
-export const moonCommentFetchSingleStart = withMatcher(
-    (moonCommentId: number): MoonCommentFetchSingleStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_START, { moonCommentId })
+export const channelFetchSingleStart = withMatcher(
+    (channelId: number): ChannelFetchSingleStart => 
+    createAction(CHANNEL_ACTION_TYPES.FETCH_SINGLE_START, { channelId })
 );
 
-export const moonCommentFetchSingleSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentFetchSingleSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_SUCCESS, mooncomment)
+export const channelFetchSingleSuccess = withMatcher(
+    (channel: Channel): ChannelFetchSingleSuccess => 
+    createAction(CHANNEL_ACTION_TYPES.FETCH_SINGLE_SUCCESS, channel)
 );
 
-export const moonCommentFetchSingleFailed = withMatcher(
-    (error: Error): MoonCommentFetchSingleFailed => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_FAILED, error)
+export const channelFetchSingleFailed = withMatcher(
+    (error: Error): ChannelFetchSingleFailed => 
+    createAction(CHANNEL_ACTION_TYPES.FETCH_SINGLE_FAILED, error)
 );
 
-export const moonCommentFetchUserChatsStart = withMatcher(
-    (userId: number): MoonCommentFetchUserChatsStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_START, { userId })
+export const channelFetchAllStart = withMatcher(
+    (communityId: number): ChannelFetchAllStart => 
+    createAction(CHANNEL_ACTION_TYPES.FETCH_ALL_START, { communityId })
 );
 
-export const moonCommentFetchUserChatsSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentFetchUserChatsSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_SUCCESS, mooncomment)
+export const channelFetchAllSuccess = withMatcher(
+    (channel: Channel[]): ChannelFetchAllSuccess => 
+    createAction(CHANNEL_ACTION_TYPES.FETCH_ALL_SUCCESS, channel)
 );
 
-export const moonCommentFetchUserChatsFailed = withMatcher(
-    (error: Error): MoonCommentFetchUserChatsFailed => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_FAILED, error)
-);
-
-export const moonCommentFetchAllStart = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentFetchAllStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_ALL_START, mooncomment)
-);
-
-export const moonCommentFetchAllSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentFetchAllSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_ALL_SUCCESS, mooncomment)
-);
-
-export const moonCommentFetchAllFailed = withMatcher(
-    (error: Error): MoonCommentFetchAllFailed => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_ALL_FAILED, error)
+export const channelFetchAllFailed = withMatcher(
+    (error: Error): ChannelFetchAllFailed => 
+    createAction(CHANNEL_ACTION_TYPES.FETCH_ALL_FAILED, error)
 );

@@ -1,169 +1,133 @@
 import { all, call, put, takeLatest } from 'typed-redux-saga';
 
-import { MOON_COMMENT_ACTION_TYPES } from './device.types';
+import { DEVICE_ACTION_TYPES } from './device.types';
 
 import {
-    MoonCommentCreateStart,
-    MoonCommentDeleteStart,
-    MoonCommentFetchSingleStart,
-    MoonCommentFetchUserChatsStart,
-    MoonCommentUpdateStart,
-    moonCommentCreateFailed,
-    moonCommentCreateSuccess,
-    moonCommentDeleteFailed,
-    moonCommentDeleteSuccess,
-    moonCommentFetchAllFailed,
-    moonCommentFetchAllSuccess,
-    moonCommentFetchSingleFailed,
-    moonCommentFetchSingleSuccess,
-    moonCommentUpdateSuccess
+    DeviceCreateStart,
+    DeviceDeleteStart,
+    DeviceFetchSingleStart,
+    DeviceUpdateStart,
+    deviceCreateFailed,
+    deviceCreateSuccess,
+    deviceDeleteFailed,
+    deviceDeleteSuccess,
+    deviceFetchAllFailed,
+    deviceFetchAllSuccess,
+    deviceFetchSingleFailed,
+    deviceFetchSingleSuccess,
+    deviceUpdateSuccess
 } from './device.action';
 
 import {
-    addComment,
-    deleteComment,
-    editComment,
-    getAllComments,
-    getSingleComment,
-    getUserComments,
-    getUsersComments
-} from '../../utils/api/mooncomment.api';
+    addDevice,
+    deleteDevice,
+    editDevice,
+    getAllDevices,
+    getSingleDevice
+} from '../../utils/api/device.api';
 
-export function* createMoonComment({ payload: { commentValue, imageFile, moonId }}: MoonCommentCreateStart ) {
-    const formData = new FormData();
-    formData.append('commentValue', commentValue);
-    formData.append('imageFile', imageFile);
+export function* createDevice({ payload: { deviceName, deviceType }}: DeviceCreateStart ) {
     try {
-        const comments = yield* call(
-            addComment,
-            moonId,
-            formData
+        const devices = yield* call(
+            addDevice,
+            deviceName,
+            deviceType
         ); 
-        yield* put(moonCommentCreateSuccess(comments));
+        yield* put(deviceCreateSuccess(devices));
     } catch (error) {
-        yield* put(moonCommentCreateFailed(error as Error));
+        yield* put(deviceCreateFailed(error as Error));
     }
 }
 
-export function* updateMoonComment({ payload: { moonCommentId, commentValue, mediaLink }}: MoonCommentUpdateStart) {
+export function* updateDevice({ payload: { deviceId, deviceName, deviceType }}: DeviceUpdateStart) {
     try {
-        const comment = yield* call(
-            editComment,
-            moonCommentId,
-            commentValue,
-            mediaLink
+        const device = yield* call(
+            editDevice,
+            deviceId,
+            deviceName,
+            deviceType
         ); 
-        yield* put(moonCommentUpdateSuccess(comment));
+        yield* put(deviceUpdateSuccess(device));
     } catch (error) {
-        yield* put(moonCommentCreateFailed(error as Error));
+        yield* put(deviceCreateFailed(error as Error));
     }
 }
 
-export function* removeMoonComment({ payload: { moonCommentId }}: MoonCommentDeleteStart) {
+export function* removeDevice({ payload: { deviceId }}: DeviceDeleteStart) {
     try {
-        const comments = yield* call(
-            deleteComment,
-            moonCommentId
+        const devices = yield* call(
+            deleteDevice,
+            deviceId
         ); 
-        yield* put(moonCommentDeleteSuccess(comments));
+        yield* put(deviceDeleteSuccess(devices));
     } catch (error) {
-        yield* put(moonCommentDeleteFailed(error as Error));
+        yield* put(deviceDeleteFailed(error as Error));
     }
 }
 
-export function* fetchUserMoonComments() {
+export function* fetchUserDevices() {
     try {
-        const comment  = yield* call(getUsersComments);
-        if (!comment) return;
-        yield* put(moonCommentFetchAllSuccess(comment));
+        const device  = yield* call(getAllDevices);
+        if (!device) return;
+        yield* put(deviceFetchAllSuccess(device));
     } catch (error) {
-        yield* put(moonCommentFetchAllFailed(error as Error));
+        yield* put(deviceFetchAllFailed(error as Error));
     }
 }
 
-export function* fetchOtherUsersMoonComments({ payload: { userId } }: MoonCommentFetchUserChatsStart) {
+export function* fetchSingleDevice({ 
+    payload: { deviceId } }: DeviceFetchSingleStart) {
     try {
-        const comments = yield* call(
-            getUserComments,
-            userId
+        const devices = yield* call(
+            getSingleDevice,
+            deviceId 
         );
-        if (!comments) return;
-        yield* put(moonCommentFetchAllSuccess(comments));
+        yield* put(deviceFetchSingleSuccess(devices));
     } catch (error) {
-        yield* put(moonCommentFetchAllFailed(error as Error));
-    }
-}
-
-export function* fetchSingleMoonCommentAsync({ 
-    payload: { moonCommentId } }: MoonCommentFetchSingleStart) {
-    try {
-        const commentSnapshot = yield* call(
-            getSingleComment,
-            moonCommentId 
-        );
-        yield* put(moonCommentFetchSingleSuccess(commentSnapshot));
-    } catch (error) {
-        yield* put(moonCommentFetchSingleFailed(error as Error));
-    }
-}
-
-export function* fetchAllMoonCommentsAsync() {
-    try {
-        const comments = yield* call(getAllComments);
-        yield* put(moonCommentFetchAllSuccess(comments));
-    } catch (error) {
-        yield* put(moonCommentFetchAllFailed(error as Error));
+        yield* put(deviceFetchSingleFailed(error as Error));
     }
 }
 
 export function* onCreateStart() {
     yield* takeLatest(
-        MOON_COMMENT_ACTION_TYPES.CREATE_START, 
-        createMoonComment
+        DEVICE_ACTION_TYPES.CREATE_START, 
+        createDevice
     );
 }
 
 export function* onUpdateStart() {
     yield* takeLatest(
-        MOON_COMMENT_ACTION_TYPES.UPDATE_START, 
-        updateMoonComment
+        DEVICE_ACTION_TYPES.UPDATE_START, 
+        updateDevice
     );
 }
 
 export function* onDeleteStart() {
     yield* takeLatest(
-        MOON_COMMENT_ACTION_TYPES.DELETE_START, 
-        removeMoonComment
-    );
-}
-
-export function* onFetchUserMoonCommentsStart() {
-    yield* takeLatest(
-        MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_START, 
-        fetchUserMoonComments
+        DEVICE_ACTION_TYPES.DELETE_START, 
+        removeDevice
     );
 }
 
 export function* onFetchSingleStart() {
     yield* takeLatest(
-        MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_START, 
-        fetchSingleMoonCommentAsync
+        DEVICE_ACTION_TYPES.FETCH_SINGLE_START, 
+        fetchSingleDevice
     );
 }
   
 export function* onFetchsStart() {
     yield* takeLatest(
-        MOON_COMMENT_ACTION_TYPES.FETCH_ALL_START,
-        fetchAllMoonCommentsAsync
+        DEVICE_ACTION_TYPES.FETCH_ALL_START,
+        fetchUserDevices
     );
 }
 
-export function* moonCommentSagas() {
+export function* deviceSagas() {
     yield* all([
         call(onCreateStart),
         call(onUpdateStart),
         call(onDeleteStart),
-        call(onFetchUserMoonCommentsStart),
         call(onFetchSingleStart),
         call(onFetchsStart)
     ]);

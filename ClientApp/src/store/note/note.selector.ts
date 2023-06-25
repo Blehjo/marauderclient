@@ -1,31 +1,31 @@
 import { createSelector } from 'reselect';
 
 import { RootState } from '../store';
-import { MoonCommentState } from './note.reducer';
+import { NoteState } from './note.reducer';
 
-export const selectMoonCommentReducer = (state: RootState): MoonCommentState => state.mooncomment;
+export const selectNoteReducer = (state: RootState): NoteState => state.note;
 
-export const selectIsMoonCommentLoading = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.isLoading
+export const selectIsNoteLoading = createSelector(
+    [selectNoteReducer],
+    (note) => note.isLoading
 );
 
-export const selectMoonCommentId = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.moonCommentId
+export const selectNoteId = createSelector(
+    [selectNoteReducer],
+    (note) => note.noteId
 );
 
-export const selectMoonSingleComment = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.singleComment
+export const selectSingleNote = createSelector(
+    [selectNoteReducer],
+    (note) => note.singleNote
 );
 
-export const selectUserMoonComments = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.userComments
+export const selectUserNotes = createSelector(
+    [selectNoteReducer],
+    (note) => note.userNotes
 );
 
-export const selectAllMoonComments = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.mooncomments
+export const selectAllNotes = createSelector(
+    [selectNoteReducer],
+    (note) => note.notes
 );

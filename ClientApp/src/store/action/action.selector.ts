@@ -1,31 +1,31 @@
 import { createSelector } from 'reselect';
 
 import { RootState } from '../store';
-import { MoonCommentState } from './action.reducer';
+import { ActionState } from './action.reducer';
 
-export const selectMoonCommentReducer = (state: RootState): MoonCommentState => state.mooncomment;
+export const selectActionReducer = (state: RootState): ActionState => state.action;
 
-export const selectIsMoonCommentLoading = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.isLoading
+export const selectActionId = createSelector(
+    [selectActionReducer],
+    (action) => action.actionId
 );
 
-export const selectMoonCommentId = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.moonCommentId
+export const selectSingleAction = createSelector(
+    [selectActionReducer],
+    (action) => action.singleAction
+)
+
+export const selectUserActions = createSelector(
+    [selectActionReducer],
+    (action) => action.userActions
 );
 
-export const selectMoonSingleComment = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.singleComment
+export const selectAllActions = createSelector(
+    [selectActionReducer],
+    (action) => action.actions
 );
 
-export const selectUserMoonComments = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.userComments
-);
-
-export const selectAllMoonComments = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.mooncomments
+export const selectIsActionLoading = createSelector(
+    [selectActionReducer],
+    (action) => action.isLoading
 );

@@ -1,169 +1,150 @@
 import { all, call, put, takeLatest } from 'typed-redux-saga';
 
-import { MOON_COMMENT_ACTION_TYPES } from './gltf.types';
+import {GLTF_ACTION_TYPES } from './gltf.types';
 
 import {
-    MoonCommentCreateStart,
-    MoonCommentDeleteStart,
-    MoonCommentFetchSingleStart,
-    MoonCommentFetchUserChatsStart,
-    MoonCommentUpdateStart,
-    moonCommentCreateFailed,
-    moonCommentCreateSuccess,
-    moonCommentDeleteFailed,
-    moonCommentDeleteSuccess,
-    moonCommentFetchAllFailed,
-    moonCommentFetchAllSuccess,
-    moonCommentFetchSingleFailed,
-    moonCommentFetchSingleSuccess,
-    moonCommentUpdateSuccess
+  GltfCreateStart,
+  GltfDeleteStart,
+  GltfFetchSingleStart,
+  GltfFetchUserStart,
+  GltfUpdateStart,
+  gltfCreateFailed,
+  gltfCreateSuccess,
+  gltfDeleteFailed,
+  gltfDeleteSuccess,
+  gltfFetchAllFailed,
+  gltfFetchAllSuccess,
+  gltfFetchSingleFailed,
+  gltfFetchSingleSuccess,
+  gltfUpdateSuccess
 } from './gltf.action';
 
 import {
-    addComment,
-    deleteComment,
-    editComment,
-    getAllComments,
-    getSingleComment,
-    getUserComments,
-    getUsersComments
-} from '../../utils/api/mooncomment.api';
+  addGltf,
+  deleteGltf,
+  editGltf,
+  getAllGltfs,
+  getSingleGltf,
+  getUsersGltfs
+} from '../../utils/api/gltf.api';
 
-export function* createMoonComment({ payload: { commentValue, imageFile, moonId }}: MoonCommentCreateStart ) {
-    const formData = new FormData();
-    formData.append('commentValue', commentValue);
-    formData.append('imageFile', imageFile);
+export function* createGltf({ payload: { fileInformation }}: GltfCreateStart ) {
     try {
-        const comments = yield* call(
-            addComment,
-            moonId,
-            formData
+        const gltfs = yield* call(
+            addGltf,
+            fileInformation
         ); 
-        yield* put(moonCommentCreateSuccess(comments));
+        yield* put(gltfCreateSuccess(gltfs));
     } catch (error) {
-        yield* put(moonCommentCreateFailed(error as Error));
+        yield* put(gltfCreateFailed(error as Error));
     }
 }
 
-export function* updateMoonComment({ payload: { moonCommentId, commentValue, mediaLink }}: MoonCommentUpdateStart) {
+export function* updateGltf({ payload: { gltfId, fileInformation }}: GltfUpdateStart) {
     try {
-        const comment = yield* call(
-            editComment,
-            moonCommentId,
-            commentValue,
-            mediaLink
+        const gltf = yield* call(
+            editGltf,
+            gltfId,
+            fileInformation
         ); 
-        yield* put(moonCommentUpdateSuccess(comment));
+        yield* put(gltfUpdateSuccess(gltf));
     } catch (error) {
-        yield* put(moonCommentCreateFailed(error as Error));
+        yield* put(gltfCreateFailed(error as Error));
     }
 }
 
-export function* removeMoonComment({ payload: { moonCommentId }}: MoonCommentDeleteStart) {
+export function* removeGltf({ payload: { gltfId }}: GltfDeleteStart) {
     try {
-        const comments = yield* call(
-            deleteComment,
-            moonCommentId
+        const gltfs = yield* call(
+            deleteGltf,
+            gltfId
         ); 
-        yield* put(moonCommentDeleteSuccess(comments));
+        yield* put(gltfDeleteSuccess(gltfs));
     } catch (error) {
-        yield* put(moonCommentDeleteFailed(error as Error));
+        yield* put(gltfDeleteFailed(error as Error));
     }
 }
 
-export function* fetchUserMoonComments() {
+export function* fetchUserGltfs({ payload: { userId }}: GltfFetchUserStart) {
     try {
-        const comment  = yield* call(getUsersComments);
-        if (!comment) return;
-        yield* put(moonCommentFetchAllSuccess(comment));
+        const gltf  = yield* call(getUsersGltfs, userId);
+        if (!gltf) return;
+        yield* put(gltfFetchAllSuccess(gltf));
     } catch (error) {
-        yield* put(moonCommentFetchAllFailed(error as Error));
+        yield* put(gltfFetchAllFailed(error as Error));
     }
 }
 
-export function* fetchOtherUsersMoonComments({ payload: { userId } }: MoonCommentFetchUserChatsStart) {
+export function* fetchSingleGltf({ 
+    payload: { gltfId } }: GltfFetchSingleStart) {
     try {
-        const comments = yield* call(
-            getUserComments,
-            userId
+        const gltf = yield* call(
+            getSingleGltf,
+            gltfId 
         );
-        if (!comments) return;
-        yield* put(moonCommentFetchAllSuccess(comments));
+        yield* put(gltfFetchSingleSuccess(gltf));
     } catch (error) {
-        yield* put(moonCommentFetchAllFailed(error as Error));
+        yield* put(gltfFetchSingleFailed(error as Error));
     }
 }
 
-export function* fetchSingleMoonCommentAsync({ 
-    payload: { moonCommentId } }: MoonCommentFetchSingleStart) {
+export function* fetchAllGltfs() {
     try {
-        const commentSnapshot = yield* call(
-            getSingleComment,
-            moonCommentId 
-        );
-        yield* put(moonCommentFetchSingleSuccess(commentSnapshot));
+        const gltfs = yield* call(getAllGltfs);
+        yield* put(gltfFetchAllSuccess(gltfs));
     } catch (error) {
-        yield* put(moonCommentFetchSingleFailed(error as Error));
-    }
-}
-
-export function* fetchAllMoonCommentsAsync() {
-    try {
-        const comments = yield* call(getAllComments);
-        yield* put(moonCommentFetchAllSuccess(comments));
-    } catch (error) {
-        yield* put(moonCommentFetchAllFailed(error as Error));
+        yield* put(gltfFetchAllFailed(error as Error));
     }
 }
 
 export function* onCreateStart() {
     yield* takeLatest(
-        MOON_COMMENT_ACTION_TYPES.CREATE_START, 
-        createMoonComment
+       GLTF_ACTION_TYPES.CREATE_START, 
+        createGltf
     );
 }
 
 export function* onUpdateStart() {
     yield* takeLatest(
-        MOON_COMMENT_ACTION_TYPES.UPDATE_START, 
-        updateMoonComment
+       GLTF_ACTION_TYPES.UPDATE_START, 
+        updateGltf
     );
 }
 
 export function* onDeleteStart() {
     yield* takeLatest(
-        MOON_COMMENT_ACTION_TYPES.DELETE_START, 
-        removeMoonComment
+       GLTF_ACTION_TYPES.DELETE_START, 
+        removeGltf
     );
 }
 
-export function* onFetchUserMoonCommentsStart() {
+export function* onFetchUserGltfsStart() {
     yield* takeLatest(
-        MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_START, 
-        fetchUserMoonComments
+       GLTF_ACTION_TYPES.FETCH_USER_START, 
+        fetchUserGltfs
     );
 }
 
 export function* onFetchSingleStart() {
     yield* takeLatest(
-        MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_START, 
-        fetchSingleMoonCommentAsync
+       GLTF_ACTION_TYPES.FETCH_SINGLE_START, 
+        fetchSingleGltf
     );
 }
   
 export function* onFetchsStart() {
     yield* takeLatest(
-        MOON_COMMENT_ACTION_TYPES.FETCH_ALL_START,
-        fetchAllMoonCommentsAsync
+       GLTF_ACTION_TYPES.FETCH_ALL_START,
+        fetchAllGltfs
     );
 }
 
-export function* moonCommentSagas() {
+export function* gltfSagas() {
     yield* all([
         call(onCreateStart),
         call(onUpdateStart),
         call(onDeleteStart),
-        call(onFetchUserMoonCommentsStart),
+        call(onFetchUserGltfsStart),
         call(onFetchSingleStart),
         call(onFetchsStart)
     ]);

@@ -1,170 +1,124 @@
 import { all, call, put, takeLatest } from 'typed-redux-saga';
 
-import { PLANET_COMMENT_ACTION_TYPES } from './channelcomment.types';
-
-import {
-    PlanetCommentCreateStart,
-    PlanetCommentDeleteStart,
-    PlanetCommentFetchSingleStart,
-    PlanetCommentFetchUserChatsStart,
-    PlanetCommentUpdateStart,
-    planetcommentCreateFailed,
-    planetcommentCreateSuccess,
-    planetcommentDeleteFailed,
-    planetcommentDeleteSuccess,
-    planetcommentFetchAllFailed,
-    planetcommentFetchAllSuccess,
-    planetcommentFetchSingleFailed,
-    planetcommentFetchSingleSuccess,
-    planetcommentUpdateSuccess
-} from './channelcomment.action';
+import { CHANNEL_COMMENT_ACTION_TYPES } from './channelcomment.types';
 
 import {
     addComment,
     deleteComment,
     editComment,
     getAllComments,
-    getSingleComment,
-    getUserComments,
-    getUsersComments
-} from '../../utils/api/planetcomment.api';
+    getSingleComment
+} from '../../utils/api/channelcomment.api';
+import { ChannelFetchSingleStart } from '../channel/channel.action';
+import { ChannelCommentCreateStart, ChannelCommentDeleteStart, ChannelCommentFetchSingleStart, ChannelCommentUpdateStart, channelcommentCreateFailed, channelcommentDeleteFailed, channelcommentDeleteSuccess, channelcommentFetchAllFailed, channelcommentFetchSingleFailed, channelcommentFetchSingleSuccess, channelcommentUpdateFailed, channelcommentUpdateSuccess } from './channelcomment.action';
 
-export function* createComment({ payload: { commentValue, imageFile, planetId }}: PlanetCommentCreateStart ) {
+export function* createComment({ payload: { channelId, commentValue, imageFile }}: ChannelCommentCreateStart ) {
     const formData = new FormData();
     formData.append('commentValue', commentValue);
     formData.append('imageFile', imageFile);
     try {
         const comments = yield* call(
             addComment,
-            planetId,
+            channelId,
             formData
         ); 
-        yield* put(planetcommentCreateSuccess(comments));
+        yield* put(channelcommentFetchSingleSuccess(comments));
     } catch (error) {
-        yield* put(planetcommentCreateFailed(error as Error));
+        yield* put(channelcommentCreateFailed(error as Error));
     }
 }
 
-export function* updateComment({ payload: { planetCommentId, commentValue, mediaLink }}: PlanetCommentUpdateStart) {
+export function* updateComment({ payload: { channelCommentId, commentValue, imageFile }}: ChannelCommentUpdateStart) {
+    const formData = new FormData();
+    formData.append('commentValue', commentValue);
+    formData.append('imageFile', imageFile);
     try {
         const comment = yield* call(
             editComment,
-            planetCommentId,
-            commentValue,
-            mediaLink
+            channelCommentId,
+            formData
         ); 
-        yield* put(planetcommentUpdateSuccess(comment));
+        yield* put(channelcommentUpdateSuccess(comment));
     } catch (error) {
-        yield* put(planetcommentCreateFailed(error as Error));
+        yield* put(channelcommentUpdateFailed(error as Error));
     }
 }
 
-export function* removeComment({ payload: { commentId }}: PlanetCommentDeleteStart) {
+export function* removeComment({ payload: { commentId }}: ChannelCommentDeleteStart) {
     try {
         const comments = yield* call(
             deleteComment,
             commentId
         ); 
-        yield* put(planetcommentDeleteSuccess(comments));
+        yield* put(channelcommentDeleteSuccess(comments));
     } catch (error) {
-        yield* put(planetcommentDeleteFailed(error as Error));
+        yield* put(channelcommentDeleteFailed(error as Error));
     }
 }
 
-export function* fetchUserComments() {
+export function* fetchSingleComment({ 
+    payload: { commentId } }: ChannelCommentFetchSingleStart) {
     try {
-        const comment  = yield* call(getUsersComments);
-        if (!comment) return;
-        yield* put(planetcommentFetchAllSuccess(comment));
-    } catch (error) {
-        yield* put(planetcommentFetchAllFailed(error as Error));
-    }
-}
-
-export function* fetchOtherUserss({ payload: { userId } }: PlanetCommentFetchUserChatsStart) {
-    try {
-        const comments = yield* call(
-            getUserComments,
-            userId
-        );
-        if (!comments) return;
-        yield* put(planetcommentFetchAllSuccess(comments));
-    } catch (error) {
-        yield* put(planetcommentFetchAllFailed(error as Error));
-    }
-}
-
-export function* fetchSingleCommentAsync({ 
-    payload: { commentId } }: PlanetCommentFetchSingleStart) {
-    try {
-        const commentSnapshot = yield* call(
+        const comment = yield* call(
             getSingleComment,
             commentId 
         );
-        yield* put(planetcommentFetchSingleSuccess(commentSnapshot));
+        yield* put(channelcommentFetchSingleSuccess(comment));
     } catch (error) {
-        yield* put(planetcommentFetchSingleFailed(error as Error));
+        yield* put(channelcommentFetchSingleFailed(error as Error));
     }
 }
 
-export function* fetchAllCommentsAsync() {
+export function* fetchAllComments({ payload: { channelId } }: ChannelFetchSingleStart) {
     try {
-        const comments = yield* call(getAllComments);
-        yield* put(planetcommentFetchAllSuccess(comments));
+        const comments = yield* call(getAllComments, channelId);
+        yield* put(channelcommentFetchSingleSuccess(comments));
     } catch (error) {
-        yield* put(planetcommentFetchAllFailed(error as Error));
+        yield* put(channelcommentFetchAllFailed(error as Error));
     }
 }
 
 export function* onCreateStart() {
     yield* takeLatest(
-        PLANET_COMMENT_ACTION_TYPES.CREATE_START, 
+        CHANNEL_COMMENT_ACTION_TYPES.CREATE_START, 
         createComment
     );
 }
 
 export function* onUpdateStart() {
     yield* takeLatest(
-        PLANET_COMMENT_ACTION_TYPES.UPDATE_START, 
+        CHANNEL_COMMENT_ACTION_TYPES.UPDATE_START, 
         updateComment
     );
 }
 
 export function* onDeleteStart() {
     yield* takeLatest(
-        PLANET_COMMENT_ACTION_TYPES.DELETE_START, 
+        CHANNEL_COMMENT_ACTION_TYPES.DELETE_START, 
         removeComment
-    );
-}
-
-export function* onFetchUserCommentsStart() {
-    yield* takeLatest(
-        PLANET_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_START, 
-        fetchUserComments
     );
 }
 
 export function* onFetchSingleStart() {
     yield* takeLatest(
-        PLANET_COMMENT_ACTION_TYPES.FETCH_SINGLE_START, 
-        fetchSingleCommentAsync
+        CHANNEL_COMMENT_ACTION_TYPES.FETCH_SINGLE_START, 
+        fetchSingleComment
     );
 }
   
-export function* onFetchsStart() {
+export function* onFetchStart() {
     yield* takeLatest(
-        PLANET_COMMENT_ACTION_TYPES.FETCH_ALL_START,
-        fetchAllCommentsAsync
+        CHANNEL_COMMENT_ACTION_TYPES.FETCH_ALL_START,
+        fetchAllComments
     );
 }
 
-export function* planetcommentSagas() {
+export function* channelcommentSagas() {
     yield* all([
         call(onCreateStart),
         call(onUpdateStart),
         call(onDeleteStart),
-        call(onFetchUserCommentsStart),
         call(onFetchSingleStart),
-        call(onFetchsStart)
+        call(onFetchStart)
     ]);
 }

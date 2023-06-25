@@ -1,31 +1,31 @@
 import { createSelector } from 'reselect';
 
 import { RootState } from '../store';
-import { MoonCommentState } from './device.reducer';
+import { DeviceState } from './device.reducer';
 
-export const selectMoonCommentReducer = (state: RootState): MoonCommentState => state.mooncomment;
+export const selectDeviceReducer = (state: RootState): DeviceState => state.device;
 
-export const selectIsMoonCommentLoading = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.isLoading
+export const selectIsDeviceLoading = createSelector(
+    [selectDeviceReducer],
+    (device) => device.isLoading
 );
 
-export const selectMoonCommentId = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.moonCommentId
+export const selectDeviceId = createSelector(
+    [selectDeviceReducer],
+    (device) => device.deviceId
 );
 
-export const selectMoonSingleComment = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.singleComment
+export const selectSingleDevice = createSelector(
+    [selectDeviceReducer],
+    (device) => device.singleDevice
 );
 
-export const selectUserMoonComments = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.userComments
+export const selectUserDevices = createSelector(
+    [selectDeviceReducer],
+    (device) => device.userDevices
 );
 
-export const selectAllMoonComments = createSelector(
-    [selectMoonCommentReducer],
-    (mooncomment) => mooncomment.mooncomments
+export const selectAllDevices = createSelector(
+    [selectDeviceReducer],
+    (device) => device.devices
 );

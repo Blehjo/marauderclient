@@ -6,7 +6,7 @@ import { MemberState } from './member.reducer';
 
 export const selectMemberReducer = (state: RootState): MemberState => state.member;
 
-export const selectIMmemberLoading = createSelector(
+export const selectIsMmemberLoading = createSelector(
   [selectMemberReducer],
   (member) => member.isLoading
 );

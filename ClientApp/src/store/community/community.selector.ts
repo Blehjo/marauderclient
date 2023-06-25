@@ -2,31 +2,31 @@ import { createSelector } from 'reselect';
 
 import { RootState } from '../store';
 
-import { PlanetState } from './community.reducer';
+import { CommunityState } from './community.reducer';
 
-export const selectPlanetReducer = (state: RootState): PlanetState => state.planet;
+export const selectCommunityReducer = (state: RootState): CommunityState => state.community;
 
-export const selectIsPlanetLoading = createSelector(
-  [selectPlanetReducer],
-  (planet) => planet.isLoading
+export const selectCommunityId = createSelector(
+  [selectCommunityReducer],
+  (community) => community.communityId
 );
 
-export const selectPlanetId = createSelector(
-  [selectPlanetReducer],
-  (planet) => planet.planetId
+export const selectSingleCommunity = createSelector(
+  [selectCommunityReducer],
+  (community) => community.singleCommunity
 );
 
-export const selectSinglePlanet = createSelector(
-  [selectPlanetReducer],
-  (planet) => planet.singlePlanet
+export const selectUserCommunities = createSelector(
+  [selectCommunityReducer],
+  (community) => community.userCommunities
 );
 
-export const selectUserPlanets = createSelector(
-  [selectPlanetReducer],
-  (planet) => planet.userPlanets
+export const selectAllCommunities = createSelector(
+  [selectCommunityReducer],
+  (community) => community.communities
 );
 
-export const selectAllPlanets = createSelector(
-  [selectPlanetReducer],
-  (planet) => planet.planets
+export const selectIsCommunityLoading = createSelector(
+  [selectCommunityReducer],
+  (community) => community.isLoading
 );

@@ -1,4 +1,4 @@
-import { MOON_COMMENT_ACTION_TYPES, MoonComment } from './note.types';
+import { NOTE_ACTION_TYPES, Note } from './note.types';
 
 import {
     Action,
@@ -7,180 +7,150 @@ import {
     withMatcher
 } from '../../utils/reducer/reducer.utils';
 
-export type MoonCommentCreateStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.CREATE_START, { commentValue: string, imageFile: File, moonId: number }
+export type NoteCreateStart = ActionWithPayload<
+    NOTE_ACTION_TYPES.CREATE_START, { noteValue: string, imageFile: File, panelId: number }
 >;
 
-export type MoonCommentCreateSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.CREATE_SUCCESS, 
-    MoonComment[]
+export type NoteCreateSuccess = ActionWithPayload<
+    NOTE_ACTION_TYPES.CREATE_SUCCESS, 
+    Note[]
 >;
 
-export type MoonCommentCreateFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.CREATE_FAILED,
+export type NoteCreateFailed = ActionWithPayload<
+    NOTE_ACTION_TYPES.CREATE_FAILED,
     Error
 >;
 
-export type MoonCommentUpdateStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.UPDATE_START,
-    { moonCommentId: number, commentValue: string, mediaLink: string }
+export type NoteUpdateStart = ActionWithPayload<
+    NOTE_ACTION_TYPES.UPDATE_START,
+    { noteId: number, noteValue: string, imageFile: File, panelId: number }
 >;
 
-export type MoonCommentUpdateSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.UPDATE_SUCCESS, 
-    MoonComment[]
+export type NoteUpdateSuccess = ActionWithPayload<
+    NOTE_ACTION_TYPES.UPDATE_SUCCESS, 
+    Note[]
 >;
 
-export type MoonCommentUpdateFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.UPDATE_FAILED,
-    Error
->;
-   
-export type MoonCommentDeleteStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.DELETE_START,
-    { moonCommentId: number }
->;
-
-export type MoonCommentDeleteSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.DELETE_SUCCESS, 
-    MoonComment[]
->;
-
-export type MoonCommentDeleteteFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.DELETE_FAILED,
+export type NoteUpdateFailed = ActionWithPayload<
+    NOTE_ACTION_TYPES.UPDATE_FAILED,
     Error
 >;
    
-export type MoonCommentFetchSingleStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_START,
-    { moonCommentId: number }
+export type NoteDeleteStart = ActionWithPayload<
+    NOTE_ACTION_TYPES.DELETE_START,
+    { noteId: number }
 >;
 
-export type MoonCommentFetchSingleSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_SUCCESS, 
-    MoonComment[]
+export type NoteDeleteSuccess = ActionWithPayload<
+    NOTE_ACTION_TYPES.DELETE_SUCCESS, 
+    Note[]
 >;
 
-export type MoonCommentFetchSingleFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_FAILED,
+export type NoteDeleteteFailed = ActionWithPayload<
+    NOTE_ACTION_TYPES.DELETE_FAILED,
+    Error
+>;
+   
+export type NoteFetchSingleStart = ActionWithPayload<
+    NOTE_ACTION_TYPES.FETCH_SINGLE_START,
+    { noteId: number }
+>;
+
+export type NoteFetchSingleSuccess = ActionWithPayload<
+    NOTE_ACTION_TYPES.FETCH_SINGLE_SUCCESS, 
+    Note
+>;
+
+export type NoteFetchSingleFailed = ActionWithPayload<
+    NOTE_ACTION_TYPES.FETCH_SINGLE_FAILED,
     Error
 >;
 
-export type MoonCommentFetchUserChatsStart = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_START,
-    { userId: number }
+export type NoteFetchAllStart = Action<
+    NOTE_ACTION_TYPES.FETCH_ALL_START
 >;
 
-export type MoonCommentFetchUserChatsSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_SUCCESS, 
-    MoonComment[]
+export type NoteFetchAllSuccess = ActionWithPayload<
+    NOTE_ACTION_TYPES.FETCH_ALL_SUCCESS, 
+    Note[]
 >;
 
-export type MoonCommentFetchUserChatsFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_FAILED,
+export type NoteFetchAllFailed = ActionWithPayload<
+    NOTE_ACTION_TYPES.FETCH_ALL_FAILED,
     Error
 >;
 
-export type MoonCommentFetchAllStart = Action<
-    MOON_COMMENT_ACTION_TYPES.FETCH_ALL_START
->;
-
-export type MoonCommentFetchAllSuccess = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_ALL_SUCCESS, 
-    MoonComment[]
->;
-
-export type MoonCommentFetchAllFailed = ActionWithPayload<
-    MOON_COMMENT_ACTION_TYPES.FETCH_ALL_FAILED,
-    Error
->;
-
-export const moonCommentCreateStart = withMatcher(
-    (commentValue: string, imageFile: File, moonId: number ): MoonCommentCreateStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.CREATE_START, { commentValue, imageFile, moonId })
+export const noteCreateStart = withMatcher(
+    (noteValue: string, imageFile: File, panelId: number ): NoteCreateStart => 
+    createAction(NOTE_ACTION_TYPES.CREATE_START, { noteValue, imageFile, panelId })
 );
 
-export const moonCommentCreateSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentCreateSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.CREATE_SUCCESS, mooncomment)
+export const noteCreateSuccess = withMatcher(
+    (note: Note[]): NoteCreateSuccess => 
+    createAction(NOTE_ACTION_TYPES.CREATE_SUCCESS, note)
 );
 
-export const moonCommentCreateFailed = withMatcher(
+export const noteCreateFailed = withMatcher(
     (error: Error) => 
-    createAction(MOON_COMMENT_ACTION_TYPES.CREATE_START, error)
+    createAction(NOTE_ACTION_TYPES.CREATE_START, error)
 );
  
-export const moonCommentUpdateStart = withMatcher(
-    (moonCommentId: number, commentValue: string, mediaLink: string, userId: number): MoonCommentUpdateStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.UPDATE_START, { moonCommentId, commentValue, mediaLink, userId })
+export const noteUpdateStart = withMatcher(
+    (noteId: number, noteValue: string, imageFile: File, panelId: number): NoteUpdateStart => 
+    createAction(NOTE_ACTION_TYPES.UPDATE_START, { noteId, noteValue, imageFile, panelId })
 );
 
-export const moonCommentUpdateSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentUpdateSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.UPDATE_SUCCESS, mooncomment)
+export const noteUpdateSuccess = withMatcher(
+    (note: Note[]): NoteUpdateSuccess => 
+    createAction(NOTE_ACTION_TYPES.UPDATE_SUCCESS, note)
 );
 
-export const moonCommentUpdateFailed = withMatcher(
-    (error: Error): MoonCommentUpdateFailed => 
-    createAction(MOON_COMMENT_ACTION_TYPES.UPDATE_FAILED, error)
+export const noteUpdateFailed = withMatcher(
+    (error: Error): NoteUpdateFailed => 
+    createAction(NOTE_ACTION_TYPES.UPDATE_FAILED, error)
 );
 
-export const moonCommentDeleteStart = withMatcher(
-    (moonCommentId: number): MoonCommentDeleteStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.DELETE_START, { moonCommentId })
+export const noteDeleteStart = withMatcher(
+    (noteId: number): NoteDeleteStart => 
+    createAction(NOTE_ACTION_TYPES.DELETE_START, { noteId })
 );
 
-export const moonCommentDeleteSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentDeleteSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.DELETE_SUCCESS, mooncomment)
+export const noteDeleteSuccess = withMatcher(
+    (note: Note[]): NoteDeleteSuccess => 
+    createAction(NOTE_ACTION_TYPES.DELETE_SUCCESS, note)
 );
 
-export const moonCommentDeleteFailed = withMatcher(
+export const noteDeleteFailed = withMatcher(
     (error: Error) => 
-    createAction(MOON_COMMENT_ACTION_TYPES.DELETE_START, error)
+    createAction(NOTE_ACTION_TYPES.DELETE_START, error)
 );
 
-export const moonCommentFetchSingleStart = withMatcher(
-    (moonCommentId: number): MoonCommentFetchSingleStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_START, { moonCommentId })
+export const noteFetchSingleStart = withMatcher(
+    (noteId: number): NoteFetchSingleStart => 
+    createAction(NOTE_ACTION_TYPES.FETCH_SINGLE_START, { noteId })
 );
 
-export const moonCommentFetchSingleSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentFetchSingleSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_SUCCESS, mooncomment)
+export const noteFetchSingleSuccess = withMatcher(
+    (note: Note): NoteFetchSingleSuccess => 
+    createAction(NOTE_ACTION_TYPES.FETCH_SINGLE_SUCCESS, note)
 );
 
-export const moonCommentFetchSingleFailed = withMatcher(
-    (error: Error): MoonCommentFetchSingleFailed => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_SINGLE_FAILED, error)
+export const noteFetchSingleFailed = withMatcher(
+    (error: Error): NoteFetchSingleFailed => 
+    createAction(NOTE_ACTION_TYPES.FETCH_SINGLE_FAILED, error)
 );
 
-export const moonCommentFetchUserChatsStart = withMatcher(
-    (userId: number): MoonCommentFetchUserChatsStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_START, { userId })
+export const noteFetchAllStart = withMatcher(
+    (note: Note[]): NoteFetchAllStart => 
+    createAction(NOTE_ACTION_TYPES.FETCH_ALL_START, note)
 );
 
-export const moonCommentFetchUserChatsSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentFetchUserChatsSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_SUCCESS, mooncomment)
+export const noteFetchAllSuccess = withMatcher(
+    (note: Note[]): NoteFetchAllSuccess => 
+    createAction(NOTE_ACTION_TYPES.FETCH_ALL_SUCCESS, note)
 );
 
-export const moonCommentFetchUserChatsFailed = withMatcher(
-    (error: Error): MoonCommentFetchUserChatsFailed => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_FAILED, error)
-);
-
-export const moonCommentFetchAllStart = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentFetchAllStart => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_ALL_START, mooncomment)
-);
-
-export const moonCommentFetchAllSuccess = withMatcher(
-    (mooncomment: MoonComment[]): MoonCommentFetchAllSuccess => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_ALL_SUCCESS, mooncomment)
-);
-
-export const moonCommentFetchAllFailed = withMatcher(
-    (error: Error): MoonCommentFetchAllFailed => 
-    createAction(MOON_COMMENT_ACTION_TYPES.FETCH_ALL_FAILED, error)
+export const noteFetchAllFailed = withMatcher(
+    (error: Error): NoteFetchAllFailed => 
+    createAction(NOTE_ACTION_TYPES.FETCH_ALL_FAILED, error)
 );

@@ -45,7 +45,7 @@ export const gltfReducer = (
     if (
         gltfFetchSingleSuccess.match(action) 
     ) {
-        return { ...state, isLoading: false, gltfs: action.payload }
+        return { ...state, isLoading: false, singleGltf: action.payload }
     }
     if (
         gltfCreateSuccess.match(action) ||

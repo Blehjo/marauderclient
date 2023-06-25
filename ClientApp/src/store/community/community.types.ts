@@ -2,7 +2,7 @@ import { Channel } from "../channel/channel.types";
 import { Member } from "../member/member.types";
 import { User } from "../user/user.types";
 
-export enum PLANET_ACTION_TYPES  {
+export enum COMMUNITY_ACTION_TYPES  {
     CREATE_START = 'community/CREATE_START',
     CREATE_SUCCESS = 'community/CREATE_SUCCESS',
     CREATE_FAILED = 'community/CREATE_FAILED',
@@ -28,7 +28,7 @@ export enum PLANET_ACTION_TYPES  {
 
 export type Community = {
     communityId: number;
-    groupName: string;
+    communityName: string;
     description: string;
     modelLink: string;
     imageSource: string;

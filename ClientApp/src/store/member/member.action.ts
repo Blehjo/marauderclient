@@ -16,7 +16,7 @@ export type MemberCreateStart = ActionWithPayload<
 
 export type MemberCreateSuccess = ActionWithPayload<
     MEMBER_ACTION_TYPES.CREATE_SUCCESS, 
-    Member
+    Member[]
 >;
 
 export type MemberCreateFailed = ActionWithPayload<
@@ -79,8 +79,8 @@ export const memberCreateStart = withMatcher(
 );
 
 export const memberCreateSuccess = withMatcher(
-    (member: Member): MemberCreateSuccess => 
-    createAction(MEMBER_ACTION_TYPES.CREATE_SUCCESS, member)
+    (members: Member[]): MemberCreateSuccess => 
+    createAction(MEMBER_ACTION_TYPES.CREATE_SUCCESS, members)
 );
 
 export const memberCreateFailed = withMatcher(
