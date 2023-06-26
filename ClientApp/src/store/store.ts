@@ -7,6 +7,7 @@ import createSagaMiddleware from 'redux-saga';
 import { rootSaga } from './root-saga';
 
 import { rootReducer } from './root-reducer';
+import { createWrapper } from 'next-redux-wrapper';
 
 export type RootState = ReturnType<typeof rootReducer>;
 
@@ -37,7 +38,7 @@ const middleWares = [
 
 const composeEnhancer =
   (process.env.NODE_ENV !== 'production' &&
-    window &&
+    global.window &&
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
   compose;
 
@@ -50,5 +51,9 @@ export const store = createStore(
 );
 
 sagaMiddleware.run(rootSaga);
+
+const makeStore = () => store;
+
+export const wrapper = createWrapper(makeStore);
 
 export const persistor = persistStore(store);

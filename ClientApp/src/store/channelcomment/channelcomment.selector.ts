@@ -1,31 +1,31 @@
 import { createSelector } from 'reselect';
 
 import { RootState } from '../store';
-import { PlanetCommentState } from './channelcomment.reducer';
+import { ChannelCommentState } from './channelcomment.reducer';
 
-export const selectPlanetCommentReducer = (state: RootState): PlanetCommentState => state.planetcomment;
+export const selectChannelComentReducer = (state: RootState): ChannelCommentState => state.channelcomment;
 
-export const selectIsPlanetCommentLoading = createSelector(
-    [selectPlanetCommentReducer],
-    (planetcomment) => planetcomment.isLoading
+export const selectIsChannelCommentLoading = createSelector(
+    [selectChannelComentReducer],
+    (channelcomment) => channelcomment.isLoading
 );
 
-export const selectPlanetCommentId = createSelector(
-    [selectPlanetCommentReducer],
-    (planetcomment) => planetcomment.planetCommentId
+export const selectChannelCommentId = createSelector(
+    [selectChannelComentReducer],
+    (channelcomment) => channelcomment.channelCommentId
 );
 
-export const selectSinglePlanetComment = createSelector(
-    [selectPlanetCommentReducer],
-    (planetcomment) => planetcomment.singleComment
+export const selectSingleChannelComment = createSelector(
+    [selectChannelComentReducer],
+    (channelcomment) => channelcomment.singleComment
 );
 
-export const selectUserPlanetComments = createSelector(
-    [selectPlanetCommentReducer],
-    (planetcomment) => planetcomment.userComments
+export const selectUserChannelComments = createSelector(
+    [selectChannelComentReducer],
+    (channelcomment) => channelcomment.userComments
 );
 
-export const selectAllPlanetComments = createSelector(
-    [selectPlanetCommentReducer],
-    (planetcomment) => planetcomment.comments
+export const selectAllChannelComments = createSelector(
+    [selectChannelComentReducer],
+    (channelcomment) => channelcomment.comments
 );

@@ -34,7 +34,7 @@ class NavMenu extends Component {
                         className="me-2"
                         aria-label="Search"
                     />
-                    <Button variant="outline-light">Search</Button>
+                    <button type="button" className="btn btn-outline-light">Search</button>
                     </Form>
                     <PersonContainer>
                         <PersonCircle size={30}/>

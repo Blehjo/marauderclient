@@ -23,7 +23,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                         <a href="/voyager">
                         <LayoutTextWindowReverse className='icons' color="white" />
                         </a>
-                        <Nav.Link href="/voyager" className="ms-4">
+                        <Nav.Link href="/comms" className="tools ms-4">
                             Comms
                         </Nav.Link>
                     </Nav.Item>
@@ -31,7 +31,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                         <a href="/builder">
                         <Screwdriver className='icons' color="white" />
                         </a>
-                        <Nav.Link href="/builder" className="ms-4">
+                        <Nav.Link href="/builder" className="tools ms-4">
                             Builder
                         </Nav.Link>
                     </Nav.Item>
@@ -39,7 +39,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                         <a href="/vitals">
                         <Controller className='icons' color="white" />
                         </a>
-                        <Nav.Link href="/vitals" className="ms-4">
+                        <Nav.Link href="/vitals" className="tools ms-4">
                             Vitals
                         </Nav.Link>
                     </Nav.Item>
@@ -47,7 +47,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                         <a onClick={this.handleClick} href="/profile">
                         <DeviceHdd className='icons' color="white" />
                         </a>
-                        <Nav.Link onClick={this.handleClick} href="/profile" className="ms-4">
+                        <Nav.Link onClick={this.handleClick} href="/profile" className="tools ms-4">
                             Profile
                         </Nav.Link>
                     </Nav.Item>
@@ -56,7 +56,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                         <a href="/crew">
                         <Robot className='icons' color="white"  />
                         </a>
-                        <Nav.Link href="/crew" className="ms-4">
+                        <Nav.Link href="/crew" className="tools ms-4">
                             Crew
                         </Nav.Link>
                     </Nav.Item>
@@ -64,7 +64,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                         <a href="/messages">
                         <ChatDots className='icons' color="white"  />
                         </a>
-                        <Nav.Link href="/messages" className="ms-4">
+                        <Nav.Link href="/messages" className="tools ms-4">
                             Messages
                         </Nav.Link>
                     </Nav.Item>
@@ -72,7 +72,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                         <a href="/explore">
                         <Eye className='icons' color="white" />
                         </a>
-                        <Nav.Link href="/explore" className="ms-4">
+                        <Nav.Link href="/explore" className="tools ms-4">
                             Explore
                         </Nav.Link>
                     </Nav.Item>
@@ -80,7 +80,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                         <a href="/devices">
                         <DeviceSsd className='icons' color="white"  />
                         </a>
-                        <Nav.Link href="/devices" className="ms-4">
+                        <Nav.Link href="/devices" className="tools ms-4">
                             Devices
                         </Nav.Link>
                     </Nav.Item>
@@ -88,7 +88,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                         <a href="/projects">
                         <Lightbulb className='icons' color="white" />
                         </a>
-                        <Nav.Link href="/projects" className="ms-4">
+                        <Nav.Link href="/projects" className="tools ms-4">
                             Projects
                         </Nav.Link>
                     </Nav.Item >
@@ -97,7 +97,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                         <a href="/marauders">
                         <PersonBadge className='icons' color="white" />
                         </a>
-                        <Nav.Link href="/marauders" className="ms-4">
+                        <Nav.Link href="/marauders" className="tools ms-4">
                             Marauders
                         </Nav.Link>
                     </Nav.Item>
@@ -105,7 +105,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                         <a href="/posts">
                         <Collection className='icons' color="white" />
                         </a>
-                        <Nav.Link href="/posts" className="ms-4">
+                        <Nav.Link href="/posts" className="tools ms-4">
                             Posts
                         </Nav.Link>
                     </Nav.Item>
@@ -113,7 +113,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                         <a href="/chats">
                         <ChatLeft className='icons' color="white" />
                         </a>
-                        <Nav.Link href="/chats" className="ms-4">
+                        <Nav.Link href="/chats" className="tools ms-4">
                             Chats
                         </Nav.Link>
                     </Nav.Item>
@@ -121,7 +121,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                         <a href="/favorites">
                         <Star className='icons' color="white" />
                         </a>
-                        <Nav.Link href="/favorites" className="ms-4">
+                        <Nav.Link href="/favorites" className="tools ms-4">
                             Favorites
                         </Nav.Link>
                     </Nav.Item>
@@ -130,7 +130,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                         <a href="/settings">
                         <Gear className='icons' color="white" />
                         </a>
-                        <Nav.Link href="/settings" className="ms-4">
+                        <Nav.Link href="/settings" className="tools ms-4">
                             Settings
                         </Nav.Link>
                     </Nav.Item>

@@ -45,7 +45,7 @@ export const noteReducer = (
     if (
         noteFetchSingleSuccess.match(action) 
     ) {
-        return { ...state, isLoading: false, notes: action.payload }
+        return { ...state, isLoading: false, singleNote: action.payload }
     }
     if (
         noteCreateSuccess.match(action) ||

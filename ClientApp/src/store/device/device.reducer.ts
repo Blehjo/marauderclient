@@ -45,7 +45,7 @@ export const deviceReducer = (
     if (
         deviceFetchSingleSuccess.match(action) 
     ) {
-        return { ...state, isLoading: false, devices: action.payload }
+        return { ...state, isLoading: false, singleDevice: action.payload }
     }
     if (
         deviceCreateSuccess.match(action) ||

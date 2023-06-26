@@ -3,21 +3,14 @@ import { AnyAction } from 'redux';
 import { Userprofile } from './userprofile.types';
 
 import {
-    userprofileCreateStart,
-    userprofileCreateSuccess,
     userprofileCreateFailed,
-    userprofileUpdateStart,
-    userprofileUpdateSuccess,
-    userprofileUpdateFailed,
-    userprofileDeleteStart,
-    userprofileDeleteSuccess,
     userprofileDeleteFailed,
-    userprofileFetchSingleStart,
-    userprofileFetchSingleSuccess,
-    userprofileFetchSingleFailed,
+    userprofileFetchAllFailed,
     userprofileFetchAllStart,
     userprofileFetchAllSuccess,
-    userprofileFetchAllFailed,
+    userprofileFetchSingleFailed,
+    userprofileFetchSingleSuccess,
+    userprofileUpdateFailed
 } from './userprofile.action';
 
 export type UserprofileState = {

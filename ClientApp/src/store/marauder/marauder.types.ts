@@ -1,7 +1,8 @@
-import { Planet } from "../community/community.types";
+import { Chat } from "../chat/chat.types";
+import { Community } from "../community/community.types";
+import { Device } from "../device/device.types";
 import { Favorite } from "../favorite/favorite.types";
 import { Follower } from "../follower/follower.types";
-import { Moon } from "../member/member.types";
 import { Post } from "../post/post.types";
 
 export enum MARAUDER_ACTION_TYPES  {
@@ -27,8 +28,9 @@ export type Marauder = {
     type: string;
     dateCreated: Date;
     posts: Post[];
-    planets: Planet[];
-    moons: Moon[];
+    devices: Device[];
+    chats: Chat[];
+    communities: Community[];
     followers: Follower[];
     favorites: Favorite[];
 }

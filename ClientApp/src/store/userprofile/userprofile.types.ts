@@ -1,7 +1,8 @@
-import { Planet } from "../community/community.types";
+import { Chat } from "../chat/chat.types";
+import { Community } from "../community/community.types";
+import { Device } from "../device/device.types";
 import { Favorite } from "../favorite/favorite.types";
 import { Follower } from "../follower/follower.types";
-import { Moon } from "../member/member.types";
 import { Post } from "../post/post.types";
 
 export enum USERPROFILE_ACTION_TYPES {
@@ -37,9 +38,10 @@ export type Userprofile = {
     imageLink: string | null;
     imageSource: string | null;
     dateCreated: Date | null;
-    posts: Post[] | null;
-    planets: Planet[] | null;
-    moons: Moon[] | null;
-    followers: Follower[] | null;
-    favorites: Favorite[] | null;
+    posts: Post[];
+    devices: Device[];
+    chats: Chat[];
+    communities: Community[];
+    followers: Follower[];
+    favorites: Favorite[];
 }

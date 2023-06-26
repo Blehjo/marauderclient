@@ -7,6 +7,7 @@ import {
     getMarauders,
     getSingleMarauder
 } from '../../utils/api/user.api';
+import { MarauderFetchSingleStart, marauderFetchAllFailed, marauderFetchAllSuccess, marauderFetchSingleFailed, marauderFetchSingleSuccess } from './marauder.action';
 
 export function* fetchMarauders() {
     try {

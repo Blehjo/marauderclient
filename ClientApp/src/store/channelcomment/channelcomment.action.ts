@@ -6,7 +6,6 @@ import {
     createAction,
     withMatcher
 } from '../../utils/reducer/reducer.utils';
-import { channel } from 'diagnostics_channel';
 
 export type ChannelCommentCreateStart = ActionWithPayload<
     CHANNEL_COMMENT_ACTION_TYPES.CREATE_START, { commentValue: string, channelId: number, imageFile: File }
