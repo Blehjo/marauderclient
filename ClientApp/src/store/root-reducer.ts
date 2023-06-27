@@ -9,6 +9,7 @@ import { chatReducer } from './chat/chat.reducer';
 import { chatcommentReducer } from './chatcomment/chatcomment.reducer';
 import { commentReducer } from './comment/comment.reducer';
 import { communityReducer } from './community/community.reducer';
+import { docFileReducer } from './docfile/docfile.reducer';
 import { favoriteReducer } from './favorite/favorite.reducer';
 import { followerReducer } from './follower/follower.reducer';
 import { interfaceReducer } from './interface/interface.reducer';
@@ -16,6 +17,7 @@ import { marauderReducer } from './marauder/marauder.reducer';
 import { memberReducer } from './member/member.reducer';
 import { messageReducer } from './message/message.reducer';
 import { messagecommentReducer } from './messagecomment/messagecomment.reducer';
+import { moveableReducer } from './moveable/moveable.reducer';
 import { noteReducer } from './note/note.reducer';
 import { pinReducer } from './pin/pin.reducer';
 import { postReducer } from './post/post.reducer';
@@ -40,15 +42,17 @@ export const rootReducer = combineReducers({
   community: communityReducer,
   comment: commentReducer,
   device: deviceReducer,
+  docFile: docFileReducer,
   favorite: favoriteReducer,
   follower: followerReducer,
   gltf: gltfReducer,
   interface: interfaceReducer,
   pin: pinReducer,
+  marauder: marauderReducer,
   message: messageReducer,
   messagecomment: messagecommentReducer,
   member: memberReducer,
-  marauder: marauderReducer,
+  moveable: moveableReducer,
   note: noteReducer,
   panel: panelReducer,
   post: postReducer,

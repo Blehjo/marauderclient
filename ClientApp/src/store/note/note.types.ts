@@ -19,6 +19,8 @@ export enum NOTE_ACTION_TYPES {
 export type Note = {
     noteId: number | null;
     noteValue: string | null;
+    xCoord: number | null;
+    yCoord: number | null;
     dateCreated: Date;
     panelId: number | null;
 }

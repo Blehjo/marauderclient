@@ -26,7 +26,7 @@ import {
     getSingleNote
 } from '../../utils/api/note.api';
 
-export function* createNote({ payload: { noteValue, imageFile, panelId }}: NoteCreateStart ) {
+export function* createNote({ payload: { noteValue, xCoord, yCoord, imageFile, panelId }}: NoteCreateStart ) {
     const formData = new FormData();
     formData.append('noteValue', noteValue);
     formData.append('imageFile', imageFile);
@@ -34,6 +34,8 @@ export function* createNote({ payload: { noteValue, imageFile, panelId }}: NoteC
         const notes = yield* call(
             addNote,
             panelId,
+            xCoord,
+            yCoord,
             formData
         ); 
         yield* put(noteCreateSuccess(notes));
@@ -42,7 +44,7 @@ export function* createNote({ payload: { noteValue, imageFile, panelId }}: NoteC
     }
 }
 
-export function* updateNote({ payload: { noteId, noteValue, imageFile, panelId }}: NoteUpdateStart) {
+export function* updateNote({ payload: { noteId, xCoord, yCoord, noteValue, imageFile, panelId }}: NoteUpdateStart) {
     const formData = new FormData();
     formData.append('noteValue', noteValue);
     formData.append('imageFile', imageFile);
@@ -50,6 +52,8 @@ export function* updateNote({ payload: { noteId, noteValue, imageFile, panelId }
         const comment = yield* call(
             editNote,
             noteId,
+            xCoord, 
+            yCoord,
             formData,
             panelId
         ); 

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Panel } from "../../store/panel/panel.types";
+import { DocFile } from "../../store/docfile/docfile.types";
 
 
 const api = "https://planetnineserver.azurewebsites.net/api/device";
@@ -9,10 +9,10 @@ const headers = {
   'Content-Type': 'application/x-www-form-urlencoded' 
 }
 
-export async function getSinglePanel(panelId: number): Promise<Panel> {
+export async function getSingleDocFile(docFileId: number): Promise<DocFile> {
   const response = await axios({
     method: 'get',
-    url: `${api}/${panelId}`,
+    url: `${api}/${docFileId}`,
     headers: headers,
     withCredentials: true
   });
@@ -20,7 +20,7 @@ export async function getSinglePanel(panelId: number): Promise<Panel> {
   return result;
 }
 
-export async function getUserPanels(userId: number): Promise<Panel[]> {
+export async function getUserDocFiles(userId: number): Promise<DocFile[]> {
   const response = await axios({
     method: 'get',
     url: `${api}/${userId}`,
@@ -31,7 +31,7 @@ export async function getUserPanels(userId: number): Promise<Panel[]> {
   return result;
 }
 
-export async function getAllPanels(): Promise<Panel[]> {
+export async function getAllDocFiles(): Promise<DocFile[]> {
   const response = await axios({
     method: 'get',
     url: api,
@@ -42,14 +42,12 @@ export async function getAllPanels(): Promise<Panel[]> {
   return result;
 }
 
-export async function addPanel(title: string, xCoord: number, yCoord: number): Promise<Panel[]> {
+export async function addDocFile(title: string): Promise<DocFile[]> {
   const response = await axios({
     method: 'post',
     url: api, 
     data: {
-      title,
-      xCoord,
-      yCoord
+      title
     },
     headers: headers,
     withCredentials: true
@@ -58,14 +56,13 @@ export async function addPanel(title: string, xCoord: number, yCoord: number): P
   return result;
 }
 
-export async function editPanel(panelId: number, title: string, xCoord: number, yCoord: number): Promise<Panel[]> {
+export async function editDocFile(docFileId: number, title: string): Promise<DocFile[]> {
   const response = await axios({
     method: 'put',
-    url:`${api}/${panelId}`, 
+    url:`${api}/${docFileId}`, 
     data: {
-      title,
-      xCoord,
-      yCoord
+      docFileId,
+      title
     },
     headers: headers,
     withCredentials: true
@@ -74,10 +71,10 @@ export async function editPanel(panelId: number, title: string, xCoord: number, 
   return result;
 }
 
-export async function deletePanel(panelId: number): Promise<Panel[]> {
+export async function deleteDocFile(docFileId: number): Promise<DocFile[]> {
   const response = await axios({
     method: 'delete',
-    url: `${api}/${panelId}`,
+    url: `${api}/${docFileId}`,
     headers: headers,
     withCredentials: true
   });

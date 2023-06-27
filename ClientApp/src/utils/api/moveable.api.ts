@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Panel } from "../../store/panel/panel.types";
+import { Moveable } from "../../store/moveable/moveable.types";
 
 
 const api = "https://planetnineserver.azurewebsites.net/api/device";
@@ -9,10 +9,10 @@ const headers = {
   'Content-Type': 'application/x-www-form-urlencoded' 
 }
 
-export async function getSinglePanel(panelId: number): Promise<Panel> {
+export async function getSingleMoveable(moveableId: number): Promise<Moveable> {
   const response = await axios({
     method: 'get',
-    url: `${api}/${panelId}`,
+    url: `${api}/${moveableId}`,
     headers: headers,
     withCredentials: true
   });
@@ -20,7 +20,7 @@ export async function getSinglePanel(panelId: number): Promise<Panel> {
   return result;
 }
 
-export async function getUserPanels(userId: number): Promise<Panel[]> {
+export async function getUserMoveables(userId: number): Promise<Moveable[]> {
   const response = await axios({
     method: 'get',
     url: `${api}/${userId}`,
@@ -31,7 +31,7 @@ export async function getUserPanels(userId: number): Promise<Panel[]> {
   return result;
 }
 
-export async function getAllPanels(): Promise<Panel[]> {
+export async function getAllMoveables(): Promise<Moveable[]> {
   const response = await axios({
     method: 'get',
     url: api,
@@ -42,14 +42,15 @@ export async function getAllPanels(): Promise<Panel[]> {
   return result;
 }
 
-export async function addPanel(title: string, xCoord: number, yCoord: number): Promise<Panel[]> {
+export async function addMoveable(xCoord: number, yCoord: number, zCoord: number, fileId: number): Promise<Moveable[]> {
   const response = await axios({
     method: 'post',
     url: api, 
     data: {
-      title,
       xCoord,
-      yCoord
+      yCoord,
+      zCoord,
+      fileId
     },
     headers: headers,
     withCredentials: true
@@ -58,14 +59,16 @@ export async function addPanel(title: string, xCoord: number, yCoord: number): P
   return result;
 }
 
-export async function editPanel(panelId: number, title: string, xCoord: number, yCoord: number): Promise<Panel[]> {
+export async function editMoveable(moveableId: number, xCoord: number, yCoord: number, zCoord: number, fileId: number): Promise<Moveable[]> {
   const response = await axios({
     method: 'put',
-    url:`${api}/${panelId}`, 
+    url:`${api}/${moveableId}`, 
     data: {
-      title,
+      moveableId,
       xCoord,
-      yCoord
+      yCoord,
+      zCoord,
+      fileId
     },
     headers: headers,
     withCredentials: true
@@ -74,10 +77,10 @@ export async function editPanel(panelId: number, title: string, xCoord: number, 
   return result;
 }
 
-export async function deletePanel(panelId: number): Promise<Panel[]> {
+export async function deleteMoveable(moveableId: number): Promise<Moveable[]> {
   const response = await axios({
     method: 'delete',
-    url: `${api}/${panelId}`,
+    url: `${api}/${moveableId}`,
     headers: headers,
     withCredentials: true
   });

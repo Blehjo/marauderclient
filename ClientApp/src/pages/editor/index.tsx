@@ -1,8 +1,10 @@
-import { useRef } from 'react'
-import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Sphere, Sparkles } from '@react-three/drei'
+import { Component, ReactNode, useRef } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, Sparkles, Sphere } from '@react-three/drei';
+import { createRoot } from "@react-three/fiber";
 
-class Editor {
+
+class Editor extends Component {
   render() {
     return (
       <Canvas camera={{ fov: 45, position: [-4, 2, -4] }}>
@@ -19,5 +21,12 @@ class Editor {
     );
   }
 }
+
+// const item = createRoot().render(
+//   <mesh>
+//     <boxGeometry />
+//     <meshStandardMaterial />
+//   </mesh>
+// );
 
 export default Editor;

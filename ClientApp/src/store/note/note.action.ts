@@ -8,7 +8,7 @@ import {
 } from '../../utils/reducer/reducer.utils';
 
 export type NoteCreateStart = ActionWithPayload<
-    NOTE_ACTION_TYPES.CREATE_START, { noteValue: string, imageFile: File, panelId: number }
+    NOTE_ACTION_TYPES.CREATE_START, { noteValue: string, xCoord: number, yCoord: number, imageFile: File, panelId: number }
 >;
 
 export type NoteCreateSuccess = ActionWithPayload<
@@ -23,7 +23,7 @@ export type NoteCreateFailed = ActionWithPayload<
 
 export type NoteUpdateStart = ActionWithPayload<
     NOTE_ACTION_TYPES.UPDATE_START,
-    { noteId: number, noteValue: string, imageFile: File, panelId: number }
+    { noteId: number, noteValue: string, xCoord: number, yCoord: number, imageFile: File, panelId: number }
 >;
 
 export type NoteUpdateSuccess = ActionWithPayload<
@@ -81,8 +81,8 @@ export type NoteFetchAllFailed = ActionWithPayload<
 >;
 
 export const noteCreateStart = withMatcher(
-    (noteValue: string, imageFile: File, panelId: number ): NoteCreateStart => 
-    createAction(NOTE_ACTION_TYPES.CREATE_START, { noteValue, imageFile, panelId })
+    (noteValue: string, xCoord: number, yCoord: number, imageFile: File, panelId: number ): NoteCreateStart => 
+    createAction(NOTE_ACTION_TYPES.CREATE_START, { noteValue, xCoord, yCoord, imageFile, panelId })
 );
 
 export const noteCreateSuccess = withMatcher(
@@ -96,8 +96,8 @@ export const noteCreateFailed = withMatcher(
 );
  
 export const noteUpdateStart = withMatcher(
-    (noteId: number, noteValue: string, imageFile: File, panelId: number): NoteUpdateStart => 
-    createAction(NOTE_ACTION_TYPES.UPDATE_START, { noteId, noteValue, imageFile, panelId })
+    (noteId: number, noteValue: string, xCoord: number, yCoord: number, imageFile: File, panelId: number): NoteUpdateStart => 
+    createAction(NOTE_ACTION_TYPES.UPDATE_START, { noteId, noteValue, xCoord, yCoord, imageFile, panelId })
 );
 
 export const noteUpdateSuccess = withMatcher(

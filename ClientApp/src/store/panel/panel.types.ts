@@ -24,6 +24,8 @@ export enum PANEL_ACTION_TYPES {
 export type Panel = {
     panelId: number | null;
     title: string | null;
+    xCoord: number | null;
+    yCoord: number | null;
     dateCreated: Date;
     notes: Note[];
 }

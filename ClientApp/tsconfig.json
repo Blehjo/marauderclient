@@ -25,13 +25,17 @@
       }
     ]
   },
+  "baseUrl": "types",
+  "typeRoots": ["types"],
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
-, "src/styles/layout"  ],
+    ".next/types/**/*.ts", 
+    "src/styles/layout"  
+  ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "/node_modules\/(?!(three)\/).*/"
   ]
 }

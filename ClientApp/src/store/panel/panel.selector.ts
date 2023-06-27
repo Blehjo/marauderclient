@@ -5,7 +5,7 @@ import { PanelState } from './panel.reducer';
 
 export const selectPanelReducer = (state: RootState): PanelState => state.panel;
 
-export const selectIsMoonCommentLoading = createSelector(
+export const selectIsPanelLoading = createSelector(
     [selectPanelReducer],
     (panel) => panel.isLoading
 );

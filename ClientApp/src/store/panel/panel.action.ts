@@ -8,7 +8,7 @@ import {
 } from '../../utils/reducer/reducer.utils';
 
 export type PanelCreateStart = ActionWithPayload<
-    PANEL_ACTION_TYPES.CREATE_START, { title: string }
+    PANEL_ACTION_TYPES.CREATE_START, { title: string, xCoord: number, yCoord: number }
 >;
 
 export type PanelCreateSuccess = ActionWithPayload<
@@ -23,7 +23,7 @@ export type PanelCreateFailed = ActionWithPayload<
 
 export type PanelUpdateStart = ActionWithPayload<
     PANEL_ACTION_TYPES.UPDATE_START,
-    { panelId: number, title: string }
+    { panelId: number, title: string, xCoord: number, yCoord: number }
 >;
 
 export type PanelUpdateSuccess = ActionWithPayload<
@@ -95,8 +95,8 @@ export type PanelFetchAllFailed = ActionWithPayload<
 >;
 
 export const panelCreateStart = withMatcher(
-    (title: string ): PanelCreateStart => 
-    createAction(PANEL_ACTION_TYPES.CREATE_START, { title })
+    (title: string, xCoord: number, yCoord: number ): PanelCreateStart => 
+    createAction(PANEL_ACTION_TYPES.CREATE_START, { title, xCoord, yCoord })
 );
 
 export const panelCreateSuccess = withMatcher(
@@ -110,8 +110,8 @@ export const panelCreateFailed = withMatcher(
 );
  
 export const panelUpdateStart = withMatcher(
-    (panelId: number, title: string ): PanelUpdateStart => 
-    createAction(PANEL_ACTION_TYPES.UPDATE_START, { panelId, title })
+    (panelId: number, title: string, xCoord: number, yCoord: number ): PanelUpdateStart => 
+    createAction(PANEL_ACTION_TYPES.UPDATE_START, { panelId, title, xCoord, yCoord })
 );
 
 export const panelUpdateSuccess = withMatcher(

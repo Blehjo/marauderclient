@@ -31,11 +31,13 @@ import {
     getUserPanels
 } from '../../utils/api/panel.api';
 
-export function* createPanel({ payload: { title }}: PanelCreateStart ) {
+export function* createPanel({ payload: { title, xCoord, yCoord }}: PanelCreateStart ) {
     try {
         const panels = yield* call(
             addPanel,
-            title
+            title,
+            xCoord,
+            yCoord
         ); 
         yield* put(panelCreateSuccess(panels));
     } catch (error) {
@@ -43,12 +45,14 @@ export function* createPanel({ payload: { title }}: PanelCreateStart ) {
     }
 }
 
-export function* updatePanel({ payload: { panelId, title }}: PanelUpdateStart) {
+export function* updatePanel({ payload: { panelId, title, xCoord, yCoord }}: PanelUpdateStart) {
     try {
         const panel = yield* call(
             editPanel,
             panelId,
-            title
+            title, 
+            xCoord,
+            yCoord
         ); 
         yield* put(panelUpdateSuccess(panel));
     } catch (error) {
@@ -135,7 +139,7 @@ export function* onFetchSingleStart() {
     );
 }
   
-export function* onFetchsStart() {
+export function* onFetchStart() {
     yield* takeLatest(
         PANEL_ACTION_TYPES.FETCH_ALL_START,
         fetchAllPanels
@@ -149,6 +153,6 @@ export function* panelSagas() {
         call(onDeleteStart),
         call(onFetchUserPanelsStart),
         call(onFetchSingleStart),
-        call(onFetchsStart)
+        call(onFetchStart)
     ]);
 }

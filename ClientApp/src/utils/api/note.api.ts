@@ -31,10 +31,10 @@ export async function getAllNotes(): Promise<Note[]> {
   return result;
 }
 
-export async function addNote(panelId: number, formData: FormData): Promise<Note[]> {
+export async function addNote(panelId: number, xCoord: number, yCoord: number, formData: FormData): Promise<Note[]> {
   const response = await axios({
     method: 'post',
-    url: `${api}/${panelId}`,
+    url: `${api}/${panelId}/${xCoord}/${yCoord}`,
     data: formData,
     headers: headers,
     withCredentials: true
@@ -43,10 +43,10 @@ export async function addNote(panelId: number, formData: FormData): Promise<Note
   return result;
 }
 
-export async function editNote(noteId: number, formData: FormData, panelId: number): Promise<Note[]> {
+export async function editNote(noteId: number, xCoord: number, yCoord: number , formData: FormData, panelId: number): Promise<Note[]> {
   const response = await axios({
     method: 'put',
-    url: `${api}/${noteId}/${panelId}`, 
+    url: `${api}/${noteId}/${panelId}/${xCoord}/${yCoord}`, 
     data: formData,
     headers: headers,
     withCredentials: true

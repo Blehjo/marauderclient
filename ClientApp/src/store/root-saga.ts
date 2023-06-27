@@ -9,6 +9,7 @@ import { chatCommentSagas } from './chatcomment/chatcomment.saga';
 import { commentSagas } from './comment/comment.saga';
 import { communitySagas } from './community/community.saga';
 import { deviceSagas } from './device/device.saga';
+import { docFileSagas } from './docfile/docfile.saga';
 import { favoriteSagas } from './favorite/favorite.saga';
 import { followerSagas } from './follower/follower.saga';
 import { gltfSagas } from './gltf/gltf.saga';
@@ -23,6 +24,7 @@ import { postSagas } from './post/post.saga';
 import { toolSagas } from './tool/tool.saga';
 import { userSagas } from './user/user.saga';
 import { userprofileSagas } from './userprofile/userprofile.saga';
+import { moveableSagas } from './moveable/moveable.saga';
 
 export function* rootSaga() {
   yield* all([
@@ -35,6 +37,7 @@ export function* rootSaga() {
     call(commentSagas), 
     call(communitySagas), 
     call(deviceSagas), 
+    call(docFileSagas), 
     call(favoriteSagas), 
     call(followerSagas), 
     call(gltfSagas), 
@@ -42,6 +45,7 @@ export function* rootSaga() {
     call(memberSagas), 
     call(messageSagas), 
     call(messageCommentSagas), 
+    call(moveableSagas), 
     call(noteSagas), 
     call(panelSagas), 
     call(pinSagas), 
