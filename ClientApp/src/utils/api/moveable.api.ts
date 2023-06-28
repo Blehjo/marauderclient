@@ -2,7 +2,7 @@ import axios from "axios";
 import { Moveable } from "../../store/moveable/moveable.types";
 
 
-const api = "https://planetnineserver.azurewebsites.net/api/device";
+const api = "https://planetnineserver.azurewebsites.net/api/moveable";
 
 const headers = {
   'Accept': 'application/x-www-form-urlencoded',

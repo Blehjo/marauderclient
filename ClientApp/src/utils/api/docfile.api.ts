@@ -2,7 +2,7 @@ import axios from "axios";
 import { DocFile } from "../../store/docfile/docfile.types";
 
 
-const api = "https://planetnineserver.azurewebsites.net/api/device";
+const api = "https://planetnineserver.azurewebsites.net/api/docfile";
 
 const headers = {
   'Accept': 'application/x-www-form-urlencoded',
