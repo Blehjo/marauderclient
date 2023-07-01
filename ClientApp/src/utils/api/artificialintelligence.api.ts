@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ArtificialIntelligence } from "../../store/artificialintelligence/artificialintelligence.types";
 
-const api = "https://planetnineserver.azurewebsites.net/api/artificialintelligence";
+const api = "https://marauderserver.azurewebsites.net/api/artificialintelligence";
 
 const headers = {
   'Accept': 'application/x-www-form-urlencoded',

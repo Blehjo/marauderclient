@@ -2,7 +2,7 @@
 import axios from "axios";
 import { Note } from "../../store/note/note.types";
 
-const api = "https://planetnineserver.azurewebsites.net/api/note";
+const api = "https://marauderserver.azurewebsites.net/api/note";
 
 const headers = {
   'Accept': 'application/x-www-form-urlencoded',

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const api = "https://planetnineserver.azurewebsites.net/api/chatgpt";
+const api = "https://marauderserver.azurewebsites.net/api/chatgpt";
 
 const headers = {
   // 'Accept': 'application/json',

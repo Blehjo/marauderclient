@@ -2,7 +2,7 @@
 import axios from "axios";
 import { User } from "../../store/user/user.types";
 
-const api = "https://planetnineserver.azurewebsites.net/api/users";
+const api = "https://marauderserver.azurewebsites.net/api/users";
 
 const headers = {
   'Accept': 'application/x-www-form-urlencoded',

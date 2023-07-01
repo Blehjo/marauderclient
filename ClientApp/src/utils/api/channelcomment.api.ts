@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ChannelComment } from "../../store/channelcomment/channelcomment.types";
 
-const api = "https://planetnineserver.azurewebsites.net/api/channelcomment";
+const api = "https://marauderserver.azurewebsites.net/api/channelcomment";
 
 const headers = {
   'Accept': 'application/x-www-form-urlencoded',

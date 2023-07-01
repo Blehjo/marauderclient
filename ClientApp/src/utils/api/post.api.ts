@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Post } from "../../store/post/post.types";
 
-const api = "https://planetnineserver.azurewebsites.net/api/post";
+const api = "https://marauderserver.azurewebsites.net/api/post";
 
 const headers = {
   'Accept': 'application/x-www-form-urlencoded',

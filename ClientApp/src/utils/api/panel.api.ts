@@ -2,7 +2,7 @@ import axios from "axios";
 import { Panel } from "../../store/panel/panel.types";
 
 
-const api = "https://planetnineserver.azurewebsites.net/api/panel";
+const api = "https://marauderserver.azurewebsites.net/api/panel";
 
 const headers = {
   'Accept': 'application/x-www-form-urlencoded',

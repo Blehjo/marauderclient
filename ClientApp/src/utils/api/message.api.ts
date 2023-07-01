@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Message } from "../../store/message/message.types";
 
-const api = "https://planetnineserver.azurewebsites.net/api/message";
+const api = "https://marauderserver.azurewebsites.net/api/message";
 
 const headers = {
   'Accept': 'application/json',

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Device } from "../../store/device/device.types";
 
-const api = "https://planetnineserver.azurewebsites.net/api/device";
+const api = "https://marauderserver.azurewebsites.net/api/device";
 
 const headers = {
   'Accept': 'application/x-www-form-urlencoded',

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Gltf } from "../../store/gltf/gltf.types";
 
-const api = "https://planetnineserver.azurewebsites.net/api/gltf";
+const api = "https://marauderserver.azurewebsites.net/api/gltf";
 
 const headers = {
   'Accept': 'application/x-www-form-urlencoded',
