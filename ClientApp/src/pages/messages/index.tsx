@@ -22,20 +22,20 @@ class Messages extends Component<IProps, IMessage> {
 
     connect() {
         // const { socket } = this.state;
-        var url = 'ws://' + "localhost:7144/api/websocket/ws";
-        const socket = io(url);
-        console.log("Socket: ", socket)
+        var url = 'wss://' + "localhost:7144/api/websocket";
+        const socket = io('http://127.0.0.1:7890/echo');
         // this.setState({
-        //     ...this.state, socket: io(url)
-        // })
-
+            //     ...this.state, socket: io(url)
+            // })
+            
         socket.emit('open', function(event) {
             console.log('Connected to ' + url);
         });
-
+        
         socket.emit('message', function(event) {
             console.log('Message from server: ' + event.data);
         });
+        console.log("Socket: ", socket)
     }
 
     // sendMessage() {
