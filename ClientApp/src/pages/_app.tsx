@@ -10,13 +10,16 @@ import StyledComponentsRegistry from '../components/registry/registry.component'
 import '../styles/globals.css';
 import { persistor, store, wrapper } from '../store/store';
 
-function App({ Component, pageProps }: AppProps) {
+function App({ Component, ...rest }: AppProps) {
+  const { store, props } = wrapper.useWrappedStore(rest);
+  const { pageProps } = props;
   const { isBrowser } = useSSR()
   return (
     isBrowser && (
       <NextUIProvider >
         <StyledComponentsRegistry>
           <Provider store={store}>
+            {/* <CacheProvider value={emotionCache}> */}
             <PersistGate 
               loading={
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
@@ -24,11 +27,12 @@ function App({ Component, pageProps }: AppProps) {
                 </div>
               } 
               persistor={persistor} 
-            >
+              >
               <Layout>
                 <Component {...pageProps} />
               </Layout>
             </PersistGate>
+            {/* </CacheProvider> */}
           </Provider>
         </StyledComponentsRegistry>
       </NextUIProvider>
@@ -36,4 +40,4 @@ function App({ Component, pageProps }: AppProps) {
   );
 }
 
-export default wrapper.withRedux(App);
+export default App;
