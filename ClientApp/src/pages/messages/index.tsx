@@ -1,10 +1,37 @@
-import { Component } from "react";
+import { ChangeEvent, Component } from "react";
+import { Card, Col, Form, Image, ListGroup, Row } from 'react-bootstrap';
 import { Socket, io } from "socket.io-client";
 import Input from "../../components/input/input.component";
 import MessagesComponent from "../../components/messages/messages.component";
+import { InputContainer, ListContainer, MessageContainer, MessageForm, TextContainer } from "../../styles/messages/messages.styles";
+import { Airplane, Send, XCircle } from "react-bootstrap-icons";
 
+const userMessages = [
+    "hello",
+    "hi there",
+    "what's new",
+    "nothing much. just bored. hby?",
+    "same ol' my boy",
+    "wya?",
+    "you already know..."
+]
+
+const userArray = [
+    {"name": "James", "avatarUrl":"https://via.placeholder.com/1"},
+    {"name": "Jomana", "avatarUrl":"https://via.placeholder.com/1"},
+    {"name": "Jeda", "avatarUrl":"https://via.placeholder.com/1"}
+]
+type User = {
+    name: string;
+    avatarUrl: string;
+}
 interface IMessage {
-    socket: Socket | null;
+    socket: boolean;
+    messageValue: string;
+    messages: Array<string>;
+    users: Array<User>;
+    imageSource: string | ArrayBuffer | null | undefined;
+    imageFile: any;
 }
 
 interface IProps {
@@ -15,64 +42,141 @@ class Messages extends Component<IProps, IMessage> {
     constructor(props: any) {
         super(props);
         this.state = {
-            socket: null
+            socket: false,
+            messageValue: "",
+            imageSource: "",
+            messages: [],
+            users: [],
+            imageFile: null
         }
+        this.handleChange = this.handleChange.bind(this);
+        this.sendMessage = this.sendMessage.bind(this);
     }
     
 
-    connect() {
-        var url = 'wss://' + "localhost:7144/api/websocket";
-        const socket = io("wss://localhost:5001/ws");
+    sendMessage(event): void {
+        event.preventDefault();
+        const { messageValue } = this.state;
+        let webSocket = new WebSocket("wss://localhost:7144/ws/1");
 
-        // socket.emit()
-            
-        // socket.emit('open', function(event) {
-        //     console.log('Connected to ' + url);
-        // });
-        
-        // socket.emit('message', function(event) {
-        //     console.log('Message from server: ' + event.data);
-        // });
+        webSocket.onopen = (event) => {
+            webSocket.send(messageValue);
+            this.setState({
+                ...this.state, messageValue: ""
+            })
+        };
 
-        console.log("Socket: ", socket)
+        webSocket.onmessage = (event) => {
+            if (event.data) {
+                this.setState({
+                    ...this.state, messages: this.state.messages.concat([event.data])
+                })
+                webSocket.close();
+            }
+        }
     }
 
-    // sendMessage() {
-    //     const { socket } = this.state
-    //     var message = wsMessage.value;
-    //     socket.emit(message);
-    //     addLog('Message sent!');
-    // }
+    handleClick(): void {
 
-    // addLog(log) {
-    //     var logParagraph = document.createElement('p');
-    //     logParagraph.innerText = log;
-    //     logsContainer.appendChild(logParagraph);
-    // }
+    }
 
-    // componentDidMount() {
-    //     const newSocket = io(`http://${window.location.hostname}:3000`);
-    //     this.setState({
-    //         socket: newSocket
-    //     });
-    //     return () => newSocket.close();
-    // }
+    handleDelete(messageId: number): void {
+
+    }
+
+    handleChange(event: ChangeEvent<HTMLInputElement>): void {
+        const { name, value } = event.target;
+        this.setState({ ...this.state, [name]: value });
+    }
+    
+    showPreview(event: ChangeEvent<HTMLInputElement>) {
+        if (event.target.files && event.target.files[0]) {
+            const { files } = event.target;
+            const selectedFiles = files as FileList;
+            let imageFile = selectedFiles[0];
+            const reader = new FileReader();
+            reader.onload = x => {
+            this.setState({
+                ...this.state,
+                imageFile,
+                imageSource: x.target?.result
+            });
+            }
+            reader.readAsDataURL(imageFile);
+        } else {
+            this.setState({
+                ...this.state,
+                imageFile: null,
+                imageSource: null
+            });
+        }
+    }
+    
+    componentDidMount(): void {
+        this.setState({
+            ...this.state, messages: userMessages, users: userArray 
+        });
+    }
 
     render() {
-        const { socket } = this.state;
+        const { messageValue, messages } = this.state;
         return (
-            <div style={{ paddingTop: '10rem'}}>
-                <header>React Chat</header>
-                <button onClick={this.connect} >Connect</button>
-                { socket ? (
-                    <div className="chat-container">
-                        <MessagesComponent placeholder={"Type in Message"} socket={socket} />
-                        <Input placeholder={"Type in Message"} socket={socket} />
-                    </div>
-                    ) : (
-                        <div>Not Connected</div>
-                )}
-            </div>
+            <MessageContainer>
+                <ListContainer>
+                        <Card style={{ backgroundColor: 'black', borderRadius: '.3rem', border: 'solid 1px white', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', color: 'white', textAlign: 'center' }}>
+                            New Message +
+                        </Card>
+                        {
+                            userArray.map(({ name, avatarUrl }, index) => (
+                                <Card onClick={() => this.handleClick()} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer' }} key={index}>
+                                    <Row key={index} xs={3}>
+                                        <Col xs={4}>
+                                            <Image style={{ borderRadius: '.4rem', margin: '.5rem', width: '2rem', height: '2rem', objectFit: 'cover' }} fluid src={avatarUrl} />
+                                        </Col>
+                                        <Col xs={5}>
+                                            <div style={{ alignItems: 'center' }}>
+                                                <div>
+                                                    {name}
+                                                </div>
+                                            </div>
+                                        </Col>
+                                        <Col xs={1}>
+                                            <XCircle onClick={() => this.handleDelete(index)} />
+                                        </Col>
+                                    </Row>
+                                </Card>
+                            ))
+                        }
+                </ListContainer>
+                <MessageForm>
+                    <Form>
+                        <div>
+                            {
+                                messages.map((message, index) => (
+                                    <TextContainer key={index}>
+                                        {message}
+                                    </TextContainer>
+                                ))
+                            }
+                        </div>
+                        <InputContainer>
+                        <Row xs={2}>
+                            <Col xs={10}>
+                            <Form.Group className="mb-3" controlId="request">
+                                <Form.Control style={{ height: '.5rem' }} as="textarea" onChange={this.handleChange} value={messageValue} name="messageValue" placeholder="Write a message" />
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="formMedia">
+                                <Form.Control onChange={this.showPreview} name="mediaLink" as="input" accept="image/*" type="file" placeholder="Media" />
+                            </Form.Group>
+                            </Col>
+                            <Col xs={2}>
+                            <button className="btn btn-outline-light" onClick={this.sendMessage}><Send/></button>
+                            </Col>
+                        </Row>
+                        </InputContainer>
+                    </Form>
+                </MessageForm>
+            </MessageContainer>
         );
     }
 }
