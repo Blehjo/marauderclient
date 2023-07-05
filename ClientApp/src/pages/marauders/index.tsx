@@ -6,13 +6,16 @@ import { MessageCreateStart, MessageSetID, messageCreateStart, messageSetId } fr
 import { MessageCommentCreateStart, messagecommentCreateStart } from "../../store/messagecomment/messagecomment.action";
 import { RootState } from "../../store/store";
 import { MarauderFetchAllStart, MarauderFetchSingleStart, marauderFetchAllStart, marauderFetchSingleStart } from "../../store/marauder/marauder.action";
+import { Marauder } from "../../store/marauder/marauder.types";
+import { MessageState } from "../../store/message/message.reducer";
 
 type MarauderProps = ConnectedProps<typeof connector>;
 
 class Marauders extends Component<MarauderProps> {
     render() {
+        const { marauders } = this.props;
         return (
-            <ResponsiveMemory { ...this.props }/>
+            <ResponsiveMemory profiles={marauders} { ...this.props }/>
         );
     }
 }
@@ -25,7 +28,7 @@ const mapStateToProps = (state: RootState) => {
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<MarauderFetchAllStart | MessageSetID | MarauderFetchSingleStart | MessageCreateStart | MessageCommentCreateStart>) => ({
-	getAllMarauders: () => dispatch(marauderFetchAllStart()),
+	getAll: () => dispatch(marauderFetchAllStart()),
     getMarauder: (userId: number ) => dispatch(marauderFetchSingleStart(userId)),
     sendMessage: (messageValue: string) => dispatch(messageCreateStart(messageValue)),
     createMessageComment: (messageId: number, messageValue: string, mediaLink: File) => dispatch(messagecommentCreateStart(messageId, messageValue, mediaLink)),

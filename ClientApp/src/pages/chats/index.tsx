@@ -28,7 +28,7 @@ const mapStateToProps = (state: RootState) => {
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<ChatFetchAllStart | ChatFetchSingleStart | ChatCommentFetchSingleStart | FavoriteCreateStart | ChatCommentCreateStart>) => ({
-	getAllChats: () => dispatch(chatFetchAllStart()),
+	getAll: () => dispatch(chatFetchAllStart()),
     getChat: (chatId: number) => dispatch(chatFetchSingleStart(chatId)),
     getChatComments: (chatId: number) => dispatch(chatcommentFetchSingleStart(chatId)),
     createComment: (chatId: number, commentValue: string, imageFile: File) => dispatch(chatcommentCreateStart(chatId, commentValue, imageFile)),

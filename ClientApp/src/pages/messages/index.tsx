@@ -1,10 +1,7 @@
 import { ChangeEvent, Component } from "react";
-import { Card, Col, Form, Image, ListGroup, Row } from 'react-bootstrap';
-import { Socket, io } from "socket.io-client";
-import Input from "../../components/input/input.component";
-import MessagesComponent from "../../components/messages/messages.component";
+import { Card, Col, Form, Image, Row } from 'react-bootstrap';
+import { Send, XCircle } from "react-bootstrap-icons";
 import { InputContainer, ListContainer, MessageContainer, MessageForm, TextContainer } from "../../styles/messages/messages.styles";
-import { Airplane, Send, XCircle } from "react-bootstrap-icons";
 
 const userMessages = [
     "hello",
@@ -123,30 +120,30 @@ class Messages extends Component<IProps, IMessage> {
         return (
             <MessageContainer>
                 <ListContainer>
-                        <Card style={{ backgroundColor: 'black', borderRadius: '.3rem', border: 'solid 1px white', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', color: 'white', textAlign: 'center' }}>
-                            New Message +
-                        </Card>
-                        {
-                            userArray.map(({ name, avatarUrl }, index) => (
-                                <Card onClick={() => this.handleClick()} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer' }} key={index}>
-                                    <Row key={index} xs={3}>
-                                        <Col xs={4}>
-                                            <Image style={{ borderRadius: '.4rem', margin: '.5rem', width: '2rem', height: '2rem', objectFit: 'cover' }} fluid src={avatarUrl} />
-                                        </Col>
-                                        <Col xs={5}>
-                                            <div style={{ alignItems: 'center' }}>
-                                                <div>
-                                                    {name}
-                                                </div>
+                    <Card style={{ backgroundColor: 'black', borderRadius: '.3rem', border: 'solid 1px white', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', color: 'white', textAlign: 'center' }}>
+                        New Message +
+                    </Card>
+                    {
+                        userArray.map(({ name, avatarUrl }, index) => (
+                            <Card onClick={() => this.handleClick()} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer' }} key={index}>
+                                <Row key={index} xs={3}>
+                                    <Col xs={4}>
+                                        <Image style={{ borderRadius: '.4rem', margin: '.5rem', width: '2rem', height: '2rem', objectFit: 'cover' }} fluid src={avatarUrl} />
+                                    </Col>
+                                    <Col xs={5}>
+                                        <div style={{ alignItems: 'center' }}>
+                                            <div>
+                                                {name}
                                             </div>
-                                        </Col>
-                                        <Col xs={1}>
-                                            <XCircle onClick={() => this.handleDelete(index)} />
-                                        </Col>
-                                    </Row>
-                                </Card>
-                            ))
-                        }
+                                        </div>
+                                    </Col>
+                                    <Col xs={1}>
+                                        <XCircle onClick={() => this.handleDelete(index)} />
+                                    </Col>
+                                </Row>
+                            </Card>
+                        ))
+                    }
                 </ListContainer>
                 <MessageForm>
                     <Form>

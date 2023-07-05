@@ -81,7 +81,7 @@ export type DeviceFetchAllFailed = ActionWithPayload<
 >;
 
 export const deviceCreateStart = withMatcher(
-    (deviceName: string, deviceType: number ): DeviceCreateStart => 
+    (deviceName: string, deviceType: number): DeviceCreateStart => 
     createAction(DEVICE_ACTION_TYPES.CREATE_START, { deviceName, deviceType })
 );
 
@@ -141,8 +141,8 @@ export const deviceFetchSingleFailed = withMatcher(
 );
 
 export const deviceFetchAllStart = withMatcher(
-    (device: Device[]): DeviceFetchAllStart => 
-    createAction(DEVICE_ACTION_TYPES.FETCH_ALL_START, device)
+    (): DeviceFetchAllStart => 
+    createAction(DEVICE_ACTION_TYPES.FETCH_ALL_START)
 );
 
 export const deviceFetchAllSuccess = withMatcher(

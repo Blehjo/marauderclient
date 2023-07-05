@@ -1,11 +1,11 @@
 import axios from "axios";
 import { Device } from "../../store/device/device.types";
 
-const api = "https://marauderserver.azurewebsites.net/api/device";
+const api = "https://localhost:7144/api/devices";
 
 const headers = {
-  'Accept': 'application/x-www-form-urlencoded',
-  'Content-Type': 'application/x-www-form-urlencoded' 
+  'Accept': 'application/json',
+  'Content-Type': 'application/json' 
 }
 
 export async function getSingleDevice(deviceId: number): Promise<Device> {
@@ -35,8 +35,8 @@ export async function addDevice(deviceName: string, deviceType: number): Promise
     method: 'post',
     url: api, 
     data: {
-        deviceName,
-        deviceType
+      deviceName,
+      deviceType
     },
     headers: headers,
     withCredentials: true

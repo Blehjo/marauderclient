@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Community } from "../../store/community/community.types";
 
-const api = "https://marauderserver.azurewebsites.net/api/community";
+const api = "https://localhost:7144/api/community";
 
 const headers = {
   'Accept': 'application/x-www-form-urlencoded',

@@ -5,6 +5,5 @@ export const BadgeContainer = styled.div`
 `;
 
 export const ResponsiveMemoryContainer = styled.div`
-    margin-top: 5rem;
-    padding: 1rem;
+    padding-top: 5rem;
 `;

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Chat } from "../../store/chat/chat.types";
 
-const api = "https://marauderserver.azurewebsites.net/api/chat";
+const api = "https://localhost:7144/api/chat";
 
 const headers = {
   'Accept': 'application/json',

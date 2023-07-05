@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Channel } from "../../store/channel/channel.types";
 
-const api = "https://marauderserver.azurewebsites.net/api/channel";
+const api = "https://localhost:7144/api/channel";
 
 const headers = {
     'Accept': 'application/x-www-form-urlencoded',

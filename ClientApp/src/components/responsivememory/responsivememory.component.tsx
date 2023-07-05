@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { Badge, Card, Col, Modal, Row } from "react-bootstrap";
-import { ArrowsFullscreen, Chat, Rocket } from "react-bootstrap-icons";
+import { ArrowsFullscreen, Chat, Collection, DeviceHdd, Envelope, Mask, Person, Rocket } from "react-bootstrap-icons";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { BadgeContainer, ResponsiveMemoryContainer } from "../../styles/responsivememory/responsivememory.styles";
 import { utcConverter } from "../../utils/date/date.utils";
@@ -45,34 +45,49 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
     }
 
     profileFunction(prop: any) {
-        const { postId, postValue, mediaLink, comments, favorites, type, imageSource } = prop;
+        const { userId, username, imageLink, posts, devices, about, imageSource } = prop;
         return (
-            <Card bg="dark" style={{ margin: '1rem', color: 'white'}}>
-                <Card.Img src={mediaLink ? imageSource : "https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"}/>
+            <Card style={{ background: 'black', border: 'solid 1px white', padding: '.5rem', margin: '1rem', color: 'white'}}>
+                <Card.Img src={imageLink ? imageSource : "https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"}/>
                 <Card.ImgOverlay>
                     <div style={{ cursor: "pointer", position: "absolute", left: "0", top: "0" }}>
+                    <BadgeContainer>
+                        <a href={`/profile/${userId}`}>
+                            <Badge style={{ color: 'black' }} bg="light"><Person style={{ cursor: 'pointer' }} size={15}/></Badge>
+                        </a>
+                        </BadgeContainer>
                         <BadgeContainer>
-                            <Badge style={{ color: 'black' }} bg="light"><ArrowsFullscreen style={{ cursor: 'pointer' }} onClick={() => this.handleClick(postId, type)} size={15}/></Badge>
+                            <Badge style={{ color: 'black' }} bg="light">
+                                <Envelope 
+                                    style={{ cursor: 'pointer' }} 
+                                    onClick={() => {
+                                        // this.handleClick(userId);
+                                        // this.openMessage();
+                                    }} 
+                                    size={15}
+                                />
+                            </Badge>
                         </BadgeContainer>
                         {
                             <BadgeContainer><Badge style={{ color: 'black' }} bg="light">
-                                <Chat size={15}/>
-                                {` ${comments?.length > 0 ? comments?.length : ""}`}
+                                <Collection size={15}/>
+                                {` ${posts?.length > 0 ? posts?.length : ""}`}
                                 </Badge>
                             </BadgeContainer>
                         }
                         {
                             <BadgeContainer>
                                 <Badge style={{ color: 'black' }} bg="light">
-                                <Rocket style={{ cursor: 'pointer' }} onClick={() => this.handleLike(postId, type)} size={15}/>
-                                {` ${favorites?.length > 0 ? favorites?.length : ""}`}
+                                <DeviceHdd style={{ cursor: 'pointer' }} size={15}/>
+                                {` ${devices?.length > 0 ? devices?.length : ""}`}
                                 </Badge>
                             </BadgeContainer>
                         }
                     </div>
                 </Card.ImgOverlay>
                 <Card.Body>
-                    <Card.Text>{postValue}</Card.Text>
+                    <Card.Text>{username}</Card.Text>
+                    <Card.Text>{about}</Card.Text>
                 </Card.Body>
             </Card>
         )
@@ -81,7 +96,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
     chatFunction(prop: any) {
         const { chatId, title, type, userId, comments, chatComments, favorites, dateCreated, getChat } = prop;
         return (
-            <Card bg="dark" style={{ margin: '.3rem', color: 'white'}} key={chatId}>
+            <Card style={{ background: 'black', border: 'solid 1px white', padding: '.5rem', margin: '.3rem', color: 'white'}} key={chatId}>
                 <Row>
                 <Card.Img  src={"https://www.artlog.net/sites/default/files/styles/al_colorbox_rules/public/turrell_cregis_golay_federal_studio.jpg?itok=2M4Pyn0A"}/>
                 <Card.ImgOverlay>
@@ -124,7 +139,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
     postFunction(prop: any) {
         const { postId, postValue, mediaLink, comments, favorites, type, imageSource } = prop;
         return (
-            <Card bg="dark" style={{ margin: '.3rem', color: 'white'}}>
+            <Card style={{ background: 'black', border: 'solid 1px white', padding: '.5rem', margin: '.3rem', color: 'white'}}>
                 <Card.Img src={mediaLink ? imageSource : "https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"}/>
                 <Card.ImgOverlay>
                     <div style={{ cursor: "pointer", position: "absolute", left: "0", top: "0" }}>
@@ -191,6 +206,10 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
         }
 
         return content;
+    }
+
+    componentDidMount(): void {
+        this.props.getAll();
     }
 
     render() {
