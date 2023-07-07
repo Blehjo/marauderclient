@@ -44,9 +44,15 @@ export const InputContainer = styled.div`
 `;
 
 export const TextContainer = styled.div`
-    border: solid 1px orangered;
+    border: solid 1px blue;
     border-radius: .3rem;
     padding: .2rem;
     margin: .5rem;
-    width: 50%;
+    width: 100%;
+    text-align: center;
+`;
+
+export const ChatContainer = styled.div`
+    position: absolute;
+    top: 10%;
 `;

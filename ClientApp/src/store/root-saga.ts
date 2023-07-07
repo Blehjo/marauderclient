@@ -25,11 +25,13 @@ import { toolSagas } from './tool/tool.saga';
 import { userSagas } from './user/user.saga';
 import { userprofileSagas } from './userprofile/userprofile.saga';
 import { moveableSagas } from './moveable/moveable.saga';
+import { artificialIntelligenceChatSagas } from './artificialIntelligencechat/artificialintelligencechat.saga';
 
 export function* rootSaga() {
   yield* all([
     call(actionSagas), 
     call(artificialIntelligenceSagas),
+    call(artificialIntelligenceChatSagas),
     call(channelSagas),
     call(channelcommentSagas),
     call(chatSagas), 

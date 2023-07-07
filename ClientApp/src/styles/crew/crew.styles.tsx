@@ -5,3 +5,8 @@ export const CrewContainer = styled.div`
     position: relative;
 `;
 
+export const PenContainer = styled.div`
+    position: absolute;
+    right: 2%;
+    cursor: pointer;
+`;

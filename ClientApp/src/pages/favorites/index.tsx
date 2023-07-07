@@ -33,7 +33,7 @@ const mapDispatchToProps = (dispatch: Dispatch<FavoriteCreateStart | FavoriteFet
     getPost: (postId: number) => dispatch(postFetchSingleStart(postId)),
     getChatComments: (chatId: number) => dispatch(chatcommentFetchSingleStart(chatId)),
     getPostComments: (postId: number) => dispatch(commentFetchSingleStart(postId)),
-    getFavorites: () => dispatch(favoriteFetchUserFavoritesStart()),
+    getAll: () => dispatch(favoriteFetchUserFavoritesStart()),
     likePost: (postId: number, contentType: string) => dispatch(favoriteCreateStart(postId, contentType))
 });
 

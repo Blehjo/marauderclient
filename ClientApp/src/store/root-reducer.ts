@@ -30,10 +30,12 @@ import { userprofileReducer } from './userprofile/userprofile.reducer';
 import { deviceReducer } from './device/device.reducer';
 import { gltfReducer } from './gltf/gltf.reducer';
 import { panelReducer } from './panel/panel.reducer';
+import { artificialIntelligenceChatReducer } from './artificialIntelligencechat/artificialintelligencechat.reducer';
 
 export const rootReducer = combineReducers({
   action: actionReducer,
   artificialIntelligence: artificialIntelligenceReducer,
+  artificialIntelligenceChat: artificialIntelligenceChatReducer,
   builder: builderReducer,
   channel: channelReducer,
   channelcomment: channelcommentReducer,

@@ -5,7 +5,6 @@ import { ChatFetchAllStart, ChatFetchSingleStart, chatFetchAllStart, chatFetchSi
 import { ChatCommentCreateStart, ChatCommentFetchSingleStart, chatcommentCreateStart, chatcommentFetchSingleStart } from "../../store/chatcomment/chatcomment.action";
 import { FavoriteCreateStart, favoriteCreateStart } from "../../store/favorite/favorite.action";
 import { RootState } from "../../store/store";
-import { ChatContainer } from "../../styles/chat.styles";
 import ResponsiveMemory from "../../components/responsivememory/responsivememory.component";
 
 export type ChatRouteProps = ConnectedProps<typeof connector>;
@@ -13,9 +12,7 @@ export type ChatRouteProps = ConnectedProps<typeof connector>;
 class ChatRoute extends Component<ChatRouteProps> {
     render() {
         return (
-            <ChatContainer>
-                <ResponsiveMemory { ...this.props } />
-            </ChatContainer>
+            <ResponsiveMemory { ...this.props } />
         );
     }
 }

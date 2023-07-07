@@ -8,7 +8,7 @@ import {
 } from '../../utils/reducer/reducer.utils';
 
 export type ChatCreateStart = ActionWithPayload<
-    CHAT_ACTION_TYPES.CREATE_START, { title: string, artificialId: number }
+    CHAT_ACTION_TYPES.CREATE_START, { title: string, artificialIntelligenceId: number }
 >;
 
 export type ChatCreateSuccess = ActionWithPayload<
@@ -120,8 +120,8 @@ export type ChatSetIDSuccess = ActionWithPayload<
 >;
 
 export const chatCreateStart = withMatcher(
-    (title: string, artificialId: number): ChatCreateStart => 
-    createAction(CHAT_ACTION_TYPES.CREATE_START, { title, artificialId })
+    (title: string, artificialIntelligenceId: number): ChatCreateStart => 
+    createAction(CHAT_ACTION_TYPES.CREATE_START, { title, artificialIntelligenceId })
 );
 
 export const chatCreateSuccess = withMatcher(

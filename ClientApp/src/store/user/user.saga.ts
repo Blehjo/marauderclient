@@ -12,7 +12,8 @@ import {
     EmailSignInStart,
     SignUpStart,
     SignUpSuccess,
-    setCurrentUser
+    setCurrentUser,
+    CheckUserSession
 } from './user.action';
 
 import { 
@@ -46,11 +47,11 @@ export function* signInWithEmail({ payload: { username, password }}: EmailSignIn
     }
 }
 
-export function* isUserAuthenticated() {
+export function* isUserAuthenticated({}: CheckUserSession) {
    try {
        const userAuth = yield* call(getUser);
        if (!userAuth) return;
-       yield* call(getSnapshotFromUserAuth, userAuth);
+       yield* put(setCurrentUser(userAuth));
    } catch (error) {
        yield* put(signInFailed(error as Error));
    }

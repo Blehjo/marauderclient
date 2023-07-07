@@ -147,15 +147,13 @@ class Messages extends Component<IProps, IMessage> {
                 </ListContainer>
                 <MessageForm>
                     <Form>
-                        <div>
-                            {
-                                messages.map((message, index) => (
-                                    <TextContainer key={index}>
-                                        {message}
-                                    </TextContainer>
-                                ))
-                            }
-                        </div>
+                        {
+                            messages.map((message, index) => (
+                                <TextContainer key={index}>
+                                    {message}
+                                </TextContainer>
+                            ))
+                        }
                         <InputContainer>
                         <Row xs={2}>
                             <Col xs={10}>

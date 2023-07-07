@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
 export const ProfileContainer = styled.div`
-    margin: auto;
+    padding-top: 5rem;
+    position: relative;
 `;

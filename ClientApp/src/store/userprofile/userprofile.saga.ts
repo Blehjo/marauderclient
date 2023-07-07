@@ -1,39 +1,30 @@
-import { takeLatest, put, all, call } from 'typed-redux-saga';
+import { all, call, put, takeLatest } from 'typed-redux-saga';
 
 import { USERPROFILE_ACTION_TYPES } from './userprofile.types';
 
 import {
-    userprofileCreateStart,
-    userprofileCreateSuccess,
-    userprofileCreateFailed,
-    userprofileUpdateStart,
-    userprofileUpdateSuccess,
-    userprofileUpdateFailed,
-    userprofileDeleteStart,
-    userprofileDeleteSuccess,
-    userprofileDeleteFailed,
-    userprofileFetchSingleStart,
-    userprofileFetchSingleSuccess,
-    userprofileFetchSingleFailed,
-    userprofileFetchAllStart,
-    userprofileFetchAllSuccess,
-    userprofileFetchAllFailed,
     UserprofileCreateStart,
-    UserprofileCreateSuccess,
-    UserprofileFetchAllStart,
+    UserprofileDeleteStart,
     UserprofileFetchSingleStart,
     UserprofileUpdateStart,
-    UserprofileDeleteStart
+    userprofileCreateFailed,
+    userprofileCreateSuccess,
+    userprofileDeleteFailed,
+    userprofileDeleteSuccess,
+    userprofileFetchAllFailed,
+    userprofileFetchAllSuccess,
+    userprofileFetchSingleFailed,
+    userprofileFetchSingleSuccess,
+    userprofileUpdateSuccess
 } from './userprofile.action';
 
-import { 
-    getSingleUser,
-    getUsers, 
-    addUser, 
+import {
+    addUser,
+    deleteUser,
     editUser,
-    deleteUser
+    getSingleUser,
+    getUsers
 } from '../../utils/api/user.api';
-import { User } from '../user/user.types';
 
 export function* createUser({ payload: { 
     username,
