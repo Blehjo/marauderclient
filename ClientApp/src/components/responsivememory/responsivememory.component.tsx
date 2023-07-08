@@ -1,9 +1,10 @@
 import { Component } from "react";
 import { Badge, Card, Col, Modal, Row } from "react-bootstrap";
-import { ArrowsFullscreen, Chat, Collection, DeviceHdd, Envelope, Mask, Person, Rocket } from "react-bootstrap-icons";
+import { ArrowsFullscreen, Chat, Collection, DeviceHdd, Envelope, Person, Rocket } from "react-bootstrap-icons";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { BadgeContainer, ResponsiveMemoryContainer } from "../../styles/responsivememory/responsivememory.styles";
 import { utcConverter } from "../../utils/date/date.utils";
+import MessagemodalComponent from "../messagemodal/messagemodal.component";
 import ModalContent from "../modal/modal.component";
 
 interface IDefaultFormFields {
@@ -11,6 +12,8 @@ interface IDefaultFormFields {
     imageSource: string | ArrayBuffer | null | undefined;
     imageFile: any;
     show: boolean;
+    openModal: boolean;
+    messageValue: string;
 }
 
 class ResponsiveMemory extends Component<any, IDefaultFormFields> {
@@ -19,6 +22,8 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
         imageSource: null,
         imageFile: null,
         show: false,
+        openModal: false,
+        messageValue: ""
     }
 
     handleLike(postId: number, type: string): void {
@@ -44,6 +49,16 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
         });
     }
 
+    handleProfile(userId: number): void {
+        this.props.getMarauder(userId);
+    }
+
+    openMessage() {
+        this.setState({
+            openModal: !this.state.openModal
+        })
+    }
+
     profileFunction(prop: any) {
         const { userId, username, imageLink, posts, devices, about, imageSource } = prop;
         return (
@@ -61,8 +76,8 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                                 <Envelope 
                                     style={{ cursor: 'pointer' }} 
                                     onClick={() => {
-                                        // this.handleClick(userId);
-                                        // this.openMessage();
+                                        this.handleProfile(userId);
+                                        this.openMessage();
                                     }} 
                                     size={15}
                                 />
@@ -213,6 +228,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
     }
 
     render() {
+        const { openModal } = this.state;
         return (
             <ResponsiveMemoryContainer>
                 <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 3, 1050: 4 }}>
@@ -225,6 +241,13 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                     onHide={() => this.handleClose()}
                     >
                     <ModalContent show={this.state.show} { ...this.props }/>
+                </Modal>
+                <Modal
+                    size="lg"
+                    show={this.state.openModal} 
+                    onHide={() => this.openMessage()}
+                >
+                    <MessagemodalComponent openModal={this.state.openModal} { ...this.props }/>
                 </Modal>
                 </ResponsiveMasonry>
             </ResponsiveMemoryContainer>

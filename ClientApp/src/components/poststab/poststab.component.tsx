@@ -1,13 +1,13 @@
-import { ChangeEvent, Component, Dispatch, FormEvent, Fragment } from "react";
-import { Card, Modal, Row, Col, Form, Button, Image, Badge } from "react-bootstrap";
+import { ChangeEvent, Component, FormEvent, Fragment } from "react";
+import { Badge, Card, Col, Form, Image, Modal, Row } from "react-bootstrap";
 
-import { utcConverter } from "../../utils/date/date.utils";
-import { CardContainer, CommentContainer, ModalContainer, PostContainer, TextContainer, ModalPostContainer, BadgeContainer } from "../../styles/poststab/poststab.styles";
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { ArrowsFullscreen, Chat, Rocket, Send, XCircle } from "react-bootstrap-icons";
-import { PostState } from "../../store/post/post.reducer";
-import { CommentState } from "../../store/comment/comment.reducer";
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { ProfileProps } from "../../pages/profile";
+import { CommentState } from "../../store/comment/comment.reducer";
+import { PostState } from "../../store/post/post.reducer";
+import { BadgeContainer, CardContainer, CommentContainer, ModalContainer, ModalPostContainer, PostContainer, TextContainer } from "../../styles/poststab/poststab.styles";
+import { utcConverter } from "../../utils/date/date.utils";
 
 interface IDefaultFormFields {
     commentValue: string;
@@ -248,7 +248,7 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
         >
             <ModalContainer>
             <Modal.Header closeButton>
-                <Modal.Title >Pilot Log</Modal.Title>
+                <Modal.Title >Marauder Log</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Row>

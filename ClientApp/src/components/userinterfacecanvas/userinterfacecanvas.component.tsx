@@ -1,7 +1,8 @@
 import { Component } from "react";
 import { Nav, Offcanvas } from "react-bootstrap";
 import { UserInterfaceCanvasContainer } from "../../styles/userinterfacecanvas/userinterfacecanvas.styles";
-import { ChatDots, ChatLeft, Collection, Controller, DeviceHdd, DeviceSsd, Eye, Gear, LayoutTextWindowReverse, Lightbulb, PersonBadge, Robot, Screwdriver, Star } from "react-bootstrap-icons";
+import { ChatDots, ChatLeft, Collection, Controller, DeviceHdd, DeviceSsd, DoorClosed, Eye, Gear, LayoutTextWindowReverse, Lightbulb, PersonBadge, Robot, Screwdriver, Star } from "react-bootstrap-icons";
+import { RootState } from "../../store/store";
 
 class UserInterfaceCanvas extends Component<any> {
     constructor(props: any) {
@@ -9,7 +10,7 @@ class UserInterfaceCanvas extends Component<any> {
     }
 
     render() {
-        const { show, handleClick, user } = this.props;
+        const { show, handleClick, user, signOut } = this.props;
         return (
             <UserInterfaceCanvasContainer>
                 <Offcanvas style={{ background: 'black', width: '25%', borderRadius: '.5rem 0rem 0rem .5rem', color: 'white' }} scroll backdrop={false} placement="end" show={show} onHide={handleClick}>
@@ -123,13 +124,19 @@ class UserInterfaceCanvas extends Component<any> {
                             Favorites
                         </Nav.Link>
                     </Nav.Item>
-                    <hr />
+                    <hr style={{ color: 'white' }} />
                     <Nav.Item className="ms-4 d-flex align-items-center">
                         <a href="/settings">
                         <Gear className='icons' color="white" />
                         </a>
                         <Nav.Link href="/settings" className="tools ms-4">
                             Settings
+                        </Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item className="ms-4 d-flex align-items-center">
+                        <DoorClosed onClick={signOut} className='icons' color="white" />
+                        <Nav.Link onClick={signOut} className="tools ms-4">
+                            Sign Out
                         </Nav.Link>
                     </Nav.Item>
                     </Offcanvas.Body>

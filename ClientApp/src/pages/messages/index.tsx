@@ -1,41 +1,28 @@
-import { ChangeEvent, Component } from "react";
+import { ChangeEvent, Component, Dispatch } from "react";
 import { Card, Col, Form, Image, Row } from 'react-bootstrap';
 import { Send, XCircle } from "react-bootstrap-icons";
 import { InputContainer, ListContainer, MessageContainer, MessageForm, TextContainer } from "../../styles/messages/messages.styles";
+import { RootState } from "../../store/store";
+import { MessageCreateStart, MessageFetchUserMessagesStart, messageCreateStart, messageFetchUserMessagesStart } from "../../store/message/message.action";
+import { MessageCommentCreateStart, MessageCommentFetchSingleStart, messagecommentCreateStart, messagecommentFetchSingleStart } from "../../store/messagecomment/messagecomment.action";
+import { ConnectedProps, connect } from "react-redux";
 
-const userMessages = [
-    "hello",
-    "hi there",
-    "what's new",
-    "nothing much. just bored. hby?",
-    "same ol' my boy",
-    "wya?",
-    "you already know..."
-]
-
-const userArray = [
-    {"name": "James", "avatarUrl":"https://via.placeholder.com/1"},
-    {"name": "Jomana", "avatarUrl":"https://via.placeholder.com/1"},
-    {"name": "Jeda", "avatarUrl":"https://via.placeholder.com/1"}
-]
 type User = {
     name: string;
     avatarUrl: string;
 }
+
 interface IMessage {
     socket: boolean;
     messageValue: string;
     messages: Array<string>;
-    users: Array<User>;
     imageSource: string | ArrayBuffer | null | undefined;
     imageFile: any;
 }
 
-interface IProps {
-    messages?: any[];
-}
+type MessageProps = ConnectedProps<typeof connector>;
 
-class Messages extends Component<IProps, IMessage> {
+class Messages extends Component<MessageProps, IMessage> {
     constructor(props: any) {
         super(props);
         this.state = {
@@ -43,11 +30,11 @@ class Messages extends Component<IProps, IMessage> {
             messageValue: "",
             imageSource: "",
             messages: [],
-            users: [],
             imageFile: null
         }
         this.handleChange = this.handleChange.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
     
 
@@ -73,8 +60,15 @@ class Messages extends Component<IProps, IMessage> {
         }
     }
 
-    handleClick(): void {
-
+    handleClick(messageId: number): void {
+        const { messagecomments } = this.props;
+        this.props.getMessageComments(messageId);
+        messagecomments.messagecomments.map(({ messageValue }) => (
+            this.setState({
+                ...this.state, messages: this.state.messages.concat([messageValue])
+            })
+        ))
+        console.log("Messages: ", this.state.messages)
     }
 
     handleDelete(messageId: number): void {
@@ -110,9 +104,7 @@ class Messages extends Component<IProps, IMessage> {
     }
     
     componentDidMount(): void {
-        this.setState({
-            ...this.state, messages: userMessages, users: userArray 
-        });
+        this.props.getMessages();
     }
 
     render() {
@@ -124,21 +116,19 @@ class Messages extends Component<IProps, IMessage> {
                         New Message +
                     </Card>
                     {
-                        userArray.map(({ name, avatarUrl }, index) => (
-                            <Card onClick={() => this.handleClick()} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer' }} key={index}>
-                                <Row key={index} xs={3}>
-                                    <Col xs={4}>
-                                        <Image style={{ borderRadius: '.4rem', margin: '.5rem', width: '2rem', height: '2rem', objectFit: 'cover' }} fluid src={avatarUrl} />
-                                    </Col>
-                                    <Col xs={5}>
+                        this.props.messages.userMessages.map(({ messageValue, messageId, dateCreated }) => (
+                            <Card onClick={() => this.handleClick(messageId)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', padding: '.5rem' }} key={messageId}>
+                                <Row key={messageId} xs={2}>
+                                    {/* <Col xs={4}>
+                                        <Image style={{ borderRadius: '.4rem', margin: '.5rem', width: '2rem', height: '2rem', objectFit: 'cover' }} fluid src={} />
+                                    </Col> */}
+                                    <Col xs={10}>
                                         <div style={{ alignItems: 'center' }}>
-                                            <div>
-                                                {name}
-                                            </div>
+                                            {messageValue}
                                         </div>
                                     </Col>
-                                    <Col xs={1}>
-                                        <XCircle onClick={() => this.handleDelete(index)} />
+                                    <Col xs={2}>
+                                        <XCircle onClick={() => this.handleDelete(messageId)} />
                                     </Col>
                                 </Row>
                             </Card>
@@ -176,4 +166,20 @@ class Messages extends Component<IProps, IMessage> {
     }
 }
 
-export default Messages;
+const mapStateToProps = (state: RootState) => {
+    return {
+        messages: state.message,
+        messagecomments: state.messagecomment
+    }
+}
+
+const mapDispatchToProps = (dispatch: Dispatch<MessageCreateStart | MessageCommentCreateStart | MessageFetchUserMessagesStart | MessageCommentFetchSingleStart>) => ({
+    getMessages: () => dispatch(messageFetchUserMessagesStart()),
+    getMessageComments: (messageId: number) => dispatch(messagecommentFetchSingleStart(messageId)),
+    createMessage: (messageValue: string) => dispatch(messageCreateStart(messageValue)),
+    createMessageComment: (messageId: number, messageValue: string, imageFile: File) => dispatch(messagecommentCreateStart(messageId, messageValue, imageFile)),
+})
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+export default connector(Messages);

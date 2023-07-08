@@ -23,7 +23,6 @@ class CapCom extends Component<any, ICapCom> {
         if (!light) {
             socket.emit('lightson', light);
             this.setState({ light: !light})
-            console.log("LIGHT: ", light)
         } else {
             socket.emit('lightsoff', light);
             this.setState({ light: !light})

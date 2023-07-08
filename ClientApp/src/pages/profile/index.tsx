@@ -1,20 +1,20 @@
 import { Component, Dispatch } from "react";
-import { ConnectedProps, connect } from "react-redux";
 import { Col, Row, Tab, Tabs } from "react-bootstrap";
+import { ConnectedProps, connect } from "react-redux";
 
-import { ProfileContainer } from "../../styles/profile/profile.styles";
-import Authentication from "../authentication";
-import { RootState } from "../../store/store";
+import { ChatsTab } from "../../components/chatstab/chatstab.component";
+import PostsTab from "../../components/poststab/poststab.component";
 import { ProfileCard } from "../../components/profilecard/profilecard.component";
 import { ChatDeleteStart, ChatFetchSingleStart, ChatFetchUserChatsStart, chatDeleteStart, chatFetchSingleStart, chatFetchUserChatsStart } from "../../store/chat/chat.action";
 import { CommentCreateStart, CommentFetchSingleStart, commentCreateStart, commentFetchSingleStart } from "../../store/comment/comment.action";
-import { PostCreateStart, PostDeleteStart, PostFetchAllStart, PostFetchSingleStart, PostFetchUserPostsStart, postCreateStart, postDeleteStart, postFetchAllStart, postFetchSingleStart, postFetchUserPostsStart } from "../../store/post/post.action";
-import { UserprofileFetchSingleStart, userprofileFetchSingleStart } from "../../store/userprofile/userprofile.action";
-import { MarauderFetchSingleStart, marauderFetchSingleStart } from "../../store/marauder/marauder.action";
 import { FavoriteCreateStart, favoriteCreateStart } from "../../store/favorite/favorite.action";
+import { MarauderFetchSingleStart, marauderFetchSingleStart } from "../../store/marauder/marauder.action";
+import { PostCreateStart, PostDeleteStart, PostFetchAllStart, PostFetchSingleStart, PostFetchUserPostsStart, postCreateStart, postDeleteStart, postFetchAllStart, postFetchSingleStart, postFetchUserPostsStart } from "../../store/post/post.action";
+import { RootState } from "../../store/store";
 import { CheckUserSession, checkUserSession } from "../../store/user/user.action";
-import PostsTab from "../../components/poststab/poststab.component";
-import { ChatsTab } from "../../components/chatstab/chatstab.component";
+import { UserprofileFetchSingleStart, userprofileFetchSingleStart } from "../../store/userprofile/userprofile.action";
+import { ProfileContainer } from "../../styles/profile/profile.styles";
+import Authentication from "../authentication";
 
 export type ProfileProps = ConnectedProps<typeof connector>;
 
@@ -46,10 +46,10 @@ class Profile extends Component<ProfileProps> {
                         <Tab eventKey="chats" title="Chats">
                             <ChatsTab { ...this.props } />
                         </Tab>
-                        <Tab eventKey="planets" title="Devices">
+                        <Tab eventKey="devices" title="Devices">
                             {/* <PlanetsTab { ...this.props } /> */}
                         </Tab>
-                        <Tab eventKey="moons" title="Gltfs">
+                        <Tab eventKey="gltfs" title="Gltfs">
                             {/* <MoonsTab { ...this.props } /> */}
                         </Tab>
                     </Tabs>
@@ -77,7 +77,7 @@ const mapToStateProps = (state: RootState) => {
 const mapDispatchToProps = (dispatch: Dispatch<CheckUserSession | UserprofileFetchSingleStart | MarauderFetchSingleStart | PostFetchAllStart | PostFetchUserPostsStart | PostCreateStart | PostFetchSingleStart | PostDeleteStart | ChatFetchUserChatsStart | ChatFetchSingleStart | ChatDeleteStart | CommentFetchSingleStart | CommentCreateStart | FavoriteCreateStart>) => ({
     getUserProfile: (userId: number) => dispatch(userprofileFetchSingleStart(userId)),
     checkSession: () => dispatch(checkUserSession()),
-    getPilot: (userId: number) => dispatch(marauderFetchSingleStart(userId)),
+    getMarauder: (userId: number) => dispatch(marauderFetchSingleStart(userId)),
     getAllPosts: () => dispatch(postFetchAllStart()),
     getUserPosts: (userId: number | undefined) => dispatch(postFetchUserPostsStart(userId)),
     getPost: (postId: number) => dispatch(postFetchSingleStart(postId)),

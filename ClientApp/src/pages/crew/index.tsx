@@ -56,7 +56,7 @@ class Crew extends Component<CrewProps, ICrew> {
             artificialIntelligenceId: null,
             chatId: null,
             chats: [],
-            messages: ['hello'],
+            messages: [],
             show: false,
             inputContainer: false,
             messageValue: "",
@@ -87,17 +87,18 @@ class Crew extends Component<CrewProps, ICrew> {
         this.setDropDown(name, artificialIntelligenceId);
     }
 
-    handleChatSelect(chatId: number): void {
+    handleChatSelect(chatId: number, artificialIntelligenceId: number, name: string): void {
         const { chatcomments } = this.props;
+        this.setDropDown(name, artificialIntelligenceId)
         this.props.getChatComments(chatId);
         this.setState({
             ...this.state, inputContainer: true
         });
-        chatcomments.map(({ chatValue }) => (
+        chatcomments.map(({ chatValue }) => {
             this.setState({
                 ...this.state, messages: this.state.messages.concat([chatValue])
             })
-        ));
+        });
     }
 
     handleChange(event: ChangeEvent<HTMLInputElement>): void {
@@ -152,7 +153,6 @@ class Crew extends Component<CrewProps, ICrew> {
                         webSocket.close();
                     }
                 }
-                // console.log("Chat ID: ", chats.chatId)
                 // await callArtoo(messageValue)
                 // .then((response) => {
                 //     addChatComment(chats.chatId!, response.data, imageFile)
@@ -311,39 +311,24 @@ class Crew extends Component<CrewProps, ICrew> {
                         <PenContainer onClick={this.createNewChat}>
                             <PencilSquare size={30}/>
                         </PenContainer>
+                        <Container>
                         {
                             inputContainer ? 
-                                // chatcomments.map(({ chatCommentId, chatValue, mediaLink }) => (
-                                //     <TextContainer key={chatCommentId}>
-                                //         <div style={{ position: 'relative' }}>
-                                //             <Clipboard style={{ position: 'absolute', right: '2%' }} onClick={() => {navigator.clipboard.writeText(chatValue)}} size={15}/>
-                                //         {chatValue}
-                                //         </div>
-                                //         {mediaLink && <Image src={mediaLink}/>}
-                                //     </TextContainer>
-                                // ))
-                                
                                 messages.map((message, index) => (
-                                    <TextContainer key={index}>
-                                        {/* <div style={{ position: 'relative' }}> */}
-                                            {/* <Clipboard style={{ position: 'absolute', right: '2%' }} onClick={() => {navigator.clipboard.writeText(message)}} size={15}/> */}
-                                            {message}
-                                        {/* </div> */}
+                                    <TextContainer style={{ position: 'relative' }} key={index}>
+                                        <Clipboard style={{ position: 'absolute', right: '2%', cursor: 'pointer' }} onClick={() => {navigator.clipboard.writeText(message)}} size={15}/>
+                                        {message}
                                     </TextContainer>
                                 ))
                             : 
-                            <Container>
-                                {
-                                    artificialIntelligence.artificialIntelligences[this.state.artificialIntelligenceId]?.chats != null &&
-                                    artificialIntelligence.artificialIntelligences[this.state.artificialIntelligenceId]?.chats.map(({ chatId, title }) => (
-                                        <ChatBox style={{ cursor: 'pointer' }} onClick={() => this.handleChatSelect(chatId)} key={chatId}>
-                                        {title}
-                                        </ChatBox>
-                                    ))
-                                }
-                            </Container>
-                            
+                                artificialIntelligence.artificialIntelligences[this.state.artificialIntelligenceId-1]?.chats != null &&
+                                artificialIntelligence.artificialIntelligences[this.state.artificialIntelligenceId-1]?.chats.map(({ chatId, title, artificialIntelligence }) => (
+                                    <ChatBox style={{ cursor: 'pointer' }} onClick={() => this.handleChatSelect(chatId, artificialIntelligence?.artificialIntelligenceId, artificialIntelligence?.name)} key={chatId}>
+                                    {title}
+                                    </ChatBox>
+                                ))
                         }
+                            </Container>
                         {
                             inputContainer &&
                             <InputContainer>
@@ -367,8 +352,8 @@ class Crew extends Component<CrewProps, ICrew> {
                 <ChatsContainer>
                     <CardContainer>Chats</CardContainer>
                     {
-                        chats.map(({ artificialIntelligenceId, chatId, title }, index) => (
-                            <Card onClick={() => this.handleChatSelect(chatId)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', padding: '.5rem' }} key={index}>
+                        chats.map(({ artificialIntelligence, chatId, title }, index) => (
+                            <Card onClick={() => this.handleChatSelect(chatId, artificialIntelligence?.artificialIntelligenceId, artificialIntelligence?.name)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', padding: '.5rem' }} key={index}>
                                 <Row key={index} xs={2}>
                                     <Col xs={10}>
                                         <div style={{ alignItems: 'center' }}>

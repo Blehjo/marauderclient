@@ -69,7 +69,7 @@ class NavMenu extends Component<NavMenuProps, INavMenu> {
                         </Form>
                         <PersonContainer>
                             <PersonCircle onClick={this.handleClick} size={30}/>
-                            <UserInterfaceCanvas user={this.props.user}  handleClick={this.handleClick} show={show}/>
+                            <UserInterfaceCanvas signOut={this.props.signOut} user={this.props.user}  handleClick={this.handleClick} show={show}/>
                         </PersonContainer>
                     </Navbar.Collapse>
                     </Container>

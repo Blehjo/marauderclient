@@ -1,8 +1,7 @@
 import { ChangeEvent, Component } from "react";
-import { CardContainer, CommentContainer, ModalContainer, TextContainer } from "../../styles/modal/modal.styles";
-import { Card, Col, Form, Image, Modal, ModalBody, ModalHeader, Row } from "react-bootstrap";
+import { Card, Col, Form, Image, Modal, Row } from "react-bootstrap";
 import { Send } from "react-bootstrap-icons";
-import { utcConverter } from "../../utils/date/date.utils";
+import { CommentContainer, ModalContainer, TextContainer } from "../../styles/modal/modal.styles";
 
 class ModalContent extends Component<any> {
     
@@ -133,7 +132,7 @@ class ModalContent extends Component<any> {
                 >
                     <ModalContainer>
                     <Modal.Header closeButton>
-                        <Modal.Title >Pilot Log</Modal.Title>
+                        <Modal.Title >Marauder Log</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Row>
@@ -220,7 +219,6 @@ class ModalContent extends Component<any> {
     }
 
     render() {
-        console.log("MODAL PROPS: ", this.props);
         return (
             <>
                 {this.checkType()}
