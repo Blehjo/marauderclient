@@ -13,10 +13,10 @@ import {
     artificialIntelligenceFetchAllStart,
     artificialIntelligenceFetchSingleStart
 } from "../../store/artificialintelligence/artificialintelligence.action";
-import { ChatCreateStart, ChatFetchUserChatsStart, chatCreateStart, chatFetchUserChatsStart } from "../../store/chat/chat.action";
+import { ChatCreateStart, ChatFetchUserChatsStart, ChatSetID, chatCreateStart, chatFetchUserChatsStart, chatSetId } from "../../store/chat/chat.action";
 import { ChatCommentCreateStart, ChatCommentFetchSingleStart, chatcommentCreateStart, chatcommentFetchSingleStart } from "../../store/chatcomment/chatcomment.action";
 import { RootState } from "../../store/store";
-import { CrewContainer, PenContainer } from "../../styles/crew/crew.styles";
+import { ChatBox, ChatForm, ChatsContainer, Container, CrewContainer, CrewMemberContainer, PenContainer } from "../../styles/crew/crew.styles";
 import { ButtonContainer, CardContainer, FormContainer } from "../../styles/devices/devices.styles";
 import { ChatContainer, InputContainer, ListContainer, MessageForm, TextContainer } from "../../styles/messages/messages.styles";
 import { Chat } from "../../store/chat/chat.types";
@@ -25,6 +25,8 @@ import { ChatComment } from "../../store/chatcomment/chatcomment.types";
 import { ArtificialIntelligenceState } from "../../store/artificialintelligence/artificialintelligence.reducer";
 import { ChatState } from "../../store/chat/chat.reducer";
 import { ArtificialIntelligenceChatCreateStart, artificialIntelligenceChatCreateFailed, artificialIntelligenceChatCreateStart } from "../../store/artificialIntelligencechat/artificialintelligencechat.action";
+import { addChat } from "../../utils/api/chat.api";
+import { callArtoo } from "../../utils/api/completion.api";
 
 type CrewProps = ConnectedProps<typeof connector>;
 
@@ -35,6 +37,7 @@ interface ICrew {
     imageFile: any;
     show: boolean;
     messageValue: string;
+    messages: Array<string>;
     chatId: number | null;
     chats: Array<Chat>;
     artificialIntelligenceId: number | null;
@@ -53,6 +56,7 @@ class Crew extends Component<CrewProps, ICrew> {
             artificialIntelligenceId: null,
             chatId: null,
             chats: [],
+            messages: ['hello'],
             show: false,
             inputContainer: false,
             messageValue: "",
@@ -75,18 +79,25 @@ class Crew extends Component<CrewProps, ICrew> {
         })
     }
 
-    getArtificialChat(artificialIntelligenceId: number): void {
-        this.props.getAiChats(artificialIntelligenceId);
+    getArtificialChat(name: string, artificialIntelligenceId: number): void {
         this.setState({
-            ...this.state, 
-        });
+            ...this.state, inputContainer: false
+        })
+        this.props.getAiChats(artificialIntelligenceId);
+        this.setDropDown(name, artificialIntelligenceId);
     }
 
     handleChatSelect(chatId: number): void {
+        const { chatcomments } = this.props;
         this.props.getChatComments(chatId);
         this.setState({
             ...this.state, inputContainer: true
         });
+        chatcomments.map(({ chatValue }) => (
+            this.setState({
+                ...this.state, messages: this.state.messages.concat([chatValue])
+            })
+        ));
     }
 
     handleChange(event: ChangeEvent<HTMLInputElement>): void {
@@ -113,14 +124,100 @@ class Crew extends Component<CrewProps, ICrew> {
         });
     }
 
-    sendMessage(event: FormEvent<HTMLFormElement>) {
+    async sendMessage(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
+        let webSocket = new WebSocket(`wss://localhost:7144/ws/1`);
         const { messageValue, imageFile, artificialIntelligenceId, chatId } = this.state;
-        this.props.addChat(messageValue, artificialIntelligenceId);
-        setTimeout(() => {
-            this.props.addArtificialChat(1, this.props.artificialIntelligence.singleArtificialIntelligence, 2, this.props.chats.singleChat);
-        }, 5000);
-        // this.props.addChatComment(chatId, messageValue, imageFile);
+        const { chats, addChatComment } = this.props;
+        // try {
+            // if (chats.chatId == null) {
+                await addChat(messageValue, artificialIntelligenceId)
+                .then((response) => {
+                    this.props.setId(response.chatId)
+                    this.props.addChatComment(response.chatId, messageValue, imageFile);
+                });
+
+                webSocket.onopen = (event) => {
+                    webSocket.send(messageValue);
+                    this.setState({
+                        ...this.state, messageValue: ""
+                    })
+                };
+        
+                webSocket.onmessage = (event) => {
+                    if (event.data) {
+                        this.setState({
+                            ...this.state, messages: this.state.messages.concat([event.data])
+                        })
+                        webSocket.close();
+                    }
+                }
+                // console.log("Chat ID: ", chats.chatId)
+                // await callArtoo(messageValue)
+                // .then((response) => {
+                //     addChatComment(chats.chatId!, response.data, imageFile)
+
+                //     webSocket.onopen = (event) => {
+                //         webSocket.send(response.data);
+                //         this.setState({
+                //             ...this.state, messageValue: ""
+                //         })
+                //     };
+
+                //     webSocket.onmessage = (event) => {
+                //         if (event.data) {
+                //             this.setState({
+                //                 ...this.state, messages: this.state.messages.concat([event.data])
+                //             })
+                //             webSocket.close();
+                //         }
+                //     }
+                // });
+        //     } else {
+        //         addChatComment(chats.chatId!, messageValue, imageFile);
+
+        //         webSocket.onopen = (event) => {
+        //             webSocket.send(messageValue);
+        //             this.setState({
+        //                 ...this.state, messageValue: ""
+        //             })
+        //         };
+        
+        //         webSocket.onmessage = (event) => {
+        //             if (event.data) {
+        //                 this.setState({
+        //                     ...this.state, messages: this.state.messages.concat([event.data])
+        //                 })
+        //                 webSocket.close();
+        //             }
+        //         }
+
+        //         await callArtoo(messageValue)
+        //         .then((response) => {
+        //             addChatComment(chats.chatId!, response.data, imageFile)
+
+        //             webSocket.onopen = (event) => {
+        //                 webSocket.send(response.data);
+        //                 this.setState({
+        //                     ...this.state, messageValue: ""
+        //                 })
+        //             };
+
+        //             webSocket.onmessage = (event) => {
+        //                 if (event.data) {
+        //                     this.setState({
+        //                         ...this.state, messages: this.state.messages.concat([event.data])
+        //                     })
+        //                     webSocket.close();
+        //                 }
+        //             }
+        //         });
+        //     }
+        // } catch (error) {
+        //     if (error) {
+        //         alert(error)
+        //     }
+        // }
     }
 
     setDropDown(name: string, artificialIntelligenceId: number): void {
@@ -155,6 +252,9 @@ class Crew extends Component<CrewProps, ICrew> {
     componentDidMount(): void {
         this.props.getCrew();
         this.props.getChats();
+        this.setState({
+            ...this.state, chats: this.props.chats.userChats
+        });
     }
 
     componentDidUpdate(prevProps: Readonly<{ artificialIntelligence: ArtificialIntelligenceState; chats: ChatState; chatcomments: ChatComment[]; } & { addCrew: (name: string, role: string, imageFile: File) => void; deleteCrew: (artificialIntelligenceId: number) => void; getCrew: () => void; getChats: () => void; getAiChats: (artificialIntelligenceId: number) => void; addChat: (title: string, artificialIntelligenceId: number) => void; getChatComments: (chatId: number) => void; addChatComment: (chatId: number, chatValue: string, mediaLink: File) => void; }>, prevState: Readonly<ICrew>, snapshot?: any): void {
@@ -163,18 +263,22 @@ class Crew extends Component<CrewProps, ICrew> {
                 ...this.state, chats: this.props.chats.userChats
             });
         }
+
+        if (prevProps.artificialIntelligence.artificialIntelligences.length != this.props.artificialIntelligence.artificialIntelligences.length) {
+            this.props.getCrew();
+        }
     }
 
     render() {
-        const { dropDownValue, show, role, name, messageValue, inputContainer, chats } = this.state;
+        const { dropDownValue, show, role, name, messageValue, inputContainer, chats, messages } = this.state;
         const { artificialIntelligence, chatcomments } = this.props;
         return (
             <CrewContainer>
-                <ListContainer>
+                <CrewMemberContainer>
                     <CardContainer onClick={this.handleClick}>New Crew +</CardContainer>
                     {
                         artificialIntelligence.artificialIntelligences.map(({ artificialIntelligenceId, name, role, imageSource }, index) => (
-                            <Card onClick={() => this.getArtificialChat(artificialIntelligenceId)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer' }} key={index}>
+                            <Card onClick={() => this.getArtificialChat(name, artificialIntelligenceId)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer' }} key={index}>
                                 <Row key={index} xs={3}>
                                     <Col xs={4}>
                                         <Image style={{ borderRadius: '.4rem', margin: '.5rem', width: '2rem', height: '2rem', objectFit: 'cover' }} fluid src={imageSource} />
@@ -191,8 +295,8 @@ class Crew extends Component<CrewProps, ICrew> {
                             </Card>
                         ))
                     }
-                </ListContainer>
-                <MessageForm>
+                </CrewMemberContainer>
+                <ChatForm>
                     <Form onSubmit={this.sendMessage}>
                         <Dropdown style={{ position: 'absolute', left: '2%', marginBottom: '1rem' }}>
                             <Dropdown.Toggle variant="dark" id="dropdown-autoclose-true">{dropDownValue}</Dropdown.Toggle>
@@ -209,26 +313,35 @@ class Crew extends Component<CrewProps, ICrew> {
                         </PenContainer>
                         {
                             inputContainer ? 
-                                chatcomments.map(({ chatCommentId, chatValue, mediaLink }) => (
-                                    <TextContainer key={chatCommentId}>
-                                        <div style={{ position: 'relative' }}>
-                                            <Clipboard style={{ position: 'absolute', right: '2%' }} onClick={() => {navigator.clipboard.writeText(chatValue)}} size={15}/>
-                                        {chatValue}
-                                        </div>
-                                        {mediaLink && <Image src={mediaLink}/>}
+                                // chatcomments.map(({ chatCommentId, chatValue, mediaLink }) => (
+                                //     <TextContainer key={chatCommentId}>
+                                //         <div style={{ position: 'relative' }}>
+                                //             <Clipboard style={{ position: 'absolute', right: '2%' }} onClick={() => {navigator.clipboard.writeText(chatValue)}} size={15}/>
+                                //         {chatValue}
+                                //         </div>
+                                //         {mediaLink && <Image src={mediaLink}/>}
+                                //     </TextContainer>
+                                // ))
+                                
+                                messages.map((message, index) => (
+                                    <TextContainer key={index}>
+                                        {/* <div style={{ position: 'relative' }}> */}
+                                            {/* <Clipboard style={{ position: 'absolute', right: '2%' }} onClick={() => {navigator.clipboard.writeText(message)}} size={15}/> */}
+                                            {message}
+                                        {/* </div> */}
                                     </TextContainer>
                                 ))
                             : 
-                            <ChatContainer>
+                            <Container>
                                 {
-                                    artificialIntelligence.singleArtificialIntelligence?.chats != null &&
-                                    artificialIntelligence.singleArtificialIntelligence?.chats.map(({ chatId, title }) => (
-                                        <TextContainer style={{ cursor: 'pointer' }} onClick={() => this.handleChatSelect(chatId)} key={chatId}>
+                                    artificialIntelligence.artificialIntelligences[this.state.artificialIntelligenceId]?.chats != null &&
+                                    artificialIntelligence.artificialIntelligences[this.state.artificialIntelligenceId]?.chats.map(({ chatId, title }) => (
+                                        <ChatBox style={{ cursor: 'pointer' }} onClick={() => this.handleChatSelect(chatId)} key={chatId}>
                                         {title}
-                                    </TextContainer>
+                                        </ChatBox>
                                     ))
                                 }
-                            </ChatContainer>
+                            </Container>
                             
                         }
                         {
@@ -250,7 +363,26 @@ class Crew extends Component<CrewProps, ICrew> {
                             </InputContainer>
                         }
                     </Form>
-                </MessageForm>
+                </ChatForm>
+                <ChatsContainer>
+                    <CardContainer>Chats</CardContainer>
+                    {
+                        chats.map(({ artificialIntelligenceId, chatId, title }, index) => (
+                            <Card onClick={() => this.handleChatSelect(chatId)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', padding: '.5rem' }} key={index}>
+                                <Row key={index} xs={2}>
+                                    <Col xs={10}>
+                                        <div style={{ alignItems: 'center' }}>
+                                            {title}
+                                        </div>
+                                    </Col>
+                                    <Col xs={2}>
+                                        <XCircle onClick={() => this.handleDelete(chatId)} />
+                                    </Col>
+                                </Row>
+                            </Card>
+                        ))
+                    }
+                </ChatsContainer>
                 <Modal show={show} onHide={this.handleClick}>
                     <Modal.Header closeButton>Add a crew member</Modal.Header>
                     <Modal.Body>
@@ -293,16 +425,17 @@ const mapStateToProps = (state: RootState) => ({
     chatcomments: state.chatcomment.userChatcomments
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<ArtificialIntelligenceCreateStart | ArtificialIntelligenceDeleteStart | ArtificialIntelligenceFetchAllStart | ArtificialIntelligenceFetchSingleStart | ArtificialIntelligenceChatCreateStart | ChatCreateStart |ChatCommentCreateStart | ChatFetchUserChatsStart | ChatCommentFetchSingleStart>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<ArtificialIntelligenceCreateStart | ArtificialIntelligenceDeleteStart | ArtificialIntelligenceFetchAllStart | ArtificialIntelligenceFetchSingleStart | ArtificialIntelligenceChatCreateStart | ChatCreateStart |ChatCommentCreateStart | ChatFetchUserChatsStart | ChatCommentFetchSingleStart | ChatSetID>) => ({
     addCrew: (name: string, role: string, imageFile: File) => dispatch(artificialIntelligenceCreateStart(name, role, imageFile)),
     deleteCrew: (artificialIntelligenceId: number) => dispatch(artificialIntelligenceDeleteStart(artificialIntelligenceId)),
     getCrew: () => dispatch(artificialIntelligenceFetchAllStart()),
     getChats: () => dispatch(chatFetchUserChatsStart()),
     getAiChats: (artificialIntelligenceId: number) => dispatch(artificialIntelligenceFetchSingleStart(artificialIntelligenceId)),
-    addChat: (title: string, artificialIntelligenceId: number) => dispatch(chatCreateStart(title, artificialIntelligenceId)),
+    addChat: async (title: string, artificialIntelligenceId: number) => dispatch(chatCreateStart(title, artificialIntelligenceId)),
     getChatComments: (chatId: number) => dispatch(chatcommentFetchSingleStart(chatId)),
     addChatComment: (chatId: number, chatValue: string, mediaLink: File) => dispatch(chatcommentCreateStart(chatId, chatValue, mediaLink)),
-    addArtificialChat: (artificialIntelligenceId: number, artificialIntelligence: ArtificialIntelligence, chatId: number, chat: Chat) => dispatch(artificialIntelligenceChatCreateStart(artificialIntelligenceId, artificialIntelligence, chatId, chat))
+    addArtificialChat: (artificialIntelligenceId: number, artificialIntelligence: ArtificialIntelligence, chatId: number, chat: Chat) => dispatch(artificialIntelligenceChatCreateStart(artificialIntelligenceId, artificialIntelligence, chatId, chat)),
+    setId: (chatId: number) => dispatch(chatSetId(chatId))
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

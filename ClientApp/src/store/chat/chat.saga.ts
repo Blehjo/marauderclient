@@ -1,61 +1,50 @@
-import { takeLatest, put, all, call } from 'typed-redux-saga';
+import { all, call, put, takeLatest } from 'typed-redux-saga';
 
 import { Chat, CHAT_ACTION_TYPES } from './chat.types';
 
 import {
-    chatCreateStart,
-    chatCreateSuccess,
     chatCreateFailed,
-    chatUpdateStart,
-    chatUpdateSuccess,
-    chatUpdateFailed,
-    chatDeleteStart,
-    chatDeleteSuccess,
-    chatDeleteFailed,
-    chatFetchSingleStart,
-    chatFetchSingleSuccess,
-    chatFetchSingleFailed,
-    chatFetchAllStart,
-    chatFetchAllSuccess,
-    chatFetchAllFailed,
     ChatCreateStart,
-    ChatCreateSuccess,
-    ChatFetchAllStart,
-    ChatFetchSingleStart,
-    ChatFetchUserChatsStart,
-    ChatUpdateStart,
+    chatCreateSuccess,
+    chatDeleteFailed,
     ChatDeleteStart,
+    chatDeleteSuccess,
+    chatFetchAllFailed,
+    chatFetchAllSuccess,
+    chatFetchSingleFailed,
+    ChatFetchSingleStart,
+    chatFetchSingleSuccess,
+    chatFetchSingleUserChatsFailed,
     ChatFetchSingleUserChatsStart,
     chatFetchSingleUserChatsSuccess,
-    chatFetchSingleUserChatsFailed,
-    chatFetchUserChatsSuccess,
     chatFetchUserChatsFailed,
+    chatFetchUserChatsSuccess,
     ChatSetID,
-    chatSetId,
-    chatSetIdSuccess
+    chatSetIdSuccess,
+    ChatUpdateStart,
+    chatUpdateSuccess
 } from './chat.action';
 
-import { 
-    getSingleChat,
-    getAllChats,
-    getUserChats,
-    getUsersChats,
-    getChats, 
-    addChat, 
+import {
+    addChat,
+    deleteChat,
     editChat,
-    deleteChat
+    getAllChats,
+    getSingleChat,
+    getUserChats,
+    getUsersChats
 } from '../../utils/api/chat.api';
 
 export function* startSetId({ payload: { chatId }}: ChatSetID) {
     yield* put(chatSetIdSuccess(chatId));
 }
 
-export function* createChat({ payload: { title, artificialId }}: ChatCreateStart ) {
+export function* createChat({ payload: { title, artificialIntelligenceId }}: ChatCreateStart ) {
     try {
         const chat = yield* call(
             addChat,
             title,
-            artificialId
+            artificialIntelligenceId
         ); 
         yield* put(chatCreateSuccess(chat));
     } catch (error) {

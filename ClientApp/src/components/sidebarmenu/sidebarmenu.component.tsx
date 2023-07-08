@@ -1,6 +1,6 @@
 import { Component, Dispatch } from "react";
 import { Nav, Row } from "react-bootstrap";
-import { ChatDots, ChatLeft, Collection, Controller, DeviceHdd, DeviceSsd, Eye, Gear, GraphUp, LayoutTextWindowReverse, Lightbulb, PersonBadge, Robot, RocketTakeoff, Screwdriver, Star } from 'react-bootstrap-icons';
+import { ChatDots, ChatLeft, Collection, Controller, DeviceHdd, DeviceSsd, Eye, Gear, GraphUp, LayoutTextWindowReverse, Lightbulb, People, PersonBadge, Robot, RocketTakeoff, Screwdriver, Star } from 'react-bootstrap-icons';
 import { ConnectedProps, connect } from "react-redux";
 import { RootState } from "../../store/store";
 import { CheckUserSession, checkUserSession } from "../../store/user/user.action";
@@ -51,6 +51,14 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                             Profile
                         </Nav.Link>
                     </Nav.Item>
+                    <Nav.Item className="ms-4 d-flex align-items-center">
+                        <a href="/explore">
+                        <Eye className='icons' color="white" />
+                        </a>
+                        <Nav.Link href="/explore" className="tools ms-4">
+                            Explore
+                        </Nav.Link>
+                    </Nav.Item>
                     <hr style={{ color: 'white' }}/>
                     <Nav.Item className="ms-4 d-flex align-items-center">
                         <a href="/crew">
@@ -66,14 +74,6 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                         </a>
                         <Nav.Link href="/messages" className="tools ms-4">
                             Messages
-                        </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item className="ms-4 d-flex align-items-center">
-                        <a href="/explore">
-                        <Eye className='icons' color="white" />
-                        </a>
-                        <Nav.Link href="/explore" className="tools ms-4">
-                            Explore
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item className="ms-4 d-flex align-items-center">
@@ -99,6 +99,14 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                         </a>
                         <Nav.Link href="/marauders" className="tools ms-4">
                             Marauders
+                        </Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item className="ms-4 d-flex align-items-center">
+                        <a href="/communities">
+                        <People className='icons' color="white" />
+                        </a>
+                        <Nav.Link href="/communities" className="tools ms-4">
+                            Communities
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item className="ms-4 d-flex align-items-center">

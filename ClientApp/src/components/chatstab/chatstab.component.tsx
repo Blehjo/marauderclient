@@ -120,8 +120,8 @@ export class ChatsTab extends Component<ProfileProps, ChatsTabProps> {
                     </Masonry>
                 </ResponsiveMasonry> : 
                 <Col xs={12}>
-                <Card style={{ color: 'white', textAlign: 'center' }} className="bg-dark">
-                    <Card.Title>"Currently no moons... Let's change that!"</Card.Title>
+                <Card style={{ color: 'white', textAlign: 'center', background: 'black', border: '1px solid white', padding: '.5rem' }}>
+                    <Card.Title>"Currently no chats... Let's change that!"</Card.Title>
                 </Card>
                 </Col>
                 }
