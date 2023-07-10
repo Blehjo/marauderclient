@@ -1,11 +1,14 @@
-import { ChangeEvent, Component, Dispatch } from "react";
+import { ChangeEvent, Component, Dispatch, FormEvent, ReactNode } from "react";
 import { Card, Col, Form, Image, Row } from 'react-bootstrap';
-import { Send, XCircle } from "react-bootstrap-icons";
+import { Clipboard, Send, XCircle } from "react-bootstrap-icons";
 import { InputContainer, ListContainer, MessageContainer, MessageForm, TextContainer } from "../../styles/messages/messages.styles";
 import { RootState } from "../../store/store";
-import { MessageCreateStart, MessageFetchUserMessagesStart, messageCreateStart, messageFetchUserMessagesStart } from "../../store/message/message.action";
+import { MessageCreateStart, MessageFetchUserMessagesStart, MessageSetID, messageCreateStart, messageFetchUserMessagesStart, messageSetId } from "../../store/message/message.action";
 import { MessageCommentCreateStart, MessageCommentFetchSingleStart, messagecommentCreateStart, messagecommentFetchSingleStart } from "../../store/messagecomment/messagecomment.action";
 import { ConnectedProps, connect } from "react-redux";
+import { MessageState } from "../../store/message/message.reducer";
+import { MessageCommentState } from "../../store/messagecomment/messagecomment.reducer";
+import { MessageComment } from "../../store/messagecomment/messagecomment.types";
 
 type User = {
     name: string;
@@ -15,7 +18,7 @@ type User = {
 interface IMessage {
     socket: boolean;
     messageValue: string;
-    messages: Array<string>;
+    messages: Array<ReactNode>;
     imageSource: string | ArrayBuffer | null | undefined;
     imageFile: any;
 }
@@ -37,12 +40,17 @@ class Messages extends Component<MessageProps, IMessage> {
         this.handleClick = this.handleClick.bind(this);
     }
     
+    async handleMessage(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        const { messageValue, imageFile } = this.state;
+        this.props.createMessageComment(this.props.messages.messageId!, messageValue, imageFile);
+    }
 
     sendMessage(event): void {
         event.preventDefault();
         const { messageValue } = this.state;
         let webSocket = new WebSocket("wss://localhost:7144/ws/1");
-
+        this.handleMessage(event);
         webSocket.onopen = (event) => {
             webSocket.send(messageValue);
             this.setState({
@@ -52,23 +60,19 @@ class Messages extends Component<MessageProps, IMessage> {
 
         webSocket.onmessage = (event) => {
             if (event.data) {
-                this.setState({
-                    ...this.state, messages: this.state.messages.concat([event.data])
-                })
+                this.handleMessageComments(
+                    <TextContainer style={{ position: 'relative' }} key={event.data}>
+                        {event.data}
+                    </TextContainer>
+                )
                 webSocket.close();
             }
         }
     }
 
     handleClick(messageId: number): void {
-        const { messagecomments } = this.props;
         this.props.getMessageComments(messageId);
-        messagecomments.messagecomments.map(({ messageValue }) => (
-            this.setState({
-                ...this.state, messages: this.state.messages.concat([messageValue])
-            })
-        ))
-        console.log("Messages: ", this.state.messages)
+        this.props.setId(messageId)
     }
 
     handleDelete(messageId: number): void {
@@ -102,9 +106,34 @@ class Messages extends Component<MessageProps, IMessage> {
             });
         }
     }
+
+    messageFunction(prop: MessageComment) {
+        const { messageCommentId, messageValue, mediaLink, favorites, type, imageSource } = prop;
+        return (
+            <TextContainer style={{ position: 'relative' }} key={messageCommentId}>
+                {messageValue}
+            </TextContainer>
+        )
+    }
+
+    handleMessageComments(message?: ReactNode): Array<ReactNode> {
+        const content: Array<ReactNode> = [];
+        const { messagecomments } = this.props;
+        for (let i = 0; i < messagecomments.userMessagecomments.length; i++) {
+            content.push(this.messageFunction(messagecomments.userMessagecomments[i]));
+        }
+        content.push(message);
+        return content;
+    }
     
     componentDidMount(): void {
         this.props.getMessages();
+    }
+
+    componentDidUpdate(prevProps: Readonly<{ messages: MessageState; messagecomments: MessageCommentState; } & { getMessages: () => void; getMessageComments: (messageId: number) => void; createMessage: (messageValue: string) => void; createMessageComment: (messageId: number, messageValue: string, imageFile: File) => void; }>, prevState: Readonly<IMessage>, snapshot?: any): void {
+        if (prevProps.messages.messageId != this.props.messages.messageId) {
+            this.props.getMessageComments(this.props.messages.messageId);
+        }
     }
 
     render() {
@@ -138,11 +167,7 @@ class Messages extends Component<MessageProps, IMessage> {
                 <MessageForm>
                     <Form>
                         {
-                            messages.map((message, index) => (
-                                <TextContainer key={index}>
-                                    {message}
-                                </TextContainer>
-                            ))
+                            this.handleMessageComments()
                         }
                         <InputContainer>
                         <Row xs={2}>
@@ -173,11 +198,12 @@ const mapStateToProps = (state: RootState) => {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<MessageCreateStart | MessageCommentCreateStart | MessageFetchUserMessagesStart | MessageCommentFetchSingleStart>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<MessageCreateStart | MessageCommentCreateStart | MessageFetchUserMessagesStart | MessageCommentFetchSingleStart | MessageSetID>) => ({
     getMessages: () => dispatch(messageFetchUserMessagesStart()),
     getMessageComments: (messageId: number) => dispatch(messagecommentFetchSingleStart(messageId)),
     createMessage: (messageValue: string) => dispatch(messageCreateStart(messageValue)),
     createMessageComment: (messageId: number, messageValue: string, imageFile: File) => dispatch(messagecommentCreateStart(messageId, messageValue, imageFile)),
+    setId: (messageId: number) => dispatch(messageSetId(messageId))
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

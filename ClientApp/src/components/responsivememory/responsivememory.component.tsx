@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { Component, ReactNode } from "react";
 import { Badge, Card, Col, Modal, Row } from "react-bootstrap";
 import { ArrowsFullscreen, Chat, Collection, DeviceHdd, Envelope, Person, Rocket } from "react-bootstrap-icons";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
@@ -185,7 +185,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
         )
     }
 
-    checkType() {
+    checkType(): Array<ReactNode> {
         const content: any = [];
         const { posts, chats, profiles, favorites } = this.props;
 
