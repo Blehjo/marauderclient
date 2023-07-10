@@ -7,12 +7,10 @@ import { ArtificialIntelligenceChatCreateStart, artificialIntelligenceChatCreate
 import {
     ArtificialIntelligenceCreateStart,
     ArtificialIntelligenceDeleteStart,
-    ArtificialIntelligenceFetchAllStart,
     ArtificialIntelligenceFetchSingleStart,
     ArtificialIntelligenceFetchUsersStart,
     artificialIntelligenceCreateStart,
     artificialIntelligenceDeleteStart,
-    artificialIntelligenceFetchAllStart,
     artificialIntelligenceFetchSingleStart,
     artificialIntelligenceFetchUsersStart
 } from "../../store/artificialintelligence/artificialintelligence.action";
@@ -75,6 +73,7 @@ class Crew extends Component<CrewProps, ICrew> {
         this.setDropDown = this.setDropDown.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
         this.getArtificialChat = this.getArtificialChat.bind(this);
+        this.handleChatComments = this.handleChatComments.bind(this);
     }
 
     createNewChat(): void {
@@ -132,22 +131,88 @@ class Crew extends Component<CrewProps, ICrew> {
     async sendMessage(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const { messageValue, imageFile, artificialIntelligenceId } = this.state;
-        try {
-            if (this.props.chats.chatId == null) {
-                addChat(messageValue, artificialIntelligenceId)
-                .then((response) => {
-                    this.props.setId(response.chatId);
-                });
+        let webSocket = new WebSocket(`wss://localhost:7144/ws/1`);
+        if (this.props.chats.chatId == null) {
+            addChat(messageValue, artificialIntelligenceId)
+            .then((response) => {
+                this.props.setId(response.chatId);
+            });
 
-                this.handleMessage(event);
-                let webSocket = new WebSocket(`wss://localhost:7144/ws/1`);
+            this.handleMessage(event);
+            webSocket.onopen = (event) => {
+                webSocket.send(messageValue);
+                this.setState({
+                    ...this.state, messageValue: ""
+                })
+            };
+            
+            webSocket.onmessage = (event) => {
+                if (event.data) {
+                    this.handleChatComments(
+                        <TextContainer style={{ position: 'relative' }}>
+                            <Clipboard style={{ position: 'absolute', right: '2%', cursor: 'pointer' }} onClick={() => {navigator.clipboard.writeText(event.data)}} size={15}/>
+                            {event.data}
+                        </TextContainer>
+                    )
+                    webSocket.close();
+                }
+            }
+            
+            callArtoo(messageValue)
+            .then((response) => {
+                this.props.addChatComment(this.props.chats.chatId, response.data, imageFile)
                 webSocket.onopen = (event) => {
-                    webSocket.send(messageValue);
+                    webSocket.send(response.data);
                     this.setState({
                         ...this.state, messageValue: ""
                     })
                 };
-                
+
+                webSocket.onmessage = (event) => {
+                    this.handleChatComments(
+                        <TextContainer style={{ position: 'relative' }}>
+                            <Clipboard style={{ position: 'absolute', right: '2%', cursor: 'pointer' }} onClick={() => {navigator.clipboard.writeText(event.data)}} size={15}/>
+                            {event.data}
+                        </TextContainer>
+                    )
+                    webSocket.close();
+                }
+            });
+
+
+        } else {
+            let webSocket = new WebSocket(`wss://localhost:7144/ws/1`);
+            this.props.addChatComment(this.props.chats.chatId!, messageValue, imageFile);
+            webSocket.onopen = (event) => {
+                webSocket.send(messageValue);
+                this.setState({
+                    ...this.state, messageValue: ""
+                })
+            };
+    
+            webSocket.onmessage = (event) => {
+                if (event.data) {
+                    this.handleChatComments(
+                        <TextContainer style={{ position: 'relative' }}>
+                            <Clipboard style={{ position: 'absolute', right: '2%', cursor: 'pointer' }} onClick={() => {navigator.clipboard.writeText(event.data)}} size={15}/>
+                            {event.data}
+                        </TextContainer>
+                    )
+                    webSocket.close();
+                }
+            }
+
+            await callArtoo(messageValue)
+            .then((response) => {
+                this.props.addChatComment(this.props.chats.chatId!, response.data, imageFile)
+
+                webSocket.onopen = (event) => {
+                    webSocket.send(response.data);
+                    this.setState({
+                        ...this.state, messageValue: ""
+                    })
+                };
+
                 webSocket.onmessage = (event) => {
                     if (event.data) {
                         this.handleChatComments(
@@ -159,80 +224,7 @@ class Crew extends Component<CrewProps, ICrew> {
                         webSocket.close();
                     }
                 }
-                
-                callArtoo(messageValue)
-                .then((response) => {
-                    this.props.addChatComment(this.props.chats.chatId, response.data, imageFile)
-                    let webSocket = new WebSocket(`wss://localhost:7144/ws/1`);
-                    webSocket.onopen = (event) => {
-                        webSocket.send(response.data);
-                        this.setState({
-                            ...this.state, messageValue: ""
-                        })
-                    };
-
-                    webSocket.onmessage = (event) => {
-                        this.handleChatComments(
-                            <TextContainer style={{ position: 'relative' }}>
-                                <Clipboard style={{ position: 'absolute', right: '2%', cursor: 'pointer' }} onClick={() => {navigator.clipboard.writeText(event.data)}} size={15}/>
-                                {event.data}
-                            </TextContainer>
-                        )
-                    }
-                });
-
-
-            } else {
-                let webSocket = new WebSocket(`wss://localhost:7144/ws/1`);
-                this.props.addChatComment(this.props.chats.chatId!, messageValue, imageFile);
-                webSocket.onopen = (event) => {
-                    webSocket.send(messageValue);
-                    this.setState({
-                        ...this.state, messageValue: ""
-                    })
-                };
-        
-                webSocket.onmessage = (event) => {
-                    if (event.data) {
-                        this.handleChatComments(
-                            <TextContainer style={{ position: 'relative' }}>
-                                <Clipboard style={{ position: 'absolute', right: '2%', cursor: 'pointer' }} onClick={() => {navigator.clipboard.writeText(event.data)}} size={15}/>
-                                {event.data}
-                            </TextContainer>
-                        )
-                        webSocket.close();
-                    }
-                }
-
-                await callArtoo(messageValue)
-                .then((response) => {
-                    let webSocket = new WebSocket(`wss://localhost:7144/ws/1`);
-                    this.props.addChatComment(this.props.chats.chatId!, response.data, imageFile)
-
-                    webSocket.onopen = (event) => {
-                        webSocket.send(response.data);
-                        this.setState({
-                            ...this.state, messageValue: ""
-                        })
-                    };
-
-                    webSocket.onmessage = (event) => {
-                        if (event.data) {
-                            this.handleChatComments(
-                                <TextContainer style={{ position: 'relative' }}>
-                                    <Clipboard style={{ position: 'absolute', right: '2%', cursor: 'pointer' }} onClick={() => {navigator.clipboard.writeText(event.data)}} size={15}/>
-                                    {event.data}
-                                </TextContainer>
-                            )
-                            webSocket.close();
-                        }
-                    }
-                });
-            }
-        } catch (error) {
-            if (error) {
-                alert(error)
-            }
+            });
         }
     }
 
@@ -281,28 +273,28 @@ class Crew extends Component<CrewProps, ICrew> {
         for (let i = 0; i < chatcomments.length; i++) {
             content.push(this.chatFunction(chatcomments[i]));
         }
-        content.push(chat);
+        if (chat != undefined) {
+            content.push(chat);
+        }
         return content;
     }
 
     componentDidMount(): void {
         this.props.getCrew();
         this.props.getChats();
-        this.setState({
-            ...this.state, chats: this.props.chats.userChats
-        });
     }
+    
 
     componentDidUpdate(prevProps: Readonly<{ artificialIntelligence: ArtificialIntelligenceState; chats: ChatState; chatcomments: ChatComment[]; } & { addCrew: (name: string, role: string, imageFile: File) => void; deleteCrew: (artificialIntelligenceId: number) => void; getCrew: () => void; getChats: () => void; getAiChats: (artificialIntelligenceId: number) => void; addChat: (title: string, artificialIntelligenceId: number) => void; getChatComments: (chatId: number) => void; addChatComment: (chatId: number, chatValue: string, mediaLink: File) => void; }>, prevState: Readonly<ICrew>, snapshot?: any): void {
-        if (prevProps.chats.userChats.length != this.props.chats.userChats.length) {
-            this.setState({
-                ...this.state, chats: this.props.chats.userChats
-            });
-        }
+        // if (prevProps.chats.userChats.length != this.props.chats.userChats.length) {
+        //     this.setState({
+        //         ...this.state, chats: this.props.chats.userChats
+        //     });
+        // }
 
-        if (prevProps.artificialIntelligence.artificialIntelligences.length != this.props.artificialIntelligence.artificialIntelligences.length) {
-            this.props.getCrew();
-        }
+        // if (prevProps.artificialIntelligence.artificialIntelligences.length != this.props.artificialIntelligence.artificialIntelligences.length) {
+        //     this.props.getCrew();
+        // }
         
         if (prevProps.chats.chatId != this.props.chats.chatId) {
             this.props.getChatComments(this.props.chats.chatId);
@@ -358,8 +350,8 @@ class Crew extends Component<CrewProps, ICrew> {
                             
                                 this.handleChatComments()
                             : 
-                                artificialIntelligence.userArtificialIntelligences[this.state.artificialIntelligenceId-1]?.chats != null &&
-                                artificialIntelligence.userArtificialIntelligences[this.state.artificialIntelligenceId-1]?.chats.map(({ chatId, title, artificialIntelligence }) => (
+                                artificialIntelligence.userArtificialIntelligences.find(({artificialIntelligenceId}) => artificialIntelligenceId == this.state.artificialIntelligenceId)?.chats != null &&
+                                artificialIntelligence.userArtificialIntelligences.find(({artificialIntelligenceId}) => artificialIntelligenceId == this.state.artificialIntelligenceId)?.chats.map(({ chatId, title, artificialIntelligence }) => (
                                     <ChatBox style={{ cursor: 'pointer' }} onClick={() => this.handleChatSelect(chatId, artificialIntelligence?.artificialIntelligenceId, artificialIntelligence?.name)} key={chatId}>
                                     {title}
                                     </ChatBox>
@@ -389,7 +381,7 @@ class Crew extends Component<CrewProps, ICrew> {
                 <ChatsContainer>
                     <CardContainer>Chats</CardContainer>
                     {
-                        chats.map(({ artificialIntelligence, chatId, title }, index) => (
+                        this.props.chats.userChats.map(({ artificialIntelligence, chatId, title }, index) => (
                             <Card onClick={() => this.handleChatSelect(chatId, artificialIntelligence?.artificialIntelligenceId, artificialIntelligence?.name)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', padding: '.5rem' }} key={index}>
                                 <Row key={index} xs={2}>
                                     <Col xs={10}>
