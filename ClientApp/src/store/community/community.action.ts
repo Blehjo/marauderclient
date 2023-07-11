@@ -11,6 +11,7 @@ export type CommunityCreateStart = ActionWithPayload<
     COMMUNITY_ACTION_TYPES.CREATE_START, { 
         communityName: string, 
         description: string, 
+        mediaLink: string,
         imageFile: File  
     }
 >;
@@ -120,11 +121,13 @@ export type CommunityFetchAllFailed = ActionWithPayload<
 export const communityCreateStart = withMatcher(
     (   communityName: string, 
         description: string, 
+        mediaLink: string,
         imageFile: File  
 ): CommunityCreateStart => 
     createAction(COMMUNITY_ACTION_TYPES.CREATE_START, {
         communityName, 
         description, 
+        mediaLink,
         imageFile 
     })
 );

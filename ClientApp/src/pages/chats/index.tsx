@@ -20,7 +20,8 @@ class ChatRoute extends Component<ChatRouteProps> {
 const mapStateToProps = (state: RootState) => {
     return { 
         chats: state.chat.chats,
-        chatComments: state.chatcomment
+        singleChat: state.chat.singleChat,
+        comments: state.chatcomment.chatcomments
     };
 };
 

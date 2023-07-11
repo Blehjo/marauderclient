@@ -3,24 +3,21 @@ import { AnyAction } from 'redux';
 import { Favorite } from './favorite.types';
 
 import {
-    favoriteCreateStart,
-    favoriteCreateSuccess,
     favoriteCreateFailed,
-    favoriteUpdateStart,
-    favoriteUpdateSuccess,
-    favoriteUpdateFailed,
-    favoriteDeleteStart,
-    favoriteDeleteSuccess,
+    favoriteCreateSuccess,
     favoriteDeleteFailed,
-    favoriteFetchSingleStart,
-    favoriteFetchSingleSuccess,
-    favoriteFetchSingleFailed,
+    favoriteDeleteSuccess,
+    favoriteFetchAllFailed,
     favoriteFetchAllStart,
     favoriteFetchAllSuccess,
-    favoriteFetchAllFailed,
-    favoriteFetchUserFavoritesSuccess,
+    favoriteFetchSingleFailed,
+    favoriteFetchSingleStart,
+    favoriteFetchSingleSuccess,
     favoriteFetchSingleUserFavoritesSuccess,
     favoriteFetchUserFavoritesStart,
+    favoriteFetchUserFavoritesSuccess,
+    favoriteUpdateFailed,
+    favoriteUpdateSuccess
 } from './favorite.action';
 
 export type FavoriteState = {

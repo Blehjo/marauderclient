@@ -9,8 +9,7 @@ import {
 
 export type MemberCreateStart = ActionWithPayload<
     MEMBER_ACTION_TYPES.CREATE_START, { 
-        communityId: number,
-        userId: number
+        communityId: number
     }
 >;
 
@@ -69,12 +68,10 @@ export type MemberFetchAllFailed = ActionWithPayload<
 >;
 
 export const memberCreateStart = withMatcher(
-    (   communityId: number,
-        userId: number,
+    (   communityId: number
 ): MemberCreateStart => 
     createAction(MEMBER_ACTION_TYPES.CREATE_START, {
-        communityId,
-        userId
+        communityId
     })
 );
 

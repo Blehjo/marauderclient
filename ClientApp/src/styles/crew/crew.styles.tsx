@@ -64,5 +64,7 @@ export const Container = styled.div`
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
+    position: absolute;
+    left: 0%;
     padding-top: 8%;
 `;

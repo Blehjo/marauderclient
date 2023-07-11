@@ -41,15 +41,69 @@ export async function getFavorites(): Promise<Favorite[]> {
   return result;
 }
 
-export async function getUserFavorites(): Promise<Favorite[]> {
+export async function handleContent(url: string, favoriteId: number): Promise<any> {
+  const response = await axios({
+    method: 'get',
+    url: `https://localhost:7144/api/${url}/${favoriteId}`,
+    headers: headers,
+    withCredentials: true
+  });
+  const result = await response.data;
+  return result;
+}
+
+export async function getFavorite(contentId: number, contentType: string): Promise<any> {
+  let url;
+  switch(contentType) {
+    case 'post': 
+      url = 'post';
+      break;
+    case 'comment': 
+      url = 'comment';
+      break;
+    case 'chat': 
+      url = 'chat';
+      break;
+    case 'chatcomment': 
+      url = 'chatcomment';
+      break;
+    case 'messagecomment': 
+      url = 'messagecomment';
+      break;
+    case 'moon': 
+      url = 'moon';
+      break;
+    case 'planet': 
+      url = 'planet';
+      break;
+    default: 
+      url = 'post';
+  }
+  const result = handleContent(url, contentId);
+  return result;
+}
+
+export async function getUserFavorites(): Promise<any[]> {
+  const content: any = [];
+  
   const response = await axios({
     method: 'get',
     url: `${api}/user`, 
     headers: headers,
     withCredentials: true
   });
+
   const result = await response.data;
-  return result;
+
+  for (let i = 0; i < result.length; i++) {
+    const { contentType, contentId } = result[i];
+    await getFavorite(contentId, contentType)
+    .then((response) => {
+      content.push(response)
+    })
+  }
+
+  return content;
 }
 
 export async function addFavorite(contentId: number, contentType: string): Promise<Favorite[]> {

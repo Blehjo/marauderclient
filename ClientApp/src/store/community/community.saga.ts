@@ -7,24 +7,25 @@ import {
 } from './community.action';
 
 import {
-    getSingleCommunity,
-    getAllCommunities,
-    getUserCommunities,
-    getUsersCommunities,
     addCommunity,
+    deleteCommunity,
     editCommunity,
-    deleteCommunity
+    getAllCommunities,
+    getSingleCommunity,
+    getUserCommunities,
+    getUsersCommunities
 } from '../../utils/api/community.api';
-import { commentCreateFailed, commentCreateSuccess } from '../comment/comment.action';
 
 export function* createCommunity({ payload: { 
     communityName,
     description,
+    mediaLink,
     imageFile
 }}: CommunityCreateStart) {
     const formData = new FormData();
     formData.append("communityName", communityName);
     formData.append("description", description);
+    formData.append("mediaLink", mediaLink);
     formData.append("imageFile", imageFile);
     try {
         const communities = yield* call(

@@ -1,44 +1,34 @@
-import { takeLatest, put, all, call } from 'typed-redux-saga';
+import { all, call, put, takeLatest } from 'typed-redux-saga';
 
 import { Post, POST_ACTION_TYPES } from './post.types';
 
 import {
-    postCreateStart,
-    postCreateSuccess,
     postCreateFailed,
-    postUpdateStart,
-    postUpdateSuccess,
-    postUpdateFailed,
-    postDeleteStart,
-    postDeleteSuccess,
-    postDeleteFailed,
-    postFetchSingleStart,
-    postFetchSingleSuccess,
-    postFetchSingleFailed,
-    postFetchAllStart,
-    postFetchAllSuccess,
-    postFetchAllFailed,
     PostCreateStart,
-    PostCreateSuccess,
-    PostFetchAllStart,
-    PostFetchSingleStart,
-    PostFetchUserPostsStart,
-    PostUpdateStart,
+    postCreateSuccess,
+    postDeleteFailed,
     PostDeleteStart,
-    postFetchUserPostsStart,
+    postDeleteSuccess,
+    postFetchAllFailed,
+    postFetchAllSuccess,
+    postFetchSingleFailed,
+    PostFetchSingleStart,
+    postFetchSingleSuccess,
+    postFetchUserPostsFailed,
+    PostFetchUserPostsStart,
     postFetchUserPostsSuccess,
-    postFetchUserPostsFailed
+    PostUpdateStart,
+    postUpdateSuccess
 } from './post.action';
 
-import { 
-    getSinglePost,
-    getAllPosts,
-    getUserPosts,
-    getUsersPosts,
-    getPosts, 
-    addPost, 
+import {
+    addPost,
+    deletePost,
     editPost,
-    deletePost
+    getAllPosts,
+    getSinglePost,
+    getUserPosts,
+    getUsersPosts
 } from '../../utils/api/post.api';
 
 export function* createPost({ payload: { postValue, mediaLink, imageFile }}: PostCreateStart) {

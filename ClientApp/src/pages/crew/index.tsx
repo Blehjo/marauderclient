@@ -260,7 +260,7 @@ class Crew extends Component<CrewProps, ICrew> {
     chatFunction(prop: ChatComment) {
         const { chatCommentId, chatValue, mediaLink, type } = prop;
         return (
-            <TextContainer style={{ position: 'relative' }} key={chatCommentId}>
+            <TextContainer style={{ position: 'relative', height: 'auto' }} key={chatCommentId}>
                 <Clipboard style={{ position: 'absolute', right: '2%', cursor: 'pointer' }} onClick={() => {navigator.clipboard.writeText(chatValue)}} size={15}/>
                 {chatValue}
             </TextContainer>
@@ -308,20 +308,20 @@ class Crew extends Component<CrewProps, ICrew> {
         return (
             <CrewContainer>
                 <CrewMemberContainer>
-                    <CardContainer onClick={this.handleClick}>New Crew +</CardContainer>
+                    <CardContainer key='cardcontainer' onClick={this.handleClick}>New Crew +</CardContainer>
                     {
                         artificialIntelligence.userArtificialIntelligences.map(({ artificialIntelligenceId, name, role, imageSource }, index) => (
-                            <Card onClick={() => this.getArtificialChat(name, artificialIntelligenceId)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer' }} key={index}>
+                            <Card key={artificialIntelligenceId} onClick={() => this.getArtificialChat(name, artificialIntelligenceId)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer' }}>
                                 <Row key={index} xs={3}>
-                                    <Col xs={4}>
+                                    <Col key='col1' xs={4}>
                                         <Image style={{ borderRadius: '.4rem', margin: '.5rem', width: '2rem', height: '2rem', objectFit: 'cover' }} fluid src={imageSource} />
                                     </Col>
-                                    <Col xs={5}>
+                                    <Col key='col2' xs={5}>
                                         <div style={{ alignItems: 'center' }}>
                                                 {name}
                                         </div>
                                     </Col>
-                                    <Col xs={1}>
+                                    <Col key='col3' xs={1}>
                                         <XCircle onClick={() => this.handleDelete(artificialIntelligenceId)} />
                                     </Col>
                                 </Row>
@@ -347,7 +347,6 @@ class Crew extends Component<CrewProps, ICrew> {
                         <Container>
                         {
                             inputContainer ? 
-                            
                                 this.handleChatComments()
                             : 
                                 artificialIntelligence.userArtificialIntelligences.find(({artificialIntelligenceId}) => artificialIntelligenceId == this.state.artificialIntelligenceId)?.chats != null &&

@@ -20,7 +20,8 @@ class PostRoute extends Component<PostRouteProps> {
 const mapStateToProps = (state: RootState) => {
     return { 
         posts: state.post.posts,
-        comments: state.comment 
+        singlePost: state.post.singlePost,
+        comments: state.comment.comments
     };
 };
 

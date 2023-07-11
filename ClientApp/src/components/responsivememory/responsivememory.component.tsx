@@ -2,6 +2,10 @@ import { Component, ReactNode } from "react";
 import { Badge, Card, Col, Modal, Row } from "react-bootstrap";
 import { ArrowsFullscreen, Chat, Collection, DeviceHdd, Envelope, Person, Rocket } from "react-bootstrap-icons";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+import { Chat as ChatContent } from "../../store/chat/chat.types";
+import { Community } from "../../store/community/community.types";
+import { Marauder } from "../../store/marauder/marauder.types";
+import { Post } from "../../store/post/post.types";
 import { BadgeContainer, ResponsiveMemoryContainer } from "../../styles/responsivememory/responsivememory.styles";
 import { utcConverter } from "../../utils/date/date.utils";
 import MessagemodalComponent from "../messagemodal/messagemodal.component";
@@ -36,14 +40,16 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
         });
     }
 
-    handleClick(id: number, type: string): void {
+    handleClick(id: number, type?: string): void {
         if (type === "chat") {
             this.props.getChat(id);
             this.props.getChatComments(id);
         } else if (type === "post") {
             this.props.getPost(id);
             this.props.getPostComments(id);
-        } 
+        } else {
+            this.props.getCommunity(id);
+        }
         this.setState({
             show: !this.state.show
         });
@@ -59,10 +65,10 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
         })
     }
 
-    profileFunction(prop: any) {
+    profileFunction(prop: Marauder) {
         const { userId, username, imageLink, posts, devices, about, imageSource } = prop;
         return (
-            <Card style={{ background: 'black', border: 'solid 1px white', padding: '.5rem', margin: '1rem', color: 'white'}}>
+            <Card key={userId} style={{ background: 'black', border: 'solid 1px white', padding: '.5rem', margin: '1rem', color: 'white'}}>
                 <Card.Img src={imageLink ? imageSource : "https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"}/>
                 <Card.ImgOverlay>
                     <div style={{ cursor: "pointer", position: "absolute", left: "0", top: "0" }}>
@@ -108,10 +114,10 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
         )
     }
 
-    chatFunction(prop: any) {
-        const { chatId, title, type, userId, comments, chatComments, favorites, dateCreated, getChat } = prop;
+    chatFunction(prop: ChatContent) {
+        const { chatId, title, type, userId, comments, chatComments, favorites, dateCreated } = prop;
         return (
-            <Card style={{ background: 'black', border: 'solid 1px white', padding: '.5rem', margin: '.3rem', color: 'white'}} key={chatId}>
+            <Card key={chatId} style={{ background: 'black', border: 'solid 1px white', padding: '.5rem', margin: '.3rem', color: 'white'}}>
                 <Row>
                 <Card.Img  src={"https://www.artlog.net/sites/default/files/styles/al_colorbox_rules/public/turrell_cregis_golay_federal_studio.jpg?itok=2M4Pyn0A"}/>
                 <Card.ImgOverlay>
@@ -151,10 +157,10 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
         )
     }
     
-    postFunction(prop: any) {
+    postFunction(prop: Post) {
         const { postId, postValue, mediaLink, comments, favorites, type, imageSource } = prop;
         return (
-            <Card style={{ background: 'black', border: 'solid 1px white', padding: '.5rem', margin: '.3rem', color: 'white'}}>
+            <Card key={postId} style={{ background: 'black', border: 'solid 1px white', padding: '.5rem', margin: '.3rem', color: 'white'}}>
                 <Card.Img src={mediaLink ? imageSource : "https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"}/>
                 <Card.ImgOverlay>
                     <div style={{ cursor: "pointer", position: "absolute", left: "0", top: "0" }}>
@@ -184,10 +190,44 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
             </Card>
         )
     }
+    
+    communityFunction(prop: Community) {
+        const { communityId, communityName, description, mediaLink, channels, members, imageSource } = prop;
+        return (
+            <Card key={communityId} style={{ background: 'black', border: 'solid 1px white', padding: '.5rem', margin: '.3rem', color: 'white'}}>
+                <Card.Img src={mediaLink ? imageSource : "https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"}/>
+                <Card.ImgOverlay>
+                    <div style={{ cursor: "pointer", position: "absolute", left: "0", top: "0" }}>
+                        <BadgeContainer>
+                            <Badge style={{ color: 'black' }} bg="light"><ArrowsFullscreen style={{ cursor: 'pointer' }} onClick={() => this.handleClick(communityId)} size={15}/></Badge>
+                        </BadgeContainer>
+                        {
+                            <BadgeContainer><Badge style={{ color: 'black' }} bg="light">
+                                <Chat size={15}/>
+                                {` ${channels?.length > 0 ? channels?.length : ""}`}
+                                </Badge>
+                            </BadgeContainer>
+                        }
+                        {
+                            <BadgeContainer>
+                                <Badge style={{ color: 'black' }} bg="light">
+                                {` ${members?.length > 0 ? members?.length : ""}`}
+                                </Badge>
+                            </BadgeContainer>
+                        }
+                    </div>
+                </Card.ImgOverlay>
+                <Card.Body>
+                    <Card.Text>{communityName}</Card.Text>
+                    <Card.Text>{description}</Card.Text>
+                </Card.Body>
+            </Card>
+        )
+    }
 
     checkType(): Array<ReactNode> {
         const content: any = [];
-        const { posts, chats, profiles, favorites } = this.props;
+        const { posts, chats, profiles, favorites, communities } = this.props;
 
         if (posts && posts.length > 0) {
             for (let i = 0; i < posts.length; i++) {
@@ -200,6 +240,10 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
         } else if (profiles && profiles.length > 0) {
             for (let i = 0; i < profiles.length; i++) {
                 content.push(this.profileFunction(profiles[i]));
+            }
+        } else if (communities && communities.length > 0) {
+            for (let i = 0; i < communities.length; i++) {
+                content.push(this.communityFunction(communities[i]));
             }
         } else if (favorites && favorites.length > 0) {
             for (let i = 0; i < favorites.favorites?.length!; i++) {
@@ -228,7 +272,6 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
     }
 
     render() {
-        const { openModal } = this.state;
         return (
             <ResponsiveMemoryContainer>
                 <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 3, 1050: 4 }}>
