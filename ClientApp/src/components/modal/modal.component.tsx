@@ -1,4 +1,4 @@
-import { ChangeEvent, Component } from "react";
+import { ChangeEvent, Component, FormEvent } from "react";
 import { Card, Col, Form, Image, Modal, Row } from "react-bootstrap";
 import { Send } from "react-bootstrap-icons";
 import { CommentContainer, ModalContainer, TextContainer } from "../../styles/modal/modal.styles";
@@ -7,16 +7,43 @@ import { utcConverter } from "../../utils/date/date.utils";
 import { Post } from "../../store/post/post.types";
 import { Chat } from "../../store/chat/chat.types";
 
-class ModalContent extends Component<any> {
-    
-    state = {
-        show: this.props.show
+interface IModalContent {
+    show: boolean;
+    commentValue: string;
+    mediaLink: string;
+    imageSource: string | ArrayBuffer | null | undefined;
+    imageFile: File | null;
+}
+
+class ModalContent extends Component<any, IModalContent> {
+    constructor(props: any) {
+        super(props);
+        this.state = {
+            show: this.props.show,
+            commentValue: "",
+            mediaLink: "",
+            imageSource: null,
+            imageFile: null
+        }
+        this.handleChange = this.handleChange.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+        this.showPreview = this.showPreview.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleClose(): void {
         this.setState({
             show: !this.state.show
         });
+    }
+
+    handleSubmit(event: FormEvent<HTMLFormElement>): void {
+        event.preventDefault();
+        const { commentValue, imageFile } = this.state;
+        this.props.createComment(commentValue, imageFile, this.props.singlePost?.postId);
+        this.setState({
+            ...this.state, commentValue: "", imageFile: null
+        })
     }
 
     handleChange(event: ChangeEvent<HTMLInputElement>): void {
@@ -125,7 +152,8 @@ class ModalContent extends Component<any> {
     }
 
     postFunction(prop: Post) {
-        const { postId, postValue, mediaLink, comments, favorites, type, imageSource } = prop;
+        const { postId, postValue, mediaLink, favorites, type, imageSource } = prop;
+        const { comments } = this.props;
         return (
             <Modal 
                     size="lg"
@@ -156,7 +184,7 @@ class ModalContent extends Component<any> {
                             <div style={{ height: "65%", overflowY: "auto" }}>
                             {
                                 comments?.map(({ commentId, commentValue, mediaLink, dateCreated }) => {
-                                    return <Card className="bg-dark" key={commentId}>
+                                    return <Card className="bg-dark mt-1" key={commentId}>
                                         <TextContainer>
                                             <Card.Text>{commentValue}</Card.Text>
                                             <Card.Text>{utcConverter(dateCreated)}</Card.Text>
@@ -165,7 +193,7 @@ class ModalContent extends Component<any> {
                                 })
                             }
                             </div>
-                            <Form style={{ margin: 'auto', position: "absolute", bottom: "0" }} key={postId} onSubmit={this.props.postComment}>
+                            <Form style={{ margin: 'auto', position: "absolute", bottom: "0" }} key={postId} onSubmit={this.handleSubmit}>
                             <Row style={{ marginBottom: '3rem', justifyContent: 'center' }} xs={1}>
                                 <Col xs={12}>
                                     <Row style={{ marginBottom: '1rem', justifyContent: 'center' }}>
@@ -210,7 +238,7 @@ class ModalContent extends Component<any> {
     }
 
     communityFunction(prop: Community) {
-        const { communityName, description, communityId, members,  } = prop;
+        const { communityName, description, communityId, members, imageSource, mediaLink  } = prop;
         return (
             <ModalContainer>
                 <Modal.Header closeButton>
@@ -222,7 +250,7 @@ class ModalContent extends Component<any> {
                         <Image
                             fluid
                             style={{ borderRadius: '.2rem', objectFit: 'cover', width: '30rem', height: '30rem' }}
-                            src="https://www.artlog.net/sites/default/files/styles/al_colorbox_rules/public/turrell_cregis_golay_federal_studio.jpg?itok=2M4Pyn0A"
+                            src={mediaLink ? imageSource : "https://www.artlog.net/sites/default/files/styles/al_colorbox_rules/public/turrell_cregis_golay_federal_studio.jpg?itok=2M4Pyn0A"}
                         />
                             <Card style={{ marginTop: "1rem", color: 'white' }} className="bg-dark" key={communityId}>
                             <TextContainer>
@@ -236,40 +264,16 @@ class ModalContent extends Component<any> {
                         <div style={{ height: "65%", overflowY: "auto" }}>
                         {
                             members?.map(({ memberId, user, dateCreated }) => {
+                                console.log(memberId)
                                 return <Card className="bg-dark" key={memberId}>
                                     <TextContainer>
                                         <Card.Text>{user.username}</Card.Text>
-                                        <Card.Text>{utcConverter(dateCreated)}</Card.Text>
+                                        <Card.Text>Joined: {utcConverter(dateCreated)}</Card.Text>
                                     </TextContainer>
                                 </Card>
                             })
                         }
                         </div>
-                        <Form style={{ margin: 'auto', position: "absolute", bottom: "0" }} key={communityId} onSubmit={this.props.postComment}>
-                        <Row style={{ marginBottom: '3rem', justifyContent: 'center' }} xs={1}>
-                            <Col xs={12}>
-                            <Row style={{ marginBottom: '1rem', justifyContent: 'center' }}>
-                                <Col xs={12}>
-                                    <Form.Group>
-                                        <Form.Control style={{ height: '.5rem' }} name="commentValue" as="textarea" onChange={this.handleChange} placeholder=" Write your comment here" />
-                                    </Form.Group>
-                                </Col>
-                            </Row>
-                            <Row style={{ justifyContent: 'center' }}>
-                                <Col xs={12}>
-                                    <Form.Group className="mb-3" controlId="formMedia">
-                                        <Form.Control onChange={this.showPreview} name="mediaLink" as="input" accept="image/*" type="file" placeholder="Media" />
-                                    </Form.Group>
-                                    </Col>
-                                    </Row>
-                                </Col>
-                                <Col xs={12}>
-                                    <button style={{ textAlign: 'center', width: "100%" }} className="btn btn-light" type="submit">
-                                        <Send/>
-                                    </button>
-                                </Col>                
-                            </Row>
-                        </Form>
                         </CommentContainer>
                         </Col>
                     </Row>
@@ -296,6 +300,16 @@ class ModalContent extends Component<any> {
             return this.communityFunction(singleCommunity);
         }
     }
+
+    // componentDidMount(): void {
+    //     this.props.getPostComments(postId);
+    // }
+
+    // componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<IModalContent>, snapshot?: any): void {
+    //     if (prevProps.comments.length != this.props.comments.length) {
+    //         this.props.getPostComments(postId);
+    //     }
+    // }
 
     render() {
         return (

@@ -63,12 +63,13 @@ export async function getMessages(): Promise<Message[]> {
   return result;
 }
 
-export async function addMessage(messageValue: string): Promise<Message> {
+export async function addMessage(messageValue: string, receiverId: string): Promise<Message> {
   const response = await axios({
     method: 'post',
     url: api,
     data: {
-      messageValue
+      messageValue, 
+      receiverId
     },
     headers: headers,
     withCredentials: true

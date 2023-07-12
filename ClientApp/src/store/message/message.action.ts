@@ -8,7 +8,7 @@ import {
 } from '../../utils/reducer/reducer.utils';
 
 export type MessageCreateStart = ActionWithPayload<
-    MESSAGE_ACTION_TYPES.CREATE_START, { messageValue: string }
+    MESSAGE_ACTION_TYPES.CREATE_START, { messageValue: string, receiverId: string }
 >;
 
 export type MessageCreateSuccess = ActionWithPayload<
@@ -105,8 +105,8 @@ export type MessageSetIDSuccess = ActionWithPayload<
 >;
 
 export const messageCreateStart = withMatcher(
-    (messageValue: string): MessageCreateStart => 
-    createAction(MESSAGE_ACTION_TYPES.CREATE_START, { messageValue })
+    (messageValue: string, receiverId: string): MessageCreateStart => 
+    createAction(MESSAGE_ACTION_TYPES.CREATE_START, { messageValue, receiverId })
 );
 
 export const messageCreateSuccess = withMatcher(

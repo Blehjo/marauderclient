@@ -3,7 +3,7 @@ import { Col, Form, Modal, Row } from "react-bootstrap";
 import { Send } from "react-bootstrap-icons";
 import { ConnectedProps, connect } from "react-redux";
 import { MarauderFetchSingleStart, marauderFetchSingleStart } from "../../store/marauder/marauder.action";
-import { MessageSetID, messageSetId } from "../../store/message/message.action";
+import { MessageCreateStart, MessageSetID, messageCreateStart, messageSetId } from "../../store/message/message.action";
 import { MessageCommentCreateStart, messagecommentCreateStart } from "../../store/messagecomment/messagecomment.action";
 import { RootState } from "../../store/store";
 import { ModalContainer } from "../../styles/poststab/poststab.styles";
@@ -50,7 +50,7 @@ class MessageModal extends Component<MessageModalProps, IMessageModal> {
         const { messageValue, imageFile } = this.state;
         const { singleMarauder } = this.props.marauders;
 
-        await addMessage(singleMarauder?.username!)
+        await addMessage(singleMarauder?.username!, singleMarauder?.userId)
         .then((response) => this.props.setId(response.messageId));
 
         this.props.createMessageComment(this.props.messages.messageId!, messageValue, imageFile);
@@ -120,9 +120,10 @@ const mapStateToProps = (state: RootState) => {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<MarauderFetchSingleStart | MessageSetID | MessageCommentCreateStart>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<MarauderFetchSingleStart | MessageSetID | MessageCreateStart | MessageCommentCreateStart>) => ({
     getMarauder: (userId: number) => dispatch(marauderFetchSingleStart(userId)),
     setId: (messageId: number) => dispatch(messageSetId(messageId)),
+    createMessage: (messageValue: string, receiverId: string) => dispatch(messageCreateStart(messageValue, receiverId)),
     createMessageComment: (messageId: number, messageValue: string, imageFile: File) => dispatch(messagecommentCreateStart(messageId, messageValue, imageFile))
 });
 

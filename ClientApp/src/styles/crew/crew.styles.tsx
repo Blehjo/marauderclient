@@ -67,4 +67,5 @@ export const Container = styled.div`
     position: absolute;
     left: 0%;
     padding-top: 8%;
+    overflow-y: auto;
 `;

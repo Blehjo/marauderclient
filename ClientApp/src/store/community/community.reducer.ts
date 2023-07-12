@@ -65,12 +65,12 @@ export const communityReducer = (
     }
     if (
         communityFetchAllSuccess.match(action) || 
+        communityCreateSuccess.match(action) ||
         communityFetchOtherUsercommunitiesSuccess.match(action)
     ) {
         return { ...state, isLoading: false, communities: action.payload };
     } 
     if (
-        communityCreateSuccess.match(action) ||
         communityDeleteSuccess.match(action)
     ) {
         return { ...state, isLoading: false, userCommunities: action.payload };

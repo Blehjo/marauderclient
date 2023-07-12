@@ -28,7 +28,7 @@ const mapStateToProps = (state: RootState) => {
 const mapDispatchToProps = (dispatch: Dispatch<PostFetchAllStart | PostFetchSingleStart | CommentFetchSingleStart | CommentCreateStart | FavoriteCreateStart>) => ({
 	getAll: () => dispatch(postFetchAllStart()),
     getPost: (postId: number) => dispatch(postFetchSingleStart(postId)),
-    getPostComments: (postId: number) => dispatch(commentFetchSingleStart(postId)),
+    getComments: (postId: number) => dispatch(commentFetchSingleStart(postId)),
     createComment: (commentValue: string, imageFile: File, postId: number) => dispatch(commentCreateStart(commentValue, imageFile, postId)),
     likePost: (postId: number, contentType: string) => dispatch(favoriteCreateStart(postId, contentType))
 });

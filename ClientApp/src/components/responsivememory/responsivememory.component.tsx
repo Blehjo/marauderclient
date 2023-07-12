@@ -1,6 +1,6 @@
 import { Component, ReactNode } from "react";
 import { Badge, Card, Col, Modal, Row } from "react-bootstrap";
-import { ArrowsFullscreen, Chat, Collection, DeviceHdd, Envelope, Person, Rocket } from "react-bootstrap-icons";
+import { ArrowsFullscreen, Chat, Collection, DeviceHdd, Envelope, Person, Plus, Rocket } from "react-bootstrap-icons";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { Chat as ChatContent } from "../../store/chat/chat.types";
 import { Community } from "../../store/community/community.types";
@@ -43,10 +43,10 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
     handleClick(id: number, type?: string): void {
         if (type === "chat") {
             this.props.getChat(id);
-            this.props.getChatComments(id);
+            this.props.getComments(id);
         } else if (type === "post") {
             this.props.getPost(id);
-            this.props.getPostComments(id);
+            this.props.getComments(id);
         } else {
             this.props.getCommunity(id);
         }
@@ -211,6 +211,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                         {
                             <BadgeContainer>
                                 <Badge style={{ color: 'black' }} bg="light">
+                                <Plus onClick={() => this.props.joinCommunity(communityId)} size={15}/>
                                 {` ${members?.length > 0 ? members?.length : ""}`}
                                 </Badge>
                             </BadgeContainer>

@@ -1,19 +1,14 @@
 import { ChangeEvent, Component, Dispatch, FormEvent, ReactNode } from "react";
-import { Card, Col, Form, Image, Row } from 'react-bootstrap';
-import { Clipboard, Send, XCircle } from "react-bootstrap-icons";
-import { InputContainer, ListContainer, MessageContainer, MessageForm, TextContainer } from "../../styles/messages/messages.styles";
-import { RootState } from "../../store/store";
-import { MessageCreateStart, MessageFetchUserMessagesStart, MessageSetID, messageCreateStart, messageFetchUserMessagesStart, messageSetId } from "../../store/message/message.action";
-import { MessageCommentCreateStart, MessageCommentFetchSingleStart, messagecommentCreateStart, messagecommentFetchSingleStart } from "../../store/messagecomment/messagecomment.action";
+import { Card, Col, Form, Row } from 'react-bootstrap';
+import { Send, XCircle } from "react-bootstrap-icons";
 import { ConnectedProps, connect } from "react-redux";
+import { MessageCreateStart, MessageDeleteStart, MessageFetchUserMessagesStart, MessageSetID, messageCreateStart, messageDeleteStart, messageFetchUserMessagesStart, messageSetId } from "../../store/message/message.action";
 import { MessageState } from "../../store/message/message.reducer";
+import { MessageCommentCreateStart, MessageCommentFetchSingleStart, messagecommentCreateStart, messagecommentFetchSingleStart } from "../../store/messagecomment/messagecomment.action";
 import { MessageCommentState } from "../../store/messagecomment/messagecomment.reducer";
 import { MessageComment } from "../../store/messagecomment/messagecomment.types";
-
-type User = {
-    name: string;
-    avatarUrl: string;
-}
+import { RootState } from "../../store/store";
+import { InputContainer, ListContainer, MessageContainer, MessageForm, TextContainer } from "../../styles/messages/messages.styles";
 
 interface IMessage {
     socket: boolean;
@@ -38,6 +33,7 @@ class Messages extends Component<MessageProps, IMessage> {
         this.handleChange = this.handleChange.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.showPreview = this.showPreview.bind(this);
     }
     
     async handleMessage(event: FormEvent<HTMLFormElement>) {
@@ -76,7 +72,7 @@ class Messages extends Component<MessageProps, IMessage> {
     }
 
     handleDelete(messageId: number): void {
-
+        this.props.deleteMessage(messageId);
     }
 
     handleChange(event: ChangeEvent<HTMLInputElement>): void {
@@ -130,7 +126,7 @@ class Messages extends Component<MessageProps, IMessage> {
         this.props.getMessages();
     }
 
-    componentDidUpdate(prevProps: Readonly<{ messages: MessageState; messagecomments: MessageCommentState; } & { getMessages: () => void; getMessageComments: (messageId: number) => void; createMessage: (messageValue: string) => void; createMessageComment: (messageId: number, messageValue: string, imageFile: File) => void; }>, prevState: Readonly<IMessage>, snapshot?: any): void {
+    componentDidUpdate(prevProps: Readonly<{ messages: MessageState; messagecomments: MessageCommentState; } & { getMessages: () => void; getMessageComments: (messageId: number) => void; createMessage: (messageValue: string, receiverId: string) => void; deleteMessage: (messageId: number) => void; createMessageComment: (messageId: number, messageValue: string, imageFile: File) => void; setId: (messageId: number) => void; }>, prevState: Readonly<IMessage>, snapshot?: any): void {
         if (prevProps.messages.messageId != this.props.messages.messageId) {
             this.props.getMessageComments(this.props.messages.messageId);
         }
@@ -198,10 +194,11 @@ const mapStateToProps = (state: RootState) => {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<MessageCreateStart | MessageCommentCreateStart | MessageFetchUserMessagesStart | MessageCommentFetchSingleStart | MessageSetID>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<MessageCreateStart | MessageDeleteStart | MessageCommentCreateStart | MessageFetchUserMessagesStart | MessageCommentFetchSingleStart | MessageSetID>) => ({
     getMessages: () => dispatch(messageFetchUserMessagesStart()),
     getMessageComments: (messageId: number) => dispatch(messagecommentFetchSingleStart(messageId)),
-    createMessage: (messageValue: string) => dispatch(messageCreateStart(messageValue)),
+    createMessage: (messageValue: string, receiverId: string) => dispatch(messageCreateStart(messageValue, receiverId)),
+    deleteMessage: (messageId: number) => dispatch(messageDeleteStart(messageId)),
     createMessageComment: (messageId: number, messageValue: string, imageFile: File) => dispatch(messagecommentCreateStart(messageId, messageValue, imageFile)),
     setId: (messageId: number) => dispatch(messageSetId(messageId))
 })

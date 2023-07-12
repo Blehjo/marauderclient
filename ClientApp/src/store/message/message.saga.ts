@@ -1,56 +1,46 @@
-import { takeLatest, put, all, call } from 'typed-redux-saga';
+import { all, call, put, takeLatest } from 'typed-redux-saga';
 
 import { Message, MESSAGE_ACTION_TYPES } from './message.types';
 
 import {
-    messageCreateStart,
-    messageCreateSuccess,
     messageCreateFailed,
-    messageUpdateStart,
-    messageUpdateSuccess,
-    messageUpdateFailed,
-    messageDeleteStart,
-    messageDeleteSuccess,
-    messageDeleteFailed,
-    messageFetchSingleStart,
-    messageFetchSingleSuccess,
-    messageFetchSingleFailed,
-    messageFetchAllStart,
-    messageFetchAllSuccess,
-    messageFetchAllFailed,
     MessageCreateStart,
-    MessageCreateSuccess,
-    MessageFetchAllStart,
-    MessageFetchSingleStart,
-    MessageFetchUserMessagesStart,
-    MessageUpdateStart,
+    messageCreateSuccess,
+    messageDeleteFailed,
     MessageDeleteStart,
-    messageFetchUserMessagesSuccess,
+    messageDeleteSuccess,
+    messageFetchAllFailed,
+    messageFetchAllSuccess,
+    messageFetchSingleFailed,
+    MessageFetchSingleStart,
+    messageFetchSingleSuccess,
     messageFetchUserMessagesFailed,
+    messageFetchUserMessagesSuccess,
     MessageSetID,
-    messageSetIdSuccess
+    messageSetIdSuccess,
+    MessageUpdateStart,
+    messageUpdateSuccess
 } from './message.action';
 
-import { 
-    getSingleMessage,
-    getAllMessages,
-    getUserMessages,
-    getUsersMessages,
-    getMessages, 
-    addMessage, 
+import {
+    addMessage,
+    deleteMessage,
     editMessage,
-    deleteMessage
+    getAllMessages,
+    getSingleMessage,
+    getUsersMessages
 } from '../../utils/api/message.api';
 
 export function* startSetId({ payload: { messageId }}: MessageSetID) {
     yield* put(messageSetIdSuccess(messageId));
 }
 
-export function* createMessage({ payload: { messageValue }}: MessageCreateStart ) {
+export function* createMessage({ payload: { messageValue, receiverId }}: MessageCreateStart ) {
     try {
         const message = yield* call(
             addMessage,
             messageValue,
+            receiverId
         ); 
         yield* put(messageCreateSuccess(message));
     } catch (error) {

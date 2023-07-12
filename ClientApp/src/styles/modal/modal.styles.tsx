@@ -6,6 +6,7 @@ export const ModalContainer = styled.div`
 
 export const TextContainer = styled.div`
   padding: 1rem;
+  color: white;
 `;
 
 export const CommentContainer = styled.div`
