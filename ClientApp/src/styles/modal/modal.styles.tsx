@@ -1,7 +1,10 @@
 import { styled } from "styled-components";
 
 export const ModalContainer = styled.div`
-    
+  background: black;
+  border: 1px solid white;
+  color: white;
+  border-radius: 10px;
 `;
 
 export const TextContainer = styled.div`

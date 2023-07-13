@@ -65,6 +65,8 @@ export const Container = styled.div`
     flex-wrap: wrap;
     flex-direction: row;
     position: absolute;
+    width: 100%;
+    text-align: start;
     left: 0%;
     padding-top: 8%;
     overflow-y: auto;

@@ -75,7 +75,8 @@ class ModalContent extends Component<any, IModalContent> {
     }
 
     chatFunction(prop: Chat) {
-        const { chatId, title, type, userId, comments, chatComments, favorites, dateCreated } = prop;
+        const { chatId, title, type, userId, chatComments, favorites, dateCreated } = prop;
+        const { comments } = this.props;
         return (
             <ModalContainer>
                 <Modal.Header closeButton>
@@ -89,7 +90,7 @@ class ModalContent extends Component<any, IModalContent> {
                             style={{ borderRadius: '.2rem', objectFit: 'cover', width: '30rem', height: '30rem' }}
                             src="https://www.artlog.net/sites/default/files/styles/al_colorbox_rules/public/turrell_cregis_golay_federal_studio.jpg?itok=2M4Pyn0A"
                         />
-                            <Card style={{ marginTop: "1rem", color: 'white' }} className="bg-dark" key={chatId}>
+                            <Card border="light" style={{ marginTop: "1rem", color: 'white' }} className="bg-dark" key={chatId}>
                             <TextContainer>
                             {title}
                             </TextContainer>
@@ -98,10 +99,10 @@ class ModalContent extends Component<any, IModalContent> {
                         <Col>
                         <CommentContainer>
                         <div>Comments</div>
-                        <div style={{ height: "65%", overflowY: "auto" }}>
+                        <div style={{ height: "85%", overflowY: "auto" }}>
                         {
-                            chatComments?.map(({ chatCommentId, chatValue, mediaLink, dateCreated }) => {
-                                return <Card className="bg-dark" key={chatCommentId}>
+                            comments?.map(({ chatCommentId, chatValue, mediaLink, dateCreated }) => {
+                                return <Card border="light" className="bg-dark mt-2" key={chatCommentId}>
                                     <TextContainer>
                                         <Card.Text>{chatValue}</Card.Text>
                                         <Card.Text>{utcConverter(dateCreated)}</Card.Text>
@@ -110,7 +111,7 @@ class ModalContent extends Component<any, IModalContent> {
                             })
                         }
                         </div>
-                        <Form style={{ margin: 'auto', position: "absolute", bottom: "0" }} key={chatId} onSubmit={this.props.postComment}>
+                        {/* <Form style={{ margin: 'auto', position: "absolute", bottom: "0" }} key={chatId} onSubmit={this.props.postComment}>
                         <Row style={{ marginBottom: '3rem', justifyContent: 'center' }} xs={1}>
                             <Col xs={12}>
                             <Row style={{ marginBottom: '1rem', justifyContent: 'center' }}>
@@ -129,12 +130,12 @@ class ModalContent extends Component<any, IModalContent> {
                                     </Row>
                                 </Col>
                                 <Col xs={12}>
-                                    <button style={{ textAlign: 'center', width: "100%" }} className="btn btn-light" type="submit">
+                                    <button style={{ textAlign: 'center', width: "100%" }} className="btn btn-outline-light" type="submit">
                                         <Send/>
                                     </button>
                                 </Col>                
                             </Row>
-                        </Form>
+                        </Form> */}
                         </CommentContainer>
                         </Col>
                     </Row>
@@ -184,7 +185,7 @@ class ModalContent extends Component<any, IModalContent> {
                             <div style={{ height: "65%", overflowY: "auto" }}>
                             {
                                 comments?.map(({ commentId, commentValue, mediaLink, dateCreated }) => {
-                                    return <Card className="bg-dark mt-1" key={commentId}>
+                                    return <Card border="light" className="bg-dark mt-2" key={commentId}>
                                         <TextContainer>
                                             <Card.Text>{commentValue}</Card.Text>
                                             <Card.Text>{utcConverter(dateCreated)}</Card.Text>

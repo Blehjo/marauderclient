@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { CloseButton, Nav, Offcanvas } from "react-bootstrap";
+import { CloseButton, Col, Image, Nav, Offcanvas, Row } from "react-bootstrap";
 import { UserInterfaceCanvasContainer } from "../../styles/userinterfacecanvas/userinterfacecanvas.styles";
 import { ChatDots, ChatLeft, Collection, Controller, DeviceHdd, DeviceSsd, DoorClosed, Eye, Gear, LayoutTextWindowReverse, Lightbulb, PersonBadge, Robot, Screwdriver, Star } from "react-bootstrap-icons";
 import { RootState } from "../../store/store";
@@ -15,7 +15,23 @@ class UserInterfaceCanvas extends Component<any> {
             <UserInterfaceCanvasContainer>
                 <Offcanvas style={{ background: 'black', width: '25%', borderRadius: '.5rem 0rem 0rem .5rem', color: 'white' }} scroll backdrop={false} placement="end" show={show} onHide={handleClick}>
                     <Offcanvas.Header >
-                    <Offcanvas.Title>{user?.username}</Offcanvas.Title>
+                        <Offcanvas.Title style={{ lineHeight: '1.5rem'}}>
+                            <Row xs={2}>
+                            <Col xs={3}>
+                            <Image style={{ width: '3rem', height: '3rem' }}fluid src={user?.imageLink ? user?.imageSource : ""}/>
+                            </Col>
+                            <Col>
+                            <Row xs={1}>
+                            <Col>
+                            {user?.username}
+                            </Col>
+                            <Col>
+                            {user?.about}
+                            </Col>
+                            </Row>
+                            </Col>
+                            </Row>
+                        </Offcanvas.Title>
                         <CloseButton className="bg-light" onClick={handleClick}></CloseButton>
                     </Offcanvas.Header>
                     <Offcanvas.Body>

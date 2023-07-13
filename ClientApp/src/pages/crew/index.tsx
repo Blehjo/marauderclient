@@ -2,6 +2,7 @@ import { ChangeEvent, Component, Dispatch, FormEvent, ReactNode } from "react";
 import { Card, Col, Dropdown, Form, Image, Modal, Row } from "react-bootstrap";
 import { Clipboard, PencilSquare, Plus, Send, XCircle } from "react-bootstrap-icons";
 import { ConnectedProps, connect } from "react-redux";
+import { Textfit } from 'react-textfit';
 
 import { ArtificialIntelligenceChatCreateStart, artificialIntelligenceChatCreateStart } from "../../store/artificialIntelligencechat/artificialintelligencechat.action";
 import {
@@ -16,7 +17,7 @@ import {
 } from "../../store/artificialintelligence/artificialintelligence.action";
 import { ArtificialIntelligenceState } from "../../store/artificialintelligence/artificialintelligence.reducer";
 import { ArtificialIntelligence } from "../../store/artificialintelligence/artificialintelligence.types";
-import { ChatCreateStart, ChatFetchUserChatsStart, ChatSetID, chatCreateStart, chatFetchUserChatsStart, chatSetId } from "../../store/chat/chat.action";
+import { ChatCreateStart, ChatDeleteStart, ChatFetchUserChatsStart, ChatSetID, chatCreateStart, chatDeleteStart, chatFetchUserChatsStart, chatSetId } from "../../store/chat/chat.action";
 import { ChatState } from "../../store/chat/chat.reducer";
 import { Chat } from "../../store/chat/chat.types";
 import { ChatCommentCreateStart, ChatCommentFetchSingleStart, chatcommentCreateStart, chatcommentFetchSingleStart } from "../../store/chatcomment/chatcomment.action";
@@ -108,6 +109,10 @@ class Crew extends Component<CrewProps, ICrew> {
         });
     }
 
+    handleChatDelete(chatId: number): void {
+        this.props.deleteChat(chatId);
+    }
+
     handleDelete(artificialIntelligenceId: number): void {
         this.props.deleteCrew(artificialIntelligenceId)
     }
@@ -121,24 +126,40 @@ class Crew extends Component<CrewProps, ICrew> {
         });
     }
 
-    handleMessage(event: FormEvent<HTMLFormElement>) {
+    handleMessage(event: FormEvent<HTMLFormElement>, artoo?: string) {
         event.preventDefault();
         const { messageValue, imageFile } = this.state;
-        this.props.addChatComment(this.props.chats.chatId, messageValue, imageFile);
-
         const socket = new WebSocket(`wss://localhost:7144/ws/3`);
-
-        socket.onopen = (event) => {
-            socket.send(messageValue);
-        };
-
-        socket.onmessage = (event) => {
-            if (event.data) {
-                this.handleChatComments(
-                    <TextContainer style={{ position: 'relative' }} key={event.data}>
+        
+        if (artoo != undefined) {
+            this.props.addChatComment(this.props.chats.chatId, artoo, imageFile);
+            socket.onopen = (event) => {
+                socket.send(artoo);
+            };
+    
+            socket.onmessage = (event) => {
+                if (event.data) {
+                    this.handleChatComments(
+                        <TextContainer style={{ position: 'relative' }} key={event.data}>
+                            {event.data}
+                        </TextContainer>
+                    )
+                }
+            }
+        } else {
+            this.props.addChatComment(this.props.chats.chatId, messageValue, imageFile);
+            socket.onopen = (event) => {
+                socket.send(messageValue);
+            };
+            
+            socket.onmessage = (event) => {
+                if (event.data) {
+                    this.handleChatComments(
+                        <TextContainer style={{ position: 'relative' }} key={event.data}>
                         {event.data}
                     </TextContainer>
-                )
+                    )
+                }
             }
         }
     }
@@ -147,17 +168,14 @@ class Crew extends Component<CrewProps, ICrew> {
         event.preventDefault();
         const { messageValue, artificialIntelligenceId } = this.state;
 
-        if (this.props.chats.chatId != null) {
+        if (this.props.chats.chatId == null) {
             await addChat(messageValue, artificialIntelligenceId)
             .then((response) => {
                 this.props.setId(response.chatId);
                 this.handleMessage(event);
                 callArtoo(messageValue)
                 .then((artoo) => {
-                    this.setState({
-                        messageValue: artoo.data
-                    })
-                    this.handleMessage(event);
+                    this.handleMessage(event, artoo.data);
                     this.setState({
                         messageValue: ""
                     })
@@ -167,11 +185,7 @@ class Crew extends Component<CrewProps, ICrew> {
             this.handleMessage(event);
             callArtoo(messageValue)
             .then((artoo) => {
-                this.setState({
-                    messageValue: artoo.data
-                })
-                console.log("ARTOO:: ", messageValue)
-                this.handleMessage(event);
+                this.handleMessage(event, artoo.data);
                 this.setState({
                     messageValue: ""
                 })
@@ -258,7 +272,9 @@ class Crew extends Component<CrewProps, ICrew> {
                                         <Image style={{ borderRadius: '.4rem', margin: '.5rem', width: '2rem', height: '2rem', objectFit: 'cover' }} fluid src={imageSource} />
                                     </Col>
                                     <Col key='col2' xs={6}>
+                                        <Textfit style={{ width: "100px" }}>
                                         {name}
+                                        </Textfit>
                                     </Col>
                                     <Col key='col3' xs={1}>
                                         <XCircle onClick={() => this.handleDelete(artificialIntelligenceId)} />
@@ -328,7 +344,7 @@ class Crew extends Component<CrewProps, ICrew> {
                                         </div>
                                     </Col>
                                     <Col xs={2}>
-                                        <XCircle onClick={() => this.handleDelete(chatId)} />
+                                        <XCircle onClick={() => this.handleChatDelete(chatId)} />
                                     </Col>
                                 </Row>
                             </Card>
@@ -367,13 +383,14 @@ const mapStateToProps = (state: RootState) => ({
     chatcomments: state.chatcomment.userChatcomments
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<ArtificialIntelligenceCreateStart | ArtificialIntelligenceDeleteStart | ArtificialIntelligenceFetchUsersStart | ArtificialIntelligenceFetchSingleStart | ArtificialIntelligenceChatCreateStart | ChatCreateStart |ChatCommentCreateStart | ChatFetchUserChatsStart | ChatCommentFetchSingleStart | ChatSetID>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<ArtificialIntelligenceCreateStart | ArtificialIntelligenceDeleteStart | ArtificialIntelligenceFetchUsersStart | ArtificialIntelligenceFetchSingleStart | ArtificialIntelligenceChatCreateStart | ChatCreateStart | ChatDeleteStart | ChatCommentCreateStart | ChatFetchUserChatsStart | ChatCommentFetchSingleStart | ChatSetID>) => ({
     addCrew: (name: string, role: string, imageFile: File) => dispatch(artificialIntelligenceCreateStart(name, role, imageFile)),
     deleteCrew: (artificialIntelligenceId: number) => dispatch(artificialIntelligenceDeleteStart(artificialIntelligenceId)),
     getCrew: () => dispatch(artificialIntelligenceFetchUsersStart()),
     getChats: () => dispatch(chatFetchUserChatsStart()),
     getAiChats: (artificialIntelligenceId: number) => dispatch(artificialIntelligenceFetchSingleStart(artificialIntelligenceId)),
     addChat: async (title: string, artificialIntelligenceId: number) => dispatch(chatCreateStart(title, artificialIntelligenceId)),
+    deleteChat: (chatId: number) => dispatch(chatDeleteStart(chatId)),
     getChatComments: (chatId: number) => dispatch(chatcommentFetchSingleStart(chatId)),
     addChatComment: (chatId: number, chatValue: string, mediaLink: File) => dispatch(chatcommentCreateStart(chatId, chatValue, mediaLink)),
     addArtificialChat: (artificialIntelligenceId: number, artificialIntelligence: ArtificialIntelligence, chatId: number, chat: Chat) => dispatch(artificialIntelligenceChatCreateStart(artificialIntelligenceId, artificialIntelligence, chatId, chat)),

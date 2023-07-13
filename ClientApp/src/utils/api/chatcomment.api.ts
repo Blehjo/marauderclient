@@ -11,7 +11,7 @@ const headers = {
 export async function getSingleChatComment(chatcommentId: number): Promise<ChatComment[]> {
   const response = await axios({
     method: 'get',
-    url: `${api}/user/${chatcommentId}`,
+    url: `${api}/${chatcommentId}`,
     headers: headers,
     withCredentials: true
   });

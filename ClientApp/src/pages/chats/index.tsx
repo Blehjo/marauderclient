@@ -21,7 +21,7 @@ const mapStateToProps = (state: RootState) => {
     return { 
         chats: state.chat.chats,
         singleChat: state.chat.singleChat,
-        comments: state.chatcomment.chatcomments
+        comments: state.chatcomment.userChatcomments
     };
 };
 
