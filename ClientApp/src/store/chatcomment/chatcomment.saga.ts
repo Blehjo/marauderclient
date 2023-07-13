@@ -1,41 +1,32 @@
-import { takeLatest, put, all, call } from 'typed-redux-saga';
+import { all, call, put, takeLatest } from 'typed-redux-saga';
 
-import { ChatComment, CHATCOMMENT_ACTION_TYPES } from './chatcomment.types';
+import { CHATCOMMENT_ACTION_TYPES } from './chatcomment.types';
 
 import {
-    chatcommentCreateStart,
-    chatcommentCreateSuccess,
     chatcommentCreateFailed,
-    chatcommentUpdateStart,
-    chatcommentUpdateSuccess,
-    chatcommentUpdateFailed,
-    chatcommentDeleteStart,
-    chatcommentDeleteSuccess,
-    chatcommentDeleteFailed,
-    chatcommentFetchSingleStart,
-    chatcommentFetchSingleSuccess,
-    chatcommentFetchSingleFailed,
-    chatcommentFetchAllStart,
-    chatcommentFetchAllSuccess,
-    chatcommentFetchAllFailed,
     ChatCommentCreateStart,
-    ChatCommentCreateSuccess,
-    ChatCommentFetchAllStart,
+    chatcommentCreateSuccess,
+    chatcommentDeleteFailed,
+    ChatCommentDeleteStart,
+    chatcommentDeleteSuccess,
+    chatcommentFetchAllFailed,
+    chatcommentFetchAllSuccess,
+    chatcommentFetchSingleFailed,
     ChatCommentFetchSingleStart,
+    chatcommentFetchSingleSuccess,
     ChatCommentFetchUserChatsStart,
     ChatCommentUpdateStart,
-    ChatCommentDeleteStart
+    chatcommentUpdateSuccess
 } from './chatcomment.action';
 
-import { 
-    getSingleChatComment,
-    getAllChatComments,
-    getUserChatComments,
-    getUsersChatComments,
-    getChatComments, 
-    addChatComment, 
+import {
+    addChatComment,
+    deleteChatComment,
     editChatComment,
-    deleteChatComment
+    getAllChatComments,
+    getSingleChatComment,
+    getUserChatComments,
+    getUsersChatComments
 } from '../../utils/api/chatcomment.api';
 
 export function* createChatComment({ payload: { chatId, chatValue, mediaLink }}: ChatCommentCreateStart ) {

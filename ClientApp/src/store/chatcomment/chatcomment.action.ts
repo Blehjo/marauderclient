@@ -1,10 +1,10 @@
 import { CHATCOMMENT_ACTION_TYPES, ChatComment } from './chatcomment.types';
 
 import {
-  createAction,
-  withMatcher,
-  Action,
-  ActionWithPayload
+    Action,
+    ActionWithPayload,
+    createAction,
+    withMatcher
 } from '../../utils/reducer/reducer.utils';
 
 export type ChatCommentCreateStart = ActionWithPayload<
@@ -171,8 +171,8 @@ export const chatcommentFetchUserChatsFailed = withMatcher(
 );
 
 export const chatcommentFetchAllStart = withMatcher(
-    (chatcomment: ChatComment[]): ChatCommentFetchAllStart => 
-    createAction(CHATCOMMENT_ACTION_TYPES.FETCH_ALL_START, chatcomment)
+    (): ChatCommentFetchAllStart => 
+    createAction(CHATCOMMENT_ACTION_TYPES.FETCH_ALL_START)
 );
 
 export const chatcommentFetchAllSuccess = withMatcher(

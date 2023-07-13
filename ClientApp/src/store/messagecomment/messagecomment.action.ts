@@ -101,8 +101,8 @@ export const messagecommentCreateStart = withMatcher(
 );
 
 export const messagecommentCreateSuccess = withMatcher(
-    (Message: MessageComment[]): MessageCommentCreateSuccess => 
-    createAction(MESSAGECOMMENT_ACTION_TYPES.CREATE_SUCCESS, Message)
+    (messages: MessageComment[]): MessageCommentCreateSuccess => 
+    createAction(MESSAGECOMMENT_ACTION_TYPES.CREATE_SUCCESS, messages)
 );
 
 export const messagecommentCreateFailed = withMatcher(
@@ -116,8 +116,8 @@ export const messagecommentUpdateStart = withMatcher(
 );
 
 export const messagecommentUpdateSuccess = withMatcher(
-    (Message: MessageComment[]): MessageCommentUpdateSuccess => 
-    createAction(MESSAGECOMMENT_ACTION_TYPES.UPDATE_SUCCESS, Message)
+    (messages: MessageComment[]): MessageCommentUpdateSuccess => 
+    createAction(MESSAGECOMMENT_ACTION_TYPES.UPDATE_SUCCESS, messages)
 );
 
 export const messagecommentUpdateFailed = withMatcher(
@@ -131,8 +131,8 @@ export const messagecommentDeleteStart = withMatcher(
 );
 
 export const messagecommentDeleteSuccess = withMatcher(
-    (Message: MessageComment[]): MessageCommentDeleteSuccess => 
-    createAction(MESSAGECOMMENT_ACTION_TYPES.DELETE_SUCCESS, Message)
+    (messages: MessageComment[]): MessageCommentDeleteSuccess => 
+    createAction(MESSAGECOMMENT_ACTION_TYPES.DELETE_SUCCESS, messages)
 );
 
 export const messagecommentDeleteFailed = withMatcher(
@@ -146,8 +146,8 @@ export const messagecommentFetchSingleStart = withMatcher(
 );
 
 export const messagecommentFetchSingleSuccess = withMatcher(
-    (Message: MessageComment[]): MessageCommentFetchSingleSuccess => 
-    createAction(MESSAGECOMMENT_ACTION_TYPES.FETCH_SINGLE_SUCCESS, Message)
+    (messages: MessageComment[]): MessageCommentFetchSingleSuccess => 
+    createAction(MESSAGECOMMENT_ACTION_TYPES.FETCH_SINGLE_SUCCESS, messages)
 );
 
 export const messagecommentFetchSingleFailed = withMatcher(
@@ -161,8 +161,8 @@ export const messagecommentFetchUserMessagesStart = withMatcher(
 );
 
 export const messagecommentFetchUserMessagesSuccess = withMatcher(
-    (Message: MessageComment[]): MessageCommentFetchUserMessagesSuccess => 
-    createAction(MESSAGECOMMENT_ACTION_TYPES.FETCH_USER_MESSAGECOMMENTS_SUCCESS, Message)
+    (messages: MessageComment[]): MessageCommentFetchUserMessagesSuccess => 
+    createAction(MESSAGECOMMENT_ACTION_TYPES.FETCH_USER_MESSAGECOMMENTS_SUCCESS, messages)
 );
 
 export const messagecommentFetchUserMessagesFailed = withMatcher(
@@ -171,13 +171,13 @@ export const messagecommentFetchUserMessagesFailed = withMatcher(
 );
 
 export const messagecommentFetchAllStart = withMatcher(
-    (Message: MessageComment[]): MessageCommentFetchAllStart => 
-    createAction(MESSAGECOMMENT_ACTION_TYPES.FETCH_ALL_START, Message)
+    (): MessageCommentFetchAllStart => 
+    createAction(MESSAGECOMMENT_ACTION_TYPES.FETCH_ALL_START)
 );
 
 export const messagecommentFetchAllSuccess = withMatcher(
-    (Message: MessageComment[]): MessageCommentFetchAllSuccess => 
-    createAction(MESSAGECOMMENT_ACTION_TYPES.FETCH_ALL_SUCCESS, Message)
+    (messages: MessageComment[]): MessageCommentFetchAllSuccess => 
+    createAction(MESSAGECOMMENT_ACTION_TYPES.FETCH_ALL_SUCCESS, messages)
 );
 
 export const messagecommentFetchAllFailed = withMatcher(

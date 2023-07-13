@@ -36,17 +36,11 @@ class Messages extends Component<MessageProps, IMessage> {
         this.showPreview = this.showPreview.bind(this);
     }
     
-    async handleMessage(event: FormEvent<HTMLFormElement>) {
+    handleMessage(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const { messageValue, imageFile } = this.state;
         this.props.createMessageComment(this.props.messages.messageId!, messageValue, imageFile);
-    }
-
-    sendMessage(event): void {
-        event.preventDefault();
-        const { messageValue } = this.state;
-        let webSocket = new WebSocket("wss://localhost:7144/ws/1");
-        this.handleMessage(event);
+        const webSocket = new WebSocket("wss://localhost:7144/ws/1");
         webSocket.onopen = (event) => {
             webSocket.send(messageValue);
             this.setState({
@@ -57,13 +51,18 @@ class Messages extends Component<MessageProps, IMessage> {
         webSocket.onmessage = (event) => {
             if (event.data) {
                 this.handleMessageComments(
-                    <TextContainer style={{ position: 'relative' }} key={event.data}>
+                    <TextContainer key={event.data}>
                         {event.data}
                     </TextContainer>
                 )
                 webSocket.close();
             }
         }
+    }
+
+    sendMessage(event: FormEvent<HTMLFormElement>): void {
+        event.preventDefault();
+        this.handleMessage(event);
     }
 
     handleClick(messageId: number): void {
@@ -118,7 +117,9 @@ class Messages extends Component<MessageProps, IMessage> {
         for (let i = 0; i < messagecomments.userMessagecomments.length; i++) {
             content.push(this.messageFunction(messagecomments.userMessagecomments[i]));
         }
-        content.push(message);
+        if (message != undefined) {
+            content.push(message);
+        }
         return content;
     }
     
@@ -126,14 +127,8 @@ class Messages extends Component<MessageProps, IMessage> {
         this.props.getMessages();
     }
 
-    componentDidUpdate(prevProps: Readonly<{ messages: MessageState; messagecomments: MessageCommentState; } & { getMessages: () => void; getMessageComments: (messageId: number) => void; createMessage: (messageValue: string, receiverId: string) => void; deleteMessage: (messageId: number) => void; createMessageComment: (messageId: number, messageValue: string, imageFile: File) => void; setId: (messageId: number) => void; }>, prevState: Readonly<IMessage>, snapshot?: any): void {
-        if (prevProps.messages.messageId != this.props.messages.messageId) {
-            this.props.getMessageComments(this.props.messages.messageId);
-        }
-    }
-
     render() {
-        const { messageValue, messages } = this.state;
+        const { messageValue } = this.state;
         return (
             <MessageContainer>
                 <ListContainer>
@@ -161,7 +156,7 @@ class Messages extends Component<MessageProps, IMessage> {
                     }
                 </ListContainer>
                 <MessageForm>
-                    <Form>
+                    <Form onSubmit={this.sendMessage}>
                         {
                             this.handleMessageComments()
                         }
@@ -176,7 +171,7 @@ class Messages extends Component<MessageProps, IMessage> {
                             </Form.Group>
                             </Col>
                             <Col xs={2}>
-                            <button className="btn btn-outline-light" onClick={this.sendMessage}><Send/></button>
+                            <button className="btn btn-outline-light" type="submit" ><Send/></button>
                             </Col>
                         </Row>
                         </InputContainer>

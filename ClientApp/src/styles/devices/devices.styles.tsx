@@ -9,6 +9,7 @@ export const FormContainer = styled.div`
     position: relative;
     display: flex;
     flex-direction: row;
+    margin-bottom: 3rem;
 `;
 
 export const ButtonContainer = styled.button`

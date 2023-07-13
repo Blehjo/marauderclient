@@ -3,21 +3,21 @@ import { AnyAction } from 'redux';
 import { ChatComment } from './chatcomment.types';
 
 import {
+    chatcommentCreateFailed,
     chatcommentCreateStart,
     chatcommentCreateSuccess,
-    chatcommentCreateFailed,
-    chatcommentUpdateStart,
-    chatcommentUpdateSuccess,
-    chatcommentUpdateFailed,
+    chatcommentDeleteFailed,
     chatcommentDeleteStart,
     chatcommentDeleteSuccess,
-    chatcommentDeleteFailed,
-    chatcommentFetchSingleStart,
-    chatcommentFetchSingleSuccess,
-    chatcommentFetchSingleFailed,
+    chatcommentFetchAllFailed,
     chatcommentFetchAllStart,
     chatcommentFetchAllSuccess,
-    chatcommentFetchAllFailed,
+    chatcommentFetchSingleFailed,
+    chatcommentFetchSingleStart,
+    chatcommentFetchSingleSuccess,
+    chatcommentUpdateFailed,
+    chatcommentUpdateStart,
+    chatcommentUpdateSuccess
 } from './chatcomment.action';
 
 export type ChatCommentState = {
@@ -42,23 +42,27 @@ export const chatcommentReducer = (
     state = INITIAL_STATE, action: AnyAction
 ): ChatCommentState => {
     if (
-        chatcommentFetchAllStart.match(action) 
+        chatcommentFetchAllStart.match(action) ||
+        chatcommentFetchSingleStart.match(action) ||
+        chatcommentCreateStart.match(action) ||
+        chatcommentDeleteStart.match(action) ||
+        chatcommentUpdateStart.match(action)
     ) {
         return { ...state, isLoading: true }
     }
     if (
-        chatcommentFetchSingleSuccess.match(action) 
-    ) {
-        return { ...state, isLoading: false, userChatcomments: action.payload }
-    }
-    if (
-        chatcommentCreateSuccess.match(action) ||
         chatcommentUpdateSuccess.match(action) ||
         chatcommentDeleteSuccess.match(action) ||
         chatcommentFetchAllSuccess.match(action) 
     ) {
         return { ...state, isLoading: false, chatcomments: action.payload };
     } 
+    if (
+        chatcommentCreateSuccess.match(action) ||
+        chatcommentFetchSingleSuccess.match(action) 
+    ) {
+        return { ...state, isLoading: false, userChatcomments: action.payload }
+    }
     if (
         chatcommentCreateFailed.match(action) ||
         chatcommentUpdateFailed.match(action) ||

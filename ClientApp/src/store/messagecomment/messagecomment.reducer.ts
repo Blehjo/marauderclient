@@ -43,7 +43,10 @@ export const messagecommentReducer = (
 ): MessageCommentState => {
     if (
         messagecommentFetchAllStart.match(action) ||
-        messagecommentFetchSingleStart.match(action)
+        messagecommentFetchSingleStart.match(action) ||
+        messagecommentCreateStart.match(action) ||
+        messagecommentDeleteStart.match(action) ||
+        messagecommentUpdateStart.match(action)
     ) {
         return { ...state, isLoading: true }
     }
@@ -55,8 +58,8 @@ export const messagecommentReducer = (
         return { ...state, isLoading: false, messagecomments: action.payload };
     } 
     if (
-        messagecommentFetchSingleSuccess.match(action) ||
-        messagecommentCreateSuccess.match(action)
+        messagecommentCreateSuccess.match(action) ||
+        messagecommentFetchSingleSuccess.match(action) 
     ) {
         return { ...state, isLoading: false, userMessagecomments: action.payload}
     }

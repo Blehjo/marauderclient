@@ -28,8 +28,6 @@ import { InputContainer, TextContainer } from "../../styles/messages/messages.st
 import { addChat } from "../../utils/api/chat.api";
 import { callArtoo } from "../../utils/api/completion.api";
 
-type CrewProps = ConnectedProps<typeof connector>;
-
 interface ICrew {
     name: string;
     role: string;
@@ -45,7 +43,7 @@ interface ICrew {
     dropDownValue: string;
 }
 
-const chatArray: Array<ReactNode> = [];
+type CrewProps = ConnectedProps<typeof connector>;
 
 class Crew extends Component<CrewProps, ICrew> {
     constructor(props: CrewProps) {
@@ -65,13 +63,13 @@ class Crew extends Component<CrewProps, ICrew> {
             dropDownValue: this.props.artificialIntelligence[0]?.name
         }
         this.handleChange = this.handleChange.bind(this);
+        this.sendMessage = this.sendMessage.bind(this);
         this.handleClick = this.handleClick.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.showPreview = this.showPreview.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChatSelect = this.handleChatSelect.bind(this);
         this.createNewChat = this.createNewChat.bind(this);
         this.setDropDown = this.setDropDown.bind(this);
-        this.sendMessage = this.sendMessage.bind(this);
         this.getArtificialChat = this.getArtificialChat.bind(this);
     }
 
@@ -92,6 +90,7 @@ class Crew extends Component<CrewProps, ICrew> {
 
     handleChatSelect(chatId: number, artificialIntelligenceId: number, name: string): void {
         this.props.setId(chatId);
+        this.props.getChatComments(chatId);
         this.setDropDown(name, artificialIntelligenceId)
         this.setState({
             ...this.state, inputContainer: true
@@ -122,110 +121,62 @@ class Crew extends Component<CrewProps, ICrew> {
         });
     }
 
-    async handleMessage(event: FormEvent<HTMLFormElement>) {
+    handleMessage(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const { messageValue, imageFile } = this.state;
-        this.props.addChatComment(2, messageValue, imageFile);
+        this.props.addChatComment(this.props.chats.chatId, messageValue, imageFile);
+
+        const socket = new WebSocket(`wss://localhost:7144/ws/3`);
+
+        socket.onopen = (event) => {
+            socket.send(messageValue);
+        };
+
+        socket.onmessage = (event) => {
+            if (event.data) {
+                this.handleChatComments(
+                    <TextContainer style={{ position: 'relative' }} key={event.data}>
+                        {event.data}
+                    </TextContainer>
+                )
+            }
+        }
     }
 
-    sendMessage(event) {
+    async sendMessage(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        const { messageValue, imageFile, artificialIntelligenceId } = this.state;
-        const webSocket = new WebSocket(`wss://localhost:7144/ws/10`);
-        // if (this.props.chats.chatId == null) {
-            // addChat(messageValue, artificialIntelligenceId)
-            // .then((response) => {
-            //     this.props.setId(response.chatId);
-            // });
+        const { messageValue, artificialIntelligenceId } = this.state;
 
+        if (this.props.chats.chatId != null) {
+            await addChat(messageValue, artificialIntelligenceId)
+            .then((response) => {
+                this.props.setId(response.chatId);
+                this.handleMessage(event);
+                callArtoo(messageValue)
+                .then((artoo) => {
+                    this.setState({
+                        messageValue: artoo.data
+                    })
+                    this.handleMessage(event);
+                    this.setState({
+                        messageValue: ""
+                    })
+                })
+            });
+        } else {
             this.handleMessage(event);
-            webSocket.onopen = (event) => {
-                webSocket.send(messageValue);
+            callArtoo(messageValue)
+            .then((artoo) => {
+                this.setState({
+                    messageValue: artoo.data
+                })
+                console.log("ARTOO:: ", messageValue)
+                this.handleMessage(event);
                 this.setState({
                     messageValue: ""
                 })
-            };
-            
-            webSocket.onmessage = (event) => {
-                if (event.data) {
-                    this.handleChatComments(
-                        <TextContainer style={{ position: 'relative' }} key={event.data}>
-                            {/* <Clipboard style={{ position: 'absolute', right: '2%', cursor: 'pointer' }} onClick={() => {navigator.clipboard.writeText(event.data)}} size={15}/> */}
-                            {event.data}
-                        </TextContainer>
-                    )
-                    webSocket.close();
-                }
-            }
-            
-            // callArtoo(messageValue)
-            // .then((response) => {
-            //     this.props.addChatComment(this.props.chats.chatId, response.data, imageFile)
-            //     webSocket.onopen = (event) => {
-            //         webSocket.send(response.data);
-            //         this.setState({
-            //             messageValue: ""
-            //         })
-            //     };
-
-            //     webSocket.onmessage = (event) => {
-            //         this.handleChatComments(
-            //             <TextContainer style={{ position: 'relative' }}>
-            //                 <Clipboard style={{ position: 'absolute', right: '2%', cursor: 'pointer' }} onClick={() => {navigator.clipboard.writeText(event.data)}} size={15}/>
-            //                 {event.data}
-            //             </TextContainer>
-            //         )
-            //         webSocket.close();
-            //     }
-            // });
-
-
-        // } else {
-        //     let webSocket = new WebSocket(`wss://localhost:7144/ws/1`);
-        //     this.props.addChatComment(this.props.chats.chatId!, messageValue, imageFile);
-        //     webSocket.onopen = (event) => {
-        //         webSocket.send(messageValue);
-        //         this.setState({
-        //             messageValue: ""
-        //         })
-        //     };
-    
-        //     webSocket.onmessage = (event) => {
-        //         if (event.data) {
-        //             this.handleChatComments(
-        //                 <TextContainer style={{ position: 'relative' }}>
-        //                     <Clipboard style={{ position: 'absolute', right: '2%', cursor: 'pointer' }} onClick={() => {navigator.clipboard.writeText(event.data)}} size={15}/>
-        //                     {event.data}
-        //                 </TextContainer>
-        //             )
-        //             webSocket.close();
-        //         }
-        //     }
-
-        //     await callArtoo(messageValue)
-        //     .then((response) => {
-        //         this.props.addChatComment(this.props.chats.chatId!, response.data, imageFile)
-
-        //         webSocket.onopen = (event) => {
-        //             webSocket.send(response.data);
-        //             this.setState({
-        //                 messageValue: ""
-        //             })
-        //         };
-
-        //         webSocket.onmessage = (event) => {
-        //             if (event.data) {
-        //                 this.handleChatComments(
-        //                     <TextContainer style={{ position: 'relative' }}>
-        //                         <Clipboard style={{ position: 'absolute', right: '2%', cursor: 'pointer' }} onClick={() => {navigator.clipboard.writeText(event.data)}} size={15}/>
-        //                         {event.data}
-        //                     </TextContainer>
-        //                 )
-        //                 webSocket.close();
-        //             }
-        //         }
-        //     });
-        // }
+            });
+        }
     }
 
     setDropDown(name: string, artificialIntelligenceId: number): void {
@@ -275,6 +226,7 @@ class Crew extends Component<CrewProps, ICrew> {
         }
         if (chat != undefined) {
             content.push(chat);
+            return content;
         }
         return content;
     }
@@ -286,25 +238,14 @@ class Crew extends Component<CrewProps, ICrew> {
     
 
     componentDidUpdate(prevProps: Readonly<{ artificialIntelligence: ArtificialIntelligenceState; chats: ChatState; chatcomments: ChatComment[]; } & { addCrew: (name: string, role: string, imageFile: File) => void; deleteCrew: (artificialIntelligenceId: number) => void; getCrew: () => void; getChats: () => void; getAiChats: (artificialIntelligenceId: number) => void; addChat: (title: string, artificialIntelligenceId: number) => void; getChatComments: (chatId: number) => void; addChatComment: (chatId: number, chatValue: string, mediaLink: File) => void; }>, prevState: Readonly<ICrew>, snapshot?: any): void {
-        if (prevProps.chats.userChats.length != this.props.chats.userChats.length) {
-            this.props.getChats();
-            this.setState({
-                chats: this.props.chats.userChats
-            });
-        }
-
         if (prevProps.artificialIntelligence.artificialIntelligences.length != this.props.artificialIntelligence.artificialIntelligences.length) {
             this.props.getCrew();
-        }
-        
-        if (prevProps.chats.chatId != this.props.chats.chatId) {
-            this.props.getChatComments(this.props.chats.chatId);
         }
     }
 
     render() {
-        const { dropDownValue, show, role, name, messageValue, inputContainer, chats, messages } = this.state;
-        const { artificialIntelligence, chatcomments } = this.props;
+        const { dropDownValue, show, role, name, messageValue, inputContainer } = this.state;
+        const { artificialIntelligence, } = this.props;
         return (
             <CrewContainer>
                 <CrewMemberContainer>
@@ -312,14 +253,12 @@ class Crew extends Component<CrewProps, ICrew> {
                     {
                         artificialIntelligence.userArtificialIntelligences.map(({ artificialIntelligenceId, name, role, imageSource }, index) => (
                             <Card key={artificialIntelligenceId} onClick={() => this.getArtificialChat(name, artificialIntelligenceId)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer' }}>
-                                <Row key={index} xs={3}>
-                                    <Col key='col1' xs={4}>
+                                <Row style={{ lineHeight: '3rem' }} key={index} xs={3}>
+                                    <Col key='col1' xs={3}>
                                         <Image style={{ borderRadius: '.4rem', margin: '.5rem', width: '2rem', height: '2rem', objectFit: 'cover' }} fluid src={imageSource} />
                                     </Col>
-                                    <Col key='col2' xs={5}>
-                                        <div style={{ alignItems: 'center' }}>
-                                                {name}
-                                        </div>
+                                    <Col key='col2' xs={6}>
+                                        {name}
                                     </Col>
                                     <Col key='col3' xs={1}>
                                         <XCircle onClick={() => this.handleDelete(artificialIntelligenceId)} />
@@ -370,7 +309,7 @@ class Crew extends Component<CrewProps, ICrew> {
                                 </Form.Group>
                                 </Col>
                                 <Col xs={2}>
-                                <button className="btn btn-outline-light" type="submit"><Send/></button>
+                                <button className="btn btn-outline-light"><Send/></button>
                                 </Col>
                             </Row>
                             </InputContainer>
@@ -401,16 +340,6 @@ class Crew extends Component<CrewProps, ICrew> {
                     <Modal.Body>
                     <Form onSubmit={this.handleSubmit}>
                         <FormContainer>
-                            <Dropdown style={{ marginBottom: '1rem' }}>
-                            <Dropdown.Toggle variant="dark" id="dropdown-autoclose-true">{dropDownValue}</Dropdown.Toggle>
-                                <Dropdown.Menu>
-                                    <Dropdown.Item eventKey="1">Arduino Nano</Dropdown.Item>
-                                    <Dropdown.Item eventKey="2">Esp 32</Dropdown.Item>
-                                    <Dropdown.Item eventKey="3">Esp 32 Camera</Dropdown.Item>
-                                    <Dropdown.Item eventKey="4">Raspberry Pi 4</Dropdown.Item>
-                                    <Dropdown.Item eventKey="4">Raspberry Pi Zero W</Dropdown.Item>
-                                </Dropdown.Menu>
-                            </Dropdown>
                             <ButtonContainer className="btn btn-outline-dark" type="submit">
                                 <Plus style={{ cursor: 'pointer' }} size={15}/>
                             </ButtonContainer>
