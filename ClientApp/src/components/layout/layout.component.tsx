@@ -11,16 +11,18 @@ type Props = {
 export class Layout extends Component<Props> {
   static displayName = Layout.name;
 
+
   render() {
-  return (
-    <LayoutContainer>
-      <NavMenu />
-      <Sidebar />
-      <Container style={{ height: '100vh' }} tag="main">
-        {this.props.children}
-      </Container>
-    </LayoutContainer>
-  );
+    return (
+      <LayoutContainer>
+        <NavMenu />
+        <Sidebar />
+        <Container style={{ height: '100vh' }} tag="main">
+          {this.props.children}
+        </Container>
+      </LayoutContainer>
+    );
   }
 };
+
 export default Layout;

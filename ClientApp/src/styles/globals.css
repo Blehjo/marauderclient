@@ -20,6 +20,10 @@ a {
   padding-left: 1.5rem; */
 }
 
+.shrink {
+  display: none;
+}
+
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

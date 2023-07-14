@@ -1,4 +1,4 @@
-import { Component, Dispatch } from 'react';
+import { Component, Dispatch, FormEvent, MouseEvent, MouseEventHandler } from 'react';
 import { Container, Form, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { List, PersonCircle } from 'react-bootstrap-icons';
 
@@ -7,6 +7,7 @@ import UserInterfaceCanvas from '../userinterfacecanvas/userinterfacecanvas.comp
 import { ConnectedProps, connect } from 'react-redux';
 import { RootState } from '../../store/store';
 import { CheckUserSession, SignOutStart, checkUserSession, signOutStart } from '../../store/user/user.action';
+import { User } from '../../store/user/user.types';
 
 interface INavMenu {
     show: boolean;
@@ -18,7 +19,7 @@ class NavMenu extends Component<NavMenuProps, INavMenu> {
     constructor(props: NavMenuProps) {
         super(props);
         this.state = {
-            show: false
+            show: false,
         }
         this.handleClick = this.handleClick.bind(this);
     }
@@ -40,7 +41,7 @@ class NavMenu extends Component<NavMenuProps, INavMenu> {
             <NavmenuContainer className="fixed-top">
                 <Navbar style={{ border: "1px solid orangered" }} variant="dark" bg="dark" sticky="top" expand="lg" >
                     <Container fluid>
-                    <List style={{ marginLeft: '.75rem', border: '1px solid white', marginRight: '1rem', padding: '.02rem', borderRadius: '.2rem' }} className="d-flex align-items-center"/>
+                    <List style={{ marginLeft: '.75rem', border: '1px solid white', marginRight: '1rem', padding: '.02rem', borderRadius: '.2rem', cursor: 'pointer' }} className="d-flex align-items-center"/>
                     <Navbar.Brand href="/">Marauders</Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">

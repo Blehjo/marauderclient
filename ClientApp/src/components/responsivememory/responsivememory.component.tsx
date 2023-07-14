@@ -2,6 +2,7 @@ import { Component, ReactNode } from "react";
 import { Badge, Card, Col, Modal, Row } from "react-bootstrap";
 import { ArrowsFullscreen, Chat, Collection, DeviceHdd, Envelope, Person, Plus, Rocket } from "react-bootstrap-icons";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+
 import { Chat as ChatContent } from "../../store/chat/chat.types";
 import { Community } from "../../store/community/community.types";
 import { Marauder } from "../../store/marauder/marauder.types";

@@ -1,7 +1,7 @@
 import { Component, Dispatch } from "react";
 import { ConnectedProps, connect } from "react-redux";
-import ResponsiveMemory from "../../components/responsivememory/responsivememory.component";
 
+import ResponsiveMemory from "../../components/responsivememory/responsivememory.component";
 import { MarauderFetchAllStart, MarauderFetchSingleStart, marauderFetchAllStart, marauderFetchSingleStart } from "../../store/marauder/marauder.action";
 import { MessageCreateStart, MessageSetID, messageCreateStart, messageSetId } from "../../store/message/message.action";
 import { MessageCommentCreateStart, messagecommentCreateStart } from "../../store/messagecomment/messagecomment.action";
