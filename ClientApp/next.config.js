@@ -4,7 +4,8 @@ const nextConfig = {
   swcMinify: true,
   compiler: {
     styledComponents: true
-  }
+  },
+  transpilePackages: ['three']
 }
 
 module.exports = nextConfig;
