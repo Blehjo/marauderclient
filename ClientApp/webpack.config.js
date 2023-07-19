@@ -8,7 +8,7 @@ module.exports = () => {
           loader: 'babel-loader',
         },
       ],
-    },
+    }
   };
 
   return config;

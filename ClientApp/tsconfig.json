@@ -10,6 +10,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
+    "types": ["@react-three/fiber"],
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -28,6 +29,7 @@
   "baseUrl": "types",
   "typeRoots": ["types"],
   "include": [
+    ".",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",

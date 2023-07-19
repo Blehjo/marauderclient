@@ -1,6 +1,5 @@
 import { OrbitControls, Sphere } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { editable as e, configure } from 'react-three-editable'
 
 import { Gizmo } from "../../components/gizmo/gizmo.component";
 import { GUI } from "../../components/gui/gui.component";
@@ -25,7 +24,6 @@ export default function Builder() {
           maxDistance={12}
           makeDefault
         />
-        <Sphere position={[-5, -5, 8]} />
         <Gizmo />
         <Lights />
         <Terrain />

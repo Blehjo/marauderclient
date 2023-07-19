@@ -1,42 +1,34 @@
-import * as THREE from 'three'
-import {createRoot} from 'react-dom/client'
-import React, {useRef, useState} from 'react'
-import {Canvas, useFrame} from '@react-three/fiber'
-import {getProject} from '@theatre/core'
-import { SheetProvider, editable } from '@theatre/r3f'
-import extension from '@theatre/r3f/dist/extension'
-import studio from '@theatre/studio'
+import { Grid, OrbitControls, PerspectiveCamera, Resize, TransformControls } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import { Gizmo } from "../../components/gizmo/gizmo.component";
+import { useSpring, animated } from '@react-spring/three'
+import { useRef, useState } from "react";
+import * as THREE from "three";
 
-import theatre from '../../components/editor/theatre'
 
-if (process.env.NODE_ENV === 'development' && !theatre.isInit && typeof window !== 'undefined') {
-  studio.initialize()
-  studio.extend(extension)
-  studio.ui.hide() // Hidden by default
-  theatre.isInit = true
-}
-
-// our Theatre.js project sheet, we'll use this later
-const demoSheet = getProject('Demo Project').sheet('Demo Sheet')
-
-const Fiber = () => {
+export default function Editor() {
+  const ref = useRef<THREE.Mesh>(null!);
   return (
-    theatre.isInit
-    && 
-    <Canvas camera={{
-      position: [5, 5, -5],
-      fov: 75
-    }}>
-      <SheetProvider sheet={demoSheet}>
-        <ambientLight/>
-        <pointLight position={[10, 10, 10]}/>
-        <mesh>
-          <boxGeometry args={[1, 1, 1]}/>
-          <meshStandardMaterial color="orange"/>
+    <>
+      <Canvas>
+        <Grid cellColor="white" infiniteGrid/>
+        <orthographicCamera position={[0,0,10]} />
+        <ambientLight intensity={0.1} />
+        <directionalLight color="red" position={[0, 0, 5]} />
+        <TransformControls object={ref} mode="translate" />
+        <Resize>
+        <mesh castShadow receiveShadow ref={ref}>
+          <boxGeometry />
+          <meshStandardMaterial />
         </mesh>
-      </SheetProvider>
-    </Canvas>
-  )
+        </Resize>
+        <mesh castShadow receiveShadow>
+            <dodecahedronGeometry args={[0.9]} />
+            <meshStandardMaterial color="white" />
+          </mesh>
+        <Gizmo/>
+        <OrbitControls makeDefault />
+      </Canvas>
+    </>
+  );
 }
-
-export default Fiber;
