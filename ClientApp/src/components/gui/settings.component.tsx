@@ -7,6 +7,7 @@ export type SettingsState = {
   generation: {
     Seed: number;
     Height: number;
+    Width: number;
     Scale: number;
     Detail: number;
     Fuzzyness: number;
@@ -25,39 +26,16 @@ export type Settings = SettingsState & SettingsActions;
 
 const initialState: SettingsState = {
   colors: {
-    Tree: {
+    Color: {
       value: 0.6,
       color: "#9aa7ad"
-    },
-    Stone: {
-      value: 0.36,
-      color: "#656565"
-    },
-    Forest: {
-      value: 0.29,
-      color: "#586647"
-    },
-    Shrub: {
-      value: 0.1,
-      color: "#9ea667"
-    },
-    Beach: {
-      value: 0.04,
-      color: "#efb28f"
-    },
-    Shore: {
-      value: 0.01,
-      color: "#ffd68f"
-    },
-    Water: {
-      value: 0.42,
-      color: "#00a9ff"
     }
   },
   display: "color",
   generation: {
     Seed: Math.random(),
     Height: 1,
+    Width: 1,
     Scale: 0.3,
     Detail: 0.5,
     Fuzzyness: 0.2,

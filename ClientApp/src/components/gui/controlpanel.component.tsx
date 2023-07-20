@@ -29,12 +29,12 @@ export function ControlPanel() {
     return res;
   });
 
-  useControls("Display", () => ({
-    HeightMap: {
-      value: display === "height",
-      onChange: (v: boolean) => setDisplay(v ? "height" : "color")
-    }
-  }));
+  // useControls("Display", () => ({
+  //   HeightMap: {
+  //     value: display === "height",
+  //     onChange: (v: boolean) => setDisplay(v ? "height" : "color")
+  //   }
+  // }));
 
   const [_, set] = useControls("Generation", () => {
     const res = {} as any;
@@ -47,10 +47,10 @@ export function ControlPanel() {
       };
     });
     res["Sea Level"] = {
-      value: colors.Water.value,
+      value: colors.Color.value,
       min: 0,
       max: 1,
-      onChange: (v: number) => setColorValue("Water", v / 2)
+      onChange: (v: number) => setColorValue("Color", v / 2)
     };
 
     return res;

@@ -20,11 +20,11 @@ export default function Editor() {
         <directionalLight color="red" position={[0, 0, 5]} />
         <TransformControls object={ref} mode="translate" />
         <mesh castShadow receiveShadow >
-          <boxGeometry />
+          <boxGeometry args={[0,1,1]}/>
           <meshStandardMaterial color="blue"/>
         </mesh>
         <mesh castShadow receiveShadow ref={ref}>
-          <dodecahedronGeometry  />
+          <dodecahedronGeometry args={[1,1]}  />
           <meshStandardMaterial color="white" />
         </mesh>
         <Gizmo/>
