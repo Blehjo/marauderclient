@@ -25,7 +25,7 @@ export type Settings = SettingsState & SettingsActions;
 
 const initialState: SettingsState = {
   colors: {
-    Snow: {
+    Tree: {
       value: 0.6,
       color: "#9aa7ad"
     },
