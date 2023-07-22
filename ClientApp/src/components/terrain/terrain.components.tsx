@@ -10,19 +10,25 @@ export function Terrain() {
 
   const { dataBlocks, scale } = useProceduralTerrain();
   const getColor = useDisplay();
+  console.log("Get Color: ", getColor);
+  console.log("Data Blocks: ", dataBlocks);
 
   useEffect(() => {
     const mesh = ref.current;
+    console.log("Mesh: ", mesh)
     if (!mesh) return;
 
     dataBlocks.forEach(({ x, y, z, height }, i) => {
       const color = getColor(height);
+      console.log("Color: ", i, color);
 
       emptyObject.position.set(x, y, z);
       emptyObject.updateMatrix();
+      console.log("Empty Object: ", emptyObject);
 
       mesh.setMatrixAt?.(i, emptyObject.matrix);
       mesh.setColorAt?.(i, color);
+      console.log("Updated Mesh: ", mesh)
     });
 
     mesh.instanceMatrix.needsUpdate = true;
