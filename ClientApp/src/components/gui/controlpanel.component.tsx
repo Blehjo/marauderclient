@@ -45,7 +45,8 @@ export function ControlPanel() {
 
     res["Grid"] = {
       toggle: grid,
-      onChange: (grid: boolean) => toggleGrid(!grid)
+      value: grid,
+      onChange: (grid: boolean) => toggleGrid(grid)
     }
     
     return res;

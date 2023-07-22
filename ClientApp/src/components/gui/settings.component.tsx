@@ -51,7 +51,7 @@ const initialState: SettingsState = {
             z: 8
         },
         intensity: {
-            value: 0.9
+            value: 0.1
         }
     },
     colors: {
