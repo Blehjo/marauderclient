@@ -1,13 +1,28 @@
-import { Grid, OrbitControls, OrthographicCamera, PerspectiveCamera, Resize, Stats, TransformControls } from "@react-three/drei";
+import { Grid, Html, OrbitControls, OrthographicCamera, TransformControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { Gizmo } from "../../components/gizmo/gizmo.component";
-import { useSpring, animated } from '@react-spring/three'
-import { createRef, MouseEvent, MouseEventHandler, ReactNode, Ref, useEffect, useRef, useState } from "react";
+import { Component, ReactNode, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
+import { Gizmo } from "../../components/gizmo/gizmo.component";
 import { ControlPanel } from "../../components/gui/controlpanel.component";
 
-import { button, Leva, useControls } from "leva";
 import { useSettings } from "../../components/gui/settings.component";
+import { DivContainer, UiContainer } from "../../styles/editor/editor.styles";
+
+// Overhead GUI
+export class Selectors extends Component {
+  render() {
+    return (
+      <UiContainer>
+        <DivContainer onClick={() => console.log("HELLO::")}>+</DivContainer>
+        <DivContainer>-</DivContainer>
+        <DivContainer>|</DivContainer>
+        <DivContainer>#</DivContainer>
+        <DivContainer>@</DivContainer>
+        <DivContainer>O</DivContainer>
+      </UiContainer>
+    );
+  }
+}
 
 type ShapeProps = {
   active: boolean;
@@ -138,10 +153,11 @@ export default function Editor() {
 
   return (
     <>
-      <ControlPanel/>
+      <Selectors/>
       <Canvas
         camera={{ fov: 75, near: 0.1, far: 1000, position: [1, 2, 5] }}
-      >
+        >
+          <ControlPanel/>
         <Grid cellColor="white" infiniteGrid={grid}/>
         <OrthographicCamera />
         <ambientLight intensity={intensity} />
