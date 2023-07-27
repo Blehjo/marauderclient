@@ -7,18 +7,86 @@ import { ControlPanel } from "../../components/gui/controlpanel.component";
 
 import { useSettings } from "../../components/gui/settings.component";
 import { DivContainer, UiContainer } from "../../styles/editor/editor.styles";
+import { Dropdown, Modal } from "react-bootstrap";
 
-// Overhead GUI
-export class Selectors extends Component {
+const options: Array<string> = [
+  "box", "sphere", "cone", "cylinder", "tube", "cone", "torus", "torus knot", "tetrahedron", "polyhedron", "icosahedron", "octahedron", "dodecahedron", "extrude", "lathe"
+] 
+
+export class AddShape extends Component {
   render() {
     return (
+      <Modal>
+        <Modal.Header closeButton>Add a shape</Modal.Header>
+        <Modal.Body>
+          <Dropdown style={{ position: 'absolute', left: '2%', marginBottom: '1rem' }}>
+              <Dropdown.Toggle variant="dark" id="dropdown-autoclose-true">{"dropDownValue"}</Dropdown.Toggle>
+              <Dropdown.Menu>
+                {
+                  options.map((option) => (
+                    <div>{option}</div>
+                  ))
+                }
+              </Dropdown.Menu>
+          </Dropdown>
+        </Modal.Body>
+      </Modal>
+    );
+  }
+}
+
+export type SelectorProps = {
+  show: boolean;
+  selectedValue: string;
+}
+
+// Overhead GUI
+export class Selectors extends Component<any, SelectorProps> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      show: false,
+      selectedValue: "box"
+    }
+    this.openModal = this.openModal.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
+  }
+
+  openModal() {
+    this.setState({
+      show: !this.state.show
+    });
+  }
+
+  handleSelect(value: string) {
+    this.setState({
+      selectedValue: value
+    })
+  }
+
+  render() {
+    const { show, selectedValue } = this.state;
+    return (
       <UiContainer>
-        <DivContainer onClick={() => console.log("HELLO::")}>+</DivContainer>
+        <DivContainer onClick={this.openModal}>+</DivContainer>
         <DivContainer>-</DivContainer>
         <DivContainer>|</DivContainer>
         <DivContainer>#</DivContainer>
         <DivContainer>@</DivContainer>
         <DivContainer>O</DivContainer>
+          {
+            show &&
+            <Dropdown style={{ position: 'absolute', left: '2%', marginBottom: '1rem' }}>
+              <Dropdown.Toggle variant="dark" id="dropdown-autoclose-true">{selectedValue}</Dropdown.Toggle>
+              <Dropdown.Menu>
+                {
+                  options.map((option) => (
+                    <div onClick={() => this.handleSelect(option)}>{option}</div>
+                  ))
+                }
+              </Dropdown.Menu>
+            </Dropdown>
+          }
       </UiContainer>
     );
   }
@@ -167,7 +235,6 @@ export default function Editor() {
         ))}
         <Gizmo/>
         <OrbitControls makeDefault />
-        {/* <Stats showPanel={0}/>  */}
       </Canvas>
     </>
   );

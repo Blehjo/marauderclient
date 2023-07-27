@@ -5,6 +5,7 @@ import { Gizmo } from "../../components/gizmo/gizmo.component";
 import { GUI } from "../../components/gui/gui.component";
 import { Lights } from "../../components/lights/lights.component";
 import { Terrain } from "../../components/terrain/terrain.components";
+import Editor, { Selectors } from "../editor";
 
 export default function Builder() {
   return (

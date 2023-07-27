@@ -18,6 +18,7 @@ export const UiContainer = styled.div`
     padding: .3rem;
     width: 50%;
     justify-content: space-evenly;
+    z-index: 5;
 `;
 
 export const DivContainer = styled.div`
