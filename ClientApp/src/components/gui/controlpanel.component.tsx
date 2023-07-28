@@ -1,7 +1,18 @@
 import { button, Leva, useControls } from "leva";
 import { Settings, useSettings } from "./settings.component";
+import { Editor } from "../../store/editor/editor.types";
+import { useEffect } from "react";
+import { editorFetchSingleStart } from "../../store/editor/editor.action";
+import { useDispatch, useSelector } from "react-redux";
+import { selectEditorShape, selectEditorSingleShape } from "../../store/editor/editor.selector";
 
-export function ControlPanel() {
+type ControlProps = {
+  shapeId: number;
+}
+
+export function ControlPanel({ shapeId }: ControlProps) {
+  const shape = useSelector(selectEditorSingleShape);
+  const dispatch = useDispatch();
   const colors = useSettings((s) => s.colors);
   const directionalLight = useSettings((s) => s.directionalLight);
   const grid = useSettings((s) => s.grid);
@@ -14,6 +25,10 @@ export function ControlPanel() {
   const setIntensity = useSettings((s) => s.setIntensity);
   const setGeneration = useSettings((s) => s.setGeneration);
   const toggleGrid = useSettings((s) => s.toggleGrid);
+  
+  useEffect(() => {
+    dispatch(editorFetchSingleStart(shapeId))
+  }, []);
 
   useControls("Directional Light", () => {
     const res = {} as any;

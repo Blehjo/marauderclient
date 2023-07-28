@@ -26,6 +26,7 @@ import { userSagas } from './user/user.saga';
 import { userprofileSagas } from './userprofile/userprofile.saga';
 import { moveableSagas } from './moveable/moveable.saga';
 import { artificialIntelligenceChatSagas } from './artificialIntelligencechat/artificialintelligencechat.saga';
+import { shapeSagas } from './editor/editor.saga';
 
 export function* rootSaga() {
   yield* all([
@@ -52,6 +53,7 @@ export function* rootSaga() {
     call(panelSagas), 
     call(pinSagas), 
     call(postSagas), 
+    call(shapeSagas), 
     call(toolSagas), 
     call(userSagas),
     call(userprofileSagas)

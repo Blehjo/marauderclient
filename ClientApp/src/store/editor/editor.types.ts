@@ -1,5 +1,4 @@
 import { Vector3 } from "@react-three/fiber";
-import { ReactNode } from "react";
 
 export enum EDITOR_ACTION_TYPES  {
     CREATE_START = 'editor/CREATE_START',
@@ -31,8 +30,11 @@ export enum EDITOR_ACTION_TYPES  {
 };
 
 export type Editor = {
-    shape: string;
-    position: Vector3;
+    shapeId: number;
+    shapeName: string;
+    positionX: number;
+    positionY: number;
+    positionZ: number;
     height?: number;
     width?: number;
     depth?: number;

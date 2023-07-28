@@ -10,6 +10,11 @@ export const selectEditorShape = createSelector(
     (editor) => editor.shape
 );
 
+export const selectEditorSingleShape = createSelector(
+    [selectEditorReducer],
+    (editor) => editor.singleShape
+);
+
 export const selectEditorShapes = createSelector(
     [selectEditorReducer],
     (editor) => editor.shapes

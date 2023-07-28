@@ -13,7 +13,7 @@ export const UiContainer = styled.div`
     top: 8%;
     right: 20%;
     color: white;
-    background: darkblue;
+    background: #212529;
     border-radius: .3rem;
     padding: .3rem;
     width: 50%;
@@ -30,6 +30,19 @@ export const DivContainer = styled.div`
     cursor: pointer;
     z-index: 100;
     &:hover {
-        background-color: yellow;
+        background-color: black;
+    }
+`;
+
+export const DropDownContainer = styled.div`
+    color: white;
+    text-align: center;
+    margin-bottom: .5rem;
+    cursor: pointer;
+    &:hover {
+        background-color: black;
+    }
+    &:click {
+        opacity:.7;
     }
 `;

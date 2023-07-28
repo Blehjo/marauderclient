@@ -7,9 +7,10 @@ import {
     withMatcher
 } from '../../utils/reducer/reducer.utils';
 import { ReactNode } from 'react';
+import { Vector3 } from '@react-three/fiber';
 
 export type EditorCreateStart = ActionWithPayload<
-    EDITOR_ACTION_TYPES.CREATE_START, { name: string, role: string, imageFile: File }
+    EDITOR_ACTION_TYPES.CREATE_START, { shapeName: string, position?: Vector3, height?: number, width?: number, depth?: number, radius?: number, length?: number, color?: string }
 >;
 
 export type EditorCreateSuccess = ActionWithPayload<
@@ -23,7 +24,7 @@ export type EditorCreateFailed = ActionWithPayload<
 >;
 
 export type EditorUpdateStart = ActionWithPayload<
-    EDITOR_ACTION_TYPES.UPDATE_START, { BuilderId: number, name: string, role: string, imageFile: File }
+    EDITOR_ACTION_TYPES.UPDATE_START, { editorId: number, shapeName: string, position?: Vector3, height?: number, width?: number, depth?: number, radius?: number, length?: number, color?: string }
 >;
 
 export type EditorUpdateSuccess = ActionWithPayload<
@@ -37,7 +38,7 @@ export type EditorUpdateFailed = ActionWithPayload<
 >;
    
 export type EditorDeleteStart = ActionWithPayload<
-    EDITOR_ACTION_TYPES.DELETE_START, { BuilderId: number }
+    EDITOR_ACTION_TYPES.DELETE_START, { editorId: number }
 >;
 
 export type EditorDeleteSuccess = ActionWithPayload<
@@ -51,7 +52,7 @@ export type EditorDeleteteFailed = ActionWithPayload<
 >;
    
 export type EditorFetchSingleStart = ActionWithPayload<
-    EDITOR_ACTION_TYPES.FETCH_SINGLE_START, { BuilderId: number }
+    EDITOR_ACTION_TYPES.FETCH_SINGLE_START, { editorId: number }
 >;
 
 export type EditorFetchSingleSuccess = ActionWithPayload<
@@ -127,13 +128,13 @@ export type SetBrick = ActionWithPayload<
 >;
 
 export const editorCreateStart = withMatcher(
-    (name: string, role: string, imageFile: File): EditorCreateStart => 
-    createAction(EDITOR_ACTION_TYPES.CREATE_START, { name, role, imageFile})
+    (shapeName: string, position?: Vector3, height?: number, width?: number, depth?: number, radius?: number, length?: number, color?: string): EditorCreateStart => 
+    createAction(EDITOR_ACTION_TYPES.CREATE_START, { shapeName, position, height, width, depth, radius, length, color })
 );
 
 export const editorCreateSuccess = withMatcher(
-    (Builder: Editor[]): EditorCreateSuccess => 
-    createAction(EDITOR_ACTION_TYPES.CREATE_SUCCESS, Builder)
+    (editor: Editor[]): EditorCreateSuccess => 
+    createAction(EDITOR_ACTION_TYPES.CREATE_SUCCESS, editor)
 );
 
 export const editorCreateFailed = withMatcher(
@@ -142,13 +143,13 @@ export const editorCreateFailed = withMatcher(
 );
  
 export const editorUpdateStart = withMatcher(
-    (BuilderId: number, name: string, role: string, imageFile: File): EditorUpdateStart => 
-    createAction(EDITOR_ACTION_TYPES.UPDATE_START, { BuilderId, name, role, imageFile})
+    (editorId: number, shapeName: string, position?: Vector3, height?: number, width?: number, depth?: number, radius?: number, length?: number, color?: string): EditorUpdateStart => 
+    createAction(EDITOR_ACTION_TYPES.UPDATE_START, { editorId, shapeName, position, height, width, depth, radius, length, color })
 );
 
 export const editorUpdateSuccess = withMatcher(
-    (Builder: Editor[]): EditorUpdateSuccess => 
-    createAction(EDITOR_ACTION_TYPES.UPDATE_SUCCESS, Builder)
+    (editor: Editor[]): EditorUpdateSuccess => 
+    createAction(EDITOR_ACTION_TYPES.UPDATE_SUCCESS, editor)
 );
 
 export const editorUpdateFailed = withMatcher(
@@ -157,13 +158,13 @@ export const editorUpdateFailed = withMatcher(
 );
 
 export const editorDeleteStart = withMatcher(
-    (BuilderId: number): EditorDeleteStart => 
-    createAction(EDITOR_ACTION_TYPES.DELETE_START, { BuilderId })
+    (editorId: number): EditorDeleteStart => 
+    createAction(EDITOR_ACTION_TYPES.DELETE_START, { editorId })
 );
 
 export const editorDeleteSuccess = withMatcher(
-    (Builder: Editor[]): EditorDeleteSuccess => 
-    createAction(EDITOR_ACTION_TYPES.DELETE_SUCCESS, Builder)
+    (editor: Editor[]): EditorDeleteSuccess => 
+    createAction(EDITOR_ACTION_TYPES.DELETE_SUCCESS, editor)
 );
 
 export const editorDeleteFailed = withMatcher(
@@ -172,13 +173,13 @@ export const editorDeleteFailed = withMatcher(
 );
 
 export const editorFetchSingleStart = withMatcher(
-    (BuilderId: number): EditorFetchSingleStart => 
-    createAction(EDITOR_ACTION_TYPES.FETCH_SINGLE_START, { BuilderId })
+    (editorId: number): EditorFetchSingleStart => 
+    createAction(EDITOR_ACTION_TYPES.FETCH_SINGLE_START, { editorId })
 );
 
 export const editorFetchSingleSuccess = withMatcher(
-    (Builder: Editor): EditorFetchSingleSuccess => 
-    createAction(EDITOR_ACTION_TYPES.FETCH_SINGLE_SUCCESS, Builder)
+    (editor: Editor): EditorFetchSingleSuccess => 
+    createAction(EDITOR_ACTION_TYPES.FETCH_SINGLE_SUCCESS, editor)
 );
 
 export const editorFetchSingleFailed = withMatcher(
@@ -192,8 +193,8 @@ export const editorFetchUsersStart = withMatcher(
 );
 
 export const editorFetchUsersSuccess = withMatcher(
-    (Builder: Editor[]): EditorFetchUsersSuccess => 
-    createAction(EDITOR_ACTION_TYPES.FETCH_USER_EDITOR_SUCCESS, Builder)
+    (editor: Editor[]): EditorFetchUsersSuccess => 
+    createAction(EDITOR_ACTION_TYPES.FETCH_USER_EDITOR_SUCCESS, editor)
 );
 
 export const editorFetchUsersFailed = withMatcher(
@@ -207,8 +208,8 @@ export const editorFetchOtherUsersStart = withMatcher(
 );
 
 export const editorFetchOtherUsersSuccess = withMatcher(
-    (Builder: Editor[]): EditorFetchOtherUsersSuccess => 
-    createAction(EDITOR_ACTION_TYPES.FETCH_OTHER_USER_EDITOR_SUCCESS, Builder)
+    (editor: Editor[]): EditorFetchOtherUsersSuccess => 
+    createAction(EDITOR_ACTION_TYPES.FETCH_OTHER_USER_EDITOR_SUCCESS, editor)
 );
 
 export const editorFetchOtherUsersFailed = withMatcher(
@@ -222,8 +223,8 @@ export const editorFetchAllStart = withMatcher(
 );
 
 export const editorFetchAllSuccess = withMatcher(
-    (Builder: Editor[]): EditorFetchAllSuccess => 
-    createAction(EDITOR_ACTION_TYPES.FETCH_ALL_SUCCESS, Builder)
+    (editor: Editor[]): EditorFetchAllSuccess => 
+    createAction(EDITOR_ACTION_TYPES.FETCH_ALL_SUCCESS, editor)
 );
 
 export const editorFetchAllFailed = withMatcher(
