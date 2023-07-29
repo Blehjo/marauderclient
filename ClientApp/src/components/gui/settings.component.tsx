@@ -1,5 +1,10 @@
 import create from "zustand";
 import { immer } from "zustand/middleware/immer";
+import { selectEditorSingleShape } from "../../store/editor/editor.selector";
+import { editorFetchSingleStart } from "../../store/editor/editor.action";
+import axios from "axios";
+import { Editor } from "../../store/editor/editor.types";
+import { getSingleShape } from "../../utils/api/shape.api";
 
 export type SettingsState = { 
   colors: { [key: string]: { value: number; color: string;}; };
@@ -16,13 +21,14 @@ export type SettingsState = {
   };
   grid: boolean;
   generation: {
-    Height: number;
-    Width: number;
-    Depth: number;
-    Scale: number;
-    Detail: number;
-    Fuzzyness: number;
-    Resolution: number;
+    positionX?: number;
+    positionY?: number;
+    positionZ?: number;
+    height?: number;
+    width?: number;
+    depth?: number;
+    radius?: number;
+    length?: number;
   };
 };
 
@@ -38,6 +44,47 @@ export type SettingsActions = {
 };
 
 export type Settings = SettingsState & SettingsActions;
+
+// const dispatch = useDispatch();
+// dispatch(editorFetchSingleStart(1));
+// const singleShape = useSelector(selectEditorSingleShape);
+const shapeId = 1;
+class Generation {
+    positionX?: number;
+    positionY?: number;
+    positionZ?: number;
+    height?: number;
+    width?: number;
+    depth?: number;
+    radius?: number;
+    length?: number;
+};
+
+const singleShape = new Generation();
+
+
+getSingleShape(shapeId).then((response) => { 
+    singleShape.positionX = response.positionX;
+    singleShape.positionY = response.positionY;
+    singleShape.positionZ = response.positionZ;
+    singleShape.height = response.height;
+    singleShape.width = response.width;
+    singleShape.depth = response.depth;
+    singleShape.radius = response.radius;
+    singleShape.length = response.length;
+});
+console.log("SINGLESHAPE:: ", singleShape)
+
+const shape = {
+    height: singleShape?.height,
+    width: singleShape?.width,
+    depth: singleShape?.depth,
+    positionX: singleShape?.positionX,
+    positionY: singleShape?.positionY,
+    positionZ: singleShape?.positionZ,
+    radius: singleShape?.radius,
+    length: singleShape?.length
+}
 
 const initialState: SettingsState = {
     directionalLight: {
@@ -62,13 +109,14 @@ const initialState: SettingsState = {
     },
     grid: true,
     generation: {
-        Height: 1,
-        Width: 1,
-        Depth: 0,
-        Scale: 0.3,
-        Detail: 1,
-        Fuzzyness: 0.2,
-        Resolution: 0.3
+        height: singleShape?.height,
+        width: singleShape?.width,
+        depth: singleShape?.depth,
+        positionX: singleShape?.positionX,
+        positionY: singleShape?.positionY,
+        positionZ: singleShape?.positionZ,
+        radius: singleShape?.radius,
+        length: singleShape?.length
     }
 };
 

@@ -70,8 +70,7 @@ function Shape({ shape, position, orbit, shapeId }: ShapeProps) {
   const colors = useSettings((s) => s.colors);
   const color = new THREE.Color(colors["Color"].color);
   const hsl = color.getHSL({ h: 0, s: 1, l: 1 });
-  const height = useSettings((s) => s.generation.Height);
-  const detail = useSettings((s) => s.generation.Detail);
+  const height = useSettings((s) => s.generation.height);
   color.setHSL(
     hsl.h,
     hsl.s * 1.7,
