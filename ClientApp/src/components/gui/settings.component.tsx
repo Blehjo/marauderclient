@@ -45,9 +45,6 @@ export type SettingsActions = {
 
 export type Settings = SettingsState & SettingsActions;
 
-// const dispatch = useDispatch();
-// dispatch(editorFetchSingleStart(1));
-// const singleShape = useSelector(selectEditorSingleShape);
 const shapeId = 1;
 class Generation {
     positionX?: number;
@@ -62,7 +59,6 @@ class Generation {
 
 const singleShape = new Generation();
 
-
 getSingleShape(shapeId).then((response) => { 
     singleShape.positionX = response.positionX;
     singleShape.positionY = response.positionY;
@@ -74,17 +70,6 @@ getSingleShape(shapeId).then((response) => {
     singleShape.length = response.length;
 });
 console.log("SINGLESHAPE:: ", singleShape)
-
-const shape = {
-    height: singleShape?.height,
-    width: singleShape?.width,
-    depth: singleShape?.depth,
-    positionX: singleShape?.positionX,
-    positionY: singleShape?.positionY,
-    positionZ: singleShape?.positionZ,
-    radius: singleShape?.radius,
-    length: singleShape?.length
-}
 
 const initialState: SettingsState = {
     directionalLight: {
@@ -109,10 +94,10 @@ const initialState: SettingsState = {
     },
     grid: true,
     generation: {
-        height: singleShape?.height,
+        height: singleShape.height ? singleShape.height : 0,
         width: singleShape?.width,
         depth: singleShape?.depth,
-        positionX: singleShape?.positionX,
+        positionX: singleShape.positionX ? singleShape.positionX : 0,
         positionY: singleShape?.positionY,
         positionZ: singleShape?.positionZ,
         radius: singleShape?.radius,

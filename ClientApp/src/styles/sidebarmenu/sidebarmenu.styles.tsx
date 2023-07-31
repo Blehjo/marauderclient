@@ -11,4 +11,7 @@ export const SidebarMenuContainer = styled.div`
     overflow-x: hidden;
     border: 1px solid orangered;
     padding-bottom: 8rem;
+    .ms-4:hover {
+        color: black;
+    }
 `;

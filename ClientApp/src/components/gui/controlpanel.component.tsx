@@ -25,7 +25,7 @@ export function ControlPanel({ shapeId }: ControlProps) {
   const setIntensity = useSettings((s) => s.setIntensity);
   const setGeneration = useSettings((s) => s.setGeneration);
   const toggleGrid = useSettings((s) => s.toggleGrid);
-  
+
   useEffect(() => {
     dispatch(editorFetchSingleStart(shapeId))
   }, []);
@@ -88,15 +88,26 @@ export function ControlPanel({ shapeId }: ControlProps) {
 
   const [_, set] = useControls("Generation", () => {
     const res = {} as any;
-    (Object.keys(generation) as Array<keyof Settings["generation"]>).forEach((param) => {
-      res[param] = {
-        value: generation[param],
-        min: 0.01,
-        max: 1,
-        onChange: (v: number) => setGeneration(param, v)
-      };
-    });
-
+    // (Object.keys(generation) as Array<keyof Settings["generation"]>).forEach((param) => {
+    //   res[param] = {
+    //     value: generation[param],
+    //     min: 0.01,
+    //     max: 20,
+    //     onChange: (v: number) => setGeneration(param, v)
+    //   };
+    // });
+    res["Height"] = {
+      value: generation.height,
+      min: 0.01,
+      max: 1,
+      onChange: (v: number) => setGeneration("height", v)
+    };
+    res["X"] = {
+      value: generation.positionX,
+      min: 0.01,
+      max: 20,
+      onChange: (v: number) => setGeneration("positionX", v)
+    };
     return res;
   });
 

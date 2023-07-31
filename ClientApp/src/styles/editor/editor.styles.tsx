@@ -11,7 +11,7 @@ export const UiContainer = styled.div`
     flex-direction: row;
     position: fixed;
     top: 8%;
-    right: 20%;
+    right: 16%;
     color: white;
     background: #212529;
     border-radius: .3rem;
