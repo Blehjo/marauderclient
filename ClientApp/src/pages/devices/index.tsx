@@ -13,6 +13,8 @@ interface IDevice {
     deviceName: string;
     show: boolean;
     dropDownValue: string;
+    isConnected: boolean;
+    toggleCharacteristic: any;
 }
 
 type DeviceProps = ConnectedProps<typeof connector>;
@@ -23,11 +25,42 @@ class Devices extends Component<DeviceProps, IDevice> {
         this.state = {
             deviceName: "",
             show: false,
-            dropDownValue: "Arduino"
+            dropDownValue: "Arduino",
+            isConnected: false,
+            toggleCharacteristic: null
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    
+    async connect() {
+        const navigator: any = window.navigator;
+        const device = await navigator.bluetooth.requestDevice({
+            acceptAllDevices: true
+        // filters: [
+        // {
+        //     namePrefix: "Hue",
+        // },
+        // ],
+        // Philips Hue Light Control Service
+        // optionalServices: ["932c32bd-0000-47a2-835a-a8d455b859dd"],
+        });
+        const server = await device.gatt?.connect();
+            
+        // Philips Hue Light Control Service
+        const service = await server.getPrimaryService(
+            "932c32bd-0000-47a2-835a-a8d455b859dd"
+        );
+        const toggleChar = await service.getCharacteristic(
+            "932c32bd-0002-47a2-835a-a8d455b859dd" // Philips Hue Light On/Off Toggle
+        );
+      
+        this.setState({
+            ...this.state, isConnected: !this.state.isConnected, toggleCharacteristic: !this.state.toggleCharacteristic
+        })
+        // setToggleCharacteristic(toggleChar);
+        // setIsConnected(true);
     }
 
     handleChange(event: ChangeEvent<HTMLInputElement>): void {
@@ -42,7 +75,7 @@ class Devices extends Component<DeviceProps, IDevice> {
     }
 
     handleDelete(deviceId: number): void {
-
+        this.props.deleteDevice(deviceId);
     }
 
     handleSubmit(event: FormEvent<HTMLFormElement>): void {
@@ -88,6 +121,9 @@ class Devices extends Component<DeviceProps, IDevice> {
             <ListContainer>
                 <CardContainer onClick={this.handleClick}>
                     New Device +
+                </CardContainer>
+                <CardContainer onClick={this.connect}>
+                    Search Bluetooth
                 </CardContainer>
                 {
                     devices.map(({ deviceId, deviceName, deviceType }, index) => (

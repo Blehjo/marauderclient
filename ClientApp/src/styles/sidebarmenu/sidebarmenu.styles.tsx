@@ -12,6 +12,9 @@ export const SidebarMenuContainer = styled.div`
     border: 1px solid orangered;
     padding-bottom: 8rem;
     .ms-4:hover {
-        color: black;
+        color: gray;
+    }
+    .icons:hover {
+        color: gray;
     }
 `;

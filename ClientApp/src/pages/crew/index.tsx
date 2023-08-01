@@ -61,7 +61,7 @@ class Crew extends Component<CrewProps, ICrew> {
             show: false,
             inputContainer: false,
             messageValue: "",
-            dropDownValue: this.props.artificialIntelligence[0]?.name
+            dropDownValue: "this.props.artificialIntelligence.userArtificialIntelligences[0].name!"
         }
         this.handleChange = this.handleChange.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
@@ -132,7 +132,7 @@ class Crew extends Component<CrewProps, ICrew> {
         const socket = new WebSocket(`wss://localhost:7144/ws/3`);
         
         if (artoo != undefined) {
-            this.props.addChatComment(this.props.chats.chatId, artoo, imageFile);
+            this.props.addChatComment(this.props.chats.chatId!, artoo, imageFile);
             socket.onopen = (event) => {
                 socket.send(artoo);
             };
@@ -147,7 +147,7 @@ class Crew extends Component<CrewProps, ICrew> {
                 }
             }
         } else {
-            this.props.addChatComment(this.props.chats.chatId, messageValue, imageFile);
+            this.props.addChatComment(this.props.chats.chatId!, messageValue, imageFile);
             socket.onopen = (event) => {
                 socket.send(messageValue);
             };
@@ -169,7 +169,7 @@ class Crew extends Component<CrewProps, ICrew> {
         const { messageValue, artificialIntelligenceId } = this.state;
 
         if (this.props.chats.chatId == null) {
-            await addChat(messageValue, artificialIntelligenceId)
+            await addChat(messageValue, artificialIntelligenceId!)
             .then((response) => {
                 this.props.setId(response.chatId);
                 this.handleMessage(event);
@@ -251,8 +251,8 @@ class Crew extends Component<CrewProps, ICrew> {
     }
     
 
-    componentDidUpdate(prevProps: Readonly<{ artificialIntelligence: ArtificialIntelligenceState; chats: ChatState; chatcomments: ChatComment[]; } & { addCrew: (name: string, role: string, imageFile: File) => void; deleteCrew: (artificialIntelligenceId: number) => void; getCrew: () => void; getChats: () => void; getAiChats: (artificialIntelligenceId: number) => void; addChat: (title: string, artificialIntelligenceId: number) => void; getChatComments: (chatId: number) => void; addChatComment: (chatId: number, chatValue: string, mediaLink: File) => void; }>, prevState: Readonly<ICrew>, snapshot?: any): void {
-        if (prevProps.artificialIntelligence.artificialIntelligences.length != this.props.artificialIntelligence.artificialIntelligences.length) {
+    componentDidUpdate(prevProps: Readonly<{ artificialIntelligence: ArtificialIntelligenceState; chats: ChatState; chatcomments: ChatComment[]; } & { addCrew: (name: string, role: string, imageFile: File) => void; deleteCrew: (artificialIntelligenceId: number) => void; getCrew: () => void; getChats: () => void; getAiChats: (artificialIntelligenceId: number) => void; addChat: (title: string, artificialIntelligenceId: number) => void;  deleteChat: (chatId: number) => void; getChatComments: (chatId: number) => void; addChatComment: (chatId: number, chatValue: string, mediaLink: File) => void; addArtificialChat: (artificialIntelligenceId: number, artificialIntelligence: ArtificialIntelligence, chatId: number, chat: Chat) => void; setId: (chatId: number) => void; }>, prevState: Readonly<ICrew>, snapshot?: any): void {
+        if (prevProps.artificialIntelligence.artificialIntelligences?.length != this.props.artificialIntelligence.artificialIntelligences?.length) {
             this.props.getCrew();
         }
     }
@@ -265,7 +265,7 @@ class Crew extends Component<CrewProps, ICrew> {
                 <CrewMemberContainer>
                     <CardContainer key='cardcontainer' onClick={this.handleClick}>New Crew +</CardContainer>
                     {
-                        artificialIntelligence.userArtificialIntelligences.map(({ artificialIntelligenceId, name, role, imageSource }, index) => (
+                        artificialIntelligence.userArtificialIntelligences?.map(({ artificialIntelligenceId, name, role, imageSource }, index) => (
                             <Card key={artificialIntelligenceId} onClick={() => this.getArtificialChat(name, artificialIntelligenceId)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer' }}>
                                 <Row style={{ lineHeight: '3rem' }} key={index} xs={3}>
                                     <Col key='col1' xs={3}>
@@ -286,11 +286,11 @@ class Crew extends Component<CrewProps, ICrew> {
                 </CrewMemberContainer>
                 <ChatForm>
                     <Form onSubmit={this.sendMessage}>
-                        <Dropdown style={{ position: 'absolute', left: '2%', marginBottom: '1rem' }}>
+                        <Dropdown style={{ }}>
                             <Dropdown.Toggle variant="dark" id="dropdown-autoclose-true">{dropDownValue}</Dropdown.Toggle>
                             <Dropdown.Menu>
                                 {
-                                    artificialIntelligence.userArtificialIntelligences.map(({ name, artificialIntelligenceId }) => (
+                                    artificialIntelligence.userArtificialIntelligences?.map(({ name, artificialIntelligenceId }) => (
                                         <Dropdown.Item onClick={() => this.setDropDown(name, artificialIntelligenceId )} eventKey="1">{name}</Dropdown.Item>
                                     ))
                                 }
@@ -304,8 +304,8 @@ class Crew extends Component<CrewProps, ICrew> {
                             inputContainer ? 
                             this.handleChatComments()
                             : 
-                                artificialIntelligence.userArtificialIntelligences.find(({artificialIntelligenceId}) => artificialIntelligenceId == this.state.artificialIntelligenceId)?.chats != null &&
-                                artificialIntelligence.userArtificialIntelligences.find(({artificialIntelligenceId}) => artificialIntelligenceId == this.state.artificialIntelligenceId)?.chats.map(({ chatId, title, artificialIntelligence }) => (
+                                artificialIntelligence.userArtificialIntelligences?.find(({artificialIntelligenceId}) => artificialIntelligenceId == this.state.artificialIntelligenceId)?.chats != null &&
+                                artificialIntelligence.userArtificialIntelligences?.find(({artificialIntelligenceId}) => artificialIntelligenceId == this.state.artificialIntelligenceId)?.chats?.map(({ chatId, title, artificialIntelligence }) => (
                                     <ChatBox style={{ cursor: 'pointer' }} onClick={() => this.handleChatSelect(chatId, artificialIntelligence?.artificialIntelligenceId, artificialIntelligence?.name)} key={chatId}>
                                     {title}
                                     </ChatBox>
@@ -335,7 +335,7 @@ class Crew extends Component<CrewProps, ICrew> {
                 <ChatsContainer>
                     <CardContainer>Chats</CardContainer>
                     {
-                        this.props.chats.userChats.map(({ artificialIntelligence, chatId, title }, index) => (
+                        this.props.chats.userChats?.map(({ artificialIntelligence, chatId, title }, index) => (
                             <Card onClick={() => this.handleChatSelect(chatId, artificialIntelligence?.artificialIntelligenceId, artificialIntelligence?.name)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', padding: '.5rem' }} key={index}>
                                 <Row key={index} xs={2}>
                                     <Col xs={10}>

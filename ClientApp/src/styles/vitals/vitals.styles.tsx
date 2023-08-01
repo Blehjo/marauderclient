@@ -32,6 +32,6 @@ export const CardContainer = styled.div`
     height: 20%
     cursor: pointer;
     &:hover {
-        color: black;
+        color: gray;
     }
 `;

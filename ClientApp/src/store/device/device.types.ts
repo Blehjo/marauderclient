@@ -19,7 +19,7 @@ export enum DEVICE_ACTION_TYPES {
 };
 
 export type Device = {
-    deviceId: number | null;
+    deviceId: number;
     deviceName: string | null;
     deviceType: Date;
     pins: Pin[];

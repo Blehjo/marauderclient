@@ -66,6 +66,7 @@
   },
   "devDependencies": {
     "@react-three/editor": "^0.0.16",
+    "@types/web-bluetooth": "^0.0.17",
     "babel-plugin-macros": "^3.1.0"
   }
 }

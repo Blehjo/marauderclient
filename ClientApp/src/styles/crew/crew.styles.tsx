@@ -6,8 +6,6 @@ export const CrewContainer = styled.div`
 `;
 
 export const PenContainer = styled.div`
-    position: absolute;
-    right: 2%;
     cursor: pointer;
 `;
 
@@ -29,14 +27,14 @@ export const ChatForm = styled.div`
     position: absolute;
     top: 5rem;
     left: 22.5%;
-    border: solid 1px white;
-    width: 55%;
     height: 85vh;
+    width: 55%;
+    border: solid 1px white;
     border-radius: 1rem;
-    .form-control {
-        background-color: black; 
-        color: white;
-    }
+    // .form-control {
+    //     background-color: black; 
+    //     color: white;
+    // }
 `;
 
 export const ChatsContainer = styled.div`
