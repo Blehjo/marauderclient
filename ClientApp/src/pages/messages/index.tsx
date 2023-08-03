@@ -2,6 +2,8 @@ import { ChangeEvent, Component, Dispatch, FormEvent, ReactNode } from "react";
 import { Card, Col, Form, Row } from 'react-bootstrap';
 import { Send, XCircle } from "react-bootstrap-icons";
 import { ConnectedProps, connect } from "react-redux";
+import { HubConnectionBuilder } from '@microsoft/signalr';
+
 import { MessageCreateStart, MessageDeleteStart, MessageFetchUserMessagesStart, MessageSetID, messageCreateStart, messageDeleteStart, messageFetchUserMessagesStart, messageSetId } from "../../store/message/message.action";
 import { MessageState } from "../../store/message/message.reducer";
 import { MessageCommentCreateStart, MessageCommentFetchSingleStart, messagecommentCreateStart, messagecommentFetchSingleStart } from "../../store/messagecomment/messagecomment.action";
@@ -21,6 +23,7 @@ interface IMessage {
 type MessageProps = ConnectedProps<typeof connector>;
 
 class Messages extends Component<MessageProps, IMessage> {
+    webSocket = new WebSocket(`wss://localhost:7144/ws/messages/1`);
     constructor(props: any) {
         super(props);
         this.state = {
@@ -40,22 +43,21 @@ class Messages extends Component<MessageProps, IMessage> {
         event.preventDefault();
         const { messageValue, imageFile } = this.state;
         this.props.createMessageComment(this.props.messages.messageId!, messageValue, imageFile);
-        const webSocket = new WebSocket("wss://localhost:7144/ws/1");
-        webSocket.onopen = (event) => {
-            webSocket.send(messageValue);
+        this.webSocket.onopen = (event) => {
+            this.webSocket.send(messageValue);
             this.setState({
                 ...this.state, messageValue: ""
             })
         };
 
-        webSocket.onmessage = (event) => {
+        this.webSocket.onmessage = (event) => {
             if (event.data) {
                 this.handleMessageComments(
                     <TextContainer key={event.data}>
                         {event.data}
                     </TextContainer>
                 )
-                webSocket.close();
+                this.webSocket.close();
             }
         }
     }
@@ -125,6 +127,23 @@ class Messages extends Component<MessageProps, IMessage> {
     
     componentDidMount(): void {
         this.props.getMessages();
+        this.webSocket.onopen = () => {
+            console.log("opened");
+            // this.webSocket.send("test"); // message to send on Websocket ready
+        };
+      
+        // this.webSocket.onclose = () => {
+        //     console.log("closed");
+        // };
+      
+        this.webSocket.onmessage = (event) => {
+            console.log("got message", event.data);
+            // this.setState({ val: event.data });
+        };
+    }
+
+    componentWillUnmount(): void {
+        // this.webSocket.close();
     }
 
     render() {
@@ -136,7 +155,7 @@ class Messages extends Component<MessageProps, IMessage> {
                         New Message +
                     </Card>
                     {
-                        this.props.messages.userMessages.map(({ messageValue, messageId, dateCreated }) => (
+                        this.props.messages.userMessages?.map(({ messageValue, messageId, dateCreated }) => (
                             <Card onClick={() => this.handleClick(messageId)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', padding: '.5rem' }} key={messageId}>
                                 <Row key={messageId} xs={2}>
                                     {/* <Col xs={4}>
@@ -158,7 +177,11 @@ class Messages extends Component<MessageProps, IMessage> {
                 <MessageForm>
                     <Form onSubmit={this.sendMessage}>
                         {
-                            this.handleMessageComments()
+                            <div style={{ height: '100%', overflow: 'auto' }}>
+                                {
+                                    this.handleMessageComments()
+                                }
+                            </div>
                         }
                         <InputContainer>
                         <Row xs={2}>

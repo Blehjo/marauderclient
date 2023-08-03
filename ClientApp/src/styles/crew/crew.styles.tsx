@@ -7,6 +7,9 @@ export const CrewContainer = styled.div`
 
 export const PenContainer = styled.div`
     cursor: pointer;
+    &:hover {
+        color: gray;
+    }
 `;
 
 export const CrewMemberContainer = styled.div`
@@ -35,6 +38,12 @@ export const ChatForm = styled.div`
     //     background-color: black; 
     //     color: white;
     // }
+`;
+
+export const HeaderContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 `;
 
 export const ChatsContainer = styled.div`

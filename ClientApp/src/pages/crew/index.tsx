@@ -23,7 +23,7 @@ import { Chat } from "../../store/chat/chat.types";
 import { ChatCommentCreateStart, ChatCommentFetchSingleStart, chatcommentCreateStart, chatcommentFetchSingleStart } from "../../store/chatcomment/chatcomment.action";
 import { ChatComment } from "../../store/chatcomment/chatcomment.types";
 import { RootState } from "../../store/store";
-import { ChatBox, ChatForm, ChatsContainer, Container, CrewContainer, CrewMemberContainer, PenContainer } from "../../styles/crew/crew.styles";
+import { ChatBox, ChatForm, ChatsContainer, Container, CrewContainer, CrewMemberContainer, HeaderContainer, PenContainer } from "../../styles/crew/crew.styles";
 import { ButtonContainer, CardContainer, FormContainer } from "../../styles/devices/devices.styles";
 import { InputContainer, TextContainer } from "../../styles/messages/messages.styles";
 import { addChat } from "../../utils/api/chat.api";
@@ -286,19 +286,21 @@ class Crew extends Component<CrewProps, ICrew> {
                 </CrewMemberContainer>
                 <ChatForm>
                     <Form onSubmit={this.sendMessage}>
+                        <HeaderContainer>
                         <Dropdown style={{ }}>
                             <Dropdown.Toggle variant="dark" id="dropdown-autoclose-true">{dropDownValue}</Dropdown.Toggle>
                             <Dropdown.Menu>
                                 {
                                     artificialIntelligence.userArtificialIntelligences?.map(({ name, artificialIntelligenceId }) => (
                                         <Dropdown.Item onClick={() => this.setDropDown(name, artificialIntelligenceId )} eventKey="1">{name}</Dropdown.Item>
-                                    ))
-                                }
+                                        ))
+                                    }
                             </Dropdown.Menu>
                         </Dropdown>
                         <PenContainer onClick={this.createNewChat}>
                             <PencilSquare size={30}/>
                         </PenContainer>
+                        </HeaderContainer>
                         <Container>
                         {
                             inputContainer ? 

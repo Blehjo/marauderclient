@@ -26,7 +26,7 @@ export const OptionsContainer = styled.div`
 export const CardContainer = styled.div`
     border-radius: .5rem;
     border: 1px solid white;
-    padding: 0rem 5rem 0rem 5rem;
+    padding: 1rem;
     margin-right: 1rem;
     width: 20%;
     height: 20%

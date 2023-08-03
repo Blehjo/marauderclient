@@ -1,6 +1,6 @@
 import { Component, Dispatch } from "react";
 import { Nav, Row } from "react-bootstrap";
-import { ChatDots, ChatLeft, Collection, Controller, DeviceHdd, DeviceSsd, Eye, Gear, GraphUp, LayoutTextWindowReverse, Lightbulb, People, PersonBadge, Robot, RocketTakeoff, Screwdriver, Star } from 'react-bootstrap-icons';
+import { ChatDots, ChatLeft, Collection, Controller, DeviceHdd, DeviceSsd, Eye, Gear, Globe, GraphUp, LayoutTextWindowReverse, Lightbulb, People, PersonBadge, Robot, RocketTakeoff, Screwdriver, Star } from 'react-bootstrap-icons';
 import { ConnectedProps, connect } from "react-redux";
 import { RootState } from "../../store/store";
 import { CheckUserSession, checkUserSession } from "../../store/user/user.action";
@@ -36,11 +36,11 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item className="ms-4 d-flex align-items-center">
-                        <a href="/vitals">
-                        <Controller className='icons' color="white" />
+                        <a href="/builder">
+                        <Globe className='icons' color="white" />
                         </a>
-                        <Nav.Link href="/vitals" className="tools ms-4">
-                            Vitals
+                        <Nav.Link href="/odyssey" className="tools ms-4">
+                            Odyssey
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item className="ms-4 d-flex align-items-center">
@@ -59,7 +59,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                             Explore
                         </Nav.Link>
                     </Nav.Item>
-                    <hr style={{ color: 'white' }}/>
+                    <hr style={{ marginTop: '7%' }}/>
                     <Nav.Item className="ms-4 d-flex align-items-center">
                         <a href="/crew">
                         <Robot className='icons' color="white"  />
@@ -92,7 +92,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                             Projects
                         </Nav.Link>
                     </Nav.Item >
-                    <hr style={{ color: 'white' }}/>
+                    <hr style={{ marginTop: '7%' }}/>
                     <Nav.Item className="ms-4 d-flex align-items-center">
                         <a href="/marauders">
                         <PersonBadge className='icons' color="white" />
@@ -133,7 +133,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                             Favorites
                         </Nav.Link>
                     </Nav.Item>
-                    <hr />
+                    <hr style={{ marginTop: '7%' }}/>
                     <Nav.Item className="ms-4 d-flex align-items-center">
                         <a href="/settings">
                         <Gear className='icons' color="white" />

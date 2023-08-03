@@ -1,12 +1,37 @@
-import { Component } from "react";
-import { CloseButton, Col, Image, Nav, Offcanvas, Row } from "react-bootstrap";
+import { Component, ReactNode } from "react";
+import { CloseButton, Col, Image, Modal, Nav, Offcanvas, Row } from "react-bootstrap";
 import { UserInterfaceCanvasContainer } from "../../styles/userinterfacecanvas/userinterfacecanvas.styles";
-import { ChatDots, ChatLeft, Collection, Controller, DeviceHdd, DeviceSsd, DoorClosed, Eye, Gear, LayoutTextWindowReverse, Lightbulb, PersonBadge, Robot, Screwdriver, Star } from "react-bootstrap-icons";
+import { ChatDots, ChatLeft, Collection, Controller, DeviceHdd, DeviceSsd, DoorClosed, DoorOpen, Eye, Gear, LayoutTextWindowReverse, Lightbulb, PersonBadge, Robot, Screwdriver, Star } from "react-bootstrap-icons";
 import { RootState } from "../../store/store";
+import Authentication from "../../pages/authentication";
 
-class UserInterfaceCanvas extends Component<any> {
+interface IUserCanvas {
+    authentication: boolean;
+}
+
+class UserInterfaceCanvas extends Component<any, IUserCanvas> {
     constructor(props: any) {
         super(props);
+        this.state = {
+            authentication: false
+        }
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(): void {
+        this.setState({
+            ...this.state, authentication: !this.state.authentication
+        })
+    }
+
+    goToAuth(): ReactNode {
+        const { authentication } = this.state;
+        return (
+            <Modal show={authentication} onHide={this.handleClick}>
+                <Modal.Header closeButton/>
+                <Authentication/>
+            </Modal>
+        )
     }
 
     render() {
@@ -151,13 +176,25 @@ class UserInterfaceCanvas extends Component<any> {
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item className="ms-4 d-flex align-items-center">
-                        <DoorClosed onClick={signOut} className='icons' color="white" />
-                        <Nav.Link onClick={signOut} className="tools ms-4">
-                            Sign Out
-                        </Nav.Link>
+                        {
+                            user ?
+                            <>
+                                <DoorClosed onClick={signOut} className='icons' color="white" />
+                                <Nav.Link onClick={signOut} className="tools ms-4">
+                                    Sign Out
+                                </Nav.Link>
+                            </> :
+                            <>
+                                <DoorOpen onClick={this.handleClick} className='icons' color="white" />
+                                <Nav.Link onClick={this.handleClick} className="tools ms-4">
+                                    Sign In
+                                </Nav.Link>
+                            </>
+                        }
                     </Nav.Item>
                     </Offcanvas.Body>
                 </Offcanvas>
+                {this.goToAuth()}
             </UserInterfaceCanvasContainer>
         );
     }

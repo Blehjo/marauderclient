@@ -172,8 +172,8 @@ export const gltfFetchUserFailed = withMatcher(
 );
 
 export const gltfFetchAllStart = withMatcher(
-    (gltf: Gltf[]): GltfFetchAllStart => 
-    createAction(GLTF_ACTION_TYPES.FETCH_ALL_START, gltf)
+    (): GltfFetchAllStart => 
+    createAction(GLTF_ACTION_TYPES.FETCH_ALL_START)
 );
 
 export const gltfFetchAllSuccess = withMatcher(

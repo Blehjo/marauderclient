@@ -11,6 +11,14 @@ import { useSettings } from "../../components/gui/settings.component";
 import { editorCreateStart, editorDeleteStart, editorFetchAllStart, setShape } from "../../store/editor/editor.action";
 import { selectEditorShape, selectEditorShapes } from "../../store/editor/editor.selector";
 
+enum Controls {
+  forward = 'forward',
+  back = 'back',
+  left = 'left',
+  right = 'right',
+  jump = 'jump',
+}
+
 type ShapeProps = {
   shape?: string;
   position?: {
@@ -118,11 +126,11 @@ export default function Editor() {
   const shape = useSelector(selectEditorShape);
   const shapes = useSelector(selectEditorShapes);
   const dispatch = useDispatch();
-  const position = useSettings((s) => s.directionalLight.position.x)
-  const positionArray = Object.values(position);
+  const position = useSettings((s) => s.directionalLight.position.x);
+  const positionArray = new THREE.Vector3(Object.values(position));
   const directionalLightColors = useSettings((s) => s.directionalLight.color);
   const grid = useSettings((s) => s.grid);
-  const intensity = useSettings((s) => s.directionalLight.intensity.value)
+  const intensity = useSettings((s) => s.directionalLight.intensity.value);
   const directionalLightColor = new THREE.Color(directionalLightColors["color"]);
   const orbit = useRef<THREE.Mesh>(null!);
 
