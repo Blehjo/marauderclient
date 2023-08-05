@@ -27,7 +27,6 @@ export function Player({ lerp = THREE.MathUtils.lerp }) {
   useFrame((state) => {
     const { forward, backward, left, right, jump } = get()
     const velocity = ref.current.linvel()
-    console.log("FORWARD:: ", backward - forward);
     // update camera
     state.camera.position.copy(ref.current.translation())
     // update axe

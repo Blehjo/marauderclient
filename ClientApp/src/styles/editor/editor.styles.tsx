@@ -46,3 +46,14 @@ export const DropDownContainer = styled.div`
         opacity:.7;
     }
 `;
+
+export const Dot = styled.div`
+    position: absolute;
+    top: 50%;
+    left: 62%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    border: 2px solid white;
+`;
