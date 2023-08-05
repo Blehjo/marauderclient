@@ -95,6 +95,21 @@ export type MessageCommentFetchAllFailed = ActionWithPayload<
     Error
 >;
 
+export type MessageCommentSetID = ActionWithPayload<
+    MESSAGECOMMENT_ACTION_TYPES.SET_ID,
+    { messageCommentId: number }
+>;
+
+export type MessageCommentSetIDSuccess = ActionWithPayload<
+    MESSAGECOMMENT_ACTION_TYPES.SET_ID_SUCCESS,
+    { messageCommentId: number }
+>;
+
+export type MessageCommentSetIDFailed = ActionWithPayload<
+    MESSAGECOMMENT_ACTION_TYPES.SET_ID_FAILED,
+    { messageCommentId: number }
+>;
+
 export const messagecommentCreateStart = withMatcher(
     (messageId: number, messageValue: string, imageFile: File): MessageCommentCreateStart => 
     createAction(MESSAGECOMMENT_ACTION_TYPES.CREATE_START, { messageId, messageValue, imageFile })
@@ -183,4 +198,19 @@ export const messagecommentFetchAllSuccess = withMatcher(
 export const messagecommentFetchAllFailed = withMatcher(
     (error: Error): MessageCommentFetchAllFailed => 
     createAction(MESSAGECOMMENT_ACTION_TYPES.FETCH_ALL_FAILED, error)
+);
+
+export const messageCommentSetId = withMatcher(
+    (messageCommentId: number): MessageCommentSetID => 
+    createAction(MESSAGECOMMENT_ACTION_TYPES.SET_ID, { messageCommentId })
+);
+
+export const messageCommentSetIdSuccess = withMatcher(
+    (messageCommentId: number): MessageCommentSetIDSuccess => 
+    createAction(MESSAGECOMMENT_ACTION_TYPES.SET_ID_SUCCESS, { messageCommentId })
+);
+
+export const messageCommentSetIdFailed = withMatcher(
+    (messageCommentId: number): MessageCommentSetIDFailed => 
+    createAction(MESSAGECOMMENT_ACTION_TYPES.SET_ID_FAILED, { messageCommentId })
 );

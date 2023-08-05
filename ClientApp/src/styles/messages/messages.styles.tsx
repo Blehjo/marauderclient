@@ -49,10 +49,21 @@ export const TextContainer = styled.div`
     padding: .2rem;
     margin: .5rem;
     width: 100%;
-    text-align: center;
+    text-align: left;
 `;
 
 export const ChatContainer = styled.div`
     position: absolute;
     top: 10%;
+`;
+
+export const Container = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    position: absolute;
+    width: 100%;
+    text-align: start;
+    left: 0%;
+    overflow-y: auto;
 `;

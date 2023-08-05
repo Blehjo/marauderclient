@@ -19,6 +19,9 @@ export enum MESSAGECOMMENT_ACTION_TYPES  {
     FETCH_ALL_START = 'messagecomment/FETCH_ALL_START',
     FETCH_ALL_SUCCESS = 'messagecomment/FETCH_ALL_SUCCESS',
     FETCH_ALL_FAILED = 'messagecomment/FETCH_ALL_FAILED',
+    SET_ID = 'messagecomment/SET_ID_START',
+    SET_ID_SUCCESS = 'messagecomment/SET_ID_SUCCESS',
+    SET_ID_FAILED = 'messagecomment/SET_ID_FAILED'
 };
 
 export type MessageComment = {

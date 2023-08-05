@@ -2,15 +2,15 @@ import { ChangeEvent, Component, Dispatch, FormEvent, ReactNode } from "react";
 import { Card, Col, Form, Row } from 'react-bootstrap';
 import { Send, XCircle } from "react-bootstrap-icons";
 import { ConnectedProps, connect } from "react-redux";
-import { HubConnectionBuilder } from '@microsoft/signalr';
+import { HttpTransportType, HubConnectionBuilder, JsonHubProtocol, LogLevel } from '@microsoft/signalr';
 
 import { MessageCreateStart, MessageDeleteStart, MessageFetchUserMessagesStart, MessageSetID, messageCreateStart, messageDeleteStart, messageFetchUserMessagesStart, messageSetId } from "../../store/message/message.action";
 import { MessageState } from "../../store/message/message.reducer";
-import { MessageCommentCreateStart, MessageCommentFetchSingleStart, messagecommentCreateStart, messagecommentFetchSingleStart } from "../../store/messagecomment/messagecomment.action";
+import { MessageCommentCreateStart, MessageCommentFetchSingleStart, MessageCommentSetID, messageCommentSetId, messagecommentCreateStart, messagecommentFetchSingleStart } from "../../store/messagecomment/messagecomment.action";
 import { MessageCommentState } from "../../store/messagecomment/messagecomment.reducer";
 import { MessageComment } from "../../store/messagecomment/messagecomment.types";
 import { RootState } from "../../store/store";
-import { InputContainer, ListContainer, MessageContainer, MessageForm, TextContainer } from "../../styles/messages/messages.styles";
+import { Container, InputContainer, ListContainer, MessageContainer, MessageForm, TextContainer } from "../../styles/messages/messages.styles";
 
 interface IMessage {
     socket: boolean;
@@ -18,12 +18,14 @@ interface IMessage {
     messages: Array<ReactNode>;
     imageSource: string | ArrayBuffer | null | undefined;
     imageFile: any;
+    connection: any;
 }
 
 type MessageProps = ConnectedProps<typeof connector>;
 
 class Messages extends Component<MessageProps, IMessage> {
-    webSocket = new WebSocket(`wss://localhost:7144/ws/messages/1`);
+    private connection: signalR.HubConnection;
+    public events: (onMessageReceived: (messageValue: string) => void) => void;
     constructor(props: any) {
         super(props);
         this.state = {
@@ -31,35 +33,51 @@ class Messages extends Component<MessageProps, IMessage> {
             messageValue: "",
             imageSource: "",
             messages: [],
-            imageFile: null
+            imageFile: null,
+            connection: null
         }
         this.handleChange = this.handleChange.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.showPreview = this.showPreview.bind(this);
+        this.connection = new HubConnectionBuilder()
+            .withUrl(`https://localhost:7144/hub/${this.props.messages.messageId}`)
+            .withAutomaticReconnect()
+            .build();
+        this.connection.start().catch(err => document.write(err));
+        this.events = (onMessageReceived) => {
+            this.connection.on("messageReceived", (messageValue) => {
+                console.log("BLOODY:: ", messageValue``)
+                onMessageReceived(messageValue);
+            });
+        };
     }
     
     handleMessage(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const { messageValue, imageFile } = this.state;
         this.props.createMessageComment(this.props.messages.messageId!, messageValue, imageFile);
-        this.webSocket.onopen = (event) => {
-            this.webSocket.send(messageValue);
-            this.setState({
-                ...this.state, messageValue: ""
-            })
-        };
+        this.connection.send(messageValue);
+        this.setState({
+            ...this.state, messageValue: ""
+        })
 
-        this.webSocket.onmessage = (event) => {
-            if (event.data) {
-                this.handleMessageComments(
-                    <TextContainer key={event.data}>
-                        {event.data}
-                    </TextContainer>
-                )
-                this.webSocket.close();
-            }
-        }
+        // this.events = (onMessageReceived) => {
+        //     this.connection.on("messageReceived", (messageValue) => {
+        //         onMessageReceived(messageValue);
+        //     });
+        // };
+
+        // this.state.connection.onmessage = (event) => {
+        //     if (event.data) {
+        //         this.handleMessageComments(
+        //             <TextContainer key={event.data}>
+        //                 {event.data}
+        //             </TextContainer>
+        //         )
+        //         this.state.connection.close();
+        //     }
+        // }
     }
 
     sendMessage(event: FormEvent<HTMLFormElement>): void {
@@ -127,24 +145,55 @@ class Messages extends Component<MessageProps, IMessage> {
     
     componentDidMount(): void {
         this.props.getMessages();
-        this.webSocket.onopen = () => {
-            console.log("opened");
-            // this.webSocket.send("test"); // message to send on Websocket ready
-        };
-      
-        // this.webSocket.onclose = () => {
-        //     console.log("closed");
+
+        // this.events(messageValue);
+
+        // const transport = HttpTransportType.WebSockets;
+
+        // const options = {
+        //     transport,
+        //     logMessageContent: true,
+        //     logger: LogLevel.Trace
+        //     // accessTokenFactory: () => this.loginToken
         // };
-      
-        this.webSocket.onmessage = (event) => {
-            console.log("got message", event.data);
-            // this.setState({ val: event.data });
-        };
+
+        // const newConnection = new HubConnectionBuilder()
+        //     .withUrl('https://localhost:7144/hub', options)
+        //     .withAutomaticReconnect()
+        //     .withHubProtocol(new JsonHubProtocol())
+        //     .configureLogging(LogLevel.Information)
+        //     .build();
+
+        // this.setState({
+        //     connection: newConnection
+        // })
+
+        this.connection.on('messageReceived', message => {
+            this.props.setMessageCommentId(message.messageCommentId);
+            console.log("MESSAGE:: ", message.messageValue)
+            this.handleMessageComments(
+                <TextContainer>
+                    {message.messageValue}
+                </TextContainer>
+            )
+        })
     }
 
-    componentWillUnmount(): void {
-        // this.webSocket.close();
-    }
+    // componentDidUpdate(prevProps: Readonly<{ messages: MessageState; messagecomments: MessageCommentState; } & { getMessages: () => void; getMessageComments: (messageId: number) => void; createMessage: (messageValue: string, receiverId: string) => void; deleteMessage: (messageId: number) => void; createMessageComment: (messageId: number, messageValue: string, imageFile: File) => void; setId: (messageId: number) => void; }>, prevState: Readonly<IMessage>, snapshot?: any): void {
+    //     if (prevProps.messagecomments.messagecommentId != this.props.messagecomments.messagecommentId) {
+    //         this.connection.on('messageReceived', message => {
+    //             this.handleMessageComments(
+    //                 <TextContainer key={message.messageCommentId}>
+    //                     {message.messageValue}
+    //                 </TextContainer>
+    //             )
+    //         });
+    //     }
+    // }
+
+    // componentWillUnmount () {
+    //     this.connection.stop();
+    // }
 
     render() {
         const { messageValue } = this.state;
@@ -176,13 +225,11 @@ class Messages extends Component<MessageProps, IMessage> {
                 </ListContainer>
                 <MessageForm>
                     <Form onSubmit={this.sendMessage}>
-                        {
-                            <div style={{ height: '100%', overflow: 'auto' }}>
-                                {
-                                    this.handleMessageComments()
-                                }
-                            </div>
-                        }
+                        <Container style={{ height: '75%', overflow: 'auto' }}>
+                            {
+                                this.handleMessageComments()
+                            }
+                        </Container>
                         <InputContainer>
                         <Row xs={2}>
                             <Col xs={10}>
@@ -212,13 +259,14 @@ const mapStateToProps = (state: RootState) => {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<MessageCreateStart | MessageDeleteStart | MessageCommentCreateStart | MessageFetchUserMessagesStart | MessageCommentFetchSingleStart | MessageSetID>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<MessageCreateStart | MessageDeleteStart | MessageCommentCreateStart | MessageFetchUserMessagesStart | MessageCommentFetchSingleStart | MessageSetID | MessageCommentSetID>) => ({
     getMessages: () => dispatch(messageFetchUserMessagesStart()),
     getMessageComments: (messageId: number) => dispatch(messagecommentFetchSingleStart(messageId)),
     createMessage: (messageValue: string, receiverId: string) => dispatch(messageCreateStart(messageValue, receiverId)),
     deleteMessage: (messageId: number) => dispatch(messageDeleteStart(messageId)),
     createMessageComment: (messageId: number, messageValue: string, imageFile: File) => dispatch(messagecommentCreateStart(messageId, messageValue, imageFile)),
-    setId: (messageId: number) => dispatch(messageSetId(messageId))
+    setId: (messageId: number) => dispatch(messageSetId(messageId)),
+    setMessageCommentId: (messageCommentId: number) => dispatch(messageCommentSetId(messageCommentId)),
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

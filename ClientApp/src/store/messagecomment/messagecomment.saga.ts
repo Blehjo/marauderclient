@@ -24,7 +24,9 @@ import {
     MessageCommentFetchSingleStart,
     MessageCommentFetchUserMessagesStart,
     MessageCommentUpdateStart,
-    MessageCommentDeleteStart
+    MessageCommentDeleteStart,
+    messageCommentSetIdSuccess,
+    MessageCommentSetID
 } from './messagecomment.action';
 
 import { 
@@ -37,6 +39,10 @@ import {
     editMessageComment,
     deleteMessageComment
 } from '../../utils/api/messagecomment.api';
+
+export function* startSetId({ payload: { messageCommentId }}: MessageCommentSetID) {
+    yield* put(messageCommentSetIdSuccess(messageCommentId));
+}
 
 export function* createMessageComment({ payload: { messageId, messageValue, imageFile }}: MessageCommentCreateStart ) {
     try {
@@ -123,6 +129,13 @@ export function* fetchAllMessagesAsync() {
     }
 }
 
+export function* onSetId() {
+    yield* takeLatest(
+        MESSAGECOMMENT_ACTION_TYPES.SET_ID,
+        startSetId
+    );
+}
+
 export function* onCreateStart() {
     yield* takeLatest(
         MESSAGECOMMENT_ACTION_TYPES.CREATE_START, 
@@ -167,6 +180,7 @@ export function* onFetchMessagesStart() {
 
 export function* messageCommentSagas() {
     yield* all([
+        call(onSetId),
         call(onCreateStart),
         call(onUpdateStart),
         call(onDeleteStart),

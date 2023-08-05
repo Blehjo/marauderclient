@@ -18,6 +18,8 @@ import {
     messagecommentFetchAllStart,
     messagecommentFetchAllSuccess,
     messagecommentFetchAllFailed,
+    messageCommentSetIdSuccess,
+    messageCommentSetId,
 } from './messagecomment.action';
 
 export type MessageCommentState = {
@@ -46,7 +48,8 @@ export const messagecommentReducer = (
         messagecommentFetchSingleStart.match(action) ||
         messagecommentCreateStart.match(action) ||
         messagecommentDeleteStart.match(action) ||
-        messagecommentUpdateStart.match(action)
+        messagecommentUpdateStart.match(action) ||
+        messageCommentSetId.match(action)
     ) {
         return { ...state, isLoading: true }
     }
@@ -72,6 +75,11 @@ export const messagecommentReducer = (
     ) {
       return { ...state, isLoading: false, error: action.payload };
     }
+    if (
+        messageCommentSetIdSuccess.match(action)
+    ) {
+        return { ...state, isLoading: false, messagecommentId: action.payload.messageCommentId }
+    } 
   
     return state;
 }
