@@ -8,7 +8,6 @@ class Odyssey extends Component {
             <>
                 <World/>
                 <Dot/>
-                    
             </>
         );
     }

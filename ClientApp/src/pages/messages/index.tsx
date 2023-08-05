@@ -10,7 +10,8 @@ import { MessageCommentCreateStart, MessageCommentFetchSingleStart, MessageComme
 import { MessageCommentState } from "../../store/messagecomment/messagecomment.reducer";
 import { MessageComment } from "../../store/messagecomment/messagecomment.types";
 import { RootState } from "../../store/store";
-import { Container, InputContainer, ListContainer, MessageContainer, MessageForm, TextContainer } from "../../styles/messages/messages.styles";
+import { Container, InputContainer, ListContainer, MessageContainer, MessageForm, TextContainer, UserTextContainer } from "../../styles/messages/messages.styles";
+import { CheckUserSession, checkUserSession } from "../../store/user/user.action";
 
 interface IMessage {
     socket: boolean;
@@ -24,8 +25,6 @@ interface IMessage {
 type MessageProps = ConnectedProps<typeof connector>;
 
 class Messages extends Component<MessageProps, IMessage> {
-    private connection: signalR.HubConnection;
-    public events: (onMessageReceived: (messageValue: string) => void) => void;
     constructor(props: any) {
         super(props);
         this.state = {
@@ -40,44 +39,19 @@ class Messages extends Component<MessageProps, IMessage> {
         this.sendMessage = this.sendMessage.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.showPreview = this.showPreview.bind(this);
-        this.connection = new HubConnectionBuilder()
-            .withUrl(`https://localhost:7144/hub/${this.props.messages.messageId}`)
-            .withAutomaticReconnect()
-            .build();
-        this.connection.start().catch(err => document.write(err));
-        this.events = (onMessageReceived) => {
-            this.connection.on("messageReceived", (messageValue) => {
-                console.log("BLOODY:: ", messageValue``)
-                onMessageReceived(messageValue);
-            });
-        };
     }
     
     handleMessage(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const { messageValue, imageFile } = this.state;
         this.props.createMessageComment(this.props.messages.messageId!, messageValue, imageFile);
-        this.connection.send(messageValue);
+        this.state.connection.send("newMessage", "foo", messageValue);
+        this.state.connection.on('messageReceived', (message: any) => {
+            this.props.setMessageCommentId(message.messageCommentId);
+        })
         this.setState({
             ...this.state, messageValue: ""
         })
-
-        // this.events = (onMessageReceived) => {
-        //     this.connection.on("messageReceived", (messageValue) => {
-        //         onMessageReceived(messageValue);
-        //     });
-        // };
-
-        // this.state.connection.onmessage = (event) => {
-        //     if (event.data) {
-        //         this.handleMessageComments(
-        //             <TextContainer key={event.data}>
-        //                 {event.data}
-        //             </TextContainer>
-        //         )
-        //         this.state.connection.close();
-        //     }
-        // }
     }
 
     sendMessage(event: FormEvent<HTMLFormElement>): void {
@@ -123,12 +97,21 @@ class Messages extends Component<MessageProps, IMessage> {
     }
 
     messageFunction(prop: MessageComment) {
-        const { messageCommentId, messageValue, mediaLink, favorites, type, imageSource } = prop;
-        return (
-            <TextContainer style={{ position: 'relative' }} key={messageCommentId}>
-                {messageValue}
-            </TextContainer>
-        )
+        const { user } = this.props;
+        const { messageCommentId, messageValue, mediaLink, favorites, type, imageSource, userId } = prop;
+        if (user?.userId == userId) {
+            return (
+                <UserTextContainer style={{ position: 'relative' }} key={messageCommentId}>
+                    {messageValue}
+                </UserTextContainer>
+            )
+        } else {
+            return (
+                <TextContainer style={{ position: 'relative' }} key={messageCommentId}>
+                    {messageValue}
+                </TextContainer>
+            )
+        }
     }
 
     handleMessageComments(message?: ReactNode): Array<ReactNode> {
@@ -145,54 +128,30 @@ class Messages extends Component<MessageProps, IMessage> {
     
     componentDidMount(): void {
         this.props.getMessages();
-
-        // this.events(messageValue);
-
-        // const transport = HttpTransportType.WebSockets;
-
-        // const options = {
-        //     transport,
-        //     logMessageContent: true,
-        //     logger: LogLevel.Trace
-        //     // accessTokenFactory: () => this.loginToken
-        // };
-
-        // const newConnection = new HubConnectionBuilder()
-        //     .withUrl('https://localhost:7144/hub', options)
-        //     .withAutomaticReconnect()
-        //     .withHubProtocol(new JsonHubProtocol())
-        //     .configureLogging(LogLevel.Information)
-        //     .build();
-
-        // this.setState({
-        //     connection: newConnection
-        // })
-
-        this.connection.on('messageReceived', message => {
-            this.props.setMessageCommentId(message.messageCommentId);
-            console.log("MESSAGE:: ", message.messageValue)
-            this.handleMessageComments(
-                <TextContainer>
-                    {message.messageValue}
-                </TextContainer>
-            )
-        })
+        this.props.checkUserSession();
     }
 
-    // componentDidUpdate(prevProps: Readonly<{ messages: MessageState; messagecomments: MessageCommentState; } & { getMessages: () => void; getMessageComments: (messageId: number) => void; createMessage: (messageValue: string, receiverId: string) => void; deleteMessage: (messageId: number) => void; createMessageComment: (messageId: number, messageValue: string, imageFile: File) => void; setId: (messageId: number) => void; }>, prevState: Readonly<IMessage>, snapshot?: any): void {
-    //     if (prevProps.messagecomments.messagecommentId != this.props.messagecomments.messagecommentId) {
-    //         this.connection.on('messageReceived', message => {
-    //             this.handleMessageComments(
-    //                 <TextContainer key={message.messageCommentId}>
-    //                     {message.messageValue}
-    //                 </TextContainer>
-    //             )
-    //         });
-    //     }
-    // }
+    componentDidUpdate(prevProps: Readonly<{ messages: MessageState; messagecomments: MessageCommentState; } & { getMessages: () => void; getMessageComments: (messageId: number) => void; createMessage: (messageValue: string, receiverId: string) => void; deleteMessage: (messageId: number) => void; createMessageComment: (messageId: number, messageValue: string, imageFile: File) => void; setId: (messageId: number) => void; }>, prevState: Readonly<IMessage>, snapshot?: any): void {
+        if (prevProps.messages.messageId != this.props.messages.messageId) {
+            this.setState({
+                connection: new HubConnectionBuilder()
+                .withUrl(`https://localhost:7144/hub/${this.props.messages.messageId}`)
+                .withAutomaticReconnect()
+                .build()
+            }, () => {
+                this.state.connection.start().catch((err: string) => document.write(err));
+            });
+        }
+
+        if (prevProps.messagecomments.messagecommentId != this.props.messagecomments.messagecommentId) {
+            this.state.connection.on('messageReceived', (message: any) => {
+                this.props.getMessageComments(this.props.messages.messageId!)
+            });
+        }
+    }
 
     // componentWillUnmount () {
-    //     this.connection.stop();
+    //     this.state.connection.stop();
     // }
 
     render() {
@@ -254,12 +213,13 @@ class Messages extends Component<MessageProps, IMessage> {
 
 const mapStateToProps = (state: RootState) => {
     return {
+        user: state.user.currentUser,
         messages: state.message,
         messagecomments: state.messagecomment
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<MessageCreateStart | MessageDeleteStart | MessageCommentCreateStart | MessageFetchUserMessagesStart | MessageCommentFetchSingleStart | MessageSetID | MessageCommentSetID>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<CheckUserSession | MessageCreateStart | MessageDeleteStart | MessageCommentCreateStart | MessageFetchUserMessagesStart | MessageCommentFetchSingleStart | MessageSetID | MessageCommentSetID>) => ({
     getMessages: () => dispatch(messageFetchUserMessagesStart()),
     getMessageComments: (messageId: number) => dispatch(messagecommentFetchSingleStart(messageId)),
     createMessage: (messageValue: string, receiverId: string) => dispatch(messageCreateStart(messageValue, receiverId)),
@@ -267,6 +227,7 @@ const mapDispatchToProps = (dispatch: Dispatch<MessageCreateStart | MessageDelet
     createMessageComment: (messageId: number, messageValue: string, imageFile: File) => dispatch(messagecommentCreateStart(messageId, messageValue, imageFile)),
     setId: (messageId: number) => dispatch(messageSetId(messageId)),
     setMessageCommentId: (messageCommentId: number) => dispatch(messageCommentSetId(messageCommentId)),
+    checkUserSession: () => dispatch(checkUserSession())
 })
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

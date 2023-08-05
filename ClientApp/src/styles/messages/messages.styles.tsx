@@ -52,6 +52,15 @@ export const TextContainer = styled.div`
     text-align: left;
 `;
 
+export const UserTextContainer = styled.div`
+    border: solid 1px blue;
+    border-radius: .3rem;
+    padding: .2rem;
+    margin: .5rem;
+    width: 100%;
+    text-align: right;
+`;
+
 export const ChatContainer = styled.div`
     position: absolute;
     top: 10%;

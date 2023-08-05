@@ -6,6 +6,8 @@ import { Community } from "../../store/community/community.types";
 import { utcConverter } from "../../utils/date/date.utils";
 import { Post } from "../../store/post/post.types";
 import { Chat } from "../../store/chat/chat.types";
+import { ChatComment } from "../../store/chatcomment/chatcomment.types";
+import { Comment } from "../../store/comment/comment.types";
 
 interface IModalContent {
     show: boolean;
@@ -101,7 +103,7 @@ class ModalContent extends Component<any, IModalContent> {
                         <div>Comments</div>
                         <div style={{ height: "85%", overflowY: "auto" }}>
                         {
-                            comments?.map(({ chatCommentId, chatValue, mediaLink, dateCreated }) => {
+                            comments?.map(({ chatCommentId, chatValue, mediaLink, dateCreated }: ChatComment) => {
                                 return <Card border="light" className="bg-dark mt-2" key={chatCommentId}>
                                     <TextContainer>
                                         <Card.Text>{chatValue}</Card.Text>
@@ -184,7 +186,7 @@ class ModalContent extends Component<any, IModalContent> {
                             <div>Comments</div>
                             <div style={{ height: "65%", overflowY: "auto" }}>
                             {
-                                comments?.map(({ commentId, commentValue, mediaLink, dateCreated }) => {
+                                comments?.map(({ commentId, commentValue, mediaLink, dateCreated }: Comment) => {
                                     return <Card border="light" className="bg-dark mt-2" key={commentId}>
                                         <TextContainer>
                                             <Card.Text>{commentValue}</Card.Text>
@@ -265,7 +267,6 @@ class ModalContent extends Component<any, IModalContent> {
                         <div style={{ height: "65%", overflowY: "auto" }}>
                         {
                             members?.map(({ memberId, user, dateCreated }) => {
-                                console.log(memberId)
                                 return <Card className="bg-dark" key={memberId}>
                                     <TextContainer>
                                         <Card.Text>{user.username}</Card.Text>

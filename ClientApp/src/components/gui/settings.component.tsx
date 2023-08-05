@@ -69,7 +69,6 @@ getSingleShape(shapeId).then((response) => {
     singleShape.radius = response.radius;
     singleShape.length = response.length;
 });
-console.log("SINGLESHAPE:: ", singleShape)
 
 const initialState: SettingsState = {
     directionalLight: {
