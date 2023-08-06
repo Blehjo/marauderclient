@@ -11,6 +11,13 @@ export const VitalsContainer = styled.div`
     }
 `;
 
+export const CardsContainer = styled.div`
+    margin: 5rem;
+    padding: 3rem;
+    border-radius: .5rem;
+    background: #212529;
+`;
+
 export const InfoContainer = styled.div`
     font-size: 200%;
     padding: 3rem 5rem 0rem 5rem;

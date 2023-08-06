@@ -18,6 +18,12 @@ export const ButtonContainer = styled.button`
     left: 90%;
 `;
 
+export const XContainer = styled.div`
+    &:hover {
+        color: gray;
+    }
+`;
+
 export const CardContainer = styled.div`
     border-radius: .3rem; 
     border: solid 1px white; 

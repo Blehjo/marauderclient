@@ -72,6 +72,9 @@ export const ModalPostContainer = styled.div`
 
 export const BadgeContainer = styled.div`
   margin: .5rem;
+  &:hover {
+    opacity: .5;
+  }
 `;
 
 export const ChatContainer = styled.div`

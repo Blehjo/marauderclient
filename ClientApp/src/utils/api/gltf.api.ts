@@ -1,11 +1,11 @@
 import axios from "axios";
 import { Gltf } from "../../store/gltf/gltf.types";
 
-const api = "https://localhost:7144/api/gltf";
+const api = "https://localhost:7144/api/gltfs";
 
 const headers = {
-  'Accept': 'application/x-www-form-urlencoded',
-  'Content-Type': 'application/x-www-form-urlencoded' 
+  'Accept': 'application/json',
+  'Content-Type': 'application/json' 
 }
 
 export async function getSingleGltf(gltfId: number): Promise<Gltf> {
@@ -30,7 +30,18 @@ export async function getAllGltfs(): Promise<Gltf[]> {
   return result;
 }
 
-export async function getUsersGltfs(userId: number): Promise<Gltf[]> {
+export async function getUsersGltfs(): Promise<Gltf[]> {
+  const response = await axios({
+    method: 'get',
+    url: `${api}/user`,
+    headers: headers,
+    withCredentials: true
+  });
+  const result = await response.data;
+  return result;
+}
+
+export async function getOtherUsersGltfs(userId: number): Promise<Gltf[]> {
   const response = await axios({
     method: 'get',
     url: `${api}/${userId}`,

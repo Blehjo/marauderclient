@@ -1,14 +1,17 @@
-import { ChangeEvent, Component, Dispatch, ReactNode } from "react";
-import { Form, Modal } from "react-bootstrap";
-import { Send } from "react-bootstrap-icons";
+import { ChangeEvent, Component, Dispatch, FormEvent, ReactNode } from "react";
+import { Badge, Card, Form, Modal } from "react-bootstrap";
+import { ArrowsFullscreen, Chat, Rocket, Send } from "react-bootstrap-icons";
 import { ConnectedProps, connect } from "react-redux";
 import World from "../../components/world/world.component";
 import { EditorFetchAllStart, editorFetchAllStart } from "../../store/editor/editor.action";
-import { GltfFetchUserStart, gltfFetchUserStart } from "../../store/gltf/gltf.action";
+import { GltfCreateStart, GltfFetchUserStart, gltfCreateStart, gltfFetchUserStart } from "../../store/gltf/gltf.action";
 import { RootState } from "../../store/store";
-import { CardContainer, InfoContainer, OptionsContainer, VitalsContainer } from "../../styles/vitals/vitals.styles";
+import { CardContainer, CardsContainer, InfoContainer, OptionsContainer, VitalsContainer } from "../../styles/vitals/vitals.styles";
 import Builder from "../../components/builder/builder.component";
 import Editor from "../editor";
+import { Gltf } from "../../store/gltf/gltf.types";
+import { BadgeContainer } from "../../styles/poststab/poststab.styles";
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 
 interface IBuilder {
@@ -16,7 +19,8 @@ interface IBuilder {
     showNewTeam: boolean;
     showShapes: boolean;
     fileInformation: string;
-    builder: boolean
+    builder: boolean;
+    editor: boolean;
 }
 
 type BuilderProps = ConnectedProps<typeof connector>;
@@ -29,13 +33,15 @@ class Vitals extends Component<BuilderProps, IBuilder> {
             showNewTeam: false,
             showShapes: false,
             fileInformation: "",
-            builder: false
+            builder: false,
+            editor: false
         }
         this.handleFileClick = this.handleFileClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleNewTeamClick = this.handleNewTeamClick.bind(this);
         this.handleViewShapes = this.handleViewShapes.bind(this);
         this.handleBuilderClick = this.handleBuilderClick.bind(this);
+        this.submitGltfFile = this.submitGltfFile.bind(this);
     }
 
     handleChange(event: ChangeEvent<HTMLInputElement>): void {
@@ -67,23 +73,33 @@ class Vitals extends Component<BuilderProps, IBuilder> {
         });
     }
 
+    submitGltfFile(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        const { fileInformation } = this.state;
+        console.log("Hello:: ", fileInformation)
+        this.props.createGltfFile(fileInformation);
+        this.setState({
+            showNewFileDialogue: !this.state.showNewFileDialogue
+        })
+    }
+    
     handleNewFile(): ReactNode {
         const { showNewFileDialogue } = this.state;
         return (
             <Modal show={showNewFileDialogue} onHide={this.handleFileClick}>
                 <Modal.Header closeButton>New GLTF File</Modal.Header>
-                <Modal.Body>
-                    <Form>
+                <Form onSubmit={this.submitGltfFile}>
+                    <Modal.Body>
                         <Form.Group className="mb-3" controlId="formMedia">
                             <Form.Control style={{ height: '.5rem' }} name="fileInformation" as="textarea" onChange={this.handleChange} placeholder=" Write your gltf project title here" />
                         </Form.Group>
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                <button  style={{ textAlign: 'center', width: '100%', height: 'auto'}} className="btn btn-light" type="submit">
-                    <Send/>
-                </button>
-                </Modal.Footer>
+                    </Modal.Body>
+                    <Modal.Footer>
+                    <button  style={{ textAlign: 'center', width: '100%', height: 'auto'}} className="btn btn-light" type="submit">
+                        <Send/>
+                    </button>
+                    </Modal.Footer>
+                </Form>
             </Modal>
         )
     }
@@ -130,8 +146,52 @@ class Vitals extends Component<BuilderProps, IBuilder> {
         )
     }
 
+    handleGltfFiles(gltf: Gltf): ReactNode {
+        const { gltfId, fileInformation, userId, shapes } = gltf;
+        return (
+            <Card key={gltfId} style={{ background: 'black', border: 'solid 1px white', padding: '.5rem', margin: '.3rem', color: 'white'}}>
+                <Card.Img src="https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"/>
+                <Card.ImgOverlay>
+                    <div style={{ cursor: "pointer", position: "absolute", left: "0", top: "0" }}>
+                        <BadgeContainer>
+                            <Badge style={{ color: 'black' }} bg="light"><ArrowsFullscreen style={{ cursor: 'pointer' }} /* onClick={() => this.handleClick(gltfId, type)} size={15} */ /></Badge>
+                        </BadgeContainer>
+                        {
+                            <BadgeContainer><Badge style={{ color: 'black' }} bg="light">
+                                <Chat size={15}/>
+                                {/* {` ${comments?.length > 0 ? comments?.length : ""}`} */}
+                                </Badge>
+                            </BadgeContainer>
+                        }
+                        {
+                            <BadgeContainer>
+                                <Badge style={{ color: 'black' }} bg="light">
+                                <Rocket style={{ cursor: 'pointer' }} /* onClick={() => this.handleLike(gltfId, type)} size={15} */ />
+                                {/* {` ${favorites?.length > 0 ? favorites?.length : ""}`} */}
+                                </Badge>
+                            </BadgeContainer>
+                        }
+                    </div>
+                </Card.ImgOverlay>
+                <Card.Body>
+                    <Card.Text>{fileInformation}</Card.Text>
+                </Card.Body>
+            </Card>
+        )
+    }
+
+    userGltfFiles(): Array<ReactNode> {
+        const content: Array<ReactNode> = [];
+        const { gltfs } = this.props;
+        for (let i = 0; i < gltfs.gltfs.length; i++) {
+            content.push(this.handleGltfFiles(gltfs.gltfs[i]));
+        }
+        return content;
+    }
+
     componentDidMount(): void {
         this.props.fetchShapes();
+        this.props.fetchGltfFiles();
     }
 
     render() {
@@ -141,7 +201,7 @@ class Vitals extends Component<BuilderProps, IBuilder> {
             <>
             {
                 builder ?
-                <Editor/> :
+                <Editor/> : 
                 <VitalsContainer>
                     <InfoContainer>Get Started</InfoContainer>
                     <p>Create a new file and start building your imagination!</p>
@@ -157,10 +217,17 @@ class Vitals extends Component<BuilderProps, IBuilder> {
                     <>
                         {shapes.shapes.map(({ shapeName }) => (
                             <CardContainer>{shapeName}</CardContainer>
-                            ))}
+                        ))}
                     </>
                 </VitalsContainer> 
             }
+            <CardsContainer>
+                <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 3, 1050: 4 }}>
+                    <Masonry>
+                        {this.userGltfFiles()}
+                    </Masonry>
+                </ResponsiveMasonry>
+            </CardsContainer>
             </>
         );
     }
@@ -173,9 +240,10 @@ const mapStateToProps = (state: RootState) => {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<EditorFetchAllStart | GltfFetchUserStart>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<EditorFetchAllStart | GltfFetchUserStart | GltfCreateStart>) => ({
     fetchShapes: () => dispatch(editorFetchAllStart()),
-    fetchGltfFiles: (userId: number) => dispatch(gltfFetchUserStart(userId))
+    fetchGltfFiles: () => dispatch(gltfFetchUserStart()),
+    createGltfFile: (fileInformation: string) => dispatch(gltfCreateStart(fileInformation))
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

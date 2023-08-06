@@ -5,28 +5,27 @@ import { ArrowsFullscreen, Chat, Rocket, Send, XCircle } from "react-bootstrap-i
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { ProfileProps } from "../../pages/profile";
 import { CommentState } from "../../store/comment/comment.reducer";
-import { PostState } from "../../store/post/post.reducer";
-import { BadgeContainer, CardContainer, CommentContainer, ModalContainer, ModalPostContainer, PostContainer, TextContainer } from "../../styles/poststab/poststab.styles";
-import { utcConverter } from "../../utils/date/date.utils";
+import { GltfState } from "../../store/gltf/gltf.reducer";
+import { BadgeContainer, CommentContainer, ModalContainer, ModalPostContainer, PostContainer, TextContainer } from "../../styles/poststab/poststab.styles";
 import { XContainer } from "../../styles/devices/devices.styles";
 
 interface IDefaultFormFields {
     commentValue: string;
-    postValue: string;
+    fileInformation: string;
     mediaLink: string;
     imageSource: string | ArrayBuffer | null | undefined;
     imageFile: any;
     show: boolean;
     showCreate: boolean;
     showDelete: boolean;
-    postId: number | null;
+    gltfId: number | null;
 };
 
-export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
+export class GltfsTab extends Component<ProfileProps, IDefaultFormFields> {
     constructor(props: ProfileProps) {
         super(props);
         this.state = {
-            postValue: "",
+            fileInformation: "",
             mediaLink: "",
             imageSource: "",
             imageFile: null,
@@ -34,7 +33,7 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
             showCreate: false,
             showDelete: false,
             commentValue: "",
-            postId: null
+            gltfId: null
         }
 
         this.handleLike = this.handleLike.bind(this);
@@ -54,17 +53,17 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
     postComment(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const { commentValue, imageFile } = this.state;
-        const { posts } = this.props;
-        const postId = posts.singlePost?.postId ? posts.singlePost.postId : 0
+        const { gltfs } = this.props;
+        const gltfId = gltfs.singleGltf?.gltfId ? gltfs.singleGltf.gltfId : 0
         try {
-            this.props.createComment(commentValue, imageFile, postId);
+            this.props.createComment(commentValue, imageFile, gltfId);
         } catch (error) {
             return error;
         }
     }
 
-    handleLike(postId: number, type: string): void {
-        this.props.likePost(postId, type);
+    handleLike(gltfId: number, type: string): void {
+        this.props.likePost(gltfId, type);
     }
 
     handleCreate(): void {
@@ -74,7 +73,7 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
     }
 
     handleDelete(): void {
-        this.props.deletePost(this.state.postId!);
+        this.props.deletePost(this.state.gltfId!);
         this.handleCloseDelete();
     }
 
@@ -96,16 +95,17 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
         });
     }
 
-    handleDeleteClick(postId: number): void {
+    handleDeleteClick(gltfId: number): void {
         this.setState({
-            postId: postId
+            gltfId: gltfId
         })
         this.handleCloseDelete();
     }
 
-    handleClick(postId: number): void {
-        this.props.getPost(postId);
-        this.props.getComments(postId);
+    handleClick(gltfId: number): void {
+        console.log("GLTF:: ", gltfId)
+        this.props.fetchSingleGltf(gltfId);
+        // this.props.getComments(gltfId);
         this.setState({
             show: !this.state.show
         });
@@ -113,9 +113,9 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
 
     handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        const { postValue, mediaLink, imageFile } = this.state;
+        const { fileInformation } = this.state;
         try {
-            this.props.createPost(postValue, mediaLink, imageFile);
+            this.props.createGltfFile(fileInformation);
         } catch (error) {
             if (error) {
                 alert('Try again, please');
@@ -153,26 +153,26 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
     }
 
     componentDidMount(): void {
-        this.props.getUserPosts(this.props.currentUser?.userId)
+        this.props.fetchGltfFiles();
     }
 
-    componentDidUpdate(prevProps: Readonly<{ posts: PostState; comments: CommentState; } & { getUserPosts: (userId: number) => void; getComments: (postId: number) => void; }>, prevState: Readonly<IDefaultFormFields>, snapshot?: any): void {
-        if (this.props.posts.userPosts?.length != prevProps.posts.userPosts?.length) {
-            this.props.getUserPosts(this.props.currentUser?.userId);
+    componentDidUpdate(prevProps: Readonly<{ comments: CommentState; gltfs: GltfState} & { getComments: (gltfId: number) => void; }>, prevState: Readonly<IDefaultFormFields>, snapshot?: any): void {
+        if (this.props.gltfs.gltfs?.length != prevProps.gltfs.gltfs?.length) {
+            this.props.fetchGltfFiles();
             this.setState({
-                postValue: ""
+                fileInformation: ""
             })
         }
 
-        if (this.props.posts.singlePost?.postId != prevProps.posts.singlePost?.postId) {
-            this.props.getUserPosts(this.props.currentUser?.userId);
+        if (this.props.gltfs.singleGltf?.gltfId != prevProps.gltfs.singleGltf?.gltfId) {
+            this.props.fetchGltfFiles();
             this.setState({
                 commentValue: ""
             })
         }
 
         if (this.props.comments.comments?.length != prevProps.comments.comments?.length) {
-            this.props.getComments(this.props.posts.singlePost?.postId!);
+            this.props.getComments(this.props.gltfs.singleGltf?.gltfId!);
             this.setState({
                 commentValue: ""
             })
@@ -180,58 +180,58 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
     }
 
     render() {
-        const { currentUser, userprofile, posts, comments } = this.props;
-        const { show, showCreate, showDelete, postValue } = this.state;
+        const { currentUser, userprofile, gltfs } = this.props;
+        const { show, showCreate, showDelete, fileInformation } = this.state;
         return (
         <Fragment>
             <Row style={{ marginBottom: '2rem' }} xs={1} >
                 <Col>
                     <Card style={{ color: 'white', textAlign: 'center', background: 'black', border: '1px solid white' }}>
                         <Card.Body>
-                            <Card.Title style={{ cursor: 'pointer' }} onClick={this.handleCreate} >Create a post</Card.Title>
+                            <Card.Title style={{ cursor: 'pointer' }} onClick={this.handleCreate} >Create a file</Card.Title>
                         </Card.Body>
                     </Card>
                 </Col>
             </Row>
             {
-                posts.userPosts?.length ?
+                gltfs.gltfs?.length ?
                 <ResponsiveMasonry
                     columnsCountBreakPoints={{350: 2, 750: 3, 900: 3, 1050: 4}}
                 >
                 <Masonry>
-                {posts.userPosts?.map(({ postId, postValue, mediaLink, comments, favorites, type, imageSource }, index) => {
+                {gltfs.gltfs?.map(({ gltfId, fileInformation, userId, shapes }, index) => {
                     return <PostContainer key={index}>
-                        <Card style={{ color: 'white', textAlign: 'center', background: 'black', border: '1px solid white' }} key={index}>
-                            <Card.Img  src={mediaLink ? imageSource : "https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"}/>
+                        <Card key={gltfId} style={{ background: 'black', border: 'solid 1px white', padding: '.5rem', margin: '.3rem', color: 'white'}}>
+                            <Card.Img src="https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"/>
                             <Card.ImgOverlay>
                                 <div style={{ cursor: "pointer", position: "absolute", left: "0", top: "0" }}>
-                                <BadgeContainer>
-                                    <Badge style={{ color: 'black' }} bg="light"><ArrowsFullscreen style={{ cursor: 'pointer' }} onClick={() => this.handleClick(postId)} size={15}/></Badge>
-                                </BadgeContainer>
-                                {
-                                    <BadgeContainer><Badge style={{ color: 'black' }} bg="light">
-                                        <Chat size={15}/>
-                                        {` ${comments?.length > 0 ? comments?.length : ""}`}
-                                        </Badge>
-                                    </BadgeContainer>
-                                }
-                                {
                                     <BadgeContainer>
-                                        <Badge style={{ color: 'black' }} bg="light">
-                                        <Rocket style={{ cursor: 'pointer' }} onClick={() => this.handleLike(postId, type)} size={15}/>
-                                        {` ${favorites?.length > 0 ? favorites?.length : ""}`}
-                                        </Badge>
+                                        <Badge style={{ color: 'black' }} bg="light"><ArrowsFullscreen style={{ cursor: 'pointer' }} onClick={() => this.handleClick(gltfId!)} size={15} /></Badge>
                                     </BadgeContainer>
-                                }
+                                    {
+                                        <BadgeContainer><Badge style={{ color: 'black' }} bg="light">
+                                            <Chat size={15}/>
+                                            {/* {` ${comments?.length > 0 ? comments?.length : ""}`} */}
+                                            </Badge>
+                                        </BadgeContainer>
+                                    }
+                                    {
+                                        <BadgeContainer>
+                                            <Badge style={{ color: 'black' }} bg="light">
+                                            <Rocket style={{ cursor: 'pointer' }} /* onClick={() => this.handleLike(gltfId, type)} size={15} */ />
+                                            {/* {` ${favorites?.length > 0 ? favorites?.length : ""}`} */}
+                                            </Badge>
+                                        </BadgeContainer>
+                                    }
                                 </div>
                                 <Col xs={3}>
                                     <XContainer>
-                                        <XCircle onClick={() => this.handleDeleteClick(postId)} key={postId} style={{ borderRadius: ".5rem", cursor: "pointer", position: "absolute", right: "5", top: "5" }}/>
+                                        <XCircle onClick={() => this.handleDeleteClick(gltfId!)} key={gltfId} style={{ borderRadius: ".5rem", cursor: "pointer", position: "absolute", right: "5", top: "5" }}/>
                                     </XContainer>
                                 </Col>
                             </Card.ImgOverlay>
                             <Card.Body>
-                                <Card.Text>{`${postValue?.slice(0,10)}...`}</Card.Text>
+                                <Card.Text>{fileInformation}</Card.Text>
                             </Card.Body>
                         </Card>
                     </PostContainer>
@@ -240,7 +240,7 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
             </ResponsiveMasonry> : 
             <Col xs={12}>
                 <Card style={{ padding: '.5rem', color: 'white', textAlign: 'center', background: 'black', border: '1px solid white' }}>
-                    <Card.Title>"Currently no posts... Let's change that!"</Card.Title>
+                    <Card.Title>"Currently no files... Let's change that!"</Card.Title>
                 </Card>
             </Col>
         }
@@ -259,11 +259,11 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
                     <Image
                         fluid
                         style={{ borderRadius: '.2rem', objectFit: 'cover', width: '30rem', height: '30rem' }}
-                        src={posts.singlePost?.mediaLink ? posts.singlePost?.imageSource : "https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"} 
+                        src="https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"
                     />
-                    <Card style={{ marginTop: "1rem" }} className="bg-dark" key={posts.singlePost?.postId}>
+                    <Card style={{ marginTop: "1rem" }} className="bg-dark" key={gltfs.singleGltf?.gltfId}>
                         <TextContainer style={{ color: 'white' }}>
-                            {posts.singlePost?.postValue}
+                            {gltfs.singleGltf?.fileInformation}
                         </TextContainer>
                     </Card>
                     </Col>
@@ -271,7 +271,7 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
                     <CommentContainer>
                     <div>Comments</div>
                     <div style={{ height: "65%", overflowY: "auto" }}>
-                    {
+                    {/* {
                         comments.comments?.map(({ commentId, commentValue, mediaLink, dateCreated }) => {
                             return <CardContainer>
                                 <Card className="bg-dark" key={commentId}>
@@ -282,9 +282,9 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
                                 </Card>
                             </CardContainer>
                         })
-                    }
+                    } */}
                     </div>
-                        <Form style={{ margin: 'auto', position: "absolute", bottom: "0" }} key={posts.singlePost?.postId} onSubmit={this.postComment}>
+                        <Form style={{ margin: 'auto', position: "absolute", bottom: "0" }} key={gltfs.singleGltf?.gltfId} onSubmit={this.postComment}>
                             <Row style={{ marginBottom: '3rem', justifyContent: 'center' }} xs={1}>
                                 <Col xs={12}>
                                     <Row style={{ marginBottom: '1rem', justifyContent: 'center' }}>
@@ -317,7 +317,7 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
             <button className="btn btn-dark" onClick={() => this.handleClose()}>
                 Close
             </button>
-                <a className="btn btn-dark" style={{ textDecoration: 'none', color: 'white' }} href={`/singlepost/${posts.singlePost?.postId}`}>
+                <a className="btn btn-dark" style={{ textDecoration: 'none', color: 'white' }} href={`/singleGltf/${gltfs.singleGltf?.gltfId}`}>
                     Single View
                 </a>
             </Modal.Footer>
@@ -333,11 +333,11 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
                 <Form.Group className="mb-3" controlId="formPostValue">
                 <Form.Control
                     onChange={this.handleChange}
-                    name="postValue"
-                    value={postValue}
-                    type="postValue"
+                    name="fileInformation"
+                    value={fileInformation}
+                    type="fileInformation"
                     as="input"
-                    placeholder="Post"
+                    placeholder="File Name"
                     autoFocus
                     />
                 </Form.Group>
@@ -365,7 +365,7 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
         </Modal>
         <Modal show={showDelete} onHide={() => this.handleCloseDelete()}>
             <Modal.Body style={{ textAlign: "center", color: "black" }}>
-                Are you sure you want to delete this post?
+                Are you sure you want to delete this file?
             </Modal.Body>
             <Modal.Footer style={{ justifyContent: "center" }}>
             <button className="btn btn-secondary" onClick={() => this.handleCloseDelete()}>
@@ -381,4 +381,4 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
     }
 }
 
-export default PostsTab;
+export default GltfsTab;

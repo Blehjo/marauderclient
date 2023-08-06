@@ -24,7 +24,7 @@ import { ChatCommentCreateStart, ChatCommentFetchSingleStart, chatcommentCreateS
 import { ChatComment } from "../../store/chatcomment/chatcomment.types";
 import { RootState } from "../../store/store";
 import { ChatBox, ChatForm, ChatsContainer, Container, CrewContainer, CrewMemberContainer, HeaderContainer, PenContainer } from "../../styles/crew/crew.styles";
-import { ButtonContainer, CardContainer, FormContainer } from "../../styles/devices/devices.styles";
+import { ButtonContainer, CardContainer, FormContainer, XContainer } from "../../styles/devices/devices.styles";
 import { InputContainer, TextContainer } from "../../styles/messages/messages.styles";
 import { addChat } from "../../utils/api/chat.api";
 import { callArtoo } from "../../utils/api/completion.api";
@@ -61,7 +61,7 @@ class Crew extends Component<CrewProps, ICrew> {
             show: false,
             inputContainer: false,
             messageValue: "",
-            dropDownValue: "this.props.artificialIntelligence.userArtificialIntelligences[0].name!"
+            dropDownValue: "Choose Crew"
         }
         this.handleChange = this.handleChange.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
@@ -249,13 +249,6 @@ class Crew extends Component<CrewProps, ICrew> {
         this.props.getCrew();
         this.props.getChats();
     }
-    
-
-    componentDidUpdate(prevProps: Readonly<{ artificialIntelligence: ArtificialIntelligenceState; chats: ChatState; chatcomments: ChatComment[]; } & { addCrew: (name: string, role: string, imageFile: File) => void; deleteCrew: (artificialIntelligenceId: number) => void; getCrew: () => void; getChats: () => void; getAiChats: (artificialIntelligenceId: number) => void; addChat: (title: string, artificialIntelligenceId: number) => void;  deleteChat: (chatId: number) => void; getChatComments: (chatId: number) => void; addChatComment: (chatId: number, chatValue: string, mediaLink: File) => void; addArtificialChat: (artificialIntelligenceId: number, artificialIntelligence: ArtificialIntelligence, chatId: number, chat: Chat) => void; setId: (chatId: number) => void; }>, prevState: Readonly<ICrew>, snapshot?: any): void {
-        if (prevProps.artificialIntelligence.artificialIntelligences?.length != this.props.artificialIntelligence.artificialIntelligences?.length) {
-            this.props.getCrew();
-        }
-    }
 
     render() {
         const { dropDownValue, show, role, name, messageValue, inputContainer } = this.state;
@@ -277,7 +270,9 @@ class Crew extends Component<CrewProps, ICrew> {
                                         </Textfit>
                                     </Col>
                                     <Col key='col3' xs={1}>
-                                        <XCircle onClick={() => this.handleDelete(artificialIntelligenceId)} />
+                                        <XContainer>
+                                            <XCircle onClick={() => this.handleDelete(artificialIntelligenceId)} />
+                                        </XContainer>
                                     </Col>
                                 </Row>
                             </Card>
@@ -346,7 +341,9 @@ class Crew extends Component<CrewProps, ICrew> {
                                         </div>
                                     </Col>
                                     <Col xs={2}>
-                                        <XCircle onClick={() => this.handleChatDelete(chatId)} />
+                                        <XContainer>
+                                            <XCircle onClick={() => this.handleChatDelete(chatId)} />
+                                        </XContainer>
                                     </Col>
                                 </Row>
                             </Card>

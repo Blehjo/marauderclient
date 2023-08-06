@@ -10,8 +10,14 @@ import {
     gltfFetchAllFailed,
     gltfFetchAllStart,
     gltfFetchAllSuccess,
+    gltfFetchOtherUserFailed,
+    gltfFetchOtherUserStart,
+    gltfFetchOtherUserSuccess,
     gltfFetchSingleFailed,
     gltfFetchSingleSuccess,
+    gltfFetchUserFailed,
+    gltfFetchUserStart,
+    gltfFetchUserSuccess,
     gltfUpdateFailed,
     gltfUpdateSuccess
 } from './gltf.action';
@@ -38,9 +44,17 @@ export const gltfReducer = (
     state = INITIAL_STATE, action: AnyAction
 ): GltfState => {
     if (
-        gltfFetchAllStart.match(action) 
+        gltfFetchAllStart.match(action) ||
+        gltfFetchUserStart.match(action) ||
+        gltfFetchOtherUserStart.match(action) 
     ) {
         return { ...state, isLoading: true }
+    }
+    if (
+        gltfFetchUserSuccess.match(action) ||
+        gltfFetchOtherUserSuccess.match(action)
+    ) {
+        return { ...state, isLoading: false, userGltfs: action.payload}
     }
     if (
         gltfFetchSingleSuccess.match(action) 
@@ -60,7 +74,9 @@ export const gltfReducer = (
         gltfUpdateFailed.match(action) ||
         gltfDeleteFailed.match(action) ||
         gltfFetchSingleFailed.match(action) ||
-        gltfFetchAllFailed.match(action) 
+        gltfFetchAllFailed.match(action) ||
+        gltfFetchUserFailed.match(action) ||
+        gltfFetchOtherUserFailed.match(action) 
     ) {
       return { ...state, isLoading: false, error: action.payload };
     }

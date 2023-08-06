@@ -5,6 +5,7 @@ import {GLTF_ACTION_TYPES } from './gltf.types';
 import {
   GltfCreateStart,
   GltfDeleteStart,
+  GltfFetchOtherUserStart,
   GltfFetchSingleStart,
   GltfFetchUserStart,
   GltfUpdateStart,
@@ -24,6 +25,7 @@ import {
   deleteGltf,
   editGltf,
   getAllGltfs,
+  getOtherUsersGltfs,
   getSingleGltf,
   getUsersGltfs
 } from '../../utils/api/gltf.api';
@@ -65,9 +67,19 @@ export function* removeGltf({ payload: { gltfId }}: GltfDeleteStart) {
     }
 }
 
-export function* fetchUserGltfs({ payload: { userId }}: GltfFetchUserStart) {
+export function* fetchUserGltfs({}: GltfFetchUserStart) {
     try {
-        const gltf  = yield* call(getUsersGltfs, userId);
+        const gltf  = yield* call(getUsersGltfs);
+        if (!gltf) return;
+        yield* put(gltfFetchAllSuccess(gltf));
+    } catch (error) {
+        yield* put(gltfFetchAllFailed(error as Error));
+    }
+}
+
+export function* fetchOtherUserGltfs({ payload: { userId }}: GltfFetchOtherUserStart) {
+    try {
+        const gltf  = yield* call(getOtherUsersGltfs, userId);
         if (!gltf) return;
         yield* put(gltfFetchAllSuccess(gltf));
     } catch (error) {

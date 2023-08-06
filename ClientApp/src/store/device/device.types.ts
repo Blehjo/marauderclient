@@ -21,6 +21,6 @@ export enum DEVICE_ACTION_TYPES {
 export type Device = {
     deviceId: number;
     deviceName: string | null;
-    deviceType: Date;
+    deviceType: number;
     pins: Pin[];
 }

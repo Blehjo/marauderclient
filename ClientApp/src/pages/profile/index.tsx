@@ -15,6 +15,11 @@ import { CheckUserSession, checkUserSession } from "../../store/user/user.action
 import { UserprofileFetchSingleStart, userprofileFetchSingleStart } from "../../store/userprofile/userprofile.action";
 import { ProfileContainer } from "../../styles/profile/profile.styles";
 import Authentication from "../authentication";
+import GltfsTab from "../../components/gltfstab/gltfstab.component";
+import { EditorFetchAllStart, editorFetchAllStart } from "../../store/editor/editor.action";
+import { GltfCreateStart, GltfFetchSingleStart, GltfFetchUserStart, gltfCreateStart, gltfFetchSingleStart, gltfFetchUserStart } from "../../store/gltf/gltf.action";
+import { DevicesTab } from "../../components/devicestab/devicestab.component";
+import { DeviceDeleteStart, DeviceFetchAllStart, DeviceFetchSingleStart, deviceDeleteStart, deviceFetchAllStart, deviceFetchSingleStart } from "../../store/device/device.action";
 
 export type ProfileProps = ConnectedProps<typeof connector>;
 
@@ -47,10 +52,10 @@ class Profile extends Component<ProfileProps> {
                             <ChatsTab { ...this.props } />
                         </Tab>
                         <Tab eventKey="devices" title="Devices">
-                            {/* <PlanetsTab { ...this.props } /> */}
+                            <DevicesTab { ...this.props } />
                         </Tab>
                         <Tab eventKey="gltfs" title="Gltfs">
-                            {/* <MoonsTab { ...this.props } /> */}
+                            <GltfsTab { ...this.props } />
                         </Tab>
                     </Tabs>
                     </Col>
@@ -70,11 +75,13 @@ const mapToStateProps = (state: RootState) => {
         comments: state.comment,
         chats: state.chat,
         chatComments: state.chatcomment,
-        devices: state.device.userDevices
+        devices: state.device,
+        gltfs: state.gltf,
+        shapes: state.editor
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<CheckUserSession | UserprofileFetchSingleStart | MarauderFetchSingleStart | PostFetchAllStart | PostFetchUserPostsStart | PostCreateStart | PostFetchSingleStart | PostDeleteStart | ChatFetchUserChatsStart | ChatFetchSingleStart | ChatDeleteStart | CommentFetchSingleStart | CommentCreateStart | FavoriteCreateStart>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<DeviceDeleteStart | DeviceFetchSingleStart | DeviceFetchAllStart | GltfFetchSingleStart | CheckUserSession | UserprofileFetchSingleStart | MarauderFetchSingleStart | PostFetchAllStart | PostFetchUserPostsStart | PostCreateStart | PostFetchSingleStart | PostDeleteStart | ChatFetchUserChatsStart | ChatFetchSingleStart | ChatDeleteStart | CommentFetchSingleStart | CommentCreateStart | FavoriteCreateStart | EditorFetchAllStart | GltfFetchUserStart | GltfCreateStart>) => ({
     getUserProfile: (userId: number) => dispatch(userprofileFetchSingleStart(userId)),
     checkSession: () => dispatch(checkUserSession()),
     getMarauder: (userId: number) => dispatch(marauderFetchSingleStart(userId)),
@@ -89,6 +96,13 @@ const mapDispatchToProps = (dispatch: Dispatch<CheckUserSession | UserprofileFet
     getChats: () => dispatch(chatFetchUserChatsStart()),
     getChat: (chatId: number) => dispatch(chatFetchSingleStart(chatId)),
     deleteChat: (chatId: number) => dispatch(chatDeleteStart(chatId)),
+    fetchShapes: () => dispatch(editorFetchAllStart()),
+    fetchGltfFiles: () => dispatch(gltfFetchUserStart()),
+    fetchSingleGltf: (gltfId: number) => dispatch(gltfFetchSingleStart(gltfId)),
+    createGltfFile: (fileInformation: string) => dispatch(gltfCreateStart(fileInformation)),
+    fetchDevices: () => dispatch(deviceFetchAllStart()),
+    fetchSingleDevice: (deviceId: number) => dispatch(deviceFetchSingleStart(deviceId)),
+    deleteDevice: (deviceId: number) => dispatch(deviceDeleteStart(deviceId)) 
 });
 
 export const connector = connect(mapToStateProps, mapDispatchToProps);

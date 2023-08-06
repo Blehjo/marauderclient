@@ -1,27 +1,25 @@
 import { Component, Fragment } from 'react';
 import { Badge, Card, Col, Image, Modal, Row } from 'react-bootstrap';
-
-import { ArrowsFullscreen, Globe, Rocket, XCircle } from 'react-bootstrap-icons';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
-import { BadgeContainer, CardContainer, ChatContainer, ModalContainer, TextContainer } from "../../styles/poststab/poststab.styles";
-import { utcConverter } from '../../utils/date/date.utils';
+import { ArrowsFullscreen, Globe, Rocket, XCircle } from 'react-bootstrap-icons';
 
+import { BadgeContainer, ChatContainer, ModalContainer } from "../../styles/poststab/poststab.styles";
 import { ProfileProps } from '../../pages/profile';
-import { ChatState } from '../../store/chat/chat.reducer';
+import { DeviceState } from '../../store/device/device.reducer';
 
-type ChatsTabProps = {
+type DevicesTabProps = {
     show: boolean;
     showDelete: boolean;
-    chatId: number | null;
+    deviceId: number | null;
 }
 
-export class ChatsTab extends Component<ProfileProps, ChatsTabProps> {
+export class DevicesTab extends Component<ProfileProps, DevicesTabProps> {
     constructor(props: ProfileProps) {
         super(props);
         this.state = {
             show: false,
             showDelete: false,
-            chatId: null
+            deviceId: null
         }
         this.handleDelete = this.handleDelete.bind(this);
         this.handleCloseDelete = this.handleCloseDelete.bind(this);
@@ -34,16 +32,16 @@ export class ChatsTab extends Component<ProfileProps, ChatsTabProps> {
         });
     }
 
-    handleClick(chatId: number): void {
-        this.props.getChat(chatId);
-        this.props.getComments(chatId);
+    handleClick(deviceId: number): void {
+        this.props.fetchSingleDevice(deviceId);
+        // this.props.getComments(deviceId);
         this.setState({
             show: !this.state.show
         });
     }
 
     handleDelete(): void {
-        this.props.deleteChat(this.state.chatId!);
+        this.props.deleteDevice(this.state.deviceId!);
         this.handleCloseDelete();
     }
     
@@ -53,25 +51,25 @@ export class ChatsTab extends Component<ProfileProps, ChatsTabProps> {
         });
     }
 
-    handleDeleteClick(chatId: number): void {
+    handleDeleteClick(deviceId: number): void {
         this.setState({
-            chatId: chatId
+            deviceId: deviceId
         })
         this.handleCloseDelete();
     }
 
     componentDidMount(): void {
-        this.props.getChats();
+        this.props.fetchDevices();
     }
 
-    componentDidUpdate(prevProps: Readonly<{ chats: ChatState; } & { getChats: () => void; }>, prevState: Readonly<ChatsTabProps>, snapshot?: any): void {
-        if (this.props.chats.userChats?.length !== prevProps.chats.userChats?.length) {
-            this.props.getChats();
+    componentDidUpdate(prevProps: Readonly<{ devices: DeviceState} & { getChats: () => void; }>, prevState: Readonly<DevicesTabProps>, snapshot?: any): void {
+        if (this.props.devices.userDevices?.length !== prevProps.devices.userDevices?.length) {
+            this.props.fetchDevices();
         }
     }
 
     render() {
-        const { chats, chatComments } = this.props;
+        const { devices } = this.props;
         const { show, showDelete } = this.state;
         return (
             <Fragment>
@@ -79,51 +77,50 @@ export class ChatsTab extends Component<ProfileProps, ChatsTabProps> {
                     <Col>
                         <Card style={{ color: 'white', textAlign: 'center', background: 'black', border: '1px solid white' }}>
                             <Card.Body>
-                                <a style={{ textDecoration: 'none', color: 'white' }} href='/crew'>
-                                <Card.Title style={{ cursor: 'pointer' }}>Create a chat</Card.Title>
+                                <a style={{ textDecoration: 'none', color: 'white' }} href='/devices'>
+                                <Card.Title style={{ cursor: 'pointer' }}>Create a device</Card.Title>
                                 </a>
                             </Card.Body>
                         </Card>
                     </Col>
                 </Row>
             {
-            chats.userChats?.length ?
+            devices.userDevices?.length ?
                 <ResponsiveMasonry
                     columnsCountBreakPoints={{350: 1, 750: 2, 900: 3, 1050: 4}}
                 >
                     <Masonry>
-                    {chats.userChats?.map(({ chatId, title, userId, comments, chatComments, favorites, dateCreated }) => {
-                    return <ChatContainer key={chatId}>
-                            <Card style={{ background: 'black', border: '1px solid white', color: 'white' }} key={chatId}>
+                    {devices.userDevices?.map(({ deviceId, deviceName, deviceType, pins }) => {
+                    return <ChatContainer key={deviceId}>
+                            <Card style={{ background: 'black', border: '1px solid white', color: 'white' }} key={deviceId}>
                             <Card.Img  src={"https://www.artlog.net/sites/default/files/styles/al_colorbox_rules/public/turrell_cregis_golay_federal_studio.jpg?itok=2M4Pyn0A"}/>
                             <Card.ImgOverlay>
                                 <div style={{ cursor: "pointer", position: "absolute", left: "0", top: "0" }}>
                                 <BadgeContainer>
-                                    <Badge style={{ color: 'black' }} bg="light"><ArrowsFullscreen style={{ cursor: 'pointer' }} size={15} onClick={() => this.handleClick(chatId)}/></Badge>
+                                    <Badge style={{ color: 'black' }} bg="light"><ArrowsFullscreen style={{ cursor: 'pointer' }} size={15} onClick={() => this.handleClick(deviceId)}/></Badge>
                                 </BadgeContainer>
                                 {
-                                    chatComments && <BadgeContainer><Badge style={{ color: 'black' }} bg="light">
+                                    deviceType && <BadgeContainer><Badge style={{ color: 'black' }} bg="light">
                                         <Globe size={15}/>
-                                        {` ${chatComments.length}`}
+                                        {` ${deviceType}`}
                                         </Badge>
                                     </BadgeContainer>
                                 }
                                 {
-                                    favorites && <BadgeContainer>
+                                    pins && <BadgeContainer>
                                         <Badge style={{ color: 'black' }} bg="light">
                                         <Rocket size={15}/>
-                                        {` ${favorites.length}`}
+                                        {` ${pins.length}`}
                                         </Badge>
                                     </BadgeContainer>
                                 }
                                 </div>
                                 <Col xs={3}>
-                                <XCircle onClick={() => this.handleDeleteClick(chatId)} key={chatId} style={{ background: "white", borderRadius: ".5rem", color: "black", cursor: "pointer", position: "absolute", right: "5", top: "5" }}/>
+                                <XCircle onClick={() => this.handleDeleteClick(deviceId)} key={deviceId} style={{ background: "white", borderRadius: ".5rem", color: "black", cursor: "pointer", position: "absolute", right: "5", top: "5" }}/>
                                 </Col>
                                 </Card.ImgOverlay>
                                 <Card.Body>
-                                    <Card.Text>{title}</Card.Text>
-                                    <Card.Text>{utcConverter(dateCreated)}</Card.Text>
+                                    <Card.Text>{deviceName}</Card.Text>
                                 </Card.Body>
                             </Card>
                         </ChatContainer>
@@ -132,7 +129,7 @@ export class ChatsTab extends Component<ProfileProps, ChatsTabProps> {
                 </ResponsiveMasonry> : 
                 <Col xs={12}>
                 <Card style={{ color: 'white', textAlign: 'center', background: 'black', border: '1px solid white', padding: '.5rem' }}>
-                    <Card.Title>"Currently no chats... Let's change that!"</Card.Title>
+                    <Card.Title>"Currently no devices... Let's change that!"</Card.Title>
                 </Card>
                 </Col>
                 }
@@ -143,7 +140,7 @@ export class ChatsTab extends Component<ProfileProps, ChatsTabProps> {
                 >
                     <ModalContainer>
                     <Modal.Header closeButton>
-                        <Modal.Title >{chats.singleChat?.title}</Modal.Title>
+                        <Modal.Title>{devices.singleDevice?.deviceName}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Row>
@@ -154,8 +151,8 @@ export class ChatsTab extends Component<ProfileProps, ChatsTabProps> {
                             />
                             </Col>
                             <Col>
-                            <div>Comments</div>
-                            {
+                            <div>Notes</div>
+                            {/* {
                                 chatComments.chatcomments?.map(({ chatCommentId, chatValue, mediaLink, dateCreated }) => {
                                     return <CardContainer>
                                         <Card className="bg-dark" key={chatCommentId}>
@@ -166,7 +163,7 @@ export class ChatsTab extends Component<ProfileProps, ChatsTabProps> {
                                         </Card>
                                     </CardContainer>
                                 })
-                            }
+                            } */}
                             </Col>
                         </Row>
                     </Modal.Body>
@@ -174,7 +171,7 @@ export class ChatsTab extends Component<ProfileProps, ChatsTabProps> {
                     <button className="btn btn-dark" onClick={() => this.handleClose()}>
                         Close
                     </button>
-                    <a href={`/singlechat/${chats.singleChat?.chatId}`} style={{ textDecoration: 'none', color: 'white' }} className="btn btn-dark" >
+                    <a href={`/singledevice/${devices.singleDevice?.deviceId}`} style={{ textDecoration: 'none', color: 'white' }} className="btn btn-dark" >
                         Single View
                     </a>
                     </Modal.Footer>
@@ -182,7 +179,7 @@ export class ChatsTab extends Component<ProfileProps, ChatsTabProps> {
                 </Modal>
                 <Modal show={showDelete} onHide={() => this.handleCloseDelete()}>
                     <Modal.Body style={{ textAlign: "center", color: "black" }}>
-                        Are you sure you want to delete this chat?
+                        Are you sure you want to delete this device?
                     </Modal.Body>
                     <Modal.Footer style={{ justifyContent: "center" }}>
                     <button className="btn btn-secondary" onClick={() => this.handleCloseDelete()}>

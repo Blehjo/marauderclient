@@ -1,3 +1,5 @@
+import { Editor } from "../editor/editor.types";
+
 export enum GLTF_ACTION_TYPES {
     CREATE_START = 'gltf/CREATE_START',
     CREATE_SUCCESS = 'gltf/CREATE_SUCCESS',
@@ -23,4 +25,5 @@ export type Gltf = {
     gltfId: number | null;
     fileInformation: string | null;
     userId: number;
+    shapes: Editor;
 }
