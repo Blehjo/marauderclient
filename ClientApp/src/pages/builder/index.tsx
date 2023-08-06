@@ -2,6 +2,8 @@ import { ChangeEvent, Component, Dispatch, FormEvent, ReactNode } from "react";
 import { Badge, Card, Form, Modal } from "react-bootstrap";
 import { ArrowsFullscreen, Chat, Rocket, Send } from "react-bootstrap-icons";
 import { ConnectedProps, connect } from "react-redux";
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+
 import World from "../../components/world/world.component";
 import { EditorFetchAllStart, editorFetchAllStart } from "../../store/editor/editor.action";
 import { GltfCreateStart, GltfFetchUserStart, gltfCreateStart, gltfFetchUserStart } from "../../store/gltf/gltf.action";
@@ -11,8 +13,8 @@ import Builder from "../../components/builder/builder.component";
 import Editor from "../editor";
 import { Gltf } from "../../store/gltf/gltf.types";
 import { BadgeContainer } from "../../styles/poststab/poststab.styles";
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
-
+import { Plane } from "@react-three/drei";
+import FlexDisplay from "../../components/builder/flex.component";
 
 interface IBuilder {
     showNewFileDialogue: boolean;
@@ -42,6 +44,7 @@ class Vitals extends Component<BuilderProps, IBuilder> {
         this.handleViewShapes = this.handleViewShapes.bind(this);
         this.handleBuilderClick = this.handleBuilderClick.bind(this);
         this.submitGltfFile = this.submitGltfFile.bind(this);
+        this.handleEditorClick = this.handleEditorClick.bind(this);
     }
 
     handleChange(event: ChangeEvent<HTMLInputElement>): void {
@@ -52,6 +55,12 @@ class Vitals extends Component<BuilderProps, IBuilder> {
     handleBuilderClick(): void {
         this.setState({
             ...this.state, builder: !this.state.builder
+        })
+    }
+
+    handleEditorClick(): void {
+        this.setState({
+            ...this.state, editor: !this.state.editor
         })
     }
 
@@ -195,21 +204,28 @@ class Vitals extends Component<BuilderProps, IBuilder> {
     }
 
     render() {
-        const { builder } = this.state;
+        const { builder, editor } = this.state;
         const { shapes } = this.props;
         return (
             <>
             {
+                editor ?
+                <Editor/> :
                 builder ?
-                <Editor/> : 
+                <Builder/> :
                 <VitalsContainer>
                     <InfoContainer>Get Started</InfoContainer>
                     <p>Create a new file and start building your imagination!</p>
                     <OptionsContainer>
+                        {/* <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 3, 1050: 4 }}>
+                        <Masonry> */}
                         <CardContainer onClick={this.handleFileClick} style={{ cursor: 'pointer' }}>New File</CardContainer>
                         <CardContainer onClick={this.handleNewTeamClick} style={{ cursor: 'pointer' }}>Create Team</CardContainer>
                         <CardContainer onClick={this.handleViewShapes} style={{ cursor: 'pointer' }}>View Community</CardContainer>
                         <CardContainer onClick={this.handleBuilderClick} style={{ cursor: 'pointer' }}>Go To Builder</CardContainer>
+                        <CardContainer onClick={this.handleEditorClick} style={{ cursor: 'pointer' }}>Go To Editor</CardContainer>
+                        {/* </Masonry>
+                        </ResponsiveMasonry> */}
                     </OptionsContainer>
                     {this.handleNewFile()}
                     {this.handleTeamClick()}
@@ -228,6 +244,13 @@ class Vitals extends Component<BuilderProps, IBuilder> {
                     </Masonry>
                 </ResponsiveMasonry>
             </CardsContainer>
+            {/* <CardsContainer style={{ marginBottom: '5rem' }}>
+                <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 3, 1050: 4 }}>
+                    <Masonry>
+                        <FlexDisplay/>
+                    </Masonry>
+                </ResponsiveMasonry>
+            </CardsContainer> */}
             </>
         );
     }

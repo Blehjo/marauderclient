@@ -29,11 +29,12 @@ import {
     getUsersShapes
 } from '../../utils/api/shape.api';
 
-export function* createShape({ payload: { shapeName, position, height, width, depth, radius, length, color }}: EditorCreateStart ) {
+export function* createShape({ payload: { shapeName, gltfId, position, height, width, depth, radius, length, color }}: EditorCreateStart ) {
     try {
         const editor = yield* call(
             addShape,
             shapeName,
+            gltfId,
             position, 
             height, 
             width, 
@@ -48,12 +49,13 @@ export function* createShape({ payload: { shapeName, position, height, width, de
     }
 }
 
-export function* updateShape({ payload: { editorId, shapeName, position, height, width, depth, radius, length, color }}: EditorUpdateStart) {
+export function* updateShape({ payload: { editorId, shapeName, gltfId, position, height, width, depth, radius, length, color }}: EditorUpdateStart) {
     try {
         const editor = yield* call(
             editShape,
             editorId,
             shapeName,
+            gltfId,
             position, 
             height, 
             width, 
@@ -93,13 +95,13 @@ export function* fetchUserShapes() {
 
 
 export function* fetchSingleShape({ 
-    payload: { editorId } }: EditorFetchSingleStart) {
+    payload: { gltfId } }: EditorFetchSingleStart) {
     try {
         const editorSnapshot = yield* call(
             getSingleShape,
-            editorId 
+            gltfId 
         );
-        yield* put(editorFetchSingleSuccess(editorSnapshot as Editor));
+        yield* put(editorFetchSingleSuccess(editorSnapshot));
     } catch (error) {
         yield* put(editorFetchSingleFailed(error as Error));
     }

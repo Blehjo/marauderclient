@@ -19,7 +19,7 @@ import { Editor } from './editor.types';
 
 export type EditorState = {
     readonly shape: string;
-    readonly singleShape: Editor | null;
+    readonly singleShape: Array<Editor>;
     readonly shapes: Array<Editor>;
     readonly grid: boolean;
     readonly color: string;
@@ -28,7 +28,7 @@ export type EditorState = {
 
 const INITIAL_STATE: EditorState = {
     shape: "box",
-    singleShape: null,
+    singleShape: [],
     shapes: [],
     grid: true,
     color: 'red',

@@ -10,7 +10,7 @@ import { ReactNode } from 'react';
 import { Vector3 } from '@react-three/fiber';
 
 export type EditorCreateStart = ActionWithPayload<
-    EDITOR_ACTION_TYPES.CREATE_START, { shapeName: string, position?: Vector3, height?: number, width?: number, depth?: number, radius?: number, length?: number, color?: string }
+    EDITOR_ACTION_TYPES.CREATE_START, { shapeName: string, position?: Vector3, height?: number, width?: number, depth?: number, radius?: number, length?: number, color?: string, gltfId: number }
 >;
 
 export type EditorCreateSuccess = ActionWithPayload<
@@ -24,7 +24,7 @@ export type EditorCreateFailed = ActionWithPayload<
 >;
 
 export type EditorUpdateStart = ActionWithPayload<
-    EDITOR_ACTION_TYPES.UPDATE_START, { editorId: number, shapeName: string, position?: Vector3, height?: number, width?: number, depth?: number, radius?: number, length?: number, color?: string }
+    EDITOR_ACTION_TYPES.UPDATE_START, { editorId: number, shapeName: string, position?: Vector3, height?: number, width?: number, depth?: number, radius?: number, length?: number, color?: string, gltfId: number }
 >;
 
 export type EditorUpdateSuccess = ActionWithPayload<
@@ -52,12 +52,12 @@ export type EditorDeleteteFailed = ActionWithPayload<
 >;
    
 export type EditorFetchSingleStart = ActionWithPayload<
-    EDITOR_ACTION_TYPES.FETCH_SINGLE_START, { editorId: number }
+    EDITOR_ACTION_TYPES.FETCH_SINGLE_START, { gltfId: number }
 >;
 
 export type EditorFetchSingleSuccess = ActionWithPayload<
     EDITOR_ACTION_TYPES.FETCH_SINGLE_SUCCESS, 
-    Editor
+    Editor[]
 >;
 
 export type EditorFetchSingleFailed = ActionWithPayload<
@@ -128,8 +128,8 @@ export type SetBrick = ActionWithPayload<
 >;
 
 export const editorCreateStart = withMatcher(
-    (shapeName: string, position?: Vector3, height?: number, width?: number, depth?: number, radius?: number, length?: number, color?: string): EditorCreateStart => 
-    createAction(EDITOR_ACTION_TYPES.CREATE_START, { shapeName, position, height, width, depth, radius, length, color })
+    (shapeName: string, gltfId: number, position?: Vector3, height?: number, width?: number, depth?: number, radius?: number, length?: number, color?: string): EditorCreateStart => 
+    createAction(EDITOR_ACTION_TYPES.CREATE_START, { shapeName, gltfId, position, height, width, depth, radius, length, color })
 );
 
 export const editorCreateSuccess = withMatcher(
@@ -143,8 +143,8 @@ export const editorCreateFailed = withMatcher(
 );
  
 export const editorUpdateStart = withMatcher(
-    (editorId: number, shapeName: string, position?: Vector3, height?: number, width?: number, depth?: number, radius?: number, length?: number, color?: string): EditorUpdateStart => 
-    createAction(EDITOR_ACTION_TYPES.UPDATE_START, { editorId, shapeName, position, height, width, depth, radius, length, color })
+    (editorId: number, shapeName: string, gltfId: number, position?: Vector3, height?: number, width?: number, depth?: number, radius?: number, length?: number, color?: string): EditorUpdateStart => 
+    createAction(EDITOR_ACTION_TYPES.UPDATE_START, { editorId, shapeName, gltfId, position, height, width, depth, radius, length, color })
 );
 
 export const editorUpdateSuccess = withMatcher(
@@ -173,12 +173,12 @@ export const editorDeleteFailed = withMatcher(
 );
 
 export const editorFetchSingleStart = withMatcher(
-    (editorId: number): EditorFetchSingleStart => 
-    createAction(EDITOR_ACTION_TYPES.FETCH_SINGLE_START, { editorId })
+    (gltfId: number): EditorFetchSingleStart => 
+    createAction(EDITOR_ACTION_TYPES.FETCH_SINGLE_START, { gltfId })
 );
 
 export const editorFetchSingleSuccess = withMatcher(
-    (editor: Editor): EditorFetchSingleSuccess => 
+    (editor: Editor[]): EditorFetchSingleSuccess => 
     createAction(EDITOR_ACTION_TYPES.FETCH_SINGLE_SUCCESS, editor)
 );
 

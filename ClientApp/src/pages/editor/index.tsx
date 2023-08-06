@@ -8,8 +8,10 @@ import { ControlPanel } from "../../components/gui/controlpanel.component";
 import { useDispatch, useSelector } from "react-redux";
 import { Selectors } from "../../components/editor/selector.component";
 import { useSettings } from "../../components/gui/settings.component";
-import { editorCreateStart, editorDeleteStart, editorFetchAllStart, setShape } from "../../store/editor/editor.action";
-import { selectEditorShape, selectEditorShapes } from "../../store/editor/editor.selector";
+import { editorCreateStart, editorDeleteStart, editorFetchAllStart, editorFetchSingleStart, setShape } from "../../store/editor/editor.action";
+import { selectEditorShape, selectEditorShapes, selectEditorSingleShape } from "../../store/editor/editor.selector";
+import { selectAllGltfs, selectSingleGltf, selectUserGltfs } from "../../store/gltf/gltf.selector";
+import { gltfFetchSingleStart, gltfFetchUserStart } from "../../store/gltf/gltf.action";
 
 enum Controls {
   forward = 'forward',
@@ -123,8 +125,11 @@ function Shape({ shape, position, orbit, shapeId }: ShapeProps) {
 }
 
 export default function Editor() {
+  const file = useSelector(selectSingleGltf);
+  const files = useSelector(selectAllGltfs);
   const shape = useSelector(selectEditorShape);
   const shapes = useSelector(selectEditorShapes);
+  const userShapes = useSelector(selectEditorSingleShape);
   const dispatch = useDispatch();
   const position = useSettings((s) => s.directionalLight.position.x);
   const positionArray = new THREE.Vector3(Object.values(position));
@@ -138,25 +143,33 @@ export default function Editor() {
     dispatch(setShape(value))
   }
 
-  function addShape(shapeName: string): void {
-    dispatch(editorCreateStart(shapeName));
+  function addShape(shapeName: string, gltfId: number): void {
+    dispatch(editorCreateStart(shapeName, gltfId));
   }
 
   function deleteShape(shapeId: number): void {
     dispatch(editorDeleteStart(shapeId));
   }
 
-  function fetchShapes(): void {
-    dispatch(editorFetchAllStart());
+  function fetchShapes(fileId: number): void {
+    dispatch(editorFetchSingleStart(fileId));
+  }
+
+  function fetchSingleFile(gltfId: number): void {
+    dispatch(gltfFetchSingleStart(gltfId));
+  }
+
+  function fetchFiles(): void {
+    dispatch(gltfFetchUserStart());
   }
 
   useEffect(() => {
-    fetchShapes();
+    fetchFiles();
   }, [shapes.length]);
 
   return (
     <>
-      <Selectors shapes={shapes} shape={shape} handleShape={handleInquiry} addShape={addShape} deleteShape={deleteShape} fetchShapes={fetchShapes}/>
+      <Selectors getAllFiles={fetchFiles} getFile={fetchSingleFile} files={files} file={file} shapes={shapes} shape={shape} userShapes={userShapes} handleShape={handleInquiry} addShape={addShape} deleteShape={deleteShape} fetchShapes={fetchShapes}/>
       <Canvas
         camera={{ fov: 75, near: 0.1, far: 1000, position: [1, 2, 5] }}
       >
@@ -165,9 +178,9 @@ export default function Editor() {
         <ambientLight intensity={intensity} />
         <directionalLight color={directionalLightColor} position={positionArray} />
         {
-          shapes.length > 0 &&
-          shapes.map(({ shapeId, shapeName, positionX, positionY, positionZ }) => (
-            <Shape shapeId={shapeId} shape={shapeName} orbit={orbit} position={{x: positionX, y: positionY, z: positionZ}}/>
+          userShapes.length > 0 &&
+          userShapes.map(({ shapeId, shapeName, positionX, positionY, positionZ }) => (
+            <Shape key={shapeId} shapeId={shapeId} shape={shapeName} orbit={orbit} position={{x: positionX, y: positionY, z: positionZ}}/>
           ))
         }
         <Gizmo/>
