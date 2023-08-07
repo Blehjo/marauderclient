@@ -82,7 +82,7 @@ export class ProfileCard extends Component<ProfileProps, IDefaultFormFields> {
           })
         } catch (error) {
           if (error) {
-            alert('Cannot create user, email already in use');
+            alert(error);
           } 
         }
     };

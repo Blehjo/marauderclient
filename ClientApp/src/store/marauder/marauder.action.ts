@@ -7,9 +7,24 @@ import {
     withMatcher
 } from '../../utils/reducer/reducer.utils';
    
+export type MarauderSetIdStart = ActionWithPayload<
+    MARAUDER_ACTION_TYPES.SET_ID_START,
+    { marauderId: string }
+>;
+
+export type MarauderSetIdSuccess = ActionWithPayload<
+    MARAUDER_ACTION_TYPES.SET_ID_SUCCESS, 
+    { marauderId: string }
+>;
+
+export type MarauderSetIdFailed = ActionWithPayload<
+    MARAUDER_ACTION_TYPES.SET_ID_FAILED,
+    Error
+>;
+   
 export type MarauderFetchSingleStart = ActionWithPayload<
     MARAUDER_ACTION_TYPES.FETCH_SINGLE_START,
-    { userId: number }
+    { userId: string }
 >;
 
 export type MarauderFetchSingleSuccess = ActionWithPayload<
@@ -36,8 +51,23 @@ export type MarauderFetchAllFailed = ActionWithPayload<
     Error
 >;
 
+export const marauderSetIdStart = withMatcher(
+    (marauderId: string): MarauderSetIdStart => 
+    createAction(MARAUDER_ACTION_TYPES.SET_ID_START, { marauderId })
+);
+
+export const marauderSetIdSuccess = withMatcher(
+    (marauderId: string): MarauderSetIdSuccess => 
+    createAction(MARAUDER_ACTION_TYPES.SET_ID_SUCCESS, { marauderId })
+);
+
+export const marauderSetIdFailed = withMatcher(
+    (error: Error): MarauderSetIdFailed => 
+    createAction(MARAUDER_ACTION_TYPES.SET_ID_FAILED, error)
+);
+
 export const marauderFetchSingleStart = withMatcher(
-    (userId: number): MarauderFetchSingleStart => 
+    (userId: string): MarauderFetchSingleStart => 
     createAction(MARAUDER_ACTION_TYPES.FETCH_SINGLE_START, { userId })
 );
 

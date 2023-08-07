@@ -7,7 +7,11 @@ import {
     getMarauders,
     getSingleMarauder
 } from '../../utils/api/user.api';
-import { MarauderFetchSingleStart, marauderFetchAllFailed, marauderFetchAllSuccess, marauderFetchSingleFailed, marauderFetchSingleSuccess } from './marauder.action';
+import { MarauderFetchSingleStart, MarauderSetIdStart, marauderFetchAllFailed, marauderFetchAllSuccess, marauderFetchSingleFailed, marauderFetchSingleSuccess, marauderSetIdStart, marauderSetIdSuccess } from './marauder.action';
+
+export function* setId({ payload: { marauderId }}: MarauderSetIdStart) {
+    yield* put(marauderSetIdSuccess(marauderId));
+}
 
 export function* fetchMarauders() {
     try {
@@ -34,6 +38,13 @@ export function* fetchSingleMarauderAsync({
     }
 }
 
+export function* onSetId() {
+    yield* takeLatest(
+        MARAUDER_ACTION_TYPES.SET_ID_START, 
+        setId
+    );
+}
+
 export function* onFetchSingleMarauderStart() {
     yield* takeLatest(
         MARAUDER_ACTION_TYPES.FETCH_SINGLE_START, 
@@ -50,6 +61,7 @@ export function* onFetchMaraudersStart() {
 
 export function* marauderSagas() {
     yield* all([
+        call(onSetId),
         call(onFetchSingleMarauderStart),
         call(onFetchMaraudersStart)
     ]);

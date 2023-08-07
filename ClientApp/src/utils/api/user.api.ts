@@ -9,7 +9,7 @@ const headers = {
   'Content-Type': 'application/x-www-form-urlencoded'
 }
 
-export async function getSingleUser(userId: number | undefined): Promise<User> {
+export async function getSingleUser(userId: string | undefined): Promise<User> {
   const response = await axios({
     method: 'get',
     url:`${api}/${userId}`,
@@ -20,7 +20,7 @@ export async function getSingleUser(userId: number | undefined): Promise<User> {
   return result;
 }
 
-export async function getSingleMarauder(userId: number): Promise<Marauder> {
+export async function getSingleMarauder(userId: string): Promise<Marauder> {
   const response = await axios({
     method: 'get',
     url:`${api}/${userId}`,

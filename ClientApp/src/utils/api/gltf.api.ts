@@ -41,10 +41,10 @@ export async function getUsersGltfs(): Promise<Gltf[]> {
   return result;
 }
 
-export async function getOtherUsersGltfs(userId: number): Promise<Gltf[]> {
+export async function getOtherUsersGltfs(userId: string): Promise<Gltf[]> {
   const response = await axios({
     method: 'get',
-    url: `${api}/${userId}`,
+    url: `${api}/user/${userId}`,
     headers: headers,
     withCredentials: true
   });

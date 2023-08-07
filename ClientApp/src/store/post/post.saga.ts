@@ -90,7 +90,7 @@ export function* fetchOtherUsersPosts({ payload: { userId } }: PostFetchUserPost
     try {
         const posts = yield* call(
             getUserPosts,
-            userId
+            userId!
         );
         if (!posts) return;
         yield* put(postFetchUserPostsSuccess(posts));

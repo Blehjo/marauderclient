@@ -137,6 +137,13 @@ export function* onFetchUserGltfsStart() {
     );
 }
 
+export function* onFetchOtherUserGltfsStart() {
+    yield* takeLatest(
+       GLTF_ACTION_TYPES.FETCH_USER_START, 
+        fetchOtherUserGltfs
+    );
+}
+
 export function* onFetchSingleStart() {
     yield* takeLatest(
        GLTF_ACTION_TYPES.FETCH_SINGLE_START, 
@@ -157,6 +164,7 @@ export function* gltfSagas() {
         call(onUpdateStart),
         call(onDeleteStart),
         call(onFetchUserGltfsStart),
+        call(onFetchOtherUserGltfsStart),
         call(onFetchSingleStart),
         call(onFetchsStart)
     ]);

@@ -96,7 +96,7 @@ export type GltfFetchUserFailed = ActionWithPayload<
 
 export type GltfFetchOtherUserStart = ActionWithPayload<
     GLTF_ACTION_TYPES.FETCH_USER_START, {
-        userId: number
+        userId: string
     }
 >;
 
@@ -186,7 +186,7 @@ export const gltfFetchUserFailed = withMatcher(
 );
 
 export const gltfFetchOtherUserStart = withMatcher(
-    (userId: number): GltfFetchOtherUserStart => 
+    (userId: string): GltfFetchOtherUserStart => 
     createAction(GLTF_ACTION_TYPES.FETCH_USER_START, { userId })
 );
 

@@ -6,6 +6,9 @@ import { Follower } from "../follower/follower.types";
 import { Post } from "../post/post.types";
 
 export enum MARAUDER_ACTION_TYPES  {
+    SET_ID_START = 'marauder/SET_ID_START',
+    SET_ID_SUCCESS = 'marauder/SET_ID_SUCCESS',
+    SET_ID_FAILED = 'marauder/SET_ID_FAILED',
     FETCH_SINGLE_START = 'marauder/FETCH_SINGLE_START',
     FETCH_SINGLE_SUCCESS = 'marauder/FETCH_SINGLE_SUCCESS',
     FETCH_SINGLE_FAILED = 'marauder/FETCH_SINGLE_FAILED',

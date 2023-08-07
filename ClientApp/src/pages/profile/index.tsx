@@ -84,7 +84,7 @@ const mapToStateProps = (state: RootState) => {
 const mapDispatchToProps = (dispatch: Dispatch<DeviceDeleteStart | DeviceFetchSingleStart | DeviceFetchAllStart | GltfFetchSingleStart | CheckUserSession | UserprofileFetchSingleStart | MarauderFetchSingleStart | PostFetchAllStart | PostFetchUserPostsStart | PostCreateStart | PostFetchSingleStart | PostDeleteStart | ChatFetchUserChatsStart | ChatFetchSingleStart | ChatDeleteStart | CommentFetchSingleStart | CommentCreateStart | FavoriteCreateStart | EditorFetchAllStart | GltfFetchUserStart | GltfCreateStart>) => ({
     getUserProfile: (userId: number) => dispatch(userprofileFetchSingleStart(userId)),
     checkSession: () => dispatch(checkUserSession()),
-    getMarauder: (userId: number) => dispatch(marauderFetchSingleStart(userId)),
+    getMarauder: (userId: string) => dispatch(marauderFetchSingleStart(userId)),
     getAllPosts: () => dispatch(postFetchAllStart()),
     getUserPosts: (userId: number | undefined) => dispatch(postFetchUserPostsStart(userId)),
     getPost: (postId: number) => dispatch(postFetchSingleStart(postId)),
