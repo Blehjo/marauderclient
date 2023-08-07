@@ -44,12 +44,12 @@ export function ControlPanel({ shapeId }: ControlProps) {
       max: 1,
       onChange: (v: string) => setDirectionalLightColor(v)
     };
-    res["Position"] = {
-      value: directionalLight.position,
-      min: -100,
-      max: 100,
-      onChange: (x: number, y: number, z: number) => setDirectionalLightPosition(x, y, z)
-    };
+    // res["Position"] = {
+    //   value: directionalLight.position,
+    //   min: -100,
+    //   max: 100,
+    //   onChange: (x: number, y: number, z: number) => setDirectionalLightPosition(x, y, z)
+    // };
 
     res["Intensity"] = {
       value: directionalLight.intensity["value"],

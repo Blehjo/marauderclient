@@ -8,6 +8,7 @@ import { utcConverter } from '../../utils/date/date.utils';
 
 import { ProfileProps } from '../../pages/profile';
 import { ChatState } from '../../store/chat/chat.reducer';
+import { XContainer } from '../../styles/devices/devices.styles';
 
 type ChatsTabProps = {
     show: boolean;
@@ -118,7 +119,9 @@ export class ChatsTab extends Component<ProfileProps, ChatsTabProps> {
                                 }
                                 </div>
                                 <Col xs={3}>
-                                <XCircle onClick={() => this.handleDeleteClick(chatId)} key={chatId} style={{ background: "white", borderRadius: ".5rem", color: "black", cursor: "pointer", position: "absolute", right: "5", top: "5" }}/>
+                                    <XContainer>
+                                        <XCircle onClick={() => this.handleDeleteClick(chatId)} key={chatId} style={{ background: "white", borderRadius: ".5rem", color: "black", cursor: "pointer", position: "absolute", right: "5", top: "5" }}/>
+                                    </XContainer>
                                 </Col>
                                 </Card.ImgOverlay>
                                 <Card.Body>

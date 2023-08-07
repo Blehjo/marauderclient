@@ -74,8 +74,6 @@ export class Selectors extends Component<any, SelectorProps> {
     }
     if (prevProps.file != this.props.file) {
       this.props.fetchShapes(this.props.file.gltfId);
-      console.log("FILE::: ", this.props.file)
-      console.log("SHAPES::: ", this.props.shapes)
     }
   }
 

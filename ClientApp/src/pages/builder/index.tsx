@@ -1,12 +1,12 @@
 import { ChangeEvent, Component, Dispatch, FormEvent, ReactNode } from "react";
-import { Badge, Card, Form, Modal } from "react-bootstrap";
-import { ArrowsFullscreen, Chat, Rocket, Send } from "react-bootstrap-icons";
+import { Badge, Card, Col, Form, Modal } from "react-bootstrap";
+import { ArrowsFullscreen, Chat, Rocket, Send, XCircle } from "react-bootstrap-icons";
 import { ConnectedProps, connect } from "react-redux";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 import World from "../../components/world/world.component";
 import { EditorFetchAllStart, editorFetchAllStart } from "../../store/editor/editor.action";
-import { GltfCreateStart, GltfFetchUserStart, gltfCreateStart, gltfFetchUserStart } from "../../store/gltf/gltf.action";
+import { GltfCreateStart, GltfDeleteStart, GltfFetchSingleStart, GltfFetchUserStart, gltfCreateStart, gltfDeleteStart, gltfFetchSingleStart, gltfFetchUserStart } from "../../store/gltf/gltf.action";
 import { RootState } from "../../store/store";
 import { CardContainer, CardsContainer, InfoContainer, OptionsContainer, VitalsContainer } from "../../styles/vitals/vitals.styles";
 import Builder from "../../components/builder/builder.component";
@@ -15,6 +15,9 @@ import { Gltf } from "../../store/gltf/gltf.types";
 import { BadgeContainer } from "../../styles/poststab/poststab.styles";
 import { Plane } from "@react-three/drei";
 import FlexDisplay from "../../components/builder/flex.component";
+import { EditorState } from "../../store/editor/editor.reducer";
+import { GltfState } from "../../store/gltf/gltf.reducer";
+import { XContainer } from "../../styles/devices/devices.styles";
 
 interface IBuilder {
     showNewFileDialogue: boolean;
@@ -85,11 +88,12 @@ class Vitals extends Component<BuilderProps, IBuilder> {
     submitGltfFile(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const { fileInformation } = this.state;
-        console.log("Hello:: ", fileInformation)
         this.props.createGltfFile(fileInformation);
         this.setState({
             showNewFileDialogue: !this.state.showNewFileDialogue
         })
+        const fileId = this.props.gltfs.gltfs.pop();
+        this.getFile(fileId?.gltfId!)
     }
     
     handleNewFile(): ReactNode {
@@ -111,6 +115,10 @@ class Vitals extends Component<BuilderProps, IBuilder> {
                 </Form>
             </Modal>
         )
+    }
+
+    handleDelete(gltfId: number): void {
+        this.props.deleteFile(gltfId);
     }
 
     handleTeamClick(): ReactNode {
@@ -163,7 +171,7 @@ class Vitals extends Component<BuilderProps, IBuilder> {
                 <Card.ImgOverlay>
                     <div style={{ cursor: "pointer", position: "absolute", left: "0", top: "0" }}>
                         <BadgeContainer>
-                            <Badge style={{ color: 'black' }} bg="light"><ArrowsFullscreen style={{ cursor: 'pointer' }} /* onClick={() => this.handleClick(gltfId, type)} size={15} */ /></Badge>
+                            <Badge style={{ color: 'black' }} bg="light"><ArrowsFullscreen style={{ cursor: 'pointer' }} onClick={() => this.getFile(gltfId!)} size={15} /></Badge>
                         </BadgeContainer>
                         {
                             <BadgeContainer><Badge style={{ color: 'black' }} bg="light">
@@ -181,6 +189,11 @@ class Vitals extends Component<BuilderProps, IBuilder> {
                             </BadgeContainer>
                         }
                     </div>
+                    <Col xs={3}>
+                        <XContainer>
+                            <XCircle onClick={() => this.handleDelete(gltfId!)} key={gltfId} style={{ borderRadius: ".5rem", cursor: "pointer", position: "absolute", right: "5", top: "5" }}/>
+                        </XContainer>
+                    </Col>
                 </Card.ImgOverlay>
                 <Card.Body>
                     <Card.Text>{fileInformation}</Card.Text>
@@ -198,10 +211,22 @@ class Vitals extends Component<BuilderProps, IBuilder> {
         return content;
     }
 
+    getFile(gltfId: number): void {
+        this.props.fetchSingleFile(gltfId);
+        this.handleEditorClick();
+    }
+
     componentDidMount(): void {
         this.props.fetchShapes();
         this.props.fetchGltfFiles();
     }
+
+    // componentDidUpdate(prevProps: Readonly<{ gltfs: GltfState; shapes: EditorState; } & { fetchShapes: () => void; fetchGltfFiles: () => void; fetchSingleFile: (gltfId: number) => void; createGltfFile: (fileInformation: string) => void; deleteFile: (gltfId: number) => void; }>, prevState: Readonly<IBuilder>, snapshot?: any): void {
+    //     if (prevProps.gltfs.gltfs.length != this.props.gltfs.gltfs.length) {
+    //         this.props.fetchGltfFiles();
+    //         this.props.fetchSingleFile(this.props.gltfs.gltfs.pop()?.gltfId!)
+    //     }
+    // }
 
     render() {
         const { builder, editor } = this.state;
@@ -213,37 +238,39 @@ class Vitals extends Component<BuilderProps, IBuilder> {
                 <Editor/> :
                 builder ?
                 <Builder/> :
+                <>
                 <VitalsContainer>
                     <InfoContainer>Get Started</InfoContainer>
                     <p>Create a new file and start building your imagination!</p>
                     <OptionsContainer>
-                        {/* <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 3, 1050: 4 }}>
-                        <Masonry> */}
                         <CardContainer onClick={this.handleFileClick} style={{ cursor: 'pointer' }}>New File</CardContainer>
                         <CardContainer onClick={this.handleNewTeamClick} style={{ cursor: 'pointer' }}>Create Team</CardContainer>
                         <CardContainer onClick={this.handleViewShapes} style={{ cursor: 'pointer' }}>View Community</CardContainer>
                         <CardContainer onClick={this.handleBuilderClick} style={{ cursor: 'pointer' }}>Go To Builder</CardContainer>
                         <CardContainer onClick={this.handleEditorClick} style={{ cursor: 'pointer' }}>Go To Editor</CardContainer>
-                        {/* </Masonry>
-                        </ResponsiveMasonry> */}
                     </OptionsContainer>
                     {this.handleNewFile()}
                     {this.handleTeamClick()}
                     {this.handleViewCommunities()}
-                    <>
-                        {shapes.shapes.map(({ shapeName }) => (
-                            <CardContainer>{shapeName}</CardContainer>
-                        ))}
-                    </>
                 </VitalsContainer> 
+                <CardsContainer>
+                    <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 3, 1050: 4 }}>
+                        <Masonry>
+                            {this.userGltfFiles()}
+                        </Masonry>
+                    </ResponsiveMasonry>
+                </CardsContainer>
+                <CardsContainer>
+                    <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 3, 1050: 4 }}>
+                        <Masonry>
+                        {shapes.shapes.map(({ shapeId, shapeName }) => (
+                            <Card key={shapeId} style={{ background: 'black', border: 'solid 1px white', padding: '.5rem', margin: '.3rem', color: 'white'}}>{shapeName}</Card>
+                        ))}
+                        </Masonry>
+                    </ResponsiveMasonry>
+                </CardsContainer>
+            </>
             }
-            <CardsContainer>
-                <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 3, 1050: 4 }}>
-                    <Masonry>
-                        {this.userGltfFiles()}
-                    </Masonry>
-                </ResponsiveMasonry>
-            </CardsContainer>
             {/* <CardsContainer style={{ marginBottom: '5rem' }}>
                 <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 3, 1050: 4 }}>
                     <Masonry>
@@ -263,10 +290,12 @@ const mapStateToProps = (state: RootState) => {
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<EditorFetchAllStart | GltfFetchUserStart | GltfCreateStart>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<EditorFetchAllStart | GltfFetchUserStart | GltfCreateStart | GltfFetchSingleStart | GltfDeleteStart>) => ({
     fetchShapes: () => dispatch(editorFetchAllStart()),
     fetchGltfFiles: () => dispatch(gltfFetchUserStart()),
-    createGltfFile: (fileInformation: string) => dispatch(gltfCreateStart(fileInformation))
+    fetchSingleFile: (gltfId: number) => dispatch(gltfFetchSingleStart(gltfId)),
+    createGltfFile: (fileInformation: string) => dispatch(gltfCreateStart(fileInformation)),
+    deleteFile: (gltfId: number) => dispatch(gltfDeleteStart(gltfId))
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

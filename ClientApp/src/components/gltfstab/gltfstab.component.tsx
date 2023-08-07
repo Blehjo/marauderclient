@@ -103,7 +103,6 @@ export class GltfsTab extends Component<ProfileProps, IDefaultFormFields> {
     }
 
     handleClick(gltfId: number): void {
-        console.log("GLTF:: ", gltfId)
         this.props.fetchSingleGltf(gltfId);
         // this.props.getComments(gltfId);
         this.setState({

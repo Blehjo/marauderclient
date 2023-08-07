@@ -6,6 +6,7 @@ import { ArrowsFullscreen, Globe, Rocket, XCircle } from 'react-bootstrap-icons'
 import { BadgeContainer, ChatContainer, ModalContainer } from "../../styles/poststab/poststab.styles";
 import { ProfileProps } from '../../pages/profile';
 import { DeviceState } from '../../store/device/device.reducer';
+import { XContainer } from '../../styles/devices/devices.styles';
 
 type DevicesTabProps = {
     show: boolean;
@@ -116,7 +117,9 @@ export class DevicesTab extends Component<ProfileProps, DevicesTabProps> {
                                 }
                                 </div>
                                 <Col xs={3}>
-                                <XCircle onClick={() => this.handleDeleteClick(deviceId)} key={deviceId} style={{ background: "white", borderRadius: ".5rem", color: "black", cursor: "pointer", position: "absolute", right: "5", top: "5" }}/>
+                                    <XContainer>
+                                    <XCircle onClick={() => this.handleDeleteClick(deviceId)} key={deviceId} style={{ background: "white", borderRadius: ".5rem", color: "black", cursor: "pointer", position: "absolute", right: "5", top: "5" }}/>
+                                    </XContainer>
                                 </Col>
                                 </Card.ImgOverlay>
                                 <Card.Body>

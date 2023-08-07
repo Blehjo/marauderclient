@@ -12,6 +12,7 @@ import { MessageComment } from "../../store/messagecomment/messagecomment.types"
 import { RootState } from "../../store/store";
 import { Container, InputContainer, ListContainer, MessageContainer, MessageForm, TextContainer, UserTextContainer } from "../../styles/messages/messages.styles";
 import { CheckUserSession, checkUserSession } from "../../store/user/user.action";
+import { XContainer } from "../../styles/devices/devices.styles";
 
 interface IMessage {
     socket: boolean;
@@ -175,7 +176,9 @@ class Messages extends Component<MessageProps, IMessage> {
                                         </div>
                                     </Col>
                                     <Col xs={2}>
+                                        <XContainer>
                                         <XCircle onClick={() => this.handleDelete(messageId)} />
+                                        </XContainer>
                                     </Col>
                                 </Row>
                             </Card>

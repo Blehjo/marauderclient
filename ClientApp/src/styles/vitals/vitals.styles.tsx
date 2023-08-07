@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 
 export const VitalsContainer = styled.div`
-    margin: 5rem;
+    margin: 5rem auto auto auto;
     border-radius: .5rem;
     background: #212529;
     height: 40%;
@@ -12,7 +12,7 @@ export const VitalsContainer = styled.div`
 `;
 
 export const CardsContainer = styled.div`
-    margin: 5rem;
+    margin: 5rem auto auto auto;
     padding: 3rem;
     border-radius: .5rem;
     background: #212529;

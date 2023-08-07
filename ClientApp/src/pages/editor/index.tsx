@@ -12,6 +12,7 @@ import { editorCreateStart, editorDeleteStart, editorFetchAllStart, editorFetchS
 import { selectEditorShape, selectEditorShapes, selectEditorSingleShape } from "../../store/editor/editor.selector";
 import { selectAllGltfs, selectSingleGltf, selectUserGltfs } from "../../store/gltf/gltf.selector";
 import { gltfFetchSingleStart, gltfFetchUserStart } from "../../store/gltf/gltf.action";
+import { useParams } from "next/navigation";
 
 enum Controls {
   forward = 'forward',
@@ -76,7 +77,7 @@ function handleShape(shape?: string): ReactNode {
 function Shape({ shape, position, orbit, shapeId }: ShapeProps) {
   const transform = useRef<THREE.Mesh>(null!);
   const [active, setActive] = useState(false);
-  const positionArray = [position?.x, position?.y, position?.z];
+  const positionArray: THREE.Vector3 = new THREE.Vector3(position?.x, position?.y, position?.z);
   const colors = useSettings((s) => s.colors);
   const color = new THREE.Color(colors["Color"].color);
   const hsl = color.getHSL({ h: 0, s: 1, l: 1 });
@@ -105,12 +106,12 @@ function Shape({ shape, position, orbit, shapeId }: ShapeProps) {
         <ControlPanel shapeId={shapeId}/>
       }
       <TransformControls
-      showX={active ? true : false}
-      showY={active ? true : false}
-      showZ={active ? true : false}
-      position={positionArray}
-      ref={transform}
-      mode="translate"
+        showX={active ? true : false}
+        showY={active ? true : false}
+        showZ={active ? true : false}
+        position={positionArray}
+        ref={transform}
+        mode="translate"
       >
         <mesh 
           onClick={() => {
@@ -132,7 +133,7 @@ export default function Editor() {
   const userShapes = useSelector(selectEditorSingleShape);
   const dispatch = useDispatch();
   const position = useSettings((s) => s.directionalLight.position.x);
-  const positionArray = new THREE.Vector3(Object.values(position));
+  const positionArray = new THREE.Vector3(position);
   const directionalLightColors = useSettings((s) => s.directionalLight.color);
   const grid = useSettings((s) => s.grid);
   const intensity = useSettings((s) => s.directionalLight.intensity.value);

@@ -3,7 +3,7 @@ import { ConnectedProps, connect } from "react-redux";
 import { Card, Col, Dropdown, Form, Image, Modal, Row } from "react-bootstrap";
 import { Plus, XCircle } from "react-bootstrap-icons";
 
-import { ButtonContainer, CardContainer, DeviceContainer, FormContainer } from "../../styles/devices/devices.styles";
+import { ButtonContainer, CardContainer, DeviceContainer, FormContainer, XContainer } from "../../styles/devices/devices.styles";
 import { ListContainer } from "../../styles/messages/messages.styles";
 
 import { RootState } from "../../store/store";
@@ -140,7 +140,9 @@ class Devices extends Component<DeviceProps, IDevice> {
                                     </div>
                                 </Col>
                                 <Col xs={1}>
+                                    <XContainer>
                                     <XCircle onClick={() => this.handleDelete(deviceId)} />
+                                    </XContainer>
                                 </Col>
                             </Row>
                         </Card>
