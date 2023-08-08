@@ -230,7 +230,7 @@ class Vitals extends Component<BuilderProps, IBuilder> {
 
     render() {
         const { builder, editor } = this.state;
-        const { shapes } = this.props;
+        const { shapes, gltfs } = this.props;
         return (
             <>
             {
@@ -253,14 +253,14 @@ class Vitals extends Component<BuilderProps, IBuilder> {
                     {this.handleTeamClick()}
                     {this.handleViewCommunities()}
                 </VitalsContainer> 
-                <CardsContainer>
+                {gltfs.gltfs?.length > 0 && <CardsContainer>
                     <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 3, 1050: 4 }}>
                         <Masonry>
                             {this.userGltfFiles()}
                         </Masonry>
                     </ResponsiveMasonry>
-                </CardsContainer>
-                <CardsContainer>
+                </CardsContainer>}
+                {shapes.shapes?.length > 0 && <CardsContainer>
                     <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 3, 1050: 4 }}>
                         <Masonry>
                         {shapes.shapes.map(({ shapeId, shapeName }) => (
@@ -268,7 +268,7 @@ class Vitals extends Component<BuilderProps, IBuilder> {
                         ))}
                         </Masonry>
                     </ResponsiveMasonry>
-                </CardsContainer>
+                </CardsContainer>}
             </>
             }
             {/* <CardsContainer style={{ marginBottom: '5rem' }}>

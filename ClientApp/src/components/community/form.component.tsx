@@ -72,7 +72,6 @@ export class FormChannel extends Component<any, IFormChannel> {
         this.props.createChannelComment(commentValue, this.props.channels.channelId!, imageFile);
         this.state.connection.send("newMessage", "foo", commentValue);
         this.state.connection.on('messageReceived', (comment: any) => {
-            console.log("COMMENT:::: ", comment)
             this.props.setChannelCommentId(comment.channelCommentId);
         })
         this.setState({
@@ -124,12 +123,10 @@ export class FormChannel extends Component<any, IFormChannel> {
             }, () => {
                 this.state.connection.start().catch((err: string) => document.write(err));
             });
-            console.log("CONNECTED!")
         }
 
         if (prevProps.channelcomments.channelCommentId != this.props.channelcomments.channelCommentId) {
             this.state.connection.on('messageReceived', (comment: any) => {
-                console.log("UPDATE::: ", comment)
                 this.props.getComments(this.props.channels.channelId!)
             });
         }

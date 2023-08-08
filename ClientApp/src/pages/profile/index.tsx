@@ -20,12 +20,14 @@ import { EditorFetchAllStart, editorFetchAllStart } from "../../store/editor/edi
 import { GltfCreateStart, GltfFetchSingleStart, GltfFetchUserStart, gltfCreateStart, gltfFetchSingleStart, gltfFetchUserStart } from "../../store/gltf/gltf.action";
 import { DevicesTab } from "../../components/devicestab/devicestab.component";
 import { DeviceDeleteStart, DeviceFetchAllStart, DeviceFetchSingleStart, deviceDeleteStart, deviceFetchAllStart, deviceFetchSingleStart } from "../../store/device/device.action";
+import { CommunityFetchUsercommunitiesStart, communityFetchUsercommunitiesStart } from "../../store/community/community.action";
 
 export type ProfileProps = ConnectedProps<typeof connector>;
 
 class Profile extends Component<ProfileProps> {
     componentDidMount(): void {
         this.props.checkSession();
+        this.props.getCommunity();
     }
 
     render() {
@@ -73,6 +75,7 @@ const mapToStateProps = (state: RootState) => {
         currentUser: state.user.currentUser,
         marauder: state.marauder.marauders,
         posts: state.post,
+        communities: state.community,
         comments: state.comment,
         chats: state.chat,
         chatComments: state.chatcomment,
@@ -82,7 +85,7 @@ const mapToStateProps = (state: RootState) => {
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<DeviceDeleteStart | DeviceFetchSingleStart | DeviceFetchAllStart | GltfFetchSingleStart | CheckUserSession | UserprofileFetchSingleStart | MarauderFetchSingleStart | PostFetchAllStart | PostFetchUserPostsStart | PostCreateStart | PostFetchSingleStart | PostDeleteStart | ChatFetchUserChatsStart | ChatFetchSingleStart | ChatDeleteStart | CommentFetchSingleStart | CommentCreateStart | FavoriteCreateStart | EditorFetchAllStart | GltfFetchUserStart | GltfCreateStart>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<CommunityFetchUsercommunitiesStart | DeviceDeleteStart | DeviceFetchSingleStart | DeviceFetchAllStart | GltfFetchSingleStart | CheckUserSession | UserprofileFetchSingleStart | MarauderFetchSingleStart | PostFetchAllStart | PostFetchUserPostsStart | PostCreateStart | PostFetchSingleStart | PostDeleteStart | ChatFetchUserChatsStart | ChatFetchSingleStart | ChatDeleteStart | CommentFetchSingleStart | CommentCreateStart | FavoriteCreateStart | EditorFetchAllStart | GltfFetchUserStart | GltfCreateStart>) => ({
     getUserProfile: (userId: number) => dispatch(userprofileFetchSingleStart(userId)),
     checkSession: () => dispatch(checkUserSession()),
     getMarauder: (userId: string) => dispatch(marauderFetchSingleStart(userId)),
@@ -103,7 +106,8 @@ const mapDispatchToProps = (dispatch: Dispatch<DeviceDeleteStart | DeviceFetchSi
     createGltfFile: (fileInformation: string) => dispatch(gltfCreateStart(fileInformation)),
     fetchDevices: () => dispatch(deviceFetchAllStart()),
     fetchSingleDevice: (deviceId: number) => dispatch(deviceFetchSingleStart(deviceId)),
-    deleteDevice: (deviceId: number) => dispatch(deviceDeleteStart(deviceId)) 
+    deleteDevice: (deviceId: number) => dispatch(deviceDeleteStart(deviceId)) ,
+    getCommunity: () => dispatch(communityFetchUsercommunitiesStart())
 });
 
 export const connector = connect(mapToStateProps, mapDispatchToProps);

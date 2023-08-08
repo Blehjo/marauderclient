@@ -15,6 +15,7 @@ import {
   gltfDeleteSuccess,
   gltfFetchAllFailed,
   gltfFetchAllSuccess,
+  gltfFetchOtherUserSuccess,
   gltfFetchSingleFailed,
   gltfFetchSingleSuccess,
   gltfUpdateSuccess
@@ -81,7 +82,7 @@ export function* fetchOtherUserGltfs({ payload: { userId }}: GltfFetchOtherUserS
     try {
         const gltf  = yield* call(getOtherUsersGltfs, userId);
         if (!gltf) return;
-        yield* put(gltfFetchAllSuccess(gltf));
+        yield* put(gltfFetchOtherUserSuccess(gltf));
     } catch (error) {
         yield* put(gltfFetchAllFailed(error as Error));
     }
@@ -139,7 +140,7 @@ export function* onFetchUserGltfsStart() {
 
 export function* onFetchOtherUserGltfsStart() {
     yield* takeLatest(
-       GLTF_ACTION_TYPES.FETCH_USER_START, 
+       GLTF_ACTION_TYPES.FETCH_OTHER_USER_START, 
         fetchOtherUserGltfs
     );
 }

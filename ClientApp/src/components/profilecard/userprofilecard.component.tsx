@@ -1,8 +1,9 @@
 import { ChangeEvent, Component, FormEvent } from "react";
-import { Card, Row, Col, Modal, Form } from "react-bootstrap";
+import { Card, Row, Col, Modal, Form, Image } from "react-bootstrap";
 import { Pen } from "react-bootstrap-icons";
 import { editUser } from "../../utils/api/user.api";
 import { SingleProfileProps } from "../../pages/profile/[id]";
+import { Community } from "../../store/community/community.types";
 
 export class UserProfileCard extends Component<any> {
     constructor(props: any) {
@@ -12,6 +13,7 @@ export class UserProfileCard extends Component<any> {
     componentDidMount(): void {
         if (this.props.marauderId) {
             this.props.getMarauder(this.props.marauderId);
+            this.props.fetchCommunities(this.props.marauderId);
         }
     }
 
@@ -22,7 +24,7 @@ export class UserProfileCard extends Component<any> {
     }
 
     render() {
-        const { marauder } = this.props;
+        const { marauder, communities } = this.props;
         return (
             <Card style={{ color: 'white', background: 'black', border: '.1rem solid white' }} key={"userId"}>
                 <Card.Img style={{ height: '20rem', width: 'auto', objectFit: 'cover', position: 'relative' }} variant="top" src={marauder.singleMarauder?.imageSource ? marauder.singleMarauder.imageSource : "https://www.cooperhewitt.org/wp-content/uploads/2018/07/20914_472d45b4ae377c5f_b1.jpg"} /> 
@@ -33,6 +35,21 @@ export class UserProfileCard extends Component<any> {
                                 <Card.Title>{marauder.singleMarauder?.username}</Card.Title>
                                 <hr></hr>
                                 <Card.Text>{marauder.singleMarauder?.about}</Card.Text>
+                                {communities.communities.length > 0 && <hr></hr>}
+                                <>
+                                {
+                                communities.communities?.map(({ communityId, communityName, description, imageSource }: Community) => (
+                                    <Row>
+                                        <Col xs={3}>
+                                            <Image src={imageSource}/>
+                                        </Col>
+                                        <Col>
+                                            <Card.Text key={communityId}>{communityName}</Card.Text>
+                                        </Col>
+                                    </Row>
+                                ))
+                                }
+                                </>
                             </Card.Link>
                         </Col>
                     </Row>

@@ -51,8 +51,7 @@ export const gltfReducer = (
         return { ...state, isLoading: true }
     }
     if (
-        gltfFetchUserSuccess.match(action) ||
-        gltfFetchOtherUserSuccess.match(action)
+        gltfFetchUserSuccess.match(action)
     ) {
         return { ...state, isLoading: false, userGltfs: action.payload}
     }
@@ -65,7 +64,8 @@ export const gltfReducer = (
         gltfCreateSuccess.match(action) ||
         gltfUpdateSuccess.match(action) ||
         gltfDeleteSuccess.match(action) ||
-        gltfFetchAllSuccess.match(action) 
+        gltfFetchAllSuccess.match(action) ||
+        gltfFetchOtherUserSuccess.match(action)
     ) {
         return { ...state, isLoading: false, gltfs: action.payload };
     } 

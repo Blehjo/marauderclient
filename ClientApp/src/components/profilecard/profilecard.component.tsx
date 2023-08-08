@@ -1,5 +1,5 @@
 import { ChangeEvent, Component, FormEvent } from "react";
-import { Card, Row, Col, Modal, Form } from "react-bootstrap";
+import { Card, Row, Col, Modal, Form, Image } from "react-bootstrap";
 import { Pen } from "react-bootstrap-icons";
 import { editUser } from "../../utils/api/user.api";
 import { ProfileProps } from "../../pages/profile";
@@ -111,7 +111,7 @@ export class ProfileCard extends Component<ProfileProps, IDefaultFormFields> {
     }
 
     render() {
-        const { currentUser } = this.props;
+        const { currentUser, communities } = this.props;
         const { showEdit, username, about, emailAddress, password, dateOfBirth, firstName, lastName } = this.state;
         return (
             <Card style={{ color: 'white', background: 'black', border: '.1rem solid white' }} key={"userId"}>
@@ -124,8 +124,24 @@ export class ProfileCard extends Component<ProfileProps, IDefaultFormFields> {
                         <Col xs={9}>
                             <Card.Link style={{ textDecoration: 'none', color: 'white' }} href={`profile/${currentUser?.userId}`}>
                                 <Card.Title>{currentUser?.username}</Card.Title>
+                                <Card.Subtitle>{currentUser?.firstName}</Card.Subtitle>
                                 <hr></hr>
                                 <Card.Text>{currentUser?.about}</Card.Text>
+                                <hr></hr>
+                                <>
+                                {
+                                communities.userCommunities?.map(({ communityId, communityName, description, imageSource }) => (
+                                    <Row>
+                                        <Col xs={3}>
+                                            <Image src={imageSource}/>
+                                        </Col>
+                                        <Col>
+                                            <Card.Text key={communityId}>{communityName}</Card.Text>
+                                        </Col>
+                                    </Row>
+                                ))
+                                }
+                                </>
                             </Card.Link>
                         </Col>
                     </Row>

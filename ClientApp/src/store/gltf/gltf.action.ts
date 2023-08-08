@@ -95,18 +95,18 @@ export type GltfFetchUserFailed = ActionWithPayload<
 >;
 
 export type GltfFetchOtherUserStart = ActionWithPayload<
-    GLTF_ACTION_TYPES.FETCH_USER_START, {
+    GLTF_ACTION_TYPES.FETCH_OTHER_USER_START, {
         userId: string
     }
 >;
 
 export type GltfFetchOtherUserSuccess = ActionWithPayload<
-    GLTF_ACTION_TYPES.FETCH_USER_SUCCESS, 
+    GLTF_ACTION_TYPES.FETCH_OTHER_USER_SUCCESS, 
     Gltf[]
 >;
 
 export type GltfFetchOtherUserFailed = ActionWithPayload<
-    GLTF_ACTION_TYPES.FETCH_USER_FAILED,
+    GLTF_ACTION_TYPES.FETCH_OTHER_USER_FAILED,
     Error
 >;
 
@@ -187,17 +187,17 @@ export const gltfFetchUserFailed = withMatcher(
 
 export const gltfFetchOtherUserStart = withMatcher(
     (userId: string): GltfFetchOtherUserStart => 
-    createAction(GLTF_ACTION_TYPES.FETCH_USER_START, { userId })
+    createAction(GLTF_ACTION_TYPES.FETCH_OTHER_USER_START, { userId })
 );
 
 export const gltfFetchOtherUserSuccess = withMatcher(
     (gltf: Gltf[]): GltfFetchOtherUserSuccess => 
-    createAction(GLTF_ACTION_TYPES.FETCH_USER_SUCCESS, gltf)
+    createAction(GLTF_ACTION_TYPES.FETCH_OTHER_USER_SUCCESS, gltf)
 );
 
 export const gltfFetchOtherUserFailed = withMatcher(
     (error: Error): GltfFetchOtherUserFailed => 
-    createAction(GLTF_ACTION_TYPES.FETCH_USER_FAILED, error)
+    createAction(GLTF_ACTION_TYPES.FETCH_OTHER_USER_FAILED, error)
 );
 
 export const gltfFetchAllStart = withMatcher(
