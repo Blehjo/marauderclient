@@ -45,7 +45,7 @@ export type MemberFetchSingleStart = ActionWithPayload<
 
 export type MemberFetchSingleSuccess = ActionWithPayload<
     MEMBER_ACTION_TYPES.FETCH_SINGLE_SUCCESS, 
-    Member
+    Member[]
 >;
 
 export type MemberFetchSingleFailed = ActionWithPayload<
@@ -106,7 +106,7 @@ export const memberFetchSingleStart = withMatcher(
 );
 
 export const memberFetchSingleSuccess = withMatcher(
-    (member: Member): MemberFetchSingleSuccess => 
+    (member: Member[]): MemberFetchSingleSuccess => 
     createAction(MEMBER_ACTION_TYPES.FETCH_SINGLE_SUCCESS, member)
 );
 

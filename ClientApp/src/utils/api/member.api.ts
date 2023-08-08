@@ -8,10 +8,10 @@ const headers = {
   'Content-Type': 'application/json' 
 }
 
-export async function getSingleMember(memberId: number): Promise<Member> {
+export async function getSingleMember(communityId: number): Promise<Member[]> {
   const response = await axios({
     method: 'get',
-    url: `${api}/${memberId}`,
+    url: `${api}/${communityId}`,
     headers: headers,
     withCredentials: true
   });

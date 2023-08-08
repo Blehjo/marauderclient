@@ -9,23 +9,22 @@ import { DeviceState } from '../../store/device/device.reducer';
 import { XContainer } from '../../styles/devices/devices.styles';
 import { SingleProfileProps } from '../../pages/profile/[id]';
 import { Device } from '../../store/device/device.types';
+import { Community } from '../../store/community/community.types';
 
 type DevicesTabProps = {
     show: boolean;
     showDelete: boolean;
-    deviceId: number | null;
+    communityId: number | null;
 }
 
-export class UserDevicesTab extends Component<any, DevicesTabProps> {
+export class UserCommunitiesTab extends Component<any, DevicesTabProps> {
     constructor(props: any) {
         super(props);
         this.state = {
             show: false,
             showDelete: false,
-            deviceId: null
+            communityId: null
         }
-        this.handleCloseDelete = this.handleCloseDelete.bind(this);
-        this.handleDeleteClick = this.handleDeleteClick.bind(this);
     }
 
     handleClose(): void {
@@ -34,81 +33,65 @@ export class UserDevicesTab extends Component<any, DevicesTabProps> {
         });
     }
 
-    handleClick(deviceId: number): void {
-        this.props.fetchSingleDevice(deviceId);
-        // this.props.getComments(deviceId);
+    handleClick(communityId: number): void {
+        this.props.fetchSingleDevice(communityId);
+        // this.props.getComments(communityId);
         this.setState({
             show: !this.state.show
         });
     }
-    
-    handleCloseDelete(): void {
-        this.setState({
-            showDelete: !this.state.showDelete
-        });
-    }
-
-    handleDeleteClick(deviceId: number): void {
-        this.setState({
-            deviceId: deviceId
-        })
-        this.handleCloseDelete();
-    }
 
     componentDidMount(): void {
-        this.props.fetchDevices();
+        if (this.props.marauderId != undefined) {
+            this.props.fetchCommunities(this.props.marauderId);
+        }
     }
 
-    componentDidUpdate(prevProps: Readonly<{ devices: DeviceState} & { getChats: () => void; }>, prevState: Readonly<DevicesTabProps>, snapshot?: any): void {
-        if (this.props.devices.userDevices?.length !== prevProps.devices.userDevices?.length) {
-            this.props.fetchDevices();
+    componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<DevicesTabProps>, snapshot?: any): void {
+        if (prevProps.marauderId != this.props.marauderId) {
+            this.props.fetchCommunities(this.props.marauderId);
         }
     }
 
     render() {
-        const { devices } = this.props;
+        const { communities } = this.props;
         const { show, showDelete } = this.state;
         return (
             <Fragment>
             {
-            devices.userDevices?.length ?
+            communities.communities?.length ?
                 <ResponsiveMasonry
                     columnsCountBreakPoints={{350: 1, 750: 2, 900: 3, 1050: 4}}
                 >
                     <Masonry>
-                    {devices.userDevices?.map(({ deviceId, deviceName, deviceType, pins }: Device) => {
-                    return <ChatContainer key={deviceId}>
-                            <Card style={{ background: 'black', border: '1px solid white', color: 'white' }} key={deviceId}>
+                    {communities.communities?.map(({ communityId, communityName, description, members }: Community) => {
+                    return <ChatContainer key={communityId}>
+                            <Card style={{ background: 'black', border: '1px solid white', color: 'white' }} key={communityId}>
                             <Card.Img  src={"https://www.artlog.net/sites/default/files/styles/al_colorbox_rules/public/turrell_cregis_golay_federal_studio.jpg?itok=2M4Pyn0A"}/>
                             <Card.ImgOverlay>
                                 <div style={{ cursor: "pointer", position: "absolute", left: "0", top: "0" }}>
                                 <BadgeContainer>
-                                    <Badge style={{ color: 'black' }} bg="light"><ArrowsFullscreen style={{ cursor: 'pointer' }} size={15} onClick={() => this.handleClick(deviceId)}/></Badge>
+                                    <Badge style={{ color: 'black' }} bg="light"><ArrowsFullscreen style={{ cursor: 'pointer' }} size={15} onClick={() => this.handleClick(communityId)}/></Badge>
                                 </BadgeContainer>
                                 {
-                                    deviceType && <BadgeContainer><Badge style={{ color: 'black' }} bg="light">
+                                    description && <BadgeContainer><Badge style={{ color: 'black' }} bg="light">
                                         <Globe size={15}/>
-                                        {` ${deviceType}`}
+                                        {` ${description}`}
                                         </Badge>
                                     </BadgeContainer>
                                 }
                                 {
-                                    pins && <BadgeContainer>
+                                    members && <BadgeContainer>
                                         <Badge style={{ color: 'black' }} bg="light">
                                         <Rocket size={15}/>
-                                        {` ${pins.length}`}
+                                        {` ${members.length}`}
                                         </Badge>
                                     </BadgeContainer>
                                 }
                                 </div>
-                                <Col xs={3}>
-                                    <XContainer>
-                                    <XCircle onClick={() => this.handleDeleteClick(deviceId)} key={deviceId} style={{ background: "white", borderRadius: ".5rem", color: "black", cursor: "pointer", position: "absolute", right: "5", top: "5" }}/>
-                                    </XContainer>
-                                </Col>
                                 </Card.ImgOverlay>
                                 <Card.Body>
-                                    <Card.Text>{deviceName}</Card.Text>
+                                    <Card.Text>{communityName}</Card.Text>
                                 </Card.Body>
                             </Card>
                         </ChatContainer>
@@ -117,7 +100,7 @@ export class UserDevicesTab extends Component<any, DevicesTabProps> {
                 </ResponsiveMasonry> : 
                 <Col xs={12}>
                 <Card style={{ color: 'white', textAlign: 'center', background: 'black', border: '1px solid white', padding: '.5rem' }}>
-                    <Card.Title>"Currently no devices..."</Card.Title>
+                    <Card.Title>"Currently no communities..."</Card.Title>
                 </Card>
                 </Col>
                 }
@@ -128,7 +111,7 @@ export class UserDevicesTab extends Component<any, DevicesTabProps> {
                 >
                     <ModalContainer>
                     <Modal.Header closeButton>
-                        <Modal.Title>{devices.singleDevice?.deviceName}</Modal.Title>
+                        <Modal.Title>{communities.singleCommunity?.communityName}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Row>
@@ -159,7 +142,7 @@ export class UserDevicesTab extends Component<any, DevicesTabProps> {
                     <button className="btn btn-dark" onClick={() => this.handleClose()}>
                         Close
                     </button>
-                    <a href={`/singledevice/${devices.singleDevice?.deviceId}`} style={{ textDecoration: 'none', color: 'white' }} className="btn btn-dark" >
+                    <a href={`/singledevice/${communities.singleCommunity?.communityId}`} style={{ textDecoration: 'none', color: 'white' }} className="btn btn-dark" >
                         Single View
                     </a>
                     </Modal.Footer>

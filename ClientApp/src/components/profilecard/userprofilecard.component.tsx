@@ -10,7 +10,9 @@ export class UserProfileCard extends Component<any> {
     }
     
     componentDidMount(): void {
-        this.props.getMarauder(this.props.marauderId);
+        if (this.props.marauderId) {
+            this.props.getMarauder(this.props.marauderId);
+        }
     }
 
     componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<{}>, snapshot?: any): void {

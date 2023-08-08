@@ -107,40 +107,33 @@ export class UserPostsTab extends Component<any, IDefaultFormFields> {
     }
 
     componentDidMount(): void {
-        this.props.getUserPosts(this.props.marauderId)
+        if (this.props.marauderId != undefined) {
+            this.props.getUserPosts(this.props.marauderId)
+        }
     }
 
-    // componentDidUpdate(prevProps: Readonly<{ posts: PostState; comments: CommentState; } & { getUserPosts: (userId: number) => void; getComments: (postId: number) => void; }>, prevState: Readonly<IDefaultFormFields>, snapshot?: any): void {
-    //     if (this.props.posts.singlePost?.postId != prevProps.posts.singlePost?.postId) {
-    //         this.props.getUserPosts(this.props.marauder.singleMarauder?.userId!);
-    //         this.setState({
-    //             commentValue: ""
-    //         })
-    //     }
-
-    //     if (this.props.comments.comments?.length != prevProps.comments.comments?.length) {
-    //         this.props.getComments(this.props.posts.singlePost?.postId!);
-    //         this.setState({
-    //             commentValue: ""
-    //         })
-    //     }
-
-    //     if (prevProps.marauderId != this.props.marauderId) {
-    //         this.props.getMarauder(this.props.marauderId);
-    //         console.log("BYE::: ", this.props.marauderId)
-    //     }
-
-    // }
     componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<{}>, snapshot?: any): void {
         if (prevProps.marauderId != this.props.marauderId) {
-            console.log("COMPARISON:: ", prevProps.marauderId, this.props.marauderId)
             this.props.getUserPosts(this.props.marauderId);
+        }
+
+        if (this.props.posts.singlePost?.postId != prevProps.posts.singlePost?.postId) {
+            this.props.getUserPosts(this.props.marauder.singleMarauder?.userId!);
+            this.setState({
+                commentValue: ""
+            })
+        }
+
+        if (this.props.comments.comments?.length != prevProps.comments.comments?.length) {
+            this.props.getComments(this.props.posts.singlePost?.postId!);
+            this.setState({
+                commentValue: ""
+            })
         }
     }
 
     render() {
         const { posts, comments } = this.props;
-        console.log("USERPOSTS::: ", posts)
         const { show } = this.state;
         return (
         <Fragment>

@@ -41,12 +41,14 @@ export class UserChatsTab extends Component<any, ChatsTabProps> {
     }
 
     componentDidMount(): void {
-        this.props.getChats();
+        if (this.props.marauderId != undefined) {
+            this.props.getChats(this.props.marauderId);
+        }
     }
 
-    componentDidUpdate(prevProps: Readonly<{ chats: ChatState; } & { getChats: () => void; }>, prevState: Readonly<ChatsTabProps>, snapshot?: any): void {
-        if (this.props.chats.userChats?.length !== prevProps.chats.userChats?.length) {
-            this.props.getChats();
+    componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<ChatsTabProps>, snapshot?: any): void {
+        if (prevProps.marauderId != this.props.marauderId) {
+            this.props.getChats(this.props.marauderId);
         }
     }
 

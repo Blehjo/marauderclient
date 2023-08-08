@@ -146,7 +146,7 @@ class ModalContent extends Component<any, IModalContent> {
                 <button className="btn btn-dark" onClick={() => this.handleClose()}>
                     Close
                 </button>
-                <a href={`/singlechat/${chatId}`} style={{ textDecoration: 'none', color: 'white' }} className="btn btn-dark" onClick={() => this.handleClose()}>
+                <a href={`/chats/${chatId}`} style={{ textDecoration: 'none', color: 'white' }} className="btn btn-dark" onClick={() => this.handleClose()}>
                     Single View
                 </a>
                 </Modal.Footer>
@@ -230,7 +230,7 @@ class ModalContent extends Component<any, IModalContent> {
                         Close
                     </button>
                     <button className="btn btn-dark" >
-                        <a style={{ textDecoration: 'none', color: 'white' }} href={`/singlepost/${postId}`}>
+                        <a style={{ textDecoration: 'none', color: 'white' }} href={`/posts/${postId}`}>
                         Single View
                         </a>
                     </button>
@@ -284,7 +284,7 @@ class ModalContent extends Component<any, IModalContent> {
                 <button className="btn btn-dark" onClick={() => this.handleClose()}>
                     Close
                 </button>
-                <a href={`/singlecommunity/${communityId}`} style={{ textDecoration: 'none', color: 'white' }} className="btn btn-dark" onClick={() => this.handleClose()}>
+                <a href={`/communities/${communityId}`} style={{ textDecoration: 'none', color: 'white' }} className="btn btn-dark" onClick={() => this.handleClose()}>
                     Single View
                 </a>
                 </Modal.Footer>

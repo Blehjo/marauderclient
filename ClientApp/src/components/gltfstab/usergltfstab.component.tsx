@@ -104,40 +104,22 @@ export class UserGltfsTab extends Component<any, IDefaultFormFields> {
     }
 
     componentDidMount(): void {
-        this.props.fetchGltfFiles(this.props.marauderId);
-    }
-
-    componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<{}>, snapshot?: any): void {
-        if (prevProps.marauderId != this.props.marauderId) {
-            console.log("COMPARISON:: ", prevProps.marauderId, this.props.marauderId)
+        if (this.props.marauderId != undefined) {
             this.props.fetchGltfFiles(this.props.marauderId);
         }
     }
 
-    // componentDidUpdate(prevProps: Readonly<{ comments: CommentState; gltfs: GltfState} & { getComments: (gltfId: number) => void; }>, prevState: Readonly<IDefaultFormFields>, snapshot?: any): void {
-    //     // if (this.props.gltfs.gltfs?.length != prevProps.gltfs.gltfs?.length) {
-    //     //     this.props.fetchGltfFiles(this.props.marauder.singleMarauder?.userId!);
-    //     //     this.setState({
-    //     //         fileInformation: ""
-    //     //     })
-    //     // }
-
-    //     if (this.props.gltfs.singleGltf?.gltfId != prevProps.gltfs.singleGltf?.gltfId) {
-    //         this.props.fetchGltfFiles(this.props.marauder.singleMarauder?.userId!);
-    //         this.setState({
-    //             commentValue: ""
-    //         })
-    //     }
-
-    //     if (this.props.comments.comments?.length != prevProps.comments.comments?.length) {
-    //         this.props.getComments(this.props.gltfs.singleGltf?.gltfId!);
-    //         this.setState({
-    //             commentValue: ""
-    //         })
-    //     }
-    // }
-
-    
+    componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<{}>, snapshot?: any): void {
+        if (prevProps.marauderId != this.props.marauderId) {
+            this.props.fetchGltfFiles(this.props.marauderId);
+        }
+        //     if (this.props.comments.comments?.length != prevProps.comments.comments?.length) {
+        //         this.props.getComments(this.props.gltfs.singleGltf?.gltfId!);
+        //         this.setState({
+        //             commentValue: ""
+        //         })
+        //     }
+    }
 
     render() {
         const { gltfs } = this.props;

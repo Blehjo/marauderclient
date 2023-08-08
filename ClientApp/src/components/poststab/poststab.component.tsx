@@ -1,8 +1,8 @@
 import { ChangeEvent, Component, FormEvent, Fragment } from "react";
 import { Badge, Card, Col, Form, Image, Modal, Row } from "react-bootstrap";
-
 import { ArrowsFullscreen, Chat, Rocket, Send, XCircle } from "react-bootstrap-icons";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+
 import { ProfileProps } from "../../pages/profile";
 import { CommentState } from "../../store/comment/comment.reducer";
 import { PostState } from "../../store/post/post.reducer";

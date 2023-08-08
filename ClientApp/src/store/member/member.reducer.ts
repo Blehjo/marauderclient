@@ -43,12 +43,8 @@ export const memberReducer = (
         return { ...state, isLoading: true }
     }
     if (
-        memberFetchSingleSuccess.match(action)
-    ) {
-        return { ...state, isLoading: false, singleMember: action.payload };
-    }
-    if (
         memberCreateSuccess.match(action) ||
+        memberFetchSingleSuccess.match(action) ||
         memberFetchAllSuccess.match(action) 
     ) {
         return { ...state, isLoading: false, members: action.payload };

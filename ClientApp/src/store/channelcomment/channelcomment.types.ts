@@ -23,6 +23,7 @@ export type ChannelComment = {
     channelCommentId: number | null;
     commentValue: string | null;
     mediaLink: string | null;
+    imageSource: string | null;
     type: string | null;
     dateCreated: Date;
     channelId: number | null,
