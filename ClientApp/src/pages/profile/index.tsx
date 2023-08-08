@@ -27,6 +27,7 @@ class Profile extends Component<ProfileProps> {
     componentDidMount(): void {
         this.props.checkSession();
     }
+
     render() {
         const { currentUser } = this.props;
         return (
@@ -56,7 +57,7 @@ class Profile extends Component<ProfileProps> {
                         </Tab>
                         <Tab eventKey="gltfs" title="Gltfs">
                             <GltfsTab { ...this.props } />
-                        </Tab>
+                        </Tab> 
                     </Tabs>
                     </Col>
                 </Row>

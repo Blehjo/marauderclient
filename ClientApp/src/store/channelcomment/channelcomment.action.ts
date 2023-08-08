@@ -104,8 +104,8 @@ export const channelcommentCreateStart = withMatcher(
 );
 
 export const channelcommentCreateSuccess = withMatcher(
-    (comment: ChannelComment[]): ChannelCommentCreateSuccess => 
-    createAction(CHANNEL_COMMENT_ACTION_TYPES.CREATE_SUCCESS, comment)
+    (comments: ChannelComment[]): ChannelCommentCreateSuccess => 
+    createAction(CHANNEL_COMMENT_ACTION_TYPES.CREATE_SUCCESS, comments)
 );
 
 export const channelcommentCreateFailed = withMatcher(
@@ -119,8 +119,8 @@ export const channelcommentUpdateStart = withMatcher(
 );
 
 export const channelcommentUpdateSuccess = withMatcher(
-    (comment: ChannelComment[]): ChannelCommentUpdateSuccess => 
-    createAction(CHANNEL_COMMENT_ACTION_TYPES.UPDATE_SUCCESS, comment)
+    (comments: ChannelComment[]): ChannelCommentUpdateSuccess => 
+    createAction(CHANNEL_COMMENT_ACTION_TYPES.UPDATE_SUCCESS, comments)
 );
 
 export const channelcommentUpdateFailed = withMatcher(

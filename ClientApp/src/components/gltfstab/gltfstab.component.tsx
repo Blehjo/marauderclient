@@ -151,9 +151,9 @@ export class GltfsTab extends Component<ProfileProps, IDefaultFormFields> {
         }
     }
 
-    componentDidMount(): void {
-        this.props.fetchGltfFiles();
-    }
+    // componentDidMount(): void {
+    //     this.props.fetchGltfFiles();
+    // }
 
     componentDidUpdate(prevProps: Readonly<{ comments: CommentState; gltfs: GltfState} & { getComments: (gltfId: number) => void; }>, prevState: Readonly<IDefaultFormFields>, snapshot?: any): void {
         if (this.props.gltfs.gltfs?.length != prevProps.gltfs.gltfs?.length) {
@@ -170,12 +170,12 @@ export class GltfsTab extends Component<ProfileProps, IDefaultFormFields> {
             })
         }
 
-        if (this.props.comments.comments?.length != prevProps.comments.comments?.length) {
-            this.props.getComments(this.props.gltfs.singleGltf?.gltfId!);
-            this.setState({
-                commentValue: ""
-            })
-        }
+        // if (this.props.comments.comments?.length != prevProps.comments.comments?.length) {
+            // this.props.getComments(this.props.gltfs.singleGltf?.gltfId!);
+            // this.setState({
+            //     commentValue: ""
+            // })
+        // }
     }
 
     render() {

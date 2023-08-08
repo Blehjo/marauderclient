@@ -54,6 +54,7 @@ class MessageModal extends Component<MessageModalProps, IMessageModal> {
         .then((response) => this.props.setId(response.messageId));
 
         this.props.createMessageComment(this.props.messages.messageId!, messageValue, imageFile);
+        this.props.openMessages();
     }
 
     showPreview(event: ChangeEvent<HTMLInputElement>) {
@@ -121,7 +122,7 @@ const mapStateToProps = (state: RootState) => {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch<MarauderFetchSingleStart | MessageSetID | MessageCreateStart | MessageCommentCreateStart>) => ({
-    getMarauder: (userId: number) => dispatch(marauderFetchSingleStart(userId)),
+    getMarauder: (userId: string) => dispatch(marauderFetchSingleStart(userId)),
     setId: (messageId: number) => dispatch(messageSetId(messageId)),
     createMessage: (messageValue: string, receiverId: string) => dispatch(messageCreateStart(messageValue, receiverId)),
     createMessageComment: (messageId: number, messageValue: string, imageFile: File) => dispatch(messagecommentCreateStart(messageId, messageValue, imageFile))

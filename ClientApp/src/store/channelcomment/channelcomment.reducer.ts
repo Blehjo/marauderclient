@@ -7,11 +7,13 @@ import {
     channelcommentCreateStart,
     channelcommentCreateSuccess,
     channelcommentDeleteFailed,
+    channelcommentDeleteStart,
     channelcommentDeleteSuccess,
     channelcommentFetchAllFailed,
     channelcommentFetchAllStart,
     channelcommentFetchAllSuccess,
     channelcommentFetchSingleFailed,
+    channelcommentFetchSingleStart,
     channelcommentFetchSingleSuccess,
     channelcommentSetIdFailed,
     channelcommentSetIdStart,
@@ -44,14 +46,11 @@ export const channelcommentReducer = (
     if (
         channelcommentFetchAllStart.match(action) ||
         channelcommentCreateStart.match(action) ||
-        channelcommentSetIdStart.match(action)
+        channelcommentSetIdStart.match(action) ||
+        channelcommentFetchSingleStart.match(action) ||
+        channelcommentDeleteStart.match(action)
     ) {
         return { ...state, isLoading: true }
-    }
-    if (
-        channelcommentFetchSingleSuccess.match(action) 
-    ) {
-        return { ...state, isLoading: false, comments: action.payload }
     }
     if (
         channelcommentSetIdSuccess.match(action)
@@ -62,7 +61,8 @@ export const channelcommentReducer = (
         channelcommentCreateSuccess.match(action) ||
         channelcommentUpdateSuccess.match(action) ||
         channelcommentDeleteSuccess.match(action) ||
-        channelcommentFetchAllSuccess.match(action) 
+        channelcommentFetchAllSuccess.match(action) ||
+        channelcommentFetchSingleSuccess.match(action) 
     ) {
         return { ...state, isLoading: false, comments: action.payload };
     } 

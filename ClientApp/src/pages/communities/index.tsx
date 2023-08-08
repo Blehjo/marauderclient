@@ -9,6 +9,7 @@ import { RootState } from "../../store/store";
 import { CommunityContainer } from "../../styles/communities/communities.styles";
 import { Community } from "../../store/community/community.types";
 import { Member } from "../../store/member/member.types";
+import { MemberState } from "../../store/member/member.reducer";
 
 type CommunityProps = ConnectedProps<typeof connector>;
 
@@ -78,7 +79,13 @@ class Communities extends Component<CommunityProps, ICommunity> {
         }
     }
 
-    componentDidUpdate(prevProps: Readonly<{ communities: Community[]; singleCommunity: Community | null; members: Member[] | null; } & { getAll: () => void; getCommunity: (communityId: number) => void; createCommunity: (communityName: string, description: string, mediaLink: string, imageFile: File) => void; joinCommunity: (communityId: number) => void; getMembers: (communityId: number) => void; }>, prevState: Readonly<ICommunity>, snapshot?: any): void {
+    // componentDidUpdate(prevProps: Readonly<{ communities: Community[]; singleCommunity: Community | null; members: Member[] | null; } & { getAll: () => void; getCommunity: (communityId: number) => void; createCommunity: (communityName: string, description: string, mediaLink: string, imageFile: File) => void; joinCommunity: (communityId: number) => void; getMembers: (communityId: number) => void; }>, prevState: Readonly<ICommunity>, snapshot?: any): void {
+    //     if (prevProps.communities.length != this.props.communities.length) {
+    //         this.props.getAll();
+    //     }
+    // }
+
+    componentDidUpdate(prevProps: Readonly<{ communities: Community[]; singleCommunity: Community | null; members: MemberState; } & { getAll: () => void; getCommunity: (communityId: number) => void; createCommunity: (communityName: string, description: string, mediaLink: string, imageFile: File) => void; joinCommunity: (communityId: number) => void; getMembers: (communityId: number) => void; }>, prevState: Readonly<ICommunity>, snapshot?: any): void {
         if (prevProps.communities.length != this.props.communities.length) {
             this.props.getAll();
         }
@@ -138,7 +145,7 @@ const mapStateToProps = (state: RootState) => {
     return { 
         communities: state.community.communities,
         singleCommunity: state.community.singleCommunity,
-        members: state.member.members 
+        members: state.member 
     };
 };
 

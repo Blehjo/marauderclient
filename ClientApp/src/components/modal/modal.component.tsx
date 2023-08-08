@@ -148,7 +148,7 @@ class ModalContent extends Component<any, IModalContent> {
                     Close
                 </button>
                 <a href={`/chats/${chatId}`} style={{ textDecoration: 'none', color: 'white' }} className="btn btn-dark" onClick={() => this.handleClose()}>
-                    Single View
+                    See Chat
                 </a>
                 </Modal.Footer>
             </ModalContainer>
@@ -232,7 +232,7 @@ class ModalContent extends Component<any, IModalContent> {
                     </button>
                     <button className="btn btn-dark" >
                         <a style={{ textDecoration: 'none', color: 'white' }} href={`/posts/${postId}`}>
-                        Single View
+                        See Post
                         </a>
                     </button>
                     </Modal.Footer>
@@ -268,7 +268,7 @@ class ModalContent extends Component<any, IModalContent> {
                         <div>Members</div>
                         <div style={{ height: "65%", overflowY: "auto" }}>
                         {
-                            members?.map(({ memberId, user, dateCreated }: Member) => {
+                            members.members?.map(({ memberId, user, dateCreated }: Member) => {
                                 return <Card style={{ margin: '1rem' }} className="bg-dark" key={memberId}>
                                     <TextContainer>
                                         <Card.Text>{user.username}</Card.Text>
@@ -287,7 +287,7 @@ class ModalContent extends Component<any, IModalContent> {
                     Close
                 </button>
                 <a href={`/communities/${communityId}`} style={{ textDecoration: 'none', color: 'white' }} className="btn btn-dark" onClick={() => this.handleClose()}>
-                    Single View
+                    See Community
                 </a>
                 </Modal.Footer>
             </ModalContainer>

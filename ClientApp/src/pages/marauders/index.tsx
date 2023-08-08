@@ -27,11 +27,11 @@ const mapStateToProps = (state: RootState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<MarauderFetchAllStart | MessageSetID | MarauderFetchSingleStart | MessageCreateStart | MessageCommentCreateStart | MarauderSetIdStart>) => ({
 	getAll: () => dispatch(marauderFetchAllStart()),
-    getMarauder: (userId: number ) => dispatch(marauderFetchSingleStart(userId)),
+    getMarauder: (userId: string ) => dispatch(marauderFetchSingleStart(userId)),
     sendMessage: (messageValue: string, receiverId: string) => dispatch(messageCreateStart(messageValue, receiverId)),
     createMessageComment: (messageId: number, messageValue: string, mediaLink: File) => dispatch(messagecommentCreateStart(messageId, messageValue, mediaLink)),
     setId: (messageId: number) => dispatch(messageSetId(messageId)),
-    setUserId: (marauderId: number) => dispatch(marauderSetIdStart(marauderId))
+    setUserId: (marauderId: string) => dispatch(marauderSetIdStart(marauderId))
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

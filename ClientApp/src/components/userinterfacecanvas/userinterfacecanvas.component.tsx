@@ -40,7 +40,7 @@ class UserInterfaceCanvas extends Component<any, IUserCanvas> {
         return (
             <UserInterfaceCanvasContainer>
                 <Offcanvas style={{ background: 'black', width: '25%', borderRadius: '.5rem 0rem 0rem .5rem', color: 'white' }} scroll backdrop={false} placement="end" show={show} onHide={handleClick}>
-                    <Offcanvas.Header >
+                    {user && <Offcanvas.Header >
                         <Offcanvas.Title style={{ lineHeight: '1.5rem'}}>
                             <Row xs={2}>
                             <Col xs={3}>
@@ -59,7 +59,7 @@ class UserInterfaceCanvas extends Component<any, IUserCanvas> {
                             </Row>
                         </Offcanvas.Title>
                         <CloseButton className="bg-light" onClick={handleClick}></CloseButton>
-                    </Offcanvas.Header>
+                    </Offcanvas.Header>}
                     <Offcanvas.Body>
                     <Nav.Item className="ms-4 d-flex align-items-center">
                         <a href="/voyager">

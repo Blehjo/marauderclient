@@ -40,7 +40,7 @@ export class CommunityChannels extends Component<any, ICommunityChannels> {
     handleClick(): void {
         this.setState({
             createModal: !this.state.createModal
-        })
+        });
     }
 
     createChannel(event: FormEvent<HTMLFormElement>): void {

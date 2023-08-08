@@ -57,13 +57,12 @@ export class FormChannel extends Component<any, IFormChannel> {
     handleChannelComments(comment?: ReactNode): Array<ReactNode> {
         const content: Array<ReactNode> = [];
         const { channelcomments } = this.props;
-        console.log("COMMENTS:: ", channelcomments)
-        // for (let i = 0; i < channelcomments.channelcomments.length; i++) {
-        //     content.push(this.commentFunction(channelcomments.channelcomments[i]));
-        // }
-        // if (comment != undefined) {
-        //     content.push(comment);
-        // }
+        for (let i = 0; i < channelcomments.comments?.length; i++) {
+            content.push(this.commentFunction(channelcomments.comments[i]));
+        }
+        if (comment != undefined) {
+            content.push(comment);
+        }
         return content;
     }
 
@@ -73,7 +72,8 @@ export class FormChannel extends Component<any, IFormChannel> {
         this.props.createChannelComment(commentValue, this.props.channels.channelId!, imageFile);
         this.state.connection.send("newMessage", "foo", commentValue);
         this.state.connection.on('messageReceived', (comment: any) => {
-            this.props.setChannelId(comment.channelCommentId);
+            console.log("COMMENT:::: ", comment)
+            this.props.setChannelCommentId(comment.channelCommentId);
         })
         this.setState({
             ...this.state, commentValue: ""
@@ -111,7 +111,6 @@ export class FormChannel extends Component<any, IFormChannel> {
     componentDidMount(): void {
         if (this.props.channels.channelId != null) {
             this.props.getComments(this.props.channels.channelId);
-            console.log("ID:::: ", this.props.channels.channelId!)
         } 
     }
 
@@ -125,12 +124,13 @@ export class FormChannel extends Component<any, IFormChannel> {
             }, () => {
                 this.state.connection.start().catch((err: string) => document.write(err));
             });
+            console.log("CONNECTED!")
         }
 
         if (prevProps.channelcomments.channelCommentId != this.props.channelcomments.channelCommentId) {
             this.state.connection.on('messageReceived', (comment: any) => {
+                console.log("UPDATE::: ", comment)
                 this.props.getComments(this.props.channels.channelId!)
-                console.log("ID::::: ", this.props.channels.channelId!)
             });
         }
     }
