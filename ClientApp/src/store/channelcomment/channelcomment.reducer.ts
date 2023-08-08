@@ -4,6 +4,7 @@ import { ChannelComment } from './channelcomment.types';
 
 import {
     channelcommentCreateFailed,
+    channelcommentCreateStart,
     channelcommentCreateSuccess,
     channelcommentDeleteFailed,
     channelcommentDeleteSuccess,
@@ -12,6 +13,9 @@ import {
     channelcommentFetchAllSuccess,
     channelcommentFetchSingleFailed,
     channelcommentFetchSingleSuccess,
+    channelcommentSetIdFailed,
+    channelcommentSetIdStart,
+    channelcommentSetIdSuccess,
     channelcommentUpdateFailed,
     channelcommentUpdateSuccess
 } from './channelcomment.action';
@@ -38,7 +42,9 @@ export const channelcommentReducer = (
     state = INITIAL_STATE, action: AnyAction
 ): ChannelCommentState => {
     if (
-        channelcommentFetchAllStart.match(action) 
+        channelcommentFetchAllStart.match(action) ||
+        channelcommentCreateStart.match(action) ||
+        channelcommentSetIdStart.match(action)
     ) {
         return { ...state, isLoading: true }
     }
@@ -47,6 +53,11 @@ export const channelcommentReducer = (
     ) {
         return { ...state, isLoading: false, comments: action.payload }
     }
+    if (
+        channelcommentSetIdSuccess.match(action)
+    ) {
+        return { ...state, isLoading: false, channelCommentId: action.payload.channelCommentId }
+    } 
     if (
         channelcommentCreateSuccess.match(action) ||
         channelcommentUpdateSuccess.match(action) ||
@@ -60,7 +71,8 @@ export const channelcommentReducer = (
         channelcommentUpdateFailed.match(action) ||
         channelcommentDeleteFailed.match(action) ||
         channelcommentFetchSingleFailed.match(action) ||
-        channelcommentFetchAllFailed.match(action) 
+        channelcommentFetchAllFailed.match(action) ||
+        channelcommentSetIdFailed.match(action)
     ) {
       return { ...state, isLoading: false, error: action.payload };
     }

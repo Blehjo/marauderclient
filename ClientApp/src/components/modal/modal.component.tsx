@@ -8,6 +8,7 @@ import { Post } from "../../store/post/post.types";
 import { Chat } from "../../store/chat/chat.types";
 import { ChatComment } from "../../store/chatcomment/chatcomment.types";
 import { Comment } from "../../store/comment/comment.types";
+import { Member } from "../../store/member/member.types";
 
 interface IModalContent {
     show: boolean;
@@ -241,7 +242,8 @@ class ModalContent extends Component<any, IModalContent> {
     }
 
     communityFunction(prop: Community) {
-        const { communityName, description, communityId, members, imageSource, mediaLink  } = prop;
+        const { communityName, description, communityId, imageSource, mediaLink  } = prop;
+        const { members } = this.props;
         return (
             <ModalContainer>
                 <Modal.Header closeButton>
@@ -266,8 +268,8 @@ class ModalContent extends Component<any, IModalContent> {
                         <div>Members</div>
                         <div style={{ height: "65%", overflowY: "auto" }}>
                         {
-                            members?.map(({ memberId, user, dateCreated }) => {
-                                return <Card className="bg-dark" key={memberId}>
+                            members?.map(({ memberId, user, dateCreated }: Member) => {
+                                return <Card style={{ margin: '1rem' }} className="bg-dark" key={memberId}>
                                     <TextContainer>
                                         <Card.Text>{user.username}</Card.Text>
                                         <Card.Text>Joined: {utcConverter(dateCreated)}</Card.Text>
@@ -304,7 +306,10 @@ class ModalContent extends Component<any, IModalContent> {
     }
 
     // componentDidMount(): void {
-    //     this.props.getPostComments(postId);
+    //     if (this.props.communities.singleCommunity?.communityId != null) {
+    //         this.props.getMembers(this.props.communities.singleCommunity?.communityId!);
+    //         console.log("MEMBERS:: ", this.props.members)
+    //     }
     // }
 
     // componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<IModalContent>, snapshot?: any): void {

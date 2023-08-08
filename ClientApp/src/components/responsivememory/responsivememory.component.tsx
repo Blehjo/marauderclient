@@ -50,6 +50,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
             this.props.getComments(id);
         } else {
             this.props.getCommunity(id);
+            this.props.getMembers(id);
         }
         this.setState({
             show: !this.state.show

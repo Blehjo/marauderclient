@@ -1,9 +1,10 @@
 import { ChangeEvent, Component, FormEvent, ReactNode } from "react";
-import { ChatBox, ChatForm, Container, HeaderContainer } from "../../styles/crew/crew.styles";
 import { Col, Form, Row } from "react-bootstrap";
-import { InputContainer, TextContainer, UserTextContainer } from "../../styles/messages/messages.styles";
 import { Send } from "react-bootstrap-icons";
 import { ChannelComment } from "../../store/channelcomment/channelcomment.types";
+import { ChatForm, Container } from "../../styles/crew/crew.styles";
+import { InputContainer, TextContainer, UserTextContainer } from "../../styles/messages/messages.styles";
+import { HubConnectionBuilder } from "@microsoft/signalr";
 
 interface IFormChannel {
     socket: boolean;
@@ -25,6 +26,9 @@ export class FormChannel extends Component<any, IFormChannel> {
             imageFile: null,
             connection: null
         }
+        this.handleChange = this.handleChange.bind(this);
+        this.sendMessage = this.sendMessage.bind(this);
+        this.showPreview = this.showPreview.bind(this);
     }
 
     commentFunction(prop: ChannelComment) {
@@ -50,25 +54,26 @@ export class FormChannel extends Component<any, IFormChannel> {
         this.setState({ ...this.state, [name]: value });
     }
 
-    handleChannelComments(message?: ReactNode): Array<ReactNode> {
+    handleChannelComments(comment?: ReactNode): Array<ReactNode> {
         const content: Array<ReactNode> = [];
-        const { messagecomments } = this.props;
-        for (let i = 0; i < messagecomments.userMessagecomments.length; i++) {
-            content.push(this.commentFunction(messagecomments.userMessagecomments[i]));
-        }
-        if (message != undefined) {
-            content.push(message);
-        }
+        const { channelcomments } = this.props;
+        console.log("COMMENTS:: ", channelcomments)
+        // for (let i = 0; i < channelcomments.channelcomments.length; i++) {
+        //     content.push(this.commentFunction(channelcomments.channelcomments[i]));
+        // }
+        // if (comment != undefined) {
+        //     content.push(comment);
+        // }
         return content;
     }
 
     handleComment(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const { commentValue, imageFile } = this.state;
-        this.props.createMessageComment(this.props.messages.messageId!, commentValue, imageFile);
+        this.props.createChannelComment(commentValue, this.props.channels.channelId!, imageFile);
         this.state.connection.send("newMessage", "foo", commentValue);
-        this.state.connection.on('messageReceived', (message: any) => {
-            this.props.setMessageCommentId(message.messageCommentId);
+        this.state.connection.on('messageReceived', (comment: any) => {
+            this.props.setChannelId(comment.channelCommentId);
         })
         this.setState({
             ...this.state, commentValue: ""
@@ -102,6 +107,37 @@ export class FormChannel extends Component<any, IFormChannel> {
             });
         }
     }
+
+    componentDidMount(): void {
+        if (this.props.channels.channelId != null) {
+            this.props.getComments(this.props.channels.channelId);
+            console.log("ID:::: ", this.props.channels.channelId!)
+        } 
+    }
+
+    componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<IFormChannel>, snapshot?: any): void {
+        if (prevProps.channels.channelId != this.props.channels.channelId) {
+            this.setState({
+                connection: new HubConnectionBuilder()
+                .withUrl(`https://localhost:7144/hub/community/${this.props.channels.channelId}`)
+                .withAutomaticReconnect()
+                .build()
+            }, () => {
+                this.state.connection.start().catch((err: string) => document.write(err));
+            });
+        }
+
+        if (prevProps.channelcomments.channelCommentId != this.props.channelcomments.channelCommentId) {
+            this.state.connection.on('messageReceived', (comment: any) => {
+                this.props.getComments(this.props.channels.channelId!)
+                console.log("ID::::: ", this.props.channels.channelId!)
+            });
+        }
+    }
+
+    // componentWillUnmount(): void {
+    //     this.state.connection.stop();
+    // }
 
     render() {
         const { commentValue } = this.state;

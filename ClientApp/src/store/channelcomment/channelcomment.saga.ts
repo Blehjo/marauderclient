@@ -10,9 +10,13 @@ import {
     getSingleComment
 } from '../../utils/api/channelcomment.api';
 import { ChannelFetchSingleStart } from '../channel/channel.action';
-import { ChannelCommentCreateStart, ChannelCommentDeleteStart, ChannelCommentFetchSingleStart, ChannelCommentUpdateStart, channelcommentCreateFailed, channelcommentDeleteFailed, channelcommentDeleteSuccess, channelcommentFetchAllFailed, channelcommentFetchSingleFailed, channelcommentFetchSingleSuccess, channelcommentUpdateFailed, channelcommentUpdateSuccess } from './channelcomment.action';
+import { ChannelCommentCreateStart, ChannelCommentDeleteStart, ChannelCommentFetchSingleStart, ChannelCommentSetIdStart, ChannelCommentUpdateStart, channelcommentCreateFailed, channelcommentCreateSuccess, channelcommentDeleteFailed, channelcommentDeleteSuccess, channelcommentFetchAllFailed, channelcommentFetchSingleFailed, channelcommentFetchSingleSuccess, channelcommentSetIdSuccess, channelcommentUpdateFailed, channelcommentUpdateSuccess } from './channelcomment.action';
 
-export function* createComment({ payload: { channelId, commentValue, imageFile }}: ChannelCommentCreateStart ) {
+export function* startSetId({ payload: { channelCommentId }}: ChannelCommentSetIdStart) {
+    yield* put(channelcommentSetIdSuccess(channelCommentId));
+}
+
+export function* createComment({ payload: { commentValue, channelId, imageFile }}: ChannelCommentCreateStart ) {
     const formData = new FormData();
     formData.append('commentValue', commentValue);
     formData.append('imageFile', imageFile);
@@ -22,7 +26,7 @@ export function* createComment({ payload: { channelId, commentValue, imageFile }
             channelId,
             formData
         ); 
-        yield* put(channelcommentFetchSingleSuccess(comments));
+        yield* put(channelcommentCreateSuccess(comments));
     } catch (error) {
         yield* put(channelcommentCreateFailed(error as Error));
     }
@@ -57,11 +61,11 @@ export function* removeComment({ payload: { commentId }}: ChannelCommentDeleteSt
 }
 
 export function* fetchSingleComment({ 
-    payload: { commentId } }: ChannelCommentFetchSingleStart) {
+    payload: { channelId } }: ChannelCommentFetchSingleStart) {
     try {
         const comment = yield* call(
             getSingleComment,
-            commentId 
+            channelId 
         );
         yield* put(channelcommentFetchSingleSuccess(comment));
     } catch (error) {
@@ -76,6 +80,13 @@ export function* fetchAllComments({ payload: { channelId } }: ChannelFetchSingle
     } catch (error) {
         yield* put(channelcommentFetchAllFailed(error as Error));
     }
+}
+
+export function* onSetId() {
+    yield* takeLatest(
+        CHANNEL_COMMENT_ACTION_TYPES.SET_ID_START,
+        startSetId
+    );
 }
 
 export function* onCreateStart() {
@@ -115,6 +126,7 @@ export function* onFetchStart() {
 
 export function* channelcommentSagas() {
     yield* all([
+        call(onSetId),
         call(onCreateStart),
         call(onUpdateStart),
         call(onDeleteStart),

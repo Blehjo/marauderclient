@@ -9,7 +9,11 @@ import {
   getChannels,
   getSingleChannel
 } from '../../utils/api/channel.api';
-import { ChannelCreateStart, ChannelDeleteStart, ChannelFetchAllStart, ChannelFetchSingleStart, ChannelFetchSingleSuccess, ChannelUpdateStart, channelCreateFailed, channelCreateSuccess, channelDeleteFailed, channelDeleteSuccess, channelFetchAllFailed, channelFetchAllStart, channelFetchAllSuccess, channelFetchSingleFailed, channelFetchSingleSuccess, channelUpdateFailed, channelUpdateSuccess } from './channel.action';
+import { ChannelCreateStart, ChannelDeleteStart, ChannelFetchAllStart, ChannelFetchSingleStart, ChannelFetchSingleSuccess, ChannelSetIdStart, ChannelUpdateStart, channelCreateFailed, channelCreateSuccess, channelDeleteFailed, channelDeleteSuccess, channelFetchAllFailed, channelFetchAllStart, channelFetchAllSuccess, channelFetchSingleFailed, channelFetchSingleSuccess, channelSetIdSuccess, channelUpdateFailed, channelUpdateSuccess } from './channel.action';
+
+export function* startSetId({ payload: { channelId }}: ChannelSetIdStart) {
+    yield* put(channelSetIdSuccess(channelId));
+}
 
 export function* createChannel({ payload: { description, communityId }}: ChannelCreateStart ) {
     try {
@@ -75,6 +79,13 @@ export function* fetchAllChannels({
     }
 }
 
+export function* onSetId() {
+    yield* takeLatest(
+        CHANNEL_ACTION_TYPES.SET_ID_START,
+        startSetId
+    );
+}
+
 export function* onCreateStart() {
     yield* takeLatest(
         CHANNEL_ACTION_TYPES.CREATE_START, 
@@ -112,6 +123,7 @@ export function* onFetchsStart() {
 
 export function* channelSagas() {
     yield* all([
+        call(onSetId),
         call(onCreateStart),
         call(onUpdateStart),
         call(onDeleteStart),

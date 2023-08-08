@@ -4,7 +4,7 @@ import { Send } from "react-bootstrap-icons";
 import { ConnectedProps, connect } from "react-redux";
 import ResponsiveMemory from "../../components/responsivememory/responsivememory.component";
 import { CommunityCreateStart, CommunityFetchAllStart, CommunityFetchSingleStart, communityCreateStart, communityFetchAllStart, communityFetchSingleStart } from "../../store/community/community.action";
-import { MemberCreateStart, memberCreateStart } from "../../store/member/member.action";
+import { MemberCreateStart, MemberFetchSingleStart, memberCreateStart, memberFetchSingleStart } from "../../store/member/member.action";
 import { RootState } from "../../store/store";
 import { CommunityContainer } from "../../styles/communities/communities.styles";
 import { Community } from "../../store/community/community.types";
@@ -78,7 +78,7 @@ class Communities extends Component<CommunityProps, ICommunity> {
         }
     }
 
-    componentDidUpdate(prevProps: Readonly<{ communities: Community[]; singleCommunity: Community; members: Member[]; } & { getAll: () => void; getCommunity: (communityId: number) => void; createCommunity: (communityName: string, description: string, mediaLink: string, imageFile: File) => void; joinCommunity: (communityId: number) => void; }>, prevState: Readonly<ICommunity>, snapshot?: any): void {
+    componentDidUpdate(prevProps: Readonly<{ communities: Community[]; singleCommunity: Community | null; members: Member[] | null; } & { getAll: () => void; getCommunity: (communityId: number) => void; createCommunity: (communityName: string, description: string, mediaLink: string, imageFile: File) => void; joinCommunity: (communityId: number) => void; getMembers: (communityId: number) => void; }>, prevState: Readonly<ICommunity>, snapshot?: any): void {
         if (prevProps.communities.length != this.props.communities.length) {
             this.props.getAll();
         }
@@ -142,11 +142,12 @@ const mapStateToProps = (state: RootState) => {
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<CommunityFetchAllStart | CommunityFetchSingleStart | CommunityCreateStart | MemberCreateStart>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<MemberFetchSingleStart | CommunityFetchAllStart | CommunityFetchSingleStart | CommunityCreateStart | MemberCreateStart>) => ({
 	getAll: () => dispatch(communityFetchAllStart()),
     getCommunity: (communityId: number) => dispatch(communityFetchSingleStart(communityId)),
     createCommunity: (communityName: string, description: string, mediaLink: string, imageFile: File) => dispatch(communityCreateStart(communityName, description, mediaLink, imageFile)),
-    joinCommunity: (communityId: number) => dispatch(memberCreateStart(communityId))
+    joinCommunity: (communityId: number) => dispatch(memberCreateStart(communityId)),
+    getMembers: (communityId: number) => dispatch(memberFetchSingleStart(communityId))
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

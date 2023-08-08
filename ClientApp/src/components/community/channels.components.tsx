@@ -32,6 +32,9 @@ export class CommunityChannels extends Component<any, ICommunityChannels> {
         }
         this.handleClick = this.handleClick.bind(this);
         this.openDeleteModal = this.openDeleteModal.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.createChannel = this.createChannel.bind(this);
+        this.deleteChannel = this.deleteChannel.bind(this);
     }
 
     handleClick(): void {
@@ -40,9 +43,11 @@ export class CommunityChannels extends Component<any, ICommunityChannels> {
         })
     }
 
-    createChannel(): void {
+    createChannel(event: FormEvent<HTMLFormElement>): void {
+        event.preventDefault();
         const { description } = this.state;
         this.props.createChannel(description, this.props.communityId!);
+        this.handleClick();
     }
 
     openDeleteModal(): void {
@@ -58,13 +63,16 @@ export class CommunityChannels extends Component<any, ICommunityChannels> {
         })
     }
     
-    deleteChannel(): void {
+    deleteChannel(event: any): void {
+        event.preventDefault();
         const { channelQueueId } = this.state;
         this.props.deleteChannel(channelQueueId);
+        this.openDeleteModal();
     }
 
     getChannelComments(channelId: number): void {
         this.props.getComments(channelId);
+        this.props.setChannelId(channelId);
     }
 
     handleChange(event: ChangeEvent<HTMLInputElement>): void {
@@ -79,12 +87,19 @@ export class CommunityChannels extends Component<any, ICommunityChannels> {
         }
     }
 
+    componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<ICommunityChannels>, snapshot?: any): void {
+        if (prevProps.communityId != this.props.communityId) {
+            this.props.fetchSingleCommunity(this.props.communityId);
+            this.props.getChannels(this.props.communityId);
+        }
+    }
+
     render() {
         const { channels, communities, user } = this.props;
-        const { description, deleteModal, createModal, channelQueueId } = this.state;
+        const { description, deleteModal, createModal } = this.state;
         return (
             <CrewMemberContainer>
-                {user?.userId == communities.singleCommunity?.user.userId && <CardContainer key='cardcontainer' onClick={this.handleClick}>New Channel +</CardContainer>}
+                {user?.userId == communities.singleCommunity?.userId && <CardContainer key='cardcontainer' onClick={this.handleClick}>New Channel +</CardContainer>}
                 {
                     channels.channels?.map(({ channelId, description, dateCreated, communityId }: Channel, index: number) => (
                         <Card key={channelId} onClick={() => this.getChannelComments(channelId!)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer' }}>
@@ -94,7 +109,7 @@ export class CommunityChannels extends Component<any, ICommunityChannels> {
                                     {description}
                                     </Textfit>
                                 </Col>
-                                {user?.userId == communities.singleCommunity?.user.userId && <Col key='col3' xs={1}>
+                                {user?.userId == communities.singleCommunity?.userId && <Col key='col3' xs={1}>
                                     <XContainer>
                                         <XCircle onClick={() => this.handleDelete(channelId!)} />
                                     </XContainer>
@@ -104,7 +119,6 @@ export class CommunityChannels extends Component<any, ICommunityChannels> {
                     ))
                 }
                 <Modal show={createModal} onHide={() => this.handleClick()}>
-                    <ModalPostContainer>
                     <Modal.Header closeButton>
                     <Modal.Title>Channel</Modal.Title>
                     </Modal.Header>
@@ -128,7 +142,6 @@ export class CommunityChannels extends Component<any, ICommunityChannels> {
                     </button>
                     </Modal.Footer>
                     </Form>
-                    </ModalPostContainer>
                 </Modal>
                 <Modal show={deleteModal} onHide={() => this.openDeleteModal()}>
                     <Modal.Body style={{ textAlign: "center", color: "black" }}>
@@ -138,7 +151,7 @@ export class CommunityChannels extends Component<any, ICommunityChannels> {
                     <button className="btn btn-secondary" onClick={() => this.openDeleteModal()}>
                         Cancel
                     </button>
-                    <button onClick={() => this.deleteChannel()} className="btn btn-primary">
+                    <button onClick={this.deleteChannel} className="btn btn-primary">
                         Delete
                     </button>
                     </Modal.Footer>

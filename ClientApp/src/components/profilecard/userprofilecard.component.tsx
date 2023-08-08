@@ -29,7 +29,7 @@ export class UserProfileCard extends Component<any> {
                 <Card.Body>
                     <Row xs={2}>
                         <Col xs={9}>
-                            <Card.Link style={{ textDecoration: 'none', color: 'white' }} href={`profile/${marauder.singleMarauder?.userId}`}>
+                            <Card.Link style={{ textDecoration: 'none', color: 'white' }} href={`/profile/${marauder.singleMarauder?.userId}`}>
                                 <Card.Title>{marauder.singleMarauder?.username}</Card.Title>
                                 <hr></hr>
                                 <Card.Text>{marauder.singleMarauder?.about}</Card.Text>

@@ -1,23 +1,19 @@
 import { Dispatch } from "react";
-import { Card, Col, Dropdown, Form, Modal, Row } from "react-bootstrap";
-import { PencilSquare, Plus, Send, XCircle } from "react-bootstrap-icons";
 import { ConnectedProps, connect } from "react-redux";
 
 import { useRouter } from "next/router";
 import { CommunityChannels } from "../../components/community/channels.components";
-import { ChannelCreateStart, ChannelDeleteStart, ChannelFetchAllStart, channelCreateStart, channelDeleteStart, channelFetchAllStart } from "../../store/channel/channel.action";
-import { ChannelCommentCreateStart, ChannelCommentFetchSingleStart, channelcommentFetchSingleStart } from "../../store/channelcomment/channelcomment.action";
+import { FormChannel } from "../../components/community/form.component";
+import { MembersChannel } from "../../components/community/members.component";
+import { ChannelCreateStart, ChannelDeleteStart, ChannelFetchAllStart, ChannelSetIdStart, channelCreateStart, channelDeleteStart, channelFetchAllStart, channelSetIdStart } from "../../store/channel/channel.action";
+import { ChannelCommentCreateStart, ChannelCommentFetchSingleStart, ChannelCommentSetIdStart, channelcommentCreateStart, channelcommentFetchSingleStart, channelcommentSetIdStart } from "../../store/channelcomment/channelcomment.action";
 import { CommunityFetchOtherUsercommunitiesStart, CommunityFetchSingleStart, communityFetchOtherUsercommunitiesStart, communityFetchSingleStart } from "../../store/community/community.action";
 import { GltfFetchOtherUserStart, gltfFetchOtherUserStart } from "../../store/gltf/gltf.action";
 import { MarauderFetchSingleStart, marauderFetchSingleStart } from "../../store/marauder/marauder.action";
+import { MemberDeleteStart, MemberFetchSingleStart, memberDeleteStart, memberFetchSingleStart } from "../../store/member/member.action";
 import { PostFetchUserPostsStart, postFetchUserPostsStart } from "../../store/post/post.action";
 import { RootState } from "../../store/store";
-import { ChatBox, ChatForm, ChatsContainer, Container, CrewContainer, HeaderContainer, PenContainer } from "../../styles/crew/crew.styles";
-import { ButtonContainer, CardContainer, FormContainer, XContainer } from "../../styles/devices/devices.styles";
-import { InputContainer } from "../../styles/messages/messages.styles";
-import { FormChannel } from "../../components/community/form.component";
-import { MembersChannel } from "../../components/community/members.component";
-import { MemberDeleteStart, MemberFetchAllStart, MemberFetchSingleStart, memberDeleteStart, memberFetchAllStart, memberFetchSingleStart } from "../../store/member/member.action";
+import { CrewContainer } from "../../styles/crew/crew.styles";
 
 export type SingleCommunityProps = ConnectedProps<typeof connector>;
 
@@ -50,12 +46,15 @@ const mapToStateProps = (state: RootState) => {
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<MemberFetchSingleStart | MemberDeleteStart | ChannelCreateStart | ChannelDeleteStart | MarauderFetchSingleStart | PostFetchUserPostsStart | ChannelCommentFetchSingleStart | ChannelFetchAllStart | GltfFetchOtherUserStart | CommunityFetchOtherUsercommunitiesStart | CommunityFetchSingleStart | ChannelCommentCreateStart>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<ChannelCommentSetIdStart | ChannelSetIdStart | ChannelCommentCreateStart | MemberFetchSingleStart | MemberDeleteStart | ChannelCreateStart | ChannelDeleteStart | MarauderFetchSingleStart | PostFetchUserPostsStart | ChannelCommentFetchSingleStart | ChannelFetchAllStart | GltfFetchOtherUserStart | CommunityFetchOtherUsercommunitiesStart | CommunityFetchSingleStart | ChannelCommentCreateStart>) => ({
     getMarauder: (userId: string) => dispatch(marauderFetchSingleStart(userId)),
     getUserPosts: (userId: number) => dispatch(postFetchUserPostsStart(userId)),
     getComments: (channelId: number) => dispatch(channelcommentFetchSingleStart(channelId)),
     getChannels: (communityId: number) => dispatch(channelFetchAllStart(communityId)),
     createChannel: (description: string, communityId: number) => dispatch(channelCreateStart(description, communityId)),
+    createChannelComment: (commentValue: string, channelId: number, imageFile: File) => dispatch(channelcommentCreateStart(commentValue, channelId, imageFile)),
+    setChannelId: (channelId: number) => dispatch(channelSetIdStart(channelId)),
+    setChannelCommentId: (channelCommentId: number) => dispatch(channelcommentSetIdStart(channelCommentId)),
     deleteChannel: (channelId: number) => dispatch(channelDeleteStart(channelId)),
     fetchGltfFiles: (userId: string) => dispatch(gltfFetchOtherUserStart(userId)),
     fetchCommunities: (userId: number) => dispatch(communityFetchOtherUsercommunitiesStart(userId)),

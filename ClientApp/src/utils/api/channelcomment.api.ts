@@ -8,10 +8,10 @@ const headers = {
   'Content-Type': 'application/x-www-form-urlencoded'
 }
 
-export async function getSingleComment(channelCommentId: number): Promise<ChannelComment[]> {
+export async function getSingleComment(channelId: number): Promise<ChannelComment[]> {
   const response = await axios({
     method: 'get',
-    url: `${api}/${channelCommentId}`,
+    url: `${api}/${channelId}`,
     headers: headers,
     withCredentials: true
   });

@@ -107,7 +107,7 @@ export const postCreateSuccess = withMatcher(
 
 export const postCreateFailed = withMatcher(
     (error: Error) => 
-    createAction(POST_ACTION_TYPES.CREATE_START, error)
+    createAction(POST_ACTION_TYPES.CREATE_FAILED, error)
 );
  
 export const postUpdateStart = withMatcher(

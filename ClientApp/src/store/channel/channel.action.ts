@@ -79,6 +79,20 @@ export type ChannelFetchAllFailed = ActionWithPayload<
     Error
 >;
 
+export type ChannelSetIdStart = ActionWithPayload<
+    CHANNEL_ACTION_TYPES.SET_ID_START, { channelId: number }
+>;
+
+export type ChannelSetIdSuccess = ActionWithPayload<
+    CHANNEL_ACTION_TYPES.SET_ID_SUCCESS, 
+    { channelId: number }
+>;
+
+export type ChannelSetIdFailed = ActionWithPayload<
+    CHANNEL_ACTION_TYPES.SET_ID_FAILED,
+    Error
+>;
+
 export const channelCreateStart = withMatcher(
     (description: string, communityId: number ): ChannelCreateStart => 
     createAction(CHANNEL_ACTION_TYPES.CREATE_START, { description, communityId })
@@ -152,4 +166,19 @@ export const channelFetchAllSuccess = withMatcher(
 export const channelFetchAllFailed = withMatcher(
     (error: Error): ChannelFetchAllFailed => 
     createAction(CHANNEL_ACTION_TYPES.FETCH_ALL_FAILED, error)
+);
+
+export const channelSetIdStart = withMatcher(
+    (channelId: number): ChannelSetIdStart => 
+    createAction(CHANNEL_ACTION_TYPES.SET_ID_START, { channelId })
+);
+
+export const channelSetIdSuccess = withMatcher(
+    (channelId: number): ChannelSetIdSuccess => 
+    createAction(CHANNEL_ACTION_TYPES.SET_ID_SUCCESS, { channelId })
+);
+
+export const channelSetIdFailed = withMatcher(
+    (error: Error): ChannelSetIdFailed => 
+    createAction(CHANNEL_ACTION_TYPES.SET_ID_FAILED, error)
 );

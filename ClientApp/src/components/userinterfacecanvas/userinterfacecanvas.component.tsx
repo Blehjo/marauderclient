@@ -28,8 +28,9 @@ class UserInterfaceCanvas extends Component<any, IUserCanvas> {
         const { authentication } = this.state;
         return (
             <Modal show={authentication} onHide={this.handleClick}>
-                <Modal.Header closeButton/>
-                <Authentication/>
+                <div style={{ background: 'black', paddingBottom: '5rem', borderRadius: '.3rem' }}>
+                {<Authentication/>}
+                </div>
             </Modal>
         )
     }

@@ -43,7 +43,7 @@ export class MembersChannel extends Component<any, IMembersChannel> {
         this.setState({
             marauderId: memberId
         })
-        this.openModal
+        this.openModal();
     }
 
     handleMemberDelete(): void {
@@ -57,6 +57,12 @@ export class MembersChannel extends Component<any, IMembersChannel> {
         }
     }
 
+    componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<IMembersChannel>, snapshot?: any): void {
+        if (prevProps.communityId != this.props.communityId) {
+            this.props.getMembers(this.props.communityId)
+        }
+    }
+
     render() {
         const { members, user, communities } = this.props;
         const { showMarauder, showDelete } = this.state;
@@ -65,7 +71,7 @@ export class MembersChannel extends Component<any, IMembersChannel> {
                 <CardContainer>Members</CardContainer>
                 {
                     members.members?.map(({ memberId, dateCreated, user }: Member, index: number) => (
-                        <Card onClick={() => this.handleMemberSelect(memberId)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', padding: '.5rem' }} key={index}>
+                        <Card onClick={() => this.handleMemberSelect(user.userId)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', padding: '.5rem' }} key={index}>
                             <Row key={index} xs={2}>
                                 <Col xs={10}>
                                     <div style={{ alignItems: 'center' }}>
@@ -73,7 +79,7 @@ export class MembersChannel extends Component<any, IMembersChannel> {
                                     </div>
                                 </Col>
                                 <Col xs={2}>
-                                    {user?.userId == communities.singleCommunity?.user.userId && <XContainer>
+                                    {user?.userId == communities.singleCommunity?.userId && <XContainer>
                                         <XCircle onClick={this.deleteModal} />
                                     </XContainer>}
                                 </Col>
@@ -82,7 +88,6 @@ export class MembersChannel extends Component<any, IMembersChannel> {
                     ))
                 }
                 <Modal show={showMarauder} onHide={this.openModal}>
-                    <Modal.Header closeButton/>
                     <UserProfileCard {...this.props} />
                 </Modal>
                 <Modal show={showDelete} onHide={this.deleteModal}>

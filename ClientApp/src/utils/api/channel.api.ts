@@ -4,8 +4,8 @@ import { Channel } from "../../store/channel/channel.types";
 const api = "https://localhost:7144/api/channel";
 
 const headers = {
-    'Accept': 'application/x-www-form-urlencoded',
-    'Content-Type': 'application/x-www-form-urlencoded'
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
 }
 
 export async function getSingleChannel(channelId: number | undefined): Promise<Channel> {
@@ -22,7 +22,7 @@ export async function getSingleChannel(channelId: number | undefined): Promise<C
 export async function getChannels(communityId: number): Promise<Channel[]> {
     const response = await axios({
         method: 'get',
-        url: `${api}/${communityId}`,
+        url: `${api}/community/${communityId}`,
         headers: headers,
         withCredentials: true
     });

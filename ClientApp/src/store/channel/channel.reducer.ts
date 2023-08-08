@@ -12,6 +12,8 @@ import {
     channelFetchAllSuccess,
     channelFetchSingleFailed,
     channelFetchSingleSuccess,
+    channelSetIdStart,
+    channelSetIdSuccess,
     channelUpdateFailed,
     channelUpdateSuccess
 } from './channel.action';
@@ -36,9 +38,15 @@ export const channelReducer = (
     state = INITIAL_STATE, action: AnyAction
 ): ChannelState => {
     if (
-        channelFetchAllStart.match(action) 
+        channelFetchAllStart.match(action) ||
+        channelSetIdStart.match(action)
     ) {
         return { ...state, isLoading: true }
+    }
+    if (
+        channelSetIdSuccess.match(action) 
+    ) {
+        return { ...state, isLoading: false, channelId: action.payload.channelId }
     }
     if (
         channelFetchSingleSuccess.match(action) 

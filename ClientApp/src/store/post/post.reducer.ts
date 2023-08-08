@@ -45,6 +45,7 @@ export const postReducer = (
 ): PostState => {
     if (
         postFetchAllStart.match(action) || 
+        postCreateStart.match(action) ||
         postFetchUserPostsStart.match(action)
     ) {
         return { ...state, isLoading: true }

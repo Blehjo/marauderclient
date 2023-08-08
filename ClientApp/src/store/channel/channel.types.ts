@@ -16,6 +16,9 @@ export enum CHANNEL_ACTION_TYPES {
     FETCH_ALL_START = 'channel/FETCH_ALL_START',
     FETCH_ALL_SUCCESS = 'channel/FETCH_ALL_SUCCESS',
     FETCH_ALL_FAILED = 'channel/FETCH_ALL_FAILED',
+    SET_ID_START = 'channel/SET_ID_START',
+    SET_ID_SUCCESS = 'channel/SET_ID_SUCCESS',
+    SET_ID_FAILED='channel/SET_ID_FAILED'
 };
 
 export type Channel = {

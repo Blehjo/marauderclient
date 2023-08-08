@@ -53,7 +53,7 @@ export type ChannelCommentDeleteteFailed = ActionWithPayload<
    
 export type ChannelCommentFetchSingleStart = ActionWithPayload<
     CHANNEL_COMMENT_ACTION_TYPES.FETCH_SINGLE_START,
-    { commentId: number }
+    { channelId: number }
 >;
 
 export type ChannelCommentFetchSingleSuccess = ActionWithPayload<
@@ -82,9 +82,25 @@ export type ChannelCommentFetchAllFailed = ActionWithPayload<
     Error
 >;
 
+export type ChannelCommentSetIdStart = ActionWithPayload<
+    CHANNEL_COMMENT_ACTION_TYPES.SET_ID_START, {
+        channelCommentId: number
+    }
+>;
+
+export type ChannelCommentSetIdSuccess = ActionWithPayload<
+    CHANNEL_COMMENT_ACTION_TYPES.SET_ID_SUCCESS, 
+    { channelCommentId: number }
+>;
+
+export type ChannelCommentSetIdFailed = ActionWithPayload<
+    CHANNEL_COMMENT_ACTION_TYPES.SET_ID_FAILED,
+    Error
+>;
+
 export const channelcommentCreateStart = withMatcher(
     (commentValue: string, channelId: number, imageFile: File): ChannelCommentCreateStart => 
-    createAction(CHANNEL_COMMENT_ACTION_TYPES.CREATE_START, { commentValue, imageFile, channelId })
+    createAction(CHANNEL_COMMENT_ACTION_TYPES.CREATE_START, { commentValue, channelId, imageFile })
 );
 
 export const channelcommentCreateSuccess = withMatcher(
@@ -128,8 +144,8 @@ export const channelcommentDeleteFailed = withMatcher(
 );
 
 export const channelcommentFetchSingleStart = withMatcher(
-    (commentId: number): ChannelCommentFetchSingleStart => 
-    createAction(CHANNEL_COMMENT_ACTION_TYPES.FETCH_SINGLE_START, { commentId })
+    (channelId: number): ChannelCommentFetchSingleStart => 
+    createAction(CHANNEL_COMMENT_ACTION_TYPES.FETCH_SINGLE_START, { channelId })
 );
 
 export const channelcommentFetchSingleSuccess = withMatcher(
@@ -155,4 +171,19 @@ export const channelcommentFetchAllSuccess = withMatcher(
 export const channelcommentFetchAllFailed = withMatcher(
     (error: Error): ChannelCommentFetchAllFailed => 
     createAction(CHANNEL_COMMENT_ACTION_TYPES.FETCH_ALL_FAILED, error)
+);
+
+export const channelcommentSetIdStart = withMatcher(
+    (channelCommentId: number): ChannelCommentSetIdStart => 
+    createAction(CHANNEL_COMMENT_ACTION_TYPES.SET_ID_START, { channelCommentId })
+);
+
+export const channelcommentSetIdSuccess = withMatcher(
+    (channelCommentId: number): ChannelCommentSetIdSuccess => 
+    createAction(CHANNEL_COMMENT_ACTION_TYPES.SET_ID_SUCCESS, { channelCommentId })
+);
+
+export const channelcommentSetIdFailed = withMatcher(
+    (error: Error): ChannelCommentSetIdFailed => 
+    createAction(CHANNEL_COMMENT_ACTION_TYPES.SET_ID_FAILED, error)
 );

@@ -17,6 +17,9 @@ export enum CHANNEL_COMMENT_ACTION_TYPES {
     FETCH_ALL_START = 'channelcomment/FETCH_ALL_START',
     FETCH_ALL_SUCCESS = 'channelcomment/FETCH_ALL_SUCCESS',
     FETCH_ALL_FAILED = 'channelcomment/FETCH_ALL_FAILED',
+    SET_ID_START = 'channelcomment/SET_ID_START',
+    SET_ID_SUCCESS = 'channelcomment/SET_ID_SUCCESS',
+    SET_ID_FAILED = 'channelcomment/SET_ID_FAILED'
 };
 
 export type ChannelComment = {
