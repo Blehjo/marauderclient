@@ -33,10 +33,10 @@ function SinglePost() {
             <SinglePostContainer>
                 <Card className="bg-dark">
                     <Card.Body>
-                        <Card.Img src={post?.imageSource}/>
+                        <Card.Img src={post?.mediaLink != null ? post?.imageSource : "https://www.artlog.net/sites/default/files/styles/al_colorbox_rules/public/turrell_cregis_golay_federal_studio.jpg?itok=2M4Pyn0A"}/>
                     </Card.Body>
                     <Card.Footer>
-                    <div style={{ height: '5rem', overflowY: 'auto' }}>
+                    <div style={{ height: '5rem', overflowY: 'auto', color: 'white' }}>
                         {post?.postValue}
                     </div>
                     </Card.Footer>

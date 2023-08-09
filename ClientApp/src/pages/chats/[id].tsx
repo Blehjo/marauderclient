@@ -11,6 +11,7 @@ import { chatcommentFetchSingleStart } from "../../store/chatcomment/chatcomment
 import { selectIsChatCommentLoading, selectUserChatcomments } from "../../store/chatcomment/chatcomment.selector";
 import { CardContainer, CommentBarContainer, CommentContainer, FormContainer, SingleChatContainer, TextContainer } from "../../styles/messages/messages.styles";
 import { utcConverter } from "../../utils/date/date.utils";
+import { ParsedUrlQuery } from "querystring";
 
 const defaultFormFields = {
     chatValue: "",
@@ -28,6 +29,7 @@ function SingleChat() {
     const chatcommentLoading = useSelector(selectIsChatCommentLoading);
     const router = useRouter();
     const { id } = router.query;
+    const chatId = parseInt(id!);
 
     async function postComment() {
 
@@ -72,8 +74,8 @@ function SingleChat() {
     }
 
     useEffect(() => {
-        dispatch(chatFetchSingleStart(id));
-        dispatch(chatcommentFetchSingleStart(id));
+        dispatch(chatFetchSingleStart(chatId));
+        dispatch(chatcommentFetchSingleStart(chatId));
     }, [id]);
 
     return (
