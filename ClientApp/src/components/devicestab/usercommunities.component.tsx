@@ -34,7 +34,7 @@ export class UserCommunitiesTab extends Component<any, DevicesTabProps> {
     }
 
     handleClick(communityId: number): void {
-        this.props.fetchSingleDevice(communityId);
+        this.props.fetchSingleCommunity(communityId);
         // this.props.getComments(communityId);
         this.setState({
             show: !this.state.show
@@ -142,8 +142,8 @@ export class UserCommunitiesTab extends Component<any, DevicesTabProps> {
                     <button className="btn btn-dark" onClick={() => this.handleClose()}>
                         Close
                     </button>
-                    <a href={`/singledevice/${communities.singleCommunity?.communityId}`} style={{ textDecoration: 'none', color: 'white' }} className="btn btn-dark" >
-                        Single View
+                    <a href={`/communities/${communities.singleCommunity?.communityId}`} style={{ textDecoration: 'none', color: 'white' }} className="btn btn-dark" >
+                        See Community
                     </a>
                     </Modal.Footer>
                     </ModalContainer>
