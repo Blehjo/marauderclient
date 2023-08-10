@@ -1,6 +1,6 @@
 import { Component, Dispatch } from "react";
 import { Nav, Row } from "react-bootstrap";
-import { ChatDots, ChatLeft, Collection, DeviceHdd, DeviceSsd, Eye, Gear, Globe, LayoutTextWindowReverse, Lightbulb, People, PersonBadge, Robot, Screwdriver, Star } from 'react-bootstrap-icons';
+import { ChatDots, ChatLeft, Collection, DeviceHdd, DeviceSsd, Eye, Gear, Globe, LayoutTextWindowReverse, Lightbulb, People, PersonBadge, PersonBoundingBox, PersonDash, Robot, Screwdriver, Star, Tablet, TabletLandscape } from 'react-bootstrap-icons';
 import { ConnectedProps, connect } from "react-redux";
 import { RootState } from "../../store/store";
 import { CheckUserSession, checkUserSession } from "../../store/user/user.action";
@@ -49,7 +49,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                     </Nav.Item>
                     <Nav.Item className="ms-4 d-flex align-items-center">
                         <a onClick={this.handleClick} href="/profile">
-                        <DeviceHdd className='icons' color="white" />
+                        <PersonBoundingBox className='icons' color="white" />
                         </a>
                         <Nav.Link onClick={this.handleClick} href="/profile" className="tools ms-4">
                             Profile
@@ -82,7 +82,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                     </Nav.Item>
                     <Nav.Item className="ms-4 d-flex align-items-center">
                         <a href="/devices">
-                        <DeviceSsd className='icons' color="white"  />
+                        <Tablet className='icons' color="white"  />
                         </a>
                         <Nav.Link href="/devices" className="tools ms-4">
                             Devices
@@ -119,6 +119,14 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                         </a>
                         <Nav.Link href="/posts" className="tools ms-4">
                             Posts
+                        </Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item className="ms-4 d-flex align-items-center">
+                        <a href="/posts">
+                        <DeviceSsd className='icons' color="white" />
+                        </a>
+                        <Nav.Link href="/gltfs" className="tools ms-4">
+                            Files
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item className="ms-4 d-flex align-items-center">

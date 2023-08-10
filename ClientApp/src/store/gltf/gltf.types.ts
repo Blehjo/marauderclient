@@ -1,4 +1,5 @@
 import { Editor } from "../editor/editor.types";
+import { Favorite } from "../favorite/favorite.types";
 
 export enum GLTF_ACTION_TYPES {
     CREATE_START = 'gltf/CREATE_START',
@@ -27,6 +28,11 @@ export enum GLTF_ACTION_TYPES {
 export type Gltf = {
     gltfId: number | null;
     fileInformation: string | null;
+    favorites: Favorite[];
+    type: string;
+    mediaLink: string;
+    imageSource: string;
+    comments: Comment[];
     userId: number;
     shapes: Editor;
 }

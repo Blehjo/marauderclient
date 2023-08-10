@@ -82,3 +82,11 @@ export const ChatContainer = styled.div`
   justify-content: space-evenly;
   position: relative;
 `;
+
+export const AContainer = styled.a`
+  text-decoration: none;
+  color: white;
+  &:hover {
+    color: gray;
+  }
+`;

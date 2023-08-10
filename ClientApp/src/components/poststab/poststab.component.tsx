@@ -6,7 +6,7 @@ import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { ProfileProps } from "../../pages/profile";
 import { CommentState } from "../../store/comment/comment.reducer";
 import { PostState } from "../../store/post/post.reducer";
-import { BadgeContainer, CardContainer, CommentContainer, ModalContainer, ModalPostContainer, PostContainer, TextContainer } from "../../styles/poststab/poststab.styles";
+import { AContainer, BadgeContainer, CardContainer, CommentContainer, ModalContainer, ModalPostContainer, PostContainer, TextContainer } from "../../styles/poststab/poststab.styles";
 import { utcConverter } from "../../utils/date/date.utils";
 import { XContainer } from "../../styles/devices/devices.styles";
 
@@ -272,15 +272,13 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
                     <div>Comments</div>
                     <div style={{ height: "65%", overflowY: "auto" }}>
                     {
-                        comments.comments?.map(({ commentId, commentValue, mediaLink, dateCreated }) => {
-                            return <CardContainer>
-                                <Card className="bg-dark" key={commentId}>
-                                    <TextContainer>
-                                        <Card.Text>{commentValue}</Card.Text>
-                                        <Card.Text>{utcConverter(dateCreated)}</Card.Text>
-                                    </TextContainer>
-                                </Card>
-                            </CardContainer>
+                        comments.comments?.map(({ commentId, commentValue, mediaLink, dateCreated, user }) => {
+                            return <Card border="light" className="bg-dark mt-2" key={commentId}>
+                                <TextContainer style={{ color: 'white' }}>
+                                    <Card.Text>{commentValue}</Card.Text>
+                                    <AContainer href={`/profile/${user.userId}`}>{user.username}</AContainer>
+                                </TextContainer>
+                            </Card>
                         })
                     }
                     </div>

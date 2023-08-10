@@ -11,6 +11,7 @@ import { BadgeContainer, ResponsiveMemoryContainer } from "../../styles/responsi
 import { utcConverter } from "../../utils/date/date.utils";
 import MessagemodalComponent from "../messagemodal/messagemodal.component";
 import ModalContent from "../modal/modal.component";
+import { Gltf } from "../../store/gltf/gltf.types";
 
 interface IDefaultFormFields {
     commentValue: string;
@@ -47,6 +48,9 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
             this.props.getComments(id);
         } else if (type === "post") {
             this.props.getPost(id);
+            this.props.getComments(id);
+        } else if (type === "gltf") {
+            this.props.getGltf(id);
             this.props.getComments(id);
         } else {
             this.props.getCommunity(id);
@@ -193,6 +197,40 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
         )
     }
     
+    gltfFunction(prop: Gltf) {
+        const { gltfId, fileInformation, mediaLink, comments, favorites, type, imageSource } = prop;
+        return (
+            <Card key={gltfId} style={{ background: 'black', border: 'solid 1px white', padding: '.5rem', margin: '.3rem', color: 'white'}}>
+                <Card.Img src={mediaLink ? imageSource : "https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"}/>
+                <Card.ImgOverlay>
+                    <div style={{ cursor: "pointer", position: "absolute", left: "0", top: "0" }}>
+                        <BadgeContainer>
+                            <Badge style={{ color: 'black' }} bg="light"><ArrowsFullscreen style={{ cursor: 'pointer' }} onClick={() => this.handleClick(gltfId!, type)} size={15}/></Badge>
+                        </BadgeContainer>
+                        {
+                            <BadgeContainer><Badge style={{ color: 'black' }} bg="light">
+                                <Chat size={15}/>
+                                {` ${comments?.length > 0 ? comments?.length : ""}`}
+                                </Badge>
+                            </BadgeContainer>
+                        }
+                        {
+                            <BadgeContainer>
+                                <Badge style={{ color: 'black' }} bg="light">
+                                <Rocket style={{ cursor: 'pointer' }} onClick={() => this.handleLike(gltfId!, type)} size={15}/>
+                                {` ${favorites?.length > 0 ? favorites?.length : ""}`}
+                                </Badge>
+                            </BadgeContainer>
+                        }
+                    </div>
+                </Card.ImgOverlay>
+                <Card.Body>
+                    <Card.Text>{fileInformation}</Card.Text>
+                </Card.Body>
+            </Card>
+        )
+    }
+    
     communityFunction(prop: Community) {
         const { communityId, communityName, description, mediaLink, channels, members, imageSource } = prop;
         return (
@@ -230,7 +268,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
 
     checkType(): Array<ReactNode> {
         const content: any = [];
-        const { posts, chats, profiles, favorites, communities } = this.props;
+        const { posts, chats, profiles, favorites, communities, gltfs } = this.props;
 
         if (posts && posts.length > 0) {
             for (let i = 0; i < posts.length; i++) {
@@ -247,6 +285,10 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
         } else if (communities && communities.length > 0) {
             for (let i = 0; i < communities.length; i++) {
                 content.push(this.communityFunction(communities[i]));
+            }
+        } else if (gltfs && gltfs.length > 0) {
+            for (let i = 0; i < gltfs.length; i++) {
+                content.push(this.gltfFunction(gltfs[i]));
             }
         } else if (favorites && favorites.length > 0) {
             for (let i = 0; i < favorites.favorites?.length!; i++) {

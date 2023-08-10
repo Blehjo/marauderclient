@@ -49,6 +49,18 @@ export class Searchbar extends Component<{}, DefaultProps> {
         .then(gltfs => this.setState({ gltfs: gltfs }));
     }
 
+    componentDidUpdate(prevProps: Readonly<{}>, prevState: Readonly<DefaultProps>, snapshot?: any): void {
+        const { searchField } = this.state;
+        // if (this.state.searchField.length > 0) {
+            if (prevState.searchField.length != this.state.searchField.length) {
+                console.log("HELLOO::::: ", searchField.length)
+                this.setState({
+                    show: true
+                })
+            }
+        // }
+    }
+
     onSearchChange = (event: ChangeEvent<HTMLInputElement>): void => {
         this.setState({ searchField: event.target.value });
     };
@@ -70,10 +82,10 @@ export class Searchbar extends Component<{}, DefaultProps> {
         return (
             <>
                 <input style={{ borderRadius: ".5rem", width: "20rem" }} onClick={this.handleClickEvent} placeholder="Search" />
-                <Modal show={show} onHide={this.handleClickEvent}>
+                {<Modal show={show} onHide={this.handleClickEvent}>
                     <SearchBox onSearchChange={this.onSearchChange} />
                     {searchField.length > 0 && <CardList users={filteredUsers} posts={filteredPosts} communities={filteredCommunities} gltfs={filteredGltfs}/>}
-                </Modal>
+                </Modal>}
             </>
         );
     }
