@@ -1,6 +1,6 @@
 import { Component, Dispatch } from "react";
 import { Nav, Row } from "react-bootstrap";
-import { ChatDots, ChatLeft, Collection, Controller, DeviceHdd, DeviceSsd, Eye, Gear, Globe, GraphUp, LayoutTextWindowReverse, Lightbulb, People, PersonBadge, Robot, RocketTakeoff, Screwdriver, Star } from 'react-bootstrap-icons';
+import { ChatDots, ChatLeft, Collection, DeviceHdd, DeviceSsd, Eye, Gear, Globe, LayoutTextWindowReverse, Lightbulb, People, PersonBadge, Robot, Screwdriver, Star } from 'react-bootstrap-icons';
 import { ConnectedProps, connect } from "react-redux";
 import { RootState } from "../../store/store";
 import { CheckUserSession, checkUserSession } from "../../store/user/user.action";
@@ -10,9 +10,13 @@ import { SidebarMenuContainer } from "../../styles/sidebarmenu/sidebarmenu.style
 type SidebarMenuProps = ConnectedProps<typeof connector>;
 
 export class SidebarMenu extends Component<SidebarMenuProps> {
-    handleClick() {
-        this.props.getUser(this.props.user)
+    handleClick(): void {
+        if (this.props != undefined) {
+            this.props.checkUserSession();
+            this.props.getUser(this.props.user);
+        }
     }
+
     render() {
         return (
             <SidebarMenuContainer className='mt-5 fixed-top bg-dark'>
@@ -153,9 +157,10 @@ const mapStateToProps = (state: RootState) => ({
     userprofile: state.userprofile
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<UserprofileFetchSingleStart | CheckUserSession>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<CheckUserSession | UserprofileFetchSingleStart | CheckUserSession>) => ({
     getCurrentUser: () => dispatch(checkUserSession()),
-    getUser: (userId: number | undefined) => dispatch(userprofileFetchSingleStart(userId))
+    getUser: (userId: number | undefined) => dispatch(userprofileFetchSingleStart(userId)),
+    checkUserSession: () => dispatch(checkUserSession())
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

@@ -13,6 +13,7 @@ interface IFormChannel {
     imageSource: string | ArrayBuffer | null | undefined;
     imageFile: any;
     connection: any;
+    inputContainer: boolean;
 }
 
 export class FormChannel extends Component<any, IFormChannel> {
@@ -24,7 +25,8 @@ export class FormChannel extends Component<any, IFormChannel> {
             imageSource: "",
             messages: [],
             imageFile: null,
-            connection: null
+            connection: null, 
+            inputContainer: false
         }
         this.handleChange = this.handleChange.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
@@ -110,6 +112,9 @@ export class FormChannel extends Component<any, IFormChannel> {
     componentDidMount(): void {
         if (this.props.channels.channelId != null) {
             this.props.getComments(this.props.channels.channelId);
+            this.setState({
+                inputContainer: true
+            })
         } 
     }
 
@@ -123,11 +128,14 @@ export class FormChannel extends Component<any, IFormChannel> {
             }, () => {
                 this.state.connection.start().catch((err: string) => document.write(err));
             });
+            this.setState({
+                inputContainer: true
+            })
         }
 
         if (prevProps.channelcomments.channelCommentId != this.props.channelcomments.channelCommentId) {
             this.state.connection.on('messageReceived', (comment: any) => {
-                this.props.getComments(this.props.channels.channelId!)
+                this.props.getComments(this.props.channels.channelId!);
             });
         }
     }
@@ -137,7 +145,7 @@ export class FormChannel extends Component<any, IFormChannel> {
     // }
 
     render() {
-        const { commentValue } = this.state;
+        const { commentValue, inputContainer } = this.state;
         return (
             <ChatForm>
                 <Form onSubmit={this.sendMessage}>
@@ -147,7 +155,7 @@ export class FormChannel extends Component<any, IFormChannel> {
                         }
                     </Container>
                     <InputContainer>
-                    <Row xs={2}>
+                    {inputContainer && <Row xs={2}>
                         <Col xs={10}>
                         <Form.Group className="mb-3" controlId="request">
                             <Form.Control style={{ height: '.5rem' }} as="textarea" onChange={this.handleChange} value={commentValue} name="commentValue" placeholder="Write a message" />
@@ -159,7 +167,7 @@ export class FormChannel extends Component<any, IFormChannel> {
                         <Col xs={2}>
                         <button className="btn btn-outline-light"><Send/></button>
                         </Col>
-                    </Row>
+                    </Row>}
                     </InputContainer>
                 </Form>
             </ChatForm>

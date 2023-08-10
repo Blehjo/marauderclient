@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { ChatsContainer } from "../../styles/crew/crew.styles";
+import { ChatsContainer, TextFitContainer } from "../../styles/crew/crew.styles";
 import { CardContainer } from "../../styles/poststab/poststab.styles";
 import { Card, Row, Col, Modal } from "react-bootstrap";
 import { XContainer } from "../../styles/devices/devices.styles";
@@ -74,9 +74,9 @@ export class MembersChannel extends Component<any, IMembersChannel> {
                         <Card onClick={() => this.handleMemberSelect(user.userId)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', padding: '.5rem' }} key={index}>
                             <Row key={index} xs={2}>
                                 <Col xs={10}>
-                                    <div style={{ alignItems: 'center' }}>
+                                    <TextFitContainer>
                                         {user.username}
-                                    </div>
+                                    </TextFitContainer>
                                 </Col>
                                 <Col xs={2}>
                                     {user?.userId == communities.singleCommunity?.userId && <XContainer>

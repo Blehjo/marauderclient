@@ -7,7 +7,7 @@ import UserInterfaceCanvas from '../userinterfacecanvas/userinterfacecanvas.comp
 import { ConnectedProps, connect } from 'react-redux';
 import { RootState } from '../../store/store';
 import { CheckUserSession, SignOutStart, checkUserSession, signOutStart } from '../../store/user/user.action';
-import { User } from '../../store/user/user.types';
+import { Searchbar } from '../searchbar/searchbar.component';
 
 interface INavMenu {
     show: boolean;
@@ -59,15 +59,7 @@ class NavMenu extends Component<NavMenuProps, INavMenu> {
                             <NavDropdown.Item href="/projects">Projects</NavDropdown.Item>
                         </NavDropdown>
                         </Nav>
-                        <Form className="d-flex">
-                        <Form.Control
-                            type="search"
-                            placeholder="Search"
-                            className="me-2"
-                            aria-label="Search"
-                        />
-                        <button type="button" className="btn btn-outline-light">Search</button>
-                        </Form>
+                        <Searchbar/>
                         <PersonContainer>
                             <PersonCircle onClick={this.handleClick} size={30}/>
                             <UserInterfaceCanvas signOut={this.props.signOut} user={this.props.user}  handleClick={this.handleClick} show={show}/>

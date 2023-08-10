@@ -245,8 +245,8 @@ export class UserGltfsTab extends Component<any, IDefaultFormFields> {
             <button className="btn btn-dark" onClick={() => this.handleClose()}>
                 Close
             </button>
-                <a className="btn btn-dark" style={{ textDecoration: 'none', color: 'white' }} href={`/singleGltf/${gltfs.singleGltf?.gltfId}`}>
-                    Single View
+                <a className="btn btn-dark" style={{ textDecoration: 'none', color: 'white' }} href={`/gltfs/${gltfs.singleGltf?.gltfId}`}>
+                    See file
                 </a>
             </Modal.Footer>
             </ModalContainer>

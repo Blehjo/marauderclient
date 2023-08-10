@@ -1,4 +1,4 @@
-import { ChangeEvent, Component, Dispatch, FormEvent } from "react";
+import { ChangeEvent, Component, Dispatch, FormEvent, ReactNode } from "react";
 import { ConnectedProps, connect } from "react-redux";
 
 import { CommentCreateStart, CommentFetchSingleStart, commentCreateStart, commentFetchSingleStart } from "../../store/comment/comment.action";
@@ -8,11 +8,15 @@ import { Card, Col, Form, Row } from "react-bootstrap";
 import { utcConverter } from "../../utils/date/date.utils";
 import { Post } from "../../store/post/post.types";
 import { Send } from "react-bootstrap-icons";
-import { CardContainer, CommentBarContainer, CommentContainer, FormContainer, TextContainer } from "../../styles/messages/messages.styles";
+import { CardContainer, CommentBarContainer, CommentContainer, FormContainer, TextCommentContainer, TextContainer } from "../../styles/messages/messages.styles";
+import { getSingleMarauder } from "../../utils/api/user.api";
+import { Marauder } from "../../store/marauder/marauder.types";
 
 interface CommentQuery extends CommentProps {
     queryId: number;
     post: Post;
+    user: Marauder;
+    getUser: (userId: string) => void;
 }
 
 type CommentProps = ConnectedProps<typeof connector>;
@@ -22,6 +26,16 @@ interface IDefaultFormFields {
     imageSource: string | ArrayBuffer | null | undefined;
     imageFile: any;
     show: boolean;
+}
+
+class UserInfo extends Component {
+    state: {
+        username: string
+    };
+    constructor(properties: {username: string}) {
+        super(properties)
+        this.state = properties;
+    }
 }
 
 export class Comment extends Component<CommentQuery, IDefaultFormFields> {
@@ -90,12 +104,20 @@ export class Comment extends Component<CommentQuery, IDefaultFormFields> {
 
     componentDidMount(): void {
         const { queryId } = this.props;
-        this.props.getComments(queryId);
+        if (queryId != null) {
+            this.props.getComments(queryId);
+        }
     }
     
     componentDidUpdate(prevProps: Readonly<CommentQuery>, prevState: Readonly<IDefaultFormFields>, snapshot?: any): void {
         if (this.props.comments.comments?.length !== prevProps.comments.comments?.length) {
             this.props.getComments(this.props.posts.singlePost?.postId!)
+        }
+        if (prevProps.queryId != this.props.queryId) {
+            const { queryId } = this.props;
+            if (queryId != null) {
+                this.props.getComments(this.props.queryId);
+            }
         }
     }
 
@@ -106,13 +128,14 @@ export class Comment extends Component<CommentQuery, IDefaultFormFields> {
                 <CommentContainer>
                     <h1 className="notifications">Comments</h1>
                 {
-                    comments.comments?.map(({ commentId, commentValue, mediaLink, dateCreated }) => {
+                    comments.comments?.map(({ commentId, commentValue, mediaLink, dateCreated, user }) => {
                         return <CardContainer>
                             <Card className="bg-dark" key={commentId}>
-                                <TextContainer>
+                                <TextCommentContainer>
                                     <Card.Text>{commentValue}</Card.Text>
-                                    <Card.Text>{utcConverter(dateCreated)}</Card.Text>
-                                </TextContainer>
+                                    <Card.Text>{user.username}</Card.Text>
+                                    {/* <Card.Text>{utcConverter(dateCreated)}</Card.Text> */}
+                                </TextCommentContainer>
                             </Card>
                         </CardContainer>
                     })

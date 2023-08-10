@@ -12,6 +12,12 @@ export const PenContainer = styled.div`
     }
 `;
 
+export const TextFitContainer = styled.div`
+    &:hover {
+        color: gray;
+    }
+`;
+
 export const CrewMemberContainer = styled.div`
     position: absolute;
     top: 5rem;

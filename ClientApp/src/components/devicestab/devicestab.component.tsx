@@ -174,8 +174,8 @@ export class DevicesTab extends Component<ProfileProps, DevicesTabProps> {
                     <button className="btn btn-dark" onClick={() => this.handleClose()}>
                         Close
                     </button>
-                    <a href={`/singledevice/${devices.singleDevice?.deviceId}`} style={{ textDecoration: 'none', color: 'white' }} className="btn btn-dark" >
-                        Single View
+                    <a href={`/devices/${devices.singleDevice?.deviceId}`} style={{ textDecoration: 'none', color: 'white' }} className="btn btn-dark" >
+                        See device
                     </a>
                     </Modal.Footer>
                     </ModalContainer>

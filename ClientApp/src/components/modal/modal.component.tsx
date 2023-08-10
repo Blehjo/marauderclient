@@ -187,11 +187,11 @@ class ModalContent extends Component<any, IModalContent> {
                             <div>Comments</div>
                             <div style={{ height: "65%", overflowY: "auto" }}>
                             {
-                                comments?.map(({ commentId, commentValue, mediaLink, dateCreated }: Comment) => {
+                                comments?.map(({ commentId, commentValue, mediaLink, dateCreated, user }: Comment) => {
                                     return <Card border="light" className="bg-dark mt-2" key={commentId}>
                                         <TextContainer>
                                             <Card.Text>{commentValue}</Card.Text>
-                                            <Card.Text>{utcConverter(dateCreated)}</Card.Text>
+                                            <Card.Text>{user.username}</Card.Text>
                                         </TextContainer>
                                     </Card>
                                 })

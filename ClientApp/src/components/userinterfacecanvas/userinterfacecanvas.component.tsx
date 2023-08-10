@@ -40,8 +40,8 @@ class UserInterfaceCanvas extends Component<any, IUserCanvas> {
         return (
             <UserInterfaceCanvasContainer>
                 <Offcanvas style={{ background: 'black', width: '25%', borderRadius: '.5rem 0rem 0rem .5rem', color: 'white' }} scroll backdrop={false} placement="end" show={show} onHide={handleClick}>
-                    {user && <Offcanvas.Header >
-                        <Offcanvas.Title style={{ lineHeight: '1.5rem'}}>
+                    <Offcanvas.Header >
+                    {user && <Offcanvas.Title style={{ lineHeight: '1.5rem'}}>
                             <Row xs={2}>
                             <Col xs={3}>
                             <Image style={{ width: '3rem', height: '3rem' }}fluid src={user?.imageLink ? user?.imageSource : ""}/>
@@ -57,9 +57,9 @@ class UserInterfaceCanvas extends Component<any, IUserCanvas> {
                             </Row>
                             </Col>
                             </Row>
-                        </Offcanvas.Title>
+                        </Offcanvas.Title>}
                         <CloseButton className="bg-light" onClick={handleClick}></CloseButton>
-                    </Offcanvas.Header>}
+                    </Offcanvas.Header>
                     <Offcanvas.Body>
                     <Nav.Item className="ms-4 d-flex align-items-center">
                         <a href="/voyager">

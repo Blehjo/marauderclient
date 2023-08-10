@@ -43,6 +43,15 @@ export const InputContainer = styled.div`
     width: 100%;
 `;
 
+export const TextCommentContainer = styled.div`
+    border-radius: .3rem;
+    padding: .2rem;
+    margin: .5rem;
+    width: 100%;
+    text-align: left;
+    color: white;
+`;
+
 export const TextContainer = styled.div`
     border: solid 1px blue;
     border-radius: .3rem;

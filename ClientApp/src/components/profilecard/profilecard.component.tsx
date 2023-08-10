@@ -127,7 +127,7 @@ export class ProfileCard extends Component<ProfileProps, IDefaultFormFields> {
                                 <Card.Subtitle>{currentUser?.firstName}</Card.Subtitle>
                                 <hr></hr>
                                 <Card.Text>{currentUser?.about}</Card.Text>
-                                <hr></hr>
+                                {communities.communities.length > 0 && <hr></hr>}
                                 <>
                                 {
                                 communities.userCommunities?.map(({ communityId, communityName, description, imageSource }) => (

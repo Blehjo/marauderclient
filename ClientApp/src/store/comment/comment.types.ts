@@ -1,3 +1,5 @@
+import { User } from "../user/user.types";
+
 export enum COMMENT_ACTION_TYPES {
     CREATE_START = 'comment/CREATE_START',
     CREATE_SUCCESS = 'comment/CREATE_SUCCESS',
@@ -26,5 +28,6 @@ export type Comment = {
     type: string | null;
     dateCreated: Date;
     postId: number | null,
-    userId: number | null,
+    user: User,
+    userId: string | null,
 }

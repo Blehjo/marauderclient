@@ -4,7 +4,7 @@ import { XCircle } from "react-bootstrap-icons";
 import { Textfit } from "react-textfit";
 
 import { Channel } from "../../store/channel/channel.types";
-import { CrewMemberContainer } from "../../styles/crew/crew.styles";
+import { CrewMemberContainer, TextFitContainer } from "../../styles/crew/crew.styles";
 import { CardContainer, XContainer } from "../../styles/devices/devices.styles";
 import { ModalPostContainer } from "../../styles/poststab/poststab.styles";
 
@@ -105,9 +105,11 @@ export class CommunityChannels extends Component<any, ICommunityChannels> {
                         <Card key={channelId} onClick={() => this.getChannelComments(channelId!)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer' }}>
                             <Row style={{ lineHeight: '3rem' }} key={index} xs={3}>
                                 <Col key='col2' xs={6}>
+                                    <TextFitContainer>
                                     <Textfit style={{ width: "100px" }}>
                                     {description}
                                     </Textfit>
+                                    </TextFitContainer>
                                 </Col>
                                 {user?.userId == communities.singleCommunity?.userId && <Col key='col3' xs={1}>
                                     <XContainer>

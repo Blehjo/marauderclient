@@ -142,8 +142,8 @@ export class UserChatsTab extends Component<any, ChatsTabProps> {
                     <button className="btn btn-dark" onClick={() => this.handleClose()}>
                         Close
                     </button>
-                    <a href={`/singlechat/${chats.singleChat?.chatId}`} style={{ textDecoration: 'none', color: 'white' }} className="btn btn-dark" >
-                        Single View
+                    <a href={`/chats/${chats.singleChat?.chatId}`} style={{ textDecoration: 'none', color: 'white' }} className="btn btn-dark" >
+                        See chat
                     </a>
                     </Modal.Footer>
                     </ModalContainer>

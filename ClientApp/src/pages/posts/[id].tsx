@@ -9,6 +9,8 @@ import { selectSinglePost } from "../../store/post/post.selector";
 import { postFetchSingleStart } from "../../store/post/post.action";
 import CommentsComponent from "../../components/comment/comments.component";
 import { SinglePostContainer } from "../../styles/messages/messages.styles";
+import { marauderFetchSingleStart } from "../../store/marauder/marauder.action";
+import { selectSingleMarauder } from "../../store/marauder/marauder.selector";
 
 const defaultFormFields = {
     commentValue: '',
@@ -19,10 +21,15 @@ const defaultFormFields = {
 
 function SinglePost() {
     const dispatch = useDispatch();
+    const user = useSelector(selectSingleMarauder);
     const post = useSelector(selectSinglePost);
     const router = useRouter();
-    const { id } = router.query;
-    const postId = parseInt(id);
+    const { id } = router.query!;
+    const postId = parseInt(Array.isArray(id) ? id[0] : id!);
+
+    function getUser(userId: string) {
+        dispatch(marauderFetchSingleStart(userId));
+    }
 
     useEffect(() => {
         dispatch(postFetchSingleStart(postId));
@@ -42,7 +49,7 @@ function SinglePost() {
                     </Card.Footer>
                 </Card>
             </SinglePostContainer>
-            <CommentsComponent post={post!} queryId={postId}/>
+            <CommentsComponent user={user!} getUser={getUser} post={post!} queryId={postId}/>
         </Fragment>
     )
 }

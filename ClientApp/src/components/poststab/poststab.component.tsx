@@ -317,8 +317,8 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
             <button className="btn btn-dark" onClick={() => this.handleClose()}>
                 Close
             </button>
-                <a className="btn btn-dark" style={{ textDecoration: 'none', color: 'white' }} href={`/singlepost/${posts.singlePost?.postId}`}>
-                    Single View
+                <a className="btn btn-dark" style={{ textDecoration: 'none', color: 'white' }} href={`/posts/${posts.singlePost?.postId}`}>
+                    See post
                 </a>
             </Modal.Footer>
             </ModalContainer>
