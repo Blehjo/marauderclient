@@ -3,13 +3,15 @@ import { Badge, Card, Col, Image, Modal, Row } from 'react-bootstrap';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import { ArrowsFullscreen, Globe, Rocket, XCircle } from 'react-bootstrap-icons';
 
-import { BadgeContainer, ChatContainer, ModalContainer } from "../../styles/poststab/poststab.styles";
+import { AContainer, BadgeContainer, ChatContainer, ModalContainer, TextContainer } from "../../styles/poststab/poststab.styles";
 import { ProfileProps } from '../../pages/profile';
 import { DeviceState } from '../../store/device/device.reducer';
 import { XContainer } from '../../styles/devices/devices.styles';
 import { SingleProfileProps } from '../../pages/profile/[id]';
 import { Device } from '../../store/device/device.types';
 import { Community } from '../../store/community/community.types';
+import { utcConverter } from '../../utils/date/date.utils';
+import { Member } from '../../store/member/member.types';
 
 type DevicesTabProps = {
     show: boolean;
@@ -55,7 +57,7 @@ export class UserCommunitiesTab extends Component<any, DevicesTabProps> {
 
     render() {
         const { communities } = this.props;
-        const { show, showDelete } = this.state;
+        const { show } = this.state;
         return (
             <Fragment>
             {
@@ -64,10 +66,10 @@ export class UserCommunitiesTab extends Component<any, DevicesTabProps> {
                     columnsCountBreakPoints={{350: 1, 750: 2, 900: 3, 1050: 4}}
                 >
                     <Masonry>
-                    {communities.communities?.map(({ communityId, communityName, description, members }: Community) => {
+                    {communities.communities?.map(({ communityId, communityName, description, members, imageSource, mediaLink }: Community) => {
                     return <ChatContainer key={communityId}>
                             <Card style={{ background: 'black', border: '1px solid white', color: 'white' }} key={communityId}>
-                            <Card.Img  src={"https://www.artlog.net/sites/default/files/styles/al_colorbox_rules/public/turrell_cregis_golay_federal_studio.jpg?itok=2M4Pyn0A"}/>
+                            <Card.Img  src={mediaLink ? imageSource : "https://www.artlog.net/sites/default/files/styles/al_colorbox_rules/public/turrell_cregis_golay_federal_studio.jpg?itok=2M4Pyn0A"}/>
                             <Card.ImgOverlay>
                                 <div style={{ cursor: "pointer", position: "absolute", left: "0", top: "0" }}>
                                 <BadgeContainer>
@@ -118,23 +120,23 @@ export class UserCommunitiesTab extends Component<any, DevicesTabProps> {
                             <Col md={8}>
                             <Image
                                 fluid
-                                src="https://www.artlog.net/sites/default/files/styles/al_colorbox_rules/public/turrell_cregis_golay_federal_studio.jpg?itok=2M4Pyn0A"
+                                src={communities.singleCommunity?.mediaLink ? communities.singleCommunity?.imageSource : "https://www.artlog.net/sites/default/files/styles/al_colorbox_rules/public/turrell_cregis_golay_federal_studio.jpg?itok=2M4Pyn0A"}
                             />
                             </Col>
                             <Col>
-                            <div>Notes</div>
-                            {/* {
-                                chatComments.chatcomments?.map(({ chatCommentId, chatValue, mediaLink, dateCreated }) => {
-                                    return <CardContainer>
-                                        <Card className="bg-dark" key={chatCommentId}>
-                                            <TextContainer>
-                                                <Card.Text>{chatValue}</Card.Text>
-                                                <Card.Text>{utcConverter(dateCreated)}</Card.Text>
-                                            </TextContainer>
-                                        </Card>
-                                    </CardContainer>
-                                })
-                            } */}
+                            <div>Members</div>
+                            <div style={{ height: "65%", overflowY: "auto" }}>
+                        {
+                            communities.singleCommunity?.members?.map(({ memberId, user, dateCreated }: Member) => {
+                                return <Card style={{ margin: '1rem' }} className="bg-dark" key={memberId}>
+                                    <TextContainer>
+                                        <AContainer href={`/profile/${user.userId}`}>{user.username}</AContainer>
+                                        <Card.Text>Joined: {utcConverter(dateCreated)}</Card.Text>
+                                    </TextContainer>
+                                </Card>
+                            })
+                        }
+                        </div>
                             </Col>
                         </Row>
                     </Modal.Body>

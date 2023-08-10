@@ -11,6 +11,7 @@ import { Send } from "react-bootstrap-icons";
 import { CardContainer, CommentBarContainer, CommentContainer, FormContainer, TextCommentContainer, TextContainer } from "../../styles/messages/messages.styles";
 import { getSingleMarauder } from "../../utils/api/user.api";
 import { Marauder } from "../../store/marauder/marauder.types";
+import { AContainer } from "../../styles/poststab/poststab.styles";
 
 interface CommentQuery extends CommentProps {
     queryId: number;
@@ -133,7 +134,7 @@ export class Comment extends Component<CommentQuery, IDefaultFormFields> {
                             <Card className="bg-dark" key={commentId}>
                                 <TextCommentContainer>
                                     <Card.Text>{commentValue}</Card.Text>
-                                    <Card.Text>{user.username}</Card.Text>
+                                    <AContainer href={`/profile/${user.userId}`}>{user.username}</AContainer>
                                     {/* <Card.Text>{utcConverter(dateCreated)}</Card.Text> */}
                                 </TextCommentContainer>
                             </Card>
