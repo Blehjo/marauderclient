@@ -1,8 +1,8 @@
+import { HubConnectionBuilder } from '@microsoft/signalr';
 import { ChangeEvent, Component, Dispatch, FormEvent, ReactNode } from "react";
 import { Card, Col, Form, Row } from 'react-bootstrap';
 import { Send, XCircle } from "react-bootstrap-icons";
 import { ConnectedProps, connect } from "react-redux";
-import { HttpTransportType, HubConnectionBuilder, JsonHubProtocol, LogLevel } from '@microsoft/signalr';
 
 import { MessageCreateStart, MessageDeleteStart, MessageFetchUserMessagesStart, MessageSetID, messageCreateStart, messageDeleteStart, messageFetchUserMessagesStart, messageSetId } from "../../store/message/message.action";
 import { MessageState } from "../../store/message/message.reducer";
@@ -10,9 +10,9 @@ import { MessageCommentCreateStart, MessageCommentFetchSingleStart, MessageComme
 import { MessageCommentState } from "../../store/messagecomment/messagecomment.reducer";
 import { MessageComment } from "../../store/messagecomment/messagecomment.types";
 import { RootState } from "../../store/store";
-import { Container, InputContainer, ListContainer, MessageContainer, MessageForm, TextContainer, UserTextContainer } from "../../styles/messages/messages.styles";
 import { CheckUserSession, checkUserSession } from "../../store/user/user.action";
 import { XContainer } from "../../styles/devices/devices.styles";
+import { Container, InputContainer, ListContainer, MessageContainer, MessageForm, TextContainer, UserTextContainer } from "../../styles/messages/messages.styles";
 
 interface IMessage {
     socket: boolean;

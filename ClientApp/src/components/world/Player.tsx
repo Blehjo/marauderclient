@@ -1,18 +1,19 @@
 import * as THREE from "three"
 import * as RAPIER from "@dimforge/rapier3d-compat"
-import { useEffect, useRef } from "react"
-import { useFrame, useThree } from "@react-three/fiber"
+import { useEffect, useRef, useState } from "react"
+import { Vector3, useFrame, useThree } from "@react-three/fiber"
 import { useKeyboardControls } from "@react-three/drei"
 import { CapsuleCollider, RigidBody, useRapier } from "@react-three/rapier"
 import Axe from "./Axe"
 import Gun from "./Gun"
+import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr"
 
 
 const SPEED = 5
-const direction = new THREE.Vector3()
-const frontVector = new THREE.Vector3()
-const sideVector = new THREE.Vector3()
-const rotation = new THREE.Vector3()
+const direction = new THREE.Vector3();
+const frontVector = new THREE.Vector3();
+const sideVector = new THREE.Vector3();
+const rotation = new THREE.Vector3();
 
 export function Player({ lerp = THREE.MathUtils.lerp }) {
   const axe = useRef<any>(null!);
@@ -21,8 +22,50 @@ export function Player({ lerp = THREE.MathUtils.lerp }) {
   const { camera } = useThree()
   // const rapier = new RAPIER.World({ x: 0.0, y: -9.81, z: 0.0 });
   const rapier = useRapier();
+  const [connection, setConnection] = useState<HubConnection>();
+  const [position, setPosition] = useState<Vector3>([0,10,0]);
+  const [id, setId] = useState<number>(0);
 
   const [, get] = useKeyboardControls()
+
+  function updatePlayer(coordinates: Vector3): void {
+    connection?.send("provideReading", "foo", coordinates);
+    connection?.on("newData", (coordinates: Vector3) => {
+      setPosition(coordinates);
+    });
+  } 
+
+  useEffect(() => {
+    const newConnection = new HubConnectionBuilder()
+    .withUrl(`https://localhost:7144/hub/odyssey/${id}`)
+    .withAutomaticReconnect()
+    .build();
+    setConnection(newConnection);
+    console.log("CONNECTION:: ", connection)
+  }, []);
+
+  useEffect(() => {
+    if (connection) {
+      try {
+        connection
+        .start()
+        .then(() => {
+          connection.on('provideReading', (position: Vector3) => {
+            console.log(position)
+          })
+        })
+        .catch((err) => {
+          console.log(`Error: ${err}`)
+        })
+      } catch (error) {
+        console.log(error as Error)
+      }
+    }
+
+    return () => {
+      connection && connection.stop()
+    }
+  }, [connection]);
 
   useFrame((state) => {
     const { forward, backward, left, right, jump } = get()
@@ -33,6 +76,7 @@ export function Player({ lerp = THREE.MathUtils.lerp }) {
     axe.current.children[0].rotation.x = lerp(axe.current.children[0].rotation.x, Math.sin((velocity.length() > 1) * state.clock.elapsedTime * 10) / 6, 0.1)
     axe.current.rotation.copy(state.camera.rotation)
     axe.current.position.copy(state.camera.position).add(state.camera.getWorldDirection(rotation).multiplyScalar(1))
+    // updatePlayer(state.camera.position)
     // movement
     frontVector.set(0, 0, backward - forward)
     sideVector.set(left - right, 0, 0)
@@ -47,7 +91,7 @@ export function Player({ lerp = THREE.MathUtils.lerp }) {
 
   return (
     <>
-      <RigidBody ref={ref} colliders={false} mass={1} type="dynamic" position={[0, 10, 0]} enabledRotations={[false, false, false]}>
+      <RigidBody ref={ref} colliders={false} mass={1} type="dynamic" position={position} enabledRotations={[false, false, false]}>
         <CapsuleCollider args={[0.75, 0.5]} />
       </RigidBody>
       <group ref={axe} onPointerMissed={(e) => (axe.current.children[0].rotation.x = -0.5)}>
