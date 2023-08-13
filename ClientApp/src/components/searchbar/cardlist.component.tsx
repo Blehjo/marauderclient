@@ -1,10 +1,10 @@
 import { Component } from "react";
 import { Card, Col, Row } from "react-bootstrap";
-import { Globe, Moon as MoonBadge, PersonBadge } from "react-bootstrap-icons";
-import { User } from "../../store/user/user.types";
+import { Collection, Files, People, PersonBadge } from "react-bootstrap-icons";
 import { Community } from "../../store/community/community.types";
 import { Gltf } from "../../store/gltf/gltf.types";
 import { Post } from "../../store/post/post.types";
+import { User } from "../../store/user/user.types";
 
 interface ISearchProps {
     users: User[];
@@ -21,7 +21,7 @@ export class CardList extends Component<ISearchProps> {
     render() {
         const { users, communities, posts, gltfs } = this.props;
         return (
-            <div className='card-list'>
+            <div style={{ background: 'black' }}>
                 {users.length > 0 && <div style={{ margin: ".5rem", color: "black" }}>
                     Users
                 </div>}
@@ -50,7 +50,7 @@ export class CardList extends Component<ISearchProps> {
                             </Col>
                             <Col xs={2}>
                                 <a href={`/communities/${community.communityId}`} style={{ textDecoration: 'none', color: 'black', position: "absolute", margin: "0", top: "50%", transform: "translateY(-50%)", msTransform: "translateY(-50%)" }} className="btn btn-light">
-                                    <Globe size={15}/>
+                                    <People size={15}/>
                                 </a>
                             </Col>
                         </Row>
@@ -67,12 +67,15 @@ export class CardList extends Component<ISearchProps> {
                             </Col>
                             <Col xs={2}>
                                 <a href={`/posts/${post.postId}`} style={{ textDecoration: 'none', color: 'black', position: "absolute", margin: "0", top: "50%", transform: "translateY(-50%)", msTransform: "translateY(-50%)" }} className="btn btn-light">
-                                    <MoonBadge size={15}/>
+                                    <Collection size={15}/>
                                 </a>
                             </Col>
                         </Row>
                     </Card>
                 ))}
+                {gltfs.length > 0 && <div style={{ margin: ".5rem", color: "black" }}>
+                    Files
+                </div>}
                 {gltfs.slice(0,5).map(gltf => (
                     <Card bg="dark" style={{ margin: ".2rem", position: "relative" }} key={gltf.gltfId} >
                         <Row xs={2}>
@@ -81,7 +84,7 @@ export class CardList extends Component<ISearchProps> {
                             </Col>
                             <Col xs={2}>
                                 <a href={`/gltfs/${gltf.gltfId}`} style={{ textDecoration: 'none', color: 'black', position: "absolute", margin: "0", top: "50%", transform: "translateY(-50%)", msTransform: "translateY(-50%)" }} className="btn btn-light">
-                                    <MoonBadge size={15}/>
+                                    <Files size={15}/>
                                 </a>
                             </Col>
                         </Row>
