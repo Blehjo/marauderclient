@@ -8,7 +8,7 @@ import {
 } from '../../utils/reducer/reducer.utils';
 
 export type PanelCreateStart = ActionWithPayload<
-    PANEL_ACTION_TYPES.CREATE_START, { title: string, xCoord: number, yCoord: number }
+    PANEL_ACTION_TYPES.CREATE_START, { title: string, xCoord?: number, yCoord?: number }
 >;
 
 export type PanelCreateSuccess = ActionWithPayload<
@@ -95,7 +95,7 @@ export type PanelFetchAllFailed = ActionWithPayload<
 >;
 
 export const panelCreateStart = withMatcher(
-    (title: string, xCoord: number, yCoord: number ): PanelCreateStart => 
+    (title: string, xCoord?: number, yCoord?: number ): PanelCreateStart => 
     createAction(PANEL_ACTION_TYPES.CREATE_START, { title, xCoord, yCoord })
 );
 
