@@ -8,7 +8,7 @@ import {
 } from '../../utils/reducer/reducer.utils';
 
 export type NoteCreateStart = ActionWithPayload<
-    NOTE_ACTION_TYPES.CREATE_START, { noteValue: string, xCoord: number, yCoord: number, imageFile: File, panelId: number }
+    NOTE_ACTION_TYPES.CREATE_START, { panelId: number, noteValue: string, xCoord?: number, yCoord?: number, imageFile?: File }
 >;
 
 export type NoteCreateSuccess = ActionWithPayload<
@@ -66,8 +66,10 @@ export type NoteFetchSingleFailed = ActionWithPayload<
     Error
 >;
 
-export type NoteFetchAllStart = Action<
-    NOTE_ACTION_TYPES.FETCH_ALL_START
+export type NoteFetchAllStart = ActionWithPayload<
+    NOTE_ACTION_TYPES.FETCH_ALL_START, {
+        panelId: number
+    }
 >;
 
 export type NoteFetchAllSuccess = ActionWithPayload<
@@ -81,7 +83,7 @@ export type NoteFetchAllFailed = ActionWithPayload<
 >;
 
 export const noteCreateStart = withMatcher(
-    (noteValue: string, xCoord: number, yCoord: number, imageFile: File, panelId: number ): NoteCreateStart => 
+    (panelId: number, noteValue: string, xCoord?: number, yCoord?: number, imageFile?: File ): NoteCreateStart => 
     createAction(NOTE_ACTION_TYPES.CREATE_START, { noteValue, xCoord, yCoord, imageFile, panelId })
 );
 
@@ -141,13 +143,13 @@ export const noteFetchSingleFailed = withMatcher(
 );
 
 export const noteFetchAllStart = withMatcher(
-    (note: Note[]): NoteFetchAllStart => 
-    createAction(NOTE_ACTION_TYPES.FETCH_ALL_START, note)
+    (panelId: number): NoteFetchAllStart => 
+    createAction(NOTE_ACTION_TYPES.FETCH_ALL_START, { panelId })
 );
 
 export const noteFetchAllSuccess = withMatcher(
-    (note: Note[]): NoteFetchAllSuccess => 
-    createAction(NOTE_ACTION_TYPES.FETCH_ALL_SUCCESS, note)
+    (notes: Note[]): NoteFetchAllSuccess => 
+    createAction(NOTE_ACTION_TYPES.FETCH_ALL_SUCCESS, notes)
 );
 
 export const noteFetchAllFailed = withMatcher(

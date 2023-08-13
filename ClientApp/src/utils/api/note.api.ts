@@ -9,10 +9,10 @@ const headers = {
   'Content-Type': 'application/x-www-form-urlencoded' 
 }
 
-export async function getSingleNote(memberId: number): Promise<Note> {
+export async function getSingleNote(noteId: number): Promise<Note> {
   const response = await axios({
     method: 'get',
-    url: `${api}/${memberId}`,
+    url: `${api}/${noteId}`,
     headers: headers,
     withCredentials: true
   });
@@ -20,10 +20,10 @@ export async function getSingleNote(memberId: number): Promise<Note> {
   return result;
 }
 
-export async function getAllNotes(): Promise<Note[]> {
+export async function getAllNotes(panelId: number): Promise<Note[]> {
   const response = await axios({
     method: 'get',
-    url: api,
+    url: `${api}/panel/${panelId}`,
     headers: headers,
     withCredentials: true
   });
@@ -31,10 +31,10 @@ export async function getAllNotes(): Promise<Note[]> {
   return result;
 }
 
-export async function addNote(panelId: number, xCoord: number, yCoord: number, formData: FormData): Promise<Note[]> {
+export async function addNote(panelId: number, formData: FormData, xCoord?: number, yCoord?: number): Promise<Note[]> {
   const response = await axios({
     method: 'post',
-    url: `${api}/${panelId}/${xCoord}/${yCoord}`,
+    url: `${api}/${panelId}`,
     data: formData,
     headers: headers,
     withCredentials: true
@@ -55,10 +55,10 @@ export async function editNote(noteId: number, xCoord: number, yCoord: number , 
   return result;
 }
 
-export async function deleteNote(memberId: number): Promise<Note[]> {
+export async function deleteNote(noteId: number): Promise<Note[]> {
   const response = await axios({
     method: 'delete',
-    url: `${api}/${memberId}`,
+    url: `${api}/${noteId}`,
     headers: headers,
     withCredentials: true
   });

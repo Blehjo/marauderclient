@@ -39,7 +39,7 @@ class NavMenu extends Component<NavMenuProps, INavMenu> {
         const { user } = this.props;
         return (
             <NavmenuContainer className="fixed-top">
-                <Navbar style={{ border: "1px solid #E6C487" }} variant="dark" bg="dark" sticky="top" expand="lg" >
+                <Navbar style={{ border: "3px solid #E6C487", borderRadius: "5px" }} variant="dark" bg="dark" sticky="top" expand="lg" >
                     <Container fluid>
                     <List style={{ marginLeft: '.75rem', border: '1px solid white', marginRight: '1rem', padding: '.02rem', borderRadius: '.2rem', cursor: 'pointer' }} className="d-flex align-items-center"/>
                     <Navbar.Brand href="/">Marauders</Navbar.Brand>

@@ -5,8 +5,8 @@ import { Panel } from "../../store/panel/panel.types";
 const api = "https://localhost:7144/api/panel";
 
 const headers = {
-  'Accept': 'application/x-www-form-urlencoded',
-  'Content-Type': 'application/x-www-form-urlencoded' 
+  'Accept': 'application/json',
+  'Content-Type': 'application/json' 
 }
 
 export async function getSinglePanel(panelId: number): Promise<Panel> {
@@ -42,7 +42,18 @@ export async function getAllPanels(): Promise<Panel[]> {
   return result;
 }
 
-export async function addPanel(title: string, xCoord: number, yCoord: number): Promise<Panel[]> {
+export async function getAllUserPanels(): Promise<Panel[]> {
+  const response = await axios({
+    method: 'get',
+    url: `${api}/users`,
+    headers: headers,
+    withCredentials: true
+  });
+  const result = await response.data;
+  return result;
+}
+
+export async function addPanel(title: string, xCoord?: number, yCoord?: number): Promise<Panel[]> {
   const response = await axios({
     method: 'post',
     url: api, 

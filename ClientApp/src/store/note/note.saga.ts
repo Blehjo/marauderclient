@@ -15,7 +15,8 @@ import {
     NoteCreateStart,
     NoteDeleteStart,
     NoteUpdateStart,
-    NoteFetchSingleStart
+    NoteFetchSingleStart,
+    NoteFetchAllStart
 } from './note.action';
 
 import {
@@ -26,17 +27,19 @@ import {
     getSingleNote
 } from '../../utils/api/note.api';
 
-export function* createNote({ payload: { noteValue, xCoord, yCoord, imageFile, panelId }}: NoteCreateStart ) {
+export function* createNote({ payload: { panelId, noteValue, xCoord, yCoord, imageFile }}: NoteCreateStart ) {
     const formData = new FormData();
     formData.append('noteValue', noteValue);
-    formData.append('imageFile', imageFile);
+    if (imageFile != undefined) {
+        formData.append('imageFile', imageFile);
+    }
     try {
         const notes = yield* call(
             addNote,
             panelId,
+            formData,
             xCoord,
-            yCoord,
-            formData
+            yCoord
         ); 
         yield* put(noteCreateSuccess(notes));
     } catch (error) {
@@ -88,9 +91,10 @@ export function* fetchSingleNote({
     }
 }
 
-export function* fetchAllNotes() {
+export function* fetchAllNotes({
+    payload: { panelId } }: NoteFetchAllStart) {
     try {
-        const notes = yield* call(getAllNotes);
+        const notes = yield* call(getAllNotes, panelId);
         yield* put(noteFetchAllSuccess(notes));
     } catch (error) {
         yield* put(noteFetchAllFailed(error as Error));

@@ -12,6 +12,8 @@ import {
     panelFetchAllSuccess,
     panelFetchSingleFailed,
     panelFetchSingleSuccess,
+    panelSetIdStart,
+    panelSetIdSuccess,
     panelUpdateFailed,
     panelUpdateSuccess
 } from './panel.action';
@@ -38,7 +40,8 @@ export const panelReducer = (
     state = INITIAL_STATE, action: AnyAction
 ): PanelState => {
     if (
-        panelFetchAllStart.match(action) 
+        panelFetchAllStart.match(action) ||
+        panelSetIdStart.match(action)
     ) {
         return { ...state, isLoading: true }
     }
@@ -55,6 +58,11 @@ export const panelReducer = (
     ) {
         return { ...state, isLoading: false, panels: action.payload };
     } 
+    if (
+        panelSetIdSuccess.match(action)
+    ) {
+        return { ...state, isLoading: false, panelId: action.payload.panelId };
+    }
     if (
         panelCreateFailed.match(action) ||
         panelUpdateFailed.match(action) ||

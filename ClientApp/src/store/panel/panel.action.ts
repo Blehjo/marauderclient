@@ -94,6 +94,21 @@ export type PanelFetchAllFailed = ActionWithPayload<
     Error
 >;
 
+
+export type PanelSetIdStart = ActionWithPayload<
+    PANEL_ACTION_TYPES.SET_ID_START, { panelId: number }
+>;
+
+export type PanelSetIdSuccess = ActionWithPayload<
+    PANEL_ACTION_TYPES.SET_ID_SUCCESS, 
+    { panelId: number }
+>;
+
+export type PanelSetIdFailed = ActionWithPayload<
+    PANEL_ACTION_TYPES.SET_ID_FAILED,
+    Error
+>;
+
 export const panelCreateStart = withMatcher(
     (title: string, xCoord?: number, yCoord?: number ): PanelCreateStart => 
     createAction(PANEL_ACTION_TYPES.CREATE_START, { title, xCoord, yCoord })
@@ -182,4 +197,20 @@ export const panelFetchAllSuccess = withMatcher(
 export const panelFetchAllFailed = withMatcher(
     (error: Error): PanelFetchAllFailed => 
     createAction(PANEL_ACTION_TYPES.FETCH_ALL_FAILED, error)
+);
+
+
+export const panelSetIdStart = withMatcher(
+    (panelId: number): PanelSetIdStart => 
+    createAction(PANEL_ACTION_TYPES.SET_ID_START, { panelId })
+);
+
+export const panelSetIdSuccess = withMatcher(
+    (panelId: number): PanelSetIdSuccess => 
+    createAction(PANEL_ACTION_TYPES.SET_ID_SUCCESS, { panelId })
+);
+
+export const panelSetIdFailed = withMatcher(
+    (error: Error): PanelSetIdFailed => 
+    createAction(PANEL_ACTION_TYPES.SET_ID_FAILED, error)
 );

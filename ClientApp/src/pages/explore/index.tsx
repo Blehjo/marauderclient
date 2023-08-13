@@ -6,25 +6,25 @@ const contentArray = [
     {
         type: "Files",
         path: "/gltfs",
-        media_location_url: "/planets-explore.jpeg",
+        media_location_url: "/three-explore.png",
         id: 1
     },
     {
         type: "Crew",
         path: "/crew",
-        media_location_url: "/crew-explore.jpeg",
+        media_location_url: "/ai-explore.jpeg",
         id: 2
     },
     {
         type: "Profiles",
         path: "/profiles",
-        media_location_url: "/profiles-explore.jpeg",
+        media_location_url: "/profiles-explore.avif",
         id: 3
     },
     {
         type: "Posts",
         path: "/posts",
-        media_location_url: "/posts-explore.jpeg",
+        media_location_url: "/posts-explore.png",
         id: 4
     },
     {
@@ -36,7 +36,7 @@ const contentArray = [
     {
         type: "Communities",
         path: "/communities",
-        media_location_url: "/news-explore.jpeg",
+        media_location_url: "/communities-explore.webp",
         id: 6
     }
 ]

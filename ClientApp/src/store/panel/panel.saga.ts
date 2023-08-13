@@ -7,6 +7,7 @@ import {
     PanelDeleteStart,
     PanelFetchAllUserStart,
     PanelFetchSingleStart,
+    PanelSetIdStart,
     PanelUpdateStart,
     panelCreateFailed,
     panelCreateSuccess,
@@ -18,6 +19,7 @@ import {
     panelFetchAllUserSuccess,
     panelFetchSingleFailed,
     panelFetchSingleSuccess,
+    panelSetIdSuccess,
     panelUpdateFailed,
     panelUpdateSuccess
 } from './panel.action';
@@ -27,9 +29,14 @@ import {
     deletePanel,
     editPanel,
     getAllPanels,
+    getAllUserPanels,
     getSinglePanel,
     getUserPanels
 } from '../../utils/api/panel.api';
+
+export function* startSetId({ payload: { panelId }}: PanelSetIdStart) {
+    yield* put(panelSetIdSuccess(panelId));
+}
 
 export function* createPanel({ payload: { title, xCoord, yCoord }}: PanelCreateStart ) {
     try {
@@ -97,11 +104,18 @@ export function* fetchSinglePanel({
 
 export function* fetchAllPanels() {
     try {
-        const panels = yield* call(getAllPanels);
+        const panels = yield* call(getAllUserPanels);
         yield* put(panelFetchAllSuccess(panels));
     } catch (error) {
         yield* put(panelFetchAllFailed(error as Error));
     }
+}
+
+export function* onSetId() {
+    yield* takeLatest(
+        PANEL_ACTION_TYPES.SET_ID_START,
+        startSetId
+    );
 }
 
 export function* onCreateStart() {
@@ -148,6 +162,7 @@ export function* onFetchStart() {
 
 export function* panelSagas() {
     yield* all([
+        call(onSetId),
         call(onCreateStart),
         call(onUpdateStart),
         call(onDeleteStart),
