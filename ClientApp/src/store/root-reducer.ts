@@ -32,6 +32,8 @@ import { gltfReducer } from './gltf/gltf.reducer';
 import { panelReducer } from './panel/panel.reducer';
 import { artificialIntelligenceChatReducer } from './artificialIntelligencechat/artificialintelligencechat.reducer';
 import { editorReducer } from './editor/editor.reducer';
+import { gltfcommentReducer } from './gltfcomment/gltfcomment.reducer';
+import { userChatCommentReducer } from './userchatcomment/userchatcomment.reducer';
 
 export const rootReducer = combineReducers({
   action: actionReducer,
@@ -50,6 +52,7 @@ export const rootReducer = combineReducers({
   favorite: favoriteReducer,
   follower: followerReducer,
   gltf: gltfReducer,
+  gltfcomment: gltfcommentReducer,
   interface: interfaceReducer,
   pin: pinReducer,
   marauder: marauderReducer,
@@ -64,6 +67,7 @@ export const rootReducer = combineReducers({
   scene: sceneReducer,
   tool: toolReducer,
   toolbox: toolboxReducer,
+  userchatcomment: userChatCommentReducer,
   user: userReducer,
   userprofile: userprofileReducer,
   ui: interfaceReducer

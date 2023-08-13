@@ -27,6 +27,8 @@ import { userprofileSagas } from './userprofile/userprofile.saga';
 import { moveableSagas } from './moveable/moveable.saga';
 import { artificialIntelligenceChatSagas } from './artificialIntelligencechat/artificialintelligencechat.saga';
 import { shapeSagas } from './editor/editor.saga';
+import { gltfCommentSagas } from './gltfcomment/gltfcomment.saga';
+import { userChatCommentSagas } from './userchatcomment/userchatcomment.saga';
 
 export function* rootSaga() {
   yield* all([
@@ -44,6 +46,7 @@ export function* rootSaga() {
     call(favoriteSagas), 
     call(followerSagas), 
     call(gltfSagas), 
+    call(gltfCommentSagas), 
     call(marauderSagas), 
     call(memberSagas), 
     call(messageSagas), 
@@ -55,6 +58,7 @@ export function* rootSaga() {
     call(postSagas), 
     call(shapeSagas), 
     call(toolSagas), 
+    call(userChatCommentSagas),
     call(userSagas),
     call(userprofileSagas)
   ]);
