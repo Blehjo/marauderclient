@@ -22,7 +22,7 @@ export enum DOCFILE_ACTION_TYPES {
 };
 
 export type DocFile = {
-    panelId: number | null;
+    docFileId: number | null;
     title: string | null;
     xCoord: number | null;
     yCoord: number | null;

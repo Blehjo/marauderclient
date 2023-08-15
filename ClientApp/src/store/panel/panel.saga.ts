@@ -38,10 +38,11 @@ export function* startSetId({ payload: { panelId }}: PanelSetIdStart) {
     yield* put(panelSetIdSuccess(panelId));
 }
 
-export function* createPanel({ payload: { title, xCoord, yCoord }}: PanelCreateStart ) {
+export function* createPanel({ payload: { docFileId, title, xCoord, yCoord }}: PanelCreateStart ) {
     try {
         const panels = yield* call(
             addPanel,
+            docFileId,
             title,
             xCoord,
             yCoord

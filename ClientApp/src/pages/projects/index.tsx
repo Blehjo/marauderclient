@@ -1,19 +1,21 @@
 import { ChangeEvent, Component, Dispatch, FormEvent } from "react";
-import { ListContainer } from "../../styles/messages/messages.styles";
-import { Card, Col, Form, Image, Modal, Row } from "react-bootstrap";
-import { ProjectContainer } from "../../styles/project/project.styles";
-import { ButtonContainer, CardContainer, FormContainer, XContainer } from "../../styles/devices/devices.styles";
+import { Card, Col, Form, Modal, Row } from "react-bootstrap";
 import { Plus, XCircle } from "react-bootstrap-icons";
 import { ConnectedProps, connect } from "react-redux";
-import { RootState } from "../../store/store";
-import { PanelCreateStart, PanelDeleteStart, PanelFetchAllStart, PanelFetchSingleStart, PanelSetIdStart, panelCreateStart, panelDeleteStart, panelFetchAllStart, panelFetchSingleStart, panelSetIdStart } from "../../store/panel/panel.action";
 import { Textfit } from "react-textfit";
 import Panel from "../../components/panel/panel.component";
+import { DocFileCreateStart, DocFileDeleteStart, DocFileFetchAllStart, DocFileFetchSingleStart, docFileCreateStart, docFileDeleteStart, docFileFetchAllStart, docFileFetchSingleStart } from "../../store/docfile/docfile.action";
 import { NoteCreateStart, NoteDeleteStart, NoteFetchAllStart, NoteFetchSingleStart, noteCreateStart, noteDeleteStart, noteFetchAllStart, noteFetchSingleStart } from "../../store/note/note.action";
+import { PanelCreateStart, PanelDeleteStart, PanelFetchAllStart, PanelFetchSingleStart, PanelSetIdStart, panelCreateStart, panelDeleteStart, panelFetchAllStart, panelFetchSingleStart, panelSetIdStart } from "../../store/panel/panel.action";
+import { RootState } from "../../store/store";
+import { ButtonContainer, CardContainer, FormContainer, XContainer } from "../../styles/devices/devices.styles";
+import { ListContainer } from "../../styles/messages/messages.styles";
+import { ProjectContainer } from "../../styles/project/project.styles";
 
 interface IProject {
     title: string;
-    show: boolean;
+    showProject: boolean;
+    showPanel: boolean;
 }
 
 type ProjectProps = ConnectedProps<typeof connector>;
@@ -23,11 +25,13 @@ class Projects extends Component<ProjectProps, IProject> {
         super(props);
         this.state = {
             title: "",
-            show: false
+            showProject: false,
+            showPanel: false
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.newProject = this.newProject.bind(this);
+        this.handleDocFile = this.handleDocFile.bind(this);
     }
 
     handleChange(event: ChangeEvent<HTMLInputElement>): void {
@@ -37,17 +41,31 @@ class Projects extends Component<ProjectProps, IProject> {
 
     handleClick(): void {
         this.setState({
-            show: !this.state.show
+            showPanel: !this.state.showPanel
         });
     }
 
-    handleSubmit(event: FormEvent<HTMLFormElement>) {
+    handleGetProject(docFileId: number): void {
+        this.props.getSingleFile(docFileId);
+    }
+
+    newProject(): void {
+        this.setState({
+            showProject: !this.state.showProject
+        })
+    }
+
+    handleDocFile(event: FormEvent<HTMLFormElement>): void {
         event.preventDefault();
         const { title } = this.state;
-        this.props.addPanel(title);
+        this.props.addProject(title);
         this.setState({
-            ...this.state, show: !this.state.show, title: ""
+            ...this.state, showProject: !this.state.showProject, title: ""
         });
+    }
+
+    deleteDocFile(docFileId: number): void {
+        this.props.deleteProject(docFileId);
     }
 
     handleDelete(panelId: number): void {
@@ -60,21 +78,21 @@ class Projects extends Component<ProjectProps, IProject> {
     }
 
     componentDidMount(): void {
-        this.props.getAllPanels();
+        this.props.getAllFiles();
     }
 
     render() {
-        const { show, title } = this.state;
-        const { panels } = this.props;
+        const { showPanel, showProject, title } = this.state;
+        const { panels, docFiles } = this.props;
         return (
             <ProjectContainer>
                 <ListContainer>
-                    <CardContainer onClick={this.handleClick} style={{ backgroundColor: 'black', borderRadius: '.3rem', border: 'solid 1px white', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', color: 'white', textAlign: 'center' }}>
+                    <CardContainer onClick={this.newProject} style={{ backgroundColor: 'black', borderRadius: '.3rem', border: 'solid 1px white', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', color: 'white', textAlign: 'center' }}>
                         New Project +
                     </CardContainer>
                     {
-                        panels.panels?.map(({ panelId, title, notes }, index) => (
-                            <Card key={panelId} onClick={() => this.getPanel(panelId!)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer' }}>
+                        docFiles.docFiles?.map(({ docFileId, title, notes }, index) => (
+                            <Card key={docFileId} onClick={() => this.handleGetProject(docFileId!)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer' }}>
                                 <Row style={{ lineHeight: '3rem' }} key={index} xs={2}>
                                     <Col key='col2' xs={6}>
                                         <Textfit style={{ width: "100px" }}>
@@ -83,7 +101,7 @@ class Projects extends Component<ProjectProps, IProject> {
                                     </Col>
                                     <Col key='col3' xs={1}>
                                         <XContainer>
-                                            <XCircle onClick={() => this.handleDelete(panelId!)} />
+                                            <XCircle onClick={() => this.deleteDocFile(docFileId!)} />
                                         </XContainer>
                                     </Col>
                                 </Row>
@@ -92,10 +110,10 @@ class Projects extends Component<ProjectProps, IProject> {
                     }
                 </ListContainer>
                 <Panel {...this.props} />
-                <Modal show={show} onHide={this.handleClick}>
+                <Modal show={showProject} onHide={this.newProject}>
                     <Modal.Header closeButton>Create new project</Modal.Header>
                     <Modal.Body>
-                    <Form onSubmit={this.handleSubmit}>
+                    <Form onSubmit={this.handleDocFile}>
                         <FormContainer>
                             <ButtonContainer className="btn btn-outline-dark" type="submit">
                                 <Plus style={{ cursor: 'pointer' }} size={15}/>
@@ -114,11 +132,16 @@ class Projects extends Component<ProjectProps, IProject> {
 
 const mapStateToProps = (state: RootState) => ({
     panels: state.panel,
-    notes: state.note
+    notes: state.note,
+    docFiles: state.docFile
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<PanelSetIdStart | PanelFetchAllStart | PanelCreateStart | PanelFetchSingleStart | PanelDeleteStart | NoteFetchAllStart | NoteFetchSingleStart | NoteCreateStart | NoteDeleteStart>) => ({
-    addPanel: (title: string) => dispatch(panelCreateStart(title)),
+const mapDispatchToProps = (dispatch: Dispatch<DocFileFetchAllStart | DocFileFetchSingleStart | DocFileCreateStart | DocFileDeleteStart | PanelSetIdStart | PanelFetchAllStart | PanelCreateStart | PanelFetchSingleStart | PanelDeleteStart | NoteFetchAllStart | NoteFetchSingleStart | NoteCreateStart | NoteDeleteStart>) => ({
+    addProject: (title: string) => dispatch(docFileCreateStart(title)),
+    deleteProject: (docFileId: number) => dispatch(docFileDeleteStart(docFileId)),
+    getAllFiles: () => dispatch(docFileFetchAllStart()),
+    getSingleFile: (docFileId: number) => dispatch(docFileFetchSingleStart(docFileId)),
+    addPanel: (docFileId: number, title: string) => dispatch(panelCreateStart(docFileId, title)),
     deletePanel: (panelId: number) => dispatch(panelDeleteStart(panelId)),
     setId: (panelId: number) => dispatch(panelSetIdStart(panelId)),
     getAllPanels: () => dispatch(panelFetchAllStart()),

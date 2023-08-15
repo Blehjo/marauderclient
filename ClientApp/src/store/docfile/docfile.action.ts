@@ -106,7 +106,7 @@ export const docFileCreateSuccess = withMatcher(
 
 export const docFileCreateFailed = withMatcher(
     (error: Error) => 
-    createAction(DOCFILE_ACTION_TYPES.CREATE_START, error)
+    createAction(DOCFILE_ACTION_TYPES.CREATE_FAILED, error)
 );
  
 export const docFileUpdateStart = withMatcher(
@@ -136,7 +136,7 @@ export const docFileDeleteSuccess = withMatcher(
 
 export const docFileDeleteFailed = withMatcher(
     (error: Error) => 
-    createAction(DOCFILE_ACTION_TYPES.DELETE_START, error)
+    createAction(DOCFILE_ACTION_TYPES.DELETE_FAILED, error)
 );
 
 export const docFileFetchSingleStart = withMatcher(

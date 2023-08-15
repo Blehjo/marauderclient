@@ -53,10 +53,10 @@ export async function getAllUserPanels(): Promise<Panel[]> {
   return result;
 }
 
-export async function addPanel(title: string, xCoord?: number, yCoord?: number): Promise<Panel[]> {
+export async function addPanel(docFileId: number, title: string, xCoord?: number, yCoord?: number): Promise<Panel[]> {
   const response = await axios({
     method: 'post',
-    url: api, 
+    url: `${api}/${docFileId}`, 
     data: {
       title,
       xCoord,

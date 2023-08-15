@@ -1,10 +1,12 @@
 import { ChangeEvent, Component, FormEvent, ReactNode } from "react";
-import { PanelContainer } from "../../styles/panel/panel.styles";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
-import { ButtonContainer, CardContainer, FormContainer } from "../../styles/devices/devices.styles";
-import { Form, Modal } from "react-bootstrap";
-import { Plus } from "react-bootstrap-icons";
+import { Card, Col, Form, Modal, Row } from "react-bootstrap";
+import { Plus, XCircle } from "react-bootstrap-icons";
+import { Textfit } from "react-textfit";
 import { Note } from "../../store/note/note.types";
+import { Panel as PanelType } from "../../store/panel/panel.types";
+import { ButtonContainer, CardContainer, FormContainer, XContainer } from "../../styles/devices/devices.styles";
+import { PanelContainer } from "../../styles/panel/panel.styles";
 
 const getItems = (count: number) => Array.from({length: count}, (v, k) => k).map(k => ({
     id: `item-${k}`,
@@ -48,6 +50,8 @@ type Item = {
     content: string;
 }
 interface IPanel {
+    showPanel: boolean;
+    title: string;
     noteValue: string;
     mediaLink: string;
     imageSource: string | ArrayBuffer | null | undefined;
@@ -61,11 +65,13 @@ class Panel extends Component<any, IPanel> {
     constructor(props: any) {
         super(props);
         this.state = {
+            title: "",
             mediaLink: "",
             imageSource: "",
             imageFile: null,
             noteValue: "",
             show: false,
+            showPanel: false,
             items: getItems(10),
             notes: this.props.panels?.panelId != null ? this.props.notes.notes : []
         }
@@ -74,6 +80,23 @@ class Panel extends Component<any, IPanel> {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.showPreview = this.showPreview.bind(this);
+        this.handleNewPanel = this.handleNewPanel.bind(this);
+        this.handlePanel = this.handlePanel.bind(this);
+    }
+
+    handlePanel(event: FormEvent<HTMLFormElement>): void {
+        event.preventDefault();
+        const { title } = this.state;
+        console.log("ID::::", this.props.docFiles.singleDocFile?.docFileId)
+        this.props.addPanel(this.props.docFiles.singleDocFile?.docFileId, title);
+        this.setState({
+            ...this.state, showPanel: !this.state.showPanel, title: ""
+        });
+    }
+
+    getPanel(panelId: number): void {
+        this.props.getPanel(panelId);
+        this.props.setId(panelId);
     }
 
     handleChange(event: ChangeEvent<HTMLInputElement>): void {
@@ -84,6 +107,12 @@ class Panel extends Component<any, IPanel> {
     handleClick(): void {
         this.setState({
             show: !this.state.show
+        });
+    }
+
+    handleNewPanel(): void {
+        this.setState({
+            showPanel: !this.state.showPanel
         });
     }
 
@@ -147,27 +176,56 @@ class Panel extends Component<any, IPanel> {
 
     componentDidMount(): void {
         if (this.props.panels?.panelId != null) {
+            this.props.getAllPanels();
             this.props.getNotes(this.props.panels.panelId);
         }
     }
 
     componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<IPanel>, snapshot?: any): void {
         if (prevProps.panels?.panelId != this.props.panels?.panelId) {
+            this.props.getAllPanels();
             this.props.getNotes(this.props.panels.panelId);
             this.setState({
                 notes:  this.props.notes.notes
             }, () => console.log(this.state.notes));
         }
+
+        if (prevProps.docFiles.singleDocFile?.docFileId != this.props.docFiles.singleDocFile?.docFileId) {
+            this.props.getPanel(this.props.docFiles.singleDocFile?.docFileId);
+        }
     }
     
     render() {
-        const { show, noteValue, notes } = this.state;
-        console.log(this.state.notes);
+        const { show, noteValue, notes, showPanel, title } = this.state;
+        const { panels } = this.props;
         return (
             <PanelContainer>
-                <CardContainer onClick={this.handleClick} style={{ backgroundColor: 'black', borderRadius: '.3rem', border: 'solid 1px white', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', color: 'white', textAlign: 'center' }}>
-                    New Note +
+                <CardContainer onClick={this.handleNewPanel} style={{ backgroundColor: 'black', borderRadius: '.3rem', border: 'solid 1px white', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', color: 'white', textAlign: 'center' }}>
+                    New Panel +
                 </CardContainer>
+                {
+                    panels.panels?.map(({ panelId, title, notes }: PanelType, index: number) => (
+                        <>
+                        <CardContainer onClick={this.handleClick} style={{ backgroundColor: 'black', borderRadius: '.3rem', border: 'solid 1px white', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', color: 'white', textAlign: 'center' }}>
+                            New Note +
+                        </CardContainer>
+                        <Card key={panelId} onClick={() => this.getPanel(panelId!)} style={{ border: '1px solid white', borderRadius: '1rem', background: 'black', padding: grid, width: '250', verticalAlign: 'middle', justifyContent: 'center', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer' }}>
+                            <Row style={{ lineHeight: '3rem' }} key={index} xs={2}>
+                                <Col key='col2' xs={6}>
+                                    <Textfit style={{ width: "100px" }}>
+                                    {title}
+                                    </Textfit>
+                                </Col>
+                                <Col key='col3' xs={1}>
+                                    <XContainer>
+                                        <XCircle onClick={() => this.handleDelete(panelId!)} />
+                                    </XContainer>
+                                </Col>
+                            </Row>
+                        </Card>
+                        </>
+                    ))
+                }
                 <DragDropContext onDragEnd={this.onDragEnd}>
                     <Droppable droppableId="droppable">
                     {(provided, snapshot) => (
@@ -219,6 +277,21 @@ class Panel extends Component<any, IPanel> {
                         </Form.Group>
                         <Form.Group className="mb-3" controlId="formMedia">
                             <Form.Control onChange={this.showPreview} name="mediaLink" as="input" accept="image/*" type="file" placeholder="Media" />
+                        </Form.Group>
+                    </Form>
+                    </Modal.Body>
+                </Modal>
+                <Modal show={showPanel} onHide={this.handleNewPanel}>
+                    <Modal.Header closeButton>Create new panel</Modal.Header>
+                    <Modal.Body>
+                    <Form onSubmit={this.handlePanel}>
+                        <FormContainer>
+                            <ButtonContainer className="btn btn-outline-dark" type="submit">
+                                <Plus style={{ cursor: 'pointer' }} size={15}/>
+                            </ButtonContainer>
+                        </FormContainer>
+                        <Form.Group className="mb-3" controlId="title">
+                            <Form.Control style={{ height: '.5rem' }} as="textarea" onChange={this.handleChange} value={title} name="title" placeholder="Project name" />
                         </Form.Group>
                     </Form>
                     </Modal.Body>
