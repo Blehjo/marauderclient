@@ -58,7 +58,7 @@ export type PanelFetchSingleStart = ActionWithPayload<
 
 export type PanelFetchSingleSuccess = ActionWithPayload<
     PANEL_ACTION_TYPES.FETCH_SINGLE_SUCCESS, 
-    Panel
+    Panel[]
 >;
 
 export type PanelFetchSingleFailed = ActionWithPayload<
@@ -160,8 +160,8 @@ export const panelFetchSingleStart = withMatcher(
 );
 
 export const panelFetchSingleSuccess = withMatcher(
-    (panel: Panel): PanelFetchSingleSuccess => 
-    createAction(PANEL_ACTION_TYPES.FETCH_SINGLE_SUCCESS, panel)
+    (panels: Panel[]): PanelFetchSingleSuccess => 
+    createAction(PANEL_ACTION_TYPES.FETCH_SINGLE_SUCCESS, panels)
 );
 
 export const panelFetchSingleFailed = withMatcher(

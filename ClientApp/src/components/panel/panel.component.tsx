@@ -50,6 +50,7 @@ type Item = {
     content: string;
 }
 interface IPanel {
+    panelId: number | null;
     showPanel: boolean;
     title: string;
     noteValue: string;
@@ -65,6 +66,7 @@ class Panel extends Component<any, IPanel> {
     constructor(props: any) {
         super(props);
         this.state = {
+            panelId: null,
             title: "",
             mediaLink: "",
             imageSource: "",
@@ -82,6 +84,11 @@ class Panel extends Component<any, IPanel> {
         this.showPreview = this.showPreview.bind(this);
         this.handleNewPanel = this.handleNewPanel.bind(this);
         this.handlePanel = this.handlePanel.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+    }
+
+    closeModal(): void {
+        this.setState({ show: !this.state.show });
     }
 
     handlePanel(event: FormEvent<HTMLFormElement>): void {
@@ -104,9 +111,9 @@ class Panel extends Component<any, IPanel> {
         this.setState({ ...this.state, [name]: value });
     }
 
-    handleClick(): void {
+    handleClick(panelId: number): void {
         this.setState({
-            show: !this.state.show
+            ...this.state, show: !this.state.show, panelId: panelId
         });
     }
 
@@ -119,8 +126,7 @@ class Panel extends Component<any, IPanel> {
     handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const { noteValue } = this.state;
-        this.props.addNote(this.props.panels?.panelId, noteValue);
-        console.log("HANDLESUBMIT:: ", this.props.panels?.panelId);
+        this.props.addNote(this.state.panelId!, noteValue);
         this.setState({
             ...this.state, show: !this.state.show, noteValue: ""
         });
@@ -174,24 +180,19 @@ class Panel extends Component<any, IPanel> {
         }
     }
 
-    componentDidMount(): void {
-        if (this.props.panels?.panelId != null) {
-            this.props.getAllPanels();
-            this.props.getNotes(this.props.panels.panelId);
-        }
-    }
+    // componentDidMount(): void {
+
+    // }
 
     componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<IPanel>, snapshot?: any): void {
-        if (prevProps.panels?.panelId != this.props.panels?.panelId) {
-            this.props.getAllPanels();
-            this.props.getNotes(this.props.panels.panelId);
-            this.setState({
-                notes:  this.props.notes.notes
-            }, () => console.log(this.state.notes));
-        }
+        // if (prevProps.panels.panels?.length != this.props.panels.panels?.length) {
+        //     this.props.getPanel(this.props.docFIles.singleDocFile.docFileId);
+        //     console.log("PANELS:: ", this.props.panels.panels);
+        // }
 
         if (prevProps.docFiles.singleDocFile?.docFileId != this.props.docFiles.singleDocFile?.docFileId) {
             this.props.getPanel(this.props.docFiles.singleDocFile?.docFileId);
+            console.log("FETCHED::: ", this.props.panels.panels);
         }
     }
     
@@ -200,15 +201,13 @@ class Panel extends Component<any, IPanel> {
         const { panels } = this.props;
         return (
             <PanelContainer>
-                <CardContainer onClick={this.handleNewPanel} style={{ backgroundColor: 'black', borderRadius: '.3rem', border: 'solid 1px white', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', color: 'white', textAlign: 'center' }}>
+                {this.props.docFiles.singleDocFile?.docFileId && <CardContainer onClick={this.handleNewPanel} style={{ backgroundColor: 'black', borderRadius: '.3rem', border: 'solid 1px white', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', color: 'white', textAlign: 'center' }}>
                     New Panel +
-                </CardContainer>
+                </CardContainer>}
+                <Row xs={3}>
                 {
                     panels.panels?.map(({ panelId, title, notes }: PanelType, index: number) => (
-                        <>
-                        <CardContainer onClick={this.handleClick} style={{ backgroundColor: 'black', borderRadius: '.3rem', border: 'solid 1px white', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', color: 'white', textAlign: 'center' }}>
-                            New Note +
-                        </CardContainer>
+                        <Col>
                         <Card key={panelId} onClick={() => this.getPanel(panelId!)} style={{ border: '1px solid white', borderRadius: '1rem', background: 'black', padding: grid, width: '250', verticalAlign: 'middle', justifyContent: 'center', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer' }}>
                             <Row style={{ lineHeight: '3rem' }} key={index} xs={2}>
                                 <Col key='col2' xs={6}>
@@ -223,47 +222,51 @@ class Panel extends Component<any, IPanel> {
                                 </Col>
                             </Row>
                         </Card>
-                        </>
-                    ))
-                }
-                <DragDropContext onDragEnd={this.onDragEnd}>
-                    <Droppable droppableId="droppable">
-                    {(provided, snapshot) => (
-                        <div 
-                        ref={provided.innerRef} 
-                        style={getListStyle(snapshot.isDraggingOver)}
-                        {...provided.droppableProps}
-                        >
-                        {notes?.map(({noteId, panelId, noteValue}: Note, index: number) => (
-                            <Draggable
-                            key={`${noteId}`}
-                            draggableId={`${noteId}`}
-                            index={index}
-                            >
+                        <CardContainer onClick={() => this.handleClick(panelId!)} style={{ backgroundColor: 'black', borderRadius: '.3rem', border: 'solid 1px white', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', color: 'white', textAlign: 'center' }}>
+                            New Note +
+                        </CardContainer>
+                        <DragDropContext onDragEnd={this.onDragEnd}>
+                            <Droppable droppableId="droppable">
                             {(provided, snapshot) => (
-                                <div>
-                                <div
-                                    ref={provided.innerRef}
-                                    {...provided.dragHandleProps}
-                                    {...provided.draggableProps}
-                                    style={getItemStyle(
-                                    provided.draggableProps.style,
-                                    snapshot.isDragging
-                                    )}
+                                <div 
+                                ref={provided.innerRef} 
+                                style={getListStyle(snapshot.isDraggingOver)}
+                                {...provided.droppableProps}
                                 >
-                                    {noteValue}
-                                </div>
-                                {/* {provided.placeholder} */}
+                                {notes?.map(({noteId, panelId, noteValue}: Note, index: number) => (
+                                    <Draggable
+                                    key={`${noteId}`}
+                                    draggableId={`${noteId}`}
+                                    index={index}
+                                    >
+                                    {(provided, snapshot) => (
+                                        <div>
+                                        <div
+                                            ref={provided.innerRef}
+                                            {...provided.dragHandleProps}
+                                            {...provided.draggableProps}
+                                            style={getItemStyle(
+                                            provided.draggableProps.style,
+                                            snapshot.isDragging
+                                            )}
+                                        >
+                                            {noteValue}
+                                        </div>
+                                        {/* {provided.placeholder} */}
+                                        </div>
+                                    )}
+                                    </Draggable>
+                                ))}
+                                {provided.placeholder}
                                 </div>
                             )}
-                            </Draggable>
-                        ))}
-                        {provided.placeholder}
-                        </div>
-                    )}
-                    </Droppable>
-                </DragDropContext>
-                <Modal show={show} onHide={this.handleClick}>
+                            </Droppable>
+                        </DragDropContext>
+                        </Col>
+                    ))
+                }
+                </Row>
+                <Modal show={show} onHide={this.closeModal}>
                     <Modal.Header closeButton>Add note</Modal.Header>
                     <Modal.Body>
                     <Form onSubmit={this.handleSubmit}>

@@ -46,15 +46,11 @@ export const panelReducer = (
         return { ...state, isLoading: true }
     }
     if (
-        panelFetchSingleSuccess.match(action) 
-    ) {
-        return { ...state, isLoading: false, singlePanel: action.payload }
-    }
-    if (
         panelCreateSuccess.match(action) ||
         panelUpdateSuccess.match(action) ||
         panelDeleteSuccess.match(action) ||
-        panelFetchAllSuccess.match(action) 
+        panelFetchAllSuccess.match(action) ||
+        panelFetchSingleSuccess.match(action) 
     ) {
         return { ...state, isLoading: false, panels: action.payload };
     } 

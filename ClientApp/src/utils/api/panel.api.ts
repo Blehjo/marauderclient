@@ -9,7 +9,7 @@ const headers = {
   'Content-Type': 'application/json' 
 }
 
-export async function getSinglePanel(panelId: number): Promise<Panel> {
+export async function getSinglePanel(panelId: number): Promise<Panel[]> {
   const response = await axios({
     method: 'get',
     url: `${api}/${panelId}`,
@@ -23,7 +23,7 @@ export async function getSinglePanel(panelId: number): Promise<Panel> {
 export async function getUserPanels(userId: number): Promise<Panel[]> {
   const response = await axios({
     method: 'get',
-    url: `${api}/${userId}`,
+    url: `${api}/user/${userId}`,
     headers: headers,
     withCredentials: true
   });
