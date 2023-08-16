@@ -94,14 +94,12 @@ class Projects extends Component<ProjectProps, IProject> {
                         docFiles.docFiles?.map(({ docFileId, title, notes }, index) => (
                             <Card key={docFileId} onClick={() => this.handleGetProject(docFileId!)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer' }}>
                                 <Row style={{ lineHeight: '3rem' }} key={index} xs={2}>
-                                    <Col key='col2' xs={6}>
-                                        <Textfit style={{ width: "100px" }}>
+                                    <Col key='col2' xs={10}>
                                         {title}
-                                        </Textfit>
                                     </Col>
-                                    <Col key='col3' xs={1}>
+                                    <Col key='col3' xs={2}>
                                         <XContainer>
-                                            <XCircle onClick={() => this.deleteDocFile(docFileId!)} />
+                                            <XCircle style={{ position: 'absolute', right: '.5rem', marginTop: '.5rem' }} onClick={() => this.deleteDocFile(docFileId!)} />
                                         </XContainer>
                                     </Col>
                                 </Row>

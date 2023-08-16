@@ -38,7 +38,8 @@ const getListStyle = (isDraggingOver: boolean) => ({
     borderRadius: '1rem',
     background: isDraggingOver ? 'lightgrey' : 'black',
     padding: grid,
-    width: 250
+    width: '100%',
+    position: 'relative'
 });
 
 type PanelProps = {
@@ -210,21 +211,16 @@ class Panel extends Component<any, IPanel> {
                         <Col>
                         <Card key={panelId} onClick={() => this.getPanel(panelId!)} style={{ border: '1px solid white', borderRadius: '1rem', background: 'black', padding: grid, width: '250', verticalAlign: 'middle', justifyContent: 'center', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer' }}>
                             <Row style={{ lineHeight: '3rem' }} key={index} xs={2}>
-                                <Col key='col2' xs={6}>
-                                    <Textfit style={{ width: "100px" }}>
+                                <Col key='col2' xs={10}>
                                     {title}
-                                    </Textfit>
                                 </Col>
-                                <Col key='col3' xs={1}>
+                                <Col key='col3' xs={2}>
                                     <XContainer>
-                                        <XCircle onClick={() => this.handleDelete(panelId!)} />
+                                        <XCircle style={{ position: 'absolute', right: '.5rem' }} onClick={() => this.handleDelete(panelId!)} />
                                     </XContainer>
                                 </Col>
                             </Row>
                         </Card>
-                        <CardContainer onClick={() => this.handleClick(panelId!)} style={{ backgroundColor: 'black', borderRadius: '.3rem', border: 'solid 1px white', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', color: 'white', textAlign: 'center' }}>
-                            New Note +
-                        </CardContainer>
                         <DragDropContext onDragEnd={this.onDragEnd}>
                             <Droppable droppableId="droppable">
                             {(provided, snapshot) => (
@@ -233,6 +229,9 @@ class Panel extends Component<any, IPanel> {
                                 style={getListStyle(snapshot.isDraggingOver)}
                                 {...provided.droppableProps}
                                 >
+                                <CardContainer onClick={() => this.handleClick(panelId!)} style={{ backgroundColor: 'black', borderRadius: '.3rem', border: 'solid 1px white', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', color: 'white', textAlign: 'center' }}>
+                                    New Note +
+                                </CardContainer>
                                 {notes?.map(({noteId, panelId, noteValue}: Note, index: number) => (
                                     <Draggable
                                     key={`${noteId}`}
@@ -241,6 +240,9 @@ class Panel extends Component<any, IPanel> {
                                     >
                                     {(provided, snapshot) => (
                                         <div>
+                                            <XContainer>
+                                                <XCircle style={{ position: 'absolute', right: '1rem', marginTop: '.5rem' }} onClick={() => this.props.deleteNote(noteId)} />
+                                            </XContainer>
                                         <div
                                             ref={provided.innerRef}
                                             {...provided.dragHandleProps}
