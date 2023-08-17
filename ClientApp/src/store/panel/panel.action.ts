@@ -96,12 +96,12 @@ export type PanelFetchAllFailed = ActionWithPayload<
 
 
 export type PanelSetIdStart = ActionWithPayload<
-    PANEL_ACTION_TYPES.SET_ID_START, { panelId: number }
+    PANEL_ACTION_TYPES.SET_ID_START, { panelId: number | null }
 >;
 
 export type PanelSetIdSuccess = ActionWithPayload<
     PANEL_ACTION_TYPES.SET_ID_SUCCESS, 
-    { panelId: number }
+    { panelId: number | null}
 >;
 
 export type PanelSetIdFailed = ActionWithPayload<
@@ -201,12 +201,12 @@ export const panelFetchAllFailed = withMatcher(
 
 
 export const panelSetIdStart = withMatcher(
-    (panelId: number): PanelSetIdStart => 
+    (panelId: number | null): PanelSetIdStart => 
     createAction(PANEL_ACTION_TYPES.SET_ID_START, { panelId })
 );
 
 export const panelSetIdSuccess = withMatcher(
-    (panelId: number): PanelSetIdSuccess => 
+    (panelId: number | null): PanelSetIdSuccess => 
     createAction(PANEL_ACTION_TYPES.SET_ID_SUCCESS, { panelId })
 );
 

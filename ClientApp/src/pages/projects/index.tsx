@@ -66,6 +66,7 @@ class Projects extends Component<ProjectProps, IProject> {
 
     deleteDocFile(docFileId: number): void {
         this.props.deleteProject(docFileId);
+        this.props.setId(null);
     }
 
     handleDelete(panelId: number): void {
@@ -141,7 +142,7 @@ const mapDispatchToProps = (dispatch: Dispatch<DocFileFetchAllStart | DocFileFet
     getSingleFile: (docFileId: number) => dispatch(docFileFetchSingleStart(docFileId)),
     addPanel: (docFileId: number, title: string) => dispatch(panelCreateStart(docFileId, title)),
     deletePanel: (panelId: number) => dispatch(panelDeleteStart(panelId)),
-    setId: (panelId: number) => dispatch(panelSetIdStart(panelId)),
+    setId: (panelId: number | null) => dispatch(panelSetIdStart(panelId)),
     getAllPanels: () => dispatch(panelFetchAllStart()),
     getPanel: (panelId: number) => dispatch(panelFetchSingleStart(panelId)),
     getNotes: (panelId: number) => dispatch(noteFetchAllStart(panelId)),

@@ -95,7 +95,6 @@ class Panel extends Component<any, IPanel> {
     handlePanel(event: FormEvent<HTMLFormElement>): void {
         event.preventDefault();
         const { title } = this.state;
-        console.log("ID::::", this.props.docFiles.singleDocFile?.docFileId)
         this.props.addPanel(this.props.docFiles.singleDocFile?.docFileId, title);
         this.setState({
             ...this.state, showPanel: !this.state.showPanel, title: ""
@@ -134,7 +133,7 @@ class Panel extends Component<any, IPanel> {
     }
 
     handleDelete(noteId: number): void {
-        this.props.deleteNote(noteId);
+        this.props.deletePanel(noteId);
     }
 
     getNote(noteId: number): void {
@@ -195,6 +194,8 @@ class Panel extends Component<any, IPanel> {
             this.props.getPanel(this.props.docFiles.singleDocFile?.docFileId);
             console.log("FETCHED::: ", this.props.panels.panels);
         }
+
+        // if (prevProps.)
     }
     
     render() {
