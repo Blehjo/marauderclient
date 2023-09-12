@@ -71,14 +71,14 @@ export class Searchbar extends Component<{}, DefaultProps> {
 
     render() {
     const { users, posts, communities, gltfs, searchField, show } = this.state;
-    const filteredUsers = users.filter(user =>
-        user.username?.toLowerCase().includes(searchField.toLowerCase()));
-    const filteredPosts = posts.filter(post =>
-        post.postValue?.toLowerCase().includes(searchField.toLowerCase()));
-    const filteredCommunities = communities.filter(community =>
-        community.communityName?.toLowerCase().includes(searchField.toLowerCase()));
-    const filteredGltfs = gltfs.filter(gltf =>
-        gltf.fileInformation?.toLowerCase().includes(searchField.toLowerCase()));
+    const filteredUsers = users.length > 0 ? users.filter(user =>
+        user.username?.toLowerCase().includes(searchField.toLowerCase())) : [];
+    const filteredPosts = posts.length > 0 ? posts.filter(post =>
+        post.postValue?.toLowerCase().includes(searchField.toLowerCase())) : [];
+    const filteredCommunities = communities.length > 0 ? communities.filter(community =>
+        community.communityName?.toLowerCase().includes(searchField.toLowerCase())) : [];
+    const filteredGltfs = gltfs.length > 0 ? gltfs.filter(gltf =>
+        gltf.fileInformation?.toLowerCase().includes(searchField.toLowerCase())) : [];
         return (
             <>
                 <input style={{ borderRadius: ".5rem", width: "20rem", color: "white", background: "black" }} onClick={this.handleClickEvent} placeholder="Click here to search" />
