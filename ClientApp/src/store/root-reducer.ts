@@ -34,6 +34,7 @@ import { artificialIntelligenceChatReducer } from './artificialIntelligencechat/
 import { editorReducer } from './editor/editor.reducer';
 import { gltfcommentReducer } from './gltfcomment/gltfcomment.reducer';
 import { userChatCommentReducer } from './userchatcomment/userchatcomment.reducer';
+import { messageboxReducer } from './messagebox/messagebox.reducer';
 
 export const rootReducer = combineReducers({
   action: actionReducer,
@@ -58,6 +59,7 @@ export const rootReducer = combineReducers({
   marauder: marauderReducer,
   message: messageReducer,
   messagecomment: messagecommentReducer,
+  messagebox: messageboxReducer,
   member: memberReducer,
   moveable: moveableReducer,
   note: noteReducer,
