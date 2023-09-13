@@ -335,7 +335,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                     show={this.state.openModal} 
                     onHide={() => this.openMessage()}
                 >
-                    <MessagemodalComponent openModal={this.state.openModal} { ...this.props }/>
+                    <MessagemodalComponent openMessage={this.openMessage} openModal={this.state.openModal} { ...this.props }/>
                 </Modal>
                 </ResponsiveMasonry>
             </ResponsiveMemoryContainer>

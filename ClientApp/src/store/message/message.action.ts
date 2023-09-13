@@ -6,9 +6,10 @@ import {
   Action,
   ActionWithPayload
 } from '../../utils/reducer/reducer.utils';
+import { Marauder } from '../marauder/marauder.types';
 
 export type MessageCreateStart = ActionWithPayload<
-    MESSAGE_ACTION_TYPES.CREATE_START, { messageValue: string, receiverId: string }
+    MESSAGE_ACTION_TYPES.CREATE_START, { messageValue: string, receiverId: string, marauder: Marauder }
 >;
 
 export type MessageCreateSuccess = ActionWithPayload<
@@ -105,8 +106,8 @@ export type MessageSetIDSuccess = ActionWithPayload<
 >;
 
 export const messageCreateStart = withMatcher(
-    (messageValue: string, receiverId: string): MessageCreateStart => 
-    createAction(MESSAGE_ACTION_TYPES.CREATE_START, { messageValue, receiverId })
+    (messageValue: string, receiverId: string, marauder: Marauder): MessageCreateStart => 
+    createAction(MESSAGE_ACTION_TYPES.CREATE_START, { messageValue, receiverId, marauder })
 );
 
 export const messageCreateSuccess = withMatcher(

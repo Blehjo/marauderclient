@@ -8,6 +8,7 @@ import { MessageCommentCreateStart, messagecommentCreateStart } from "../../stor
 import { RootState } from "../../store/store";
 import { ModalContainer } from "../../styles/poststab/poststab.styles";
 import { addMessage } from "../../utils/api/message.api";
+import { Marauder } from "../../store/marauder/marauder.types";
 
 type MessageModalProps = ConnectedProps<typeof connector> | any;
 
@@ -50,11 +51,11 @@ class MessageModal extends Component<MessageModalProps, IMessageModal> {
         const { messageValue, imageFile } = this.state;
         const { singleMarauder } = this.props.marauders;
 
-        await addMessage(singleMarauder?.username!, singleMarauder?.userId)
+        await addMessage(singleMarauder?.username!, singleMarauder?.userId, singleMarauder)
         .then((response) => this.props.setId(response.messageId));
 
         this.props.createMessageComment(this.props.messages.messageId!, messageValue, imageFile);
-        this.props.openMessages();
+        this.props.openMessage();
     }
 
     showPreview(event: ChangeEvent<HTMLInputElement>) {
@@ -84,7 +85,7 @@ class MessageModal extends Component<MessageModalProps, IMessageModal> {
         return (
             <ModalContainer>
                 <Modal.Header closeButton>
-                    <Modal.Title style={{ color: 'black' }}>Send a message</Modal.Title>
+                    <Modal.Title style={{ color: 'white' }}>Send a message</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={this.handleMessage}>
@@ -124,7 +125,7 @@ const mapStateToProps = (state: RootState) => {
 const mapDispatchToProps = (dispatch: Dispatch<MarauderFetchSingleStart | MessageSetID | MessageCreateStart | MessageCommentCreateStart>) => ({
     getMarauder: (userId: string) => dispatch(marauderFetchSingleStart(userId)),
     setId: (messageId: number) => dispatch(messageSetId(messageId)),
-    createMessage: (messageValue: string, receiverId: string) => dispatch(messageCreateStart(messageValue, receiverId)),
+    createMessage: (messageValue: string, receiverId: string, marauder: Marauder) => dispatch(messageCreateStart(messageValue, receiverId, marauder)),
     createMessageComment: (messageId: number, messageValue: string, imageFile: File) => dispatch(messagecommentCreateStart(messageId, messageValue, imageFile))
 });
 

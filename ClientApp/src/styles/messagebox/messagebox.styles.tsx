@@ -11,6 +11,17 @@ export const FixedBox = styled.div`
     height: 5%;
 `;
 
+export const OpenedBox = styled.div`
+    position: fixed;
+    bottom: 0%;
+    right: 1%;
+    border-radius: 1rem 1rem 0rem 0rem;
+    border: white 1px solid;
+    text-align: center;
+    width: 20%;
+    height: 80%;
+`;
+
 export const ContainerBox = styled.div`
     display: flex;
     flex-direction: row;

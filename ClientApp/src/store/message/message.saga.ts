@@ -35,12 +35,13 @@ export function* startSetId({ payload: { messageId }}: MessageSetID) {
     yield* put(messageSetIdSuccess(messageId));
 }
 
-export function* createMessage({ payload: { messageValue, receiverId }}: MessageCreateStart ) {
+export function* createMessage({ payload: { messageValue, receiverId, marauder }}: MessageCreateStart ) {
     try {
         const message = yield* call(
             addMessage,
             messageValue,
-            receiverId
+            receiverId,
+            marauder
         ); 
         yield* put(messageCreateSuccess(message));
     } catch (error) {

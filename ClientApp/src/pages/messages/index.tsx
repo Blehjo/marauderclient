@@ -13,6 +13,7 @@ import { RootState } from "../../store/store";
 import { CheckUserSession, checkUserSession } from "../../store/user/user.action";
 import { XContainer } from "../../styles/devices/devices.styles";
 import { Container, InputContainer, ListContainer, MessageContainer, MessageForm, TextContainer, UserTextContainer } from "../../styles/messages/messages.styles";
+import { Marauder } from '../../store/marauder/marauder.types';
 
 interface IMessage {
     socket: boolean;
@@ -132,7 +133,7 @@ class Messages extends Component<MessageProps, IMessage> {
         this.props.checkUserSession();
     }
 
-    componentDidUpdate(prevProps: Readonly<{ messages: MessageState; messagecomments: MessageCommentState; } & { getMessages: () => void; getMessageComments: (messageId: number) => void; createMessage: (messageValue: string, receiverId: string) => void; deleteMessage: (messageId: number) => void; createMessageComment: (messageId: number, messageValue: string, imageFile: File) => void; setId: (messageId: number) => void; }>, prevState: Readonly<IMessage>, snapshot?: any): void {
+    componentDidUpdate(prevProps: Readonly<{ messages: MessageState; messagecomments: MessageCommentState; } & { getMessages: () => void; getMessageComments: (messageId: number) => void; createMessage: (messageValue: string, receiverId: string, marauder: Marauder) => void; deleteMessage: (messageId: number) => void; createMessageComment: (messageId: number, messageValue: string, imageFile: File) => void; setId: (messageId: number) => void; }>, prevState: Readonly<IMessage>, snapshot?: any): void {
         if (prevProps.messages.messageId != this.props.messages.messageId) {
             this.setState({
                 connection: new HubConnectionBuilder()
@@ -225,7 +226,7 @@ const mapStateToProps = (state: RootState) => {
 const mapDispatchToProps = (dispatch: Dispatch<CheckUserSession | MessageCreateStart | MessageDeleteStart | MessageCommentCreateStart | MessageFetchUserMessagesStart | MessageCommentFetchSingleStart | MessageSetID | MessageCommentSetID>) => ({
     getMessages: () => dispatch(messageFetchUserMessagesStart()),
     getMessageComments: (messageId: number) => dispatch(messagecommentFetchSingleStart(messageId)),
-    createMessage: (messageValue: string, receiverId: string) => dispatch(messageCreateStart(messageValue, receiverId)),
+    createMessage: (messageValue: string, receiverId: string, marauder: Marauder) => dispatch(messageCreateStart(messageValue, receiverId, marauder)),
     deleteMessage: (messageId: number) => dispatch(messageDeleteStart(messageId)),
     createMessageComment: (messageId: number, messageValue: string, imageFile: File) => dispatch(messagecommentCreateStart(messageId, messageValue, imageFile)),
     setId: (messageId: number) => dispatch(messageSetId(messageId)),
