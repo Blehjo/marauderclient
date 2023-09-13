@@ -14,7 +14,7 @@ export const FixedBox = styled.div`
 export const ContainerBox = styled.div`
     display: flex;
     flex-direction: row;
-    padding-top: .3rem;
+    padding-top: .1rem;
     justify-content: space-between;
     align-items: flex-end;
     position: relative;

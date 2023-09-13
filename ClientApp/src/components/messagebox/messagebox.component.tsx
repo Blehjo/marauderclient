@@ -18,16 +18,14 @@ class MessageBox extends Component<MessageBoxProps> {
         return (
             <FixedBox>
                 <ContainerBox>
-                    {/* <div style={{ position: 'absolute', left: '1rem' }}> */}
                     <Row xs={2}>
                     <Col >
-                        <Image style={{ width: '2rem', height: '2rem', borderRadius: '1rem' }} fluid src={user?.imageLink ? user?.imageSource! : ""}/>
+                        <Image style={{ width: '2rem', height: '2rem', borderRadius: '1rem', paddingTop: '.3rem' }} fluid src={user?.imageLink ? user?.imageSource! : ""}/>
                     </Col>
                     <Col>
-                        <div>Comms</div>
+                        <div style={{ paddingTop: '.3rem' }}>Comms</div>
                     </Col>
                     </Row>
-                    {/* </div> */}
                 </ContainerBox>
                 <ContainerBox>
                     <div style={{ position: 'absolute', right: '1rem' }}>
