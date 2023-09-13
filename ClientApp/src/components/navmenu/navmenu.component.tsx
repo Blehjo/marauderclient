@@ -8,7 +8,7 @@ import { ConnectedProps, connect } from 'react-redux';
 import { RootState } from '../../store/store';
 import { CheckUserSession, SignOutStart, checkUserSession, signOutStart } from '../../store/user/user.action';
 import { Searchbar } from '../searchbar/searchbar.component';
-import { SetIsMaraudersOpen, setIsMaraudersOpen } from '../../store/toolbox/toolbox.action';
+import { SetIsMaraudersOpen, setIsMaraudersOpen } from '../../store/messagebox/messagebox.action';
 
 interface INavMenu {
     show: boolean;

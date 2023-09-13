@@ -37,7 +37,7 @@ export const selectIsMoonsOpen = createSelector(
 
 export const selectIsMaraudersOpen = createSelector(
     [selectMessageboxReducer],
-    (messagebox) => messagebox.IsMaraudersOpen
+    (messagebox) => messagebox.isMaraudersOpen
 );
 
 export const selectIsMessagesOpen = createSelector(
