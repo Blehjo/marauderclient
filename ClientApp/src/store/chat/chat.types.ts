@@ -2,6 +2,7 @@ import { ArtificialIntelligence } from "../artificialintelligence/artificialinte
 import { ChatComment } from "../chatcomment/chatcomment.types"
 import { Comment } from "../comment/comment.types";
 import { Favorite } from "../favorite/favorite.types";
+import { User } from "../user/user.types";
 
 export enum CHAT_ACTION_TYPES  {
     CREATE_START = 'chat/CREATE_START',
@@ -37,6 +38,7 @@ export type Chat = {
     dateCreated: Date;
     type: string;
     userId: number | null;
+    user: User;
     chatComments: ChatComment[];
     comments: Comment[] | null;
     favorites: Favorite[];

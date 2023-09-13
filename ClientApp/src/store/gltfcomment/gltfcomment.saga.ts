@@ -12,7 +12,7 @@ import {
     commentFetchAllFailed,
     commentFetchAllSuccess,
     commentFetchSingleFailed,
-    CommentFetchSingleStart,
+    GltfCommentFetchSingleStart,
     commentFetchSingleSuccess,
     CommentFetchUserChatsStart,
     CommentUpdateStart,
@@ -95,7 +95,7 @@ export function* fetchOtherUserss({ payload: { userId } }: CommentFetchUserChats
 }
 
 export function* fetchSingleCommentAsync({ 
-    payload: { gltfCommentId } }: CommentFetchSingleStart) {
+    payload: { gltfCommentId } }: GltfCommentFetchSingleStart) {
     try {
         const commentSnapshot = yield* call(
             getSingleComment,

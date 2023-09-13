@@ -164,7 +164,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
     }
     
     postFunction(prop: Post) {
-        const { postId, postValue, mediaLink, comments, favorites, type, imageSource } = prop;
+        const { postId, postValue, mediaLink, comments, favorites, type, imageSource, user } = prop;
         return (
             <Card key={postId} style={{ background: 'black', border: 'solid 1px white', padding: '.5rem', margin: '.3rem', color: 'white'}}>
                 <Card.Img src={mediaLink ? imageSource : "https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"}/>
@@ -192,6 +192,14 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                 </Card.ImgOverlay>
                 <Card.Body>
                     <Card.Text>{postValue}</Card.Text>
+                    <Row xs={2}>
+                        <Col xs={2}>
+                        <Card.Img src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                        </Col>
+                        <Col>
+                        <Card.Text>{user.username}</Card.Text>
+                        </Col>
+                    </Row>
                 </Card.Body>
             </Card>
         )

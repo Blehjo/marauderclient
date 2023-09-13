@@ -187,12 +187,10 @@ class Panel extends Component<any, IPanel> {
     componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<IPanel>, snapshot?: any): void {
         // if (prevProps.panels.panels?.length != this.props.panels.panels?.length) {
         //     this.props.getPanel(this.props.docFIles.singleDocFile.docFileId);
-        //     console.log("PANELS:: ", this.props.panels.panels);
         // }
 
         if (prevProps.docFiles.singleDocFile?.docFileId != this.props.docFiles.singleDocFile?.docFileId) {
             this.props.getPanel(this.props.docFiles.singleDocFile?.docFileId);
-            console.log("FETCHED::: ", this.props.panels.panels);
         }
 
         // if (prevProps.)

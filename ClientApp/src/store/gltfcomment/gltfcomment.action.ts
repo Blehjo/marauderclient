@@ -51,7 +51,7 @@ export type CommentDeleteteFailed = ActionWithPayload<
     Error
 >;
    
-export type CommentFetchSingleStart = ActionWithPayload<
+export type GltfCommentFetchSingleStart = ActionWithPayload<
     COMMENT_ACTION_TYPES.FETCH_SINGLE_START,
     { gltfCommentId: number }
 >;
@@ -140,8 +140,8 @@ export const commentDeleteFailed = withMatcher(
     createAction(COMMENT_ACTION_TYPES.DELETE_START, error)
 );
 
-export const commentFetchSingleStart = withMatcher(
-    (gltfCommentId: number): CommentFetchSingleStart => 
+export const gltfcommentFetchSingleStart = withMatcher(
+    (gltfCommentId: number): GltfCommentFetchSingleStart => 
     createAction(COMMENT_ACTION_TYPES.FETCH_SINGLE_START, { gltfCommentId })
 );
 

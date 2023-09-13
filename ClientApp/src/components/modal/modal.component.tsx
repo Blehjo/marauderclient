@@ -396,7 +396,6 @@ class ModalContent extends Component<any, IModalContent> {
     // componentDidMount(): void {
     //     if (this.props.communities.singleCommunity?.communityId != null) {
     //         this.props.getMembers(this.props.communities.singleCommunity?.communityId!);
-    //         console.log("MEMBERS:: ", this.props.members)
     //     }
     // }
 

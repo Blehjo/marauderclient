@@ -1,5 +1,6 @@
 import { Comment } from "../comment/comment.types";
 import { Favorite } from "../favorite/favorite.types";
+import { User } from "../user/user.types";
 
 export enum POST_ACTION_TYPES  {
     CREATE_START = 'post/CREATE_START',
@@ -30,6 +31,7 @@ export type Post = {
     type: string;
     dateCreated: Date;
     userId: number | null,
+    user: User,
     comments: Comment[];
     favorites: Favorite[];
 }

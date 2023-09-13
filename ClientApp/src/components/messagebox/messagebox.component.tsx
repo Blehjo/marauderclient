@@ -168,7 +168,6 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
 
     render() {
         const { user, messagebox, messages } = this.props;
-        console.log("MESSAGES::: ", messages);
         return (
             <>
             { 
