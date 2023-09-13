@@ -44,7 +44,7 @@ class UserInterfaceCanvas extends Component<any, IUserCanvas> {
                     {user && <Offcanvas.Title style={{ lineHeight: '1.5rem'}}>
                             <Row xs={2}>
                             <Col xs={3}>
-                            <Image style={{ width: '3rem', height: '3rem' }}fluid src={user?.imageLink ? user?.imageSource : ""}/>
+                            <Image style={{ width: '3rem', height: '3rem' }} fluid src={user?.imageLink ? user?.imageSource : ""}/>
                             </Col>
                             <Col>
                             <Row xs={1}>

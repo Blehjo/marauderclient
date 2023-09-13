@@ -44,7 +44,7 @@ class NavMenu extends Component<NavMenuProps, INavMenu> {
                     <List style={{ marginLeft: '.75rem', border: '1px solid white', marginRight: '1rem', padding: '.02rem', borderRadius: '.2rem', cursor: 'pointer' }} className="d-flex align-items-center"/>
                     <Navbar.Brand href="/">Marauders</Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
-                    <Navbar.Collapse id="navbarScroll">
+                    {/* <Navbar.Collapse id="navbarScroll"> */}
                         <Nav
                         className="me-auto my-2 my-lg-0"
                         style={{ maxHeight: '100px' }}
@@ -52,19 +52,13 @@ class NavMenu extends Component<NavMenuProps, INavMenu> {
                         >
                         <Nav.Link href="/dash">Dashboard</Nav.Link>
                         <Nav.Link href="/capcom">CapCom</Nav.Link>
-                        <NavDropdown title="Comms" id="navbarScrollingDropdown">
-                            <NavDropdown.Item href="/devices">Devices</NavDropdown.Item>
-                            <NavDropdown.Item href="/chats">Chats</NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="/projects">Projects</NavDropdown.Item>
-                        </NavDropdown>
                         </Nav>
                         <Searchbar/>
                         <PersonContainer>
                             <PersonCircle onClick={this.handleClick} size={30}/>
-                            <UserInterfaceCanvas signOut={this.props.signOut} user={this.props.user}  handleClick={this.handleClick} show={show}/>
+                            <UserInterfaceCanvas signOut={this.props.signOut} user={user}  handleClick={this.handleClick} show={show}/>
                         </PersonContainer>
-                    </Navbar.Collapse>
+                    {/* </Navbar.Collapse> */}
                     </Container>
                 </Navbar>
             </NavmenuContainer>

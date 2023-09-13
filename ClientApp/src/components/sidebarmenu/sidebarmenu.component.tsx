@@ -27,8 +27,8 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                         <a href="/voyager">
                         <LayoutTextWindowReverse className='icons' color="white" />
                         </a>
-                        <Nav.Link href="/comms" className="tools ms-4">
-                            Comms
+                        <Nav.Link href="/capcom" className="tools ms-4">
+                            CapCom
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item className="ms-4 d-flex align-items-center">
