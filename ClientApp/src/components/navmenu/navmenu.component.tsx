@@ -8,9 +8,11 @@ import { ConnectedProps, connect } from 'react-redux';
 import { RootState } from '../../store/store';
 import { CheckUserSession, SignOutStart, checkUserSession, signOutStart } from '../../store/user/user.action';
 import { Searchbar } from '../searchbar/searchbar.component';
+import { SetIsMaraudersOpen, setIsMaraudersOpen } from '../../store/toolbox/toolbox.action';
 
 interface INavMenu {
     show: boolean;
+    sidebar: boolean;
 }
 
 type NavMenuProps = ConnectedProps<typeof connector>;
@@ -20,14 +22,24 @@ class NavMenu extends Component<NavMenuProps, INavMenu> {
         super(props);
         this.state = {
             show: false,
+            sidebar: false
         }
         this.handleClick = this.handleClick.bind(this);
+        this.handleOpen = this.handleOpen.bind(this);
     }
 
     handleClick(): void {
         this.setState({
             show: !this.state.show
         })
+    }
+
+    handleOpen(): void {
+        const { sidebar } = this.state;
+        this.setState({
+            ...this.state, sidebar: !sidebar
+        });
+        this.props.openMarauders(!sidebar);
     }
 
     componentDidMount(): void {
@@ -41,7 +53,7 @@ class NavMenu extends Component<NavMenuProps, INavMenu> {
             <NavmenuContainer className="fixed-top">
                 <Navbar style={{ border: "3px solid #E6C487", borderRadius: "5px" }} variant="dark" bg="dark" sticky="top" expand="lg" >
                     <Container fluid>
-                    <List style={{ marginLeft: '.75rem', border: '1px solid white', marginRight: '1rem', padding: '.02rem', borderRadius: '.2rem', cursor: 'pointer' }} className="d-flex align-items-center"/>
+                    <List onClick={this.handleOpen} style={{ marginLeft: '.75rem', border: '1px solid white', marginRight: '1rem', padding: '.02rem', borderRadius: '.2rem', cursor: 'pointer' }} className="d-flex align-items-center"/>
                     <Navbar.Brand href="/">Marauders</Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     {/* <Navbar.Collapse id="navbarScroll"> */}
@@ -72,8 +84,9 @@ const mapStateToProps = (state: RootState) => {
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<CheckUserSession | SignOutStart>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<CheckUserSession | SetIsMaraudersOpen | SignOutStart>) => ({
     checkUserSession: () => dispatch(checkUserSession()),
+    openMarauders: (boolean: boolean) => dispatch(setIsMaraudersOpen(boolean)),
     signOut: () => dispatch(signOutStart())
 });
 

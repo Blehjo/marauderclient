@@ -18,7 +18,7 @@ export type MessageBoxState = {
   readonly isSolarSystemOpen: boolean;
   readonly isPlanetsOpen: boolean;
   readonly isMoonsOpen: boolean;
-  readonly IsMaraudersOpen: boolean;
+  readonly isMaraudersOpen: boolean;
   readonly isMessagesOpen: boolean;
 };
 
@@ -29,7 +29,7 @@ const INITIAL_STATE: MessageBoxState = {
     isSolarSystemOpen: false,
     isPlanetsOpen: false,
     isMoonsOpen: false,
-    IsMaraudersOpen: false,
+    isMaraudersOpen: false,
     isMessagesOpen: false
 };
 
@@ -76,7 +76,7 @@ export const messageboxReducer = (
     if (setIsMaraudersOpen.match(action)) {
       return {
         ...state,
-        IsMaraudersOpen: action.payload,
+        isMaraudersOpen: action.payload,
       };
     }
     if (setIsMessagesOpen.match(action)) {

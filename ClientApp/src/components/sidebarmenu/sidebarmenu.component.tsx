@@ -6,6 +6,7 @@ import { RootState } from "../../store/store";
 import { CheckUserSession, checkUserSession } from "../../store/user/user.action";
 import { UserprofileFetchSingleStart, userprofileFetchSingleStart } from "../../store/userprofile/userprofile.action";
 import { SidebarMenuContainer } from "../../styles/sidebarmenu/sidebarmenu.styles";
+import { UserprofileState } from "../../store/userprofile/userprofile.reducer";
 
 type SidebarMenuProps = ConnectedProps<typeof connector>;
 
@@ -17,8 +18,19 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
         }
     }
 
+    componentDidUpdate(prevProps: Readonly<{ user: number | undefined; userprofile: UserprofileState; sidemenu: boolean; } & { getCurrentUser: () => void; getUser: (userId: number | undefined) => void; checkUserSession: () => void; }>, prevState: Readonly<{}>, snapshot?: any): void {
+        if (prevProps.sidemenu != this.props.sidemenu) {
+            console.log('HELLO')
+        }
+    }
+
     render() {
+        const { sidemenu } = this.props;
+        console.log("SIDEMENU:: ", sidemenu)
         return (
+            <>
+            {
+                sidemenu &&
             <SidebarMenuContainer className='mt-5 fixed-top bg-dark'>
                 <Row 
                 xs={1} 
@@ -156,13 +168,16 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                     </Nav.Item>
                 </Row>
             </SidebarMenuContainer>
+            }
+            </>
         );
     }
 }
 
 const mapStateToProps = (state: RootState) => ({
     user: state.user.currentUser?.userId,
-    userprofile: state.userprofile
+    userprofile: state.userprofile,
+    sidemenu: state.messagebox.isMaraudersOpen
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<CheckUserSession | UserprofileFetchSingleStart | CheckUserSession>) => ({
