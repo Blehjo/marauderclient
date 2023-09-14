@@ -29,7 +29,7 @@ const INITIAL_STATE: MessageBoxState = {
     isSolarSystemOpen: false,
     isPlanetsOpen: false,
     isMoonsOpen: false,
-    isMaraudersOpen: false,
+    isMaraudersOpen: true,
     isMessagesOpen: false
 };
 

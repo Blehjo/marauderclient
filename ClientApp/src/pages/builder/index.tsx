@@ -235,9 +235,13 @@ class Vitals extends Component<BuilderProps, IBuilder> {
             <>
             {
                 editor ?
-                <Editor/> :
+                <div style={{ height: '100vh' }}>
+                    <Editor/> 
+                </div> :
                 builder ?
-                <Builder/> :
+                <div style={{ height: '100vh' }}>
+                    <Builder/> 
+                </div> :
                 <>
                 <VitalsContainer>
                     <InfoContainer>Get Started</InfoContainer>

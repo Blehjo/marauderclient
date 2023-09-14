@@ -29,6 +29,7 @@ export const OptionsContainer = styled.div`
     margin-top: 1rem;
     margin-left: 5rem;
     margin-right: 5rem;
+    padding-bottom: 4rem;
 `;
 
 export const CardContainer = styled.div`

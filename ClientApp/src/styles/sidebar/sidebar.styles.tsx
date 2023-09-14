@@ -8,8 +8,8 @@ export const SidebarContainer = styled.div`
 export const ContentContainer = styled.div`
     margin: auto;
     color: white;
-
-
+    background: black;
+    // height: 100%;
     flex: 1;
     display: flex;
     flex-direction: column;

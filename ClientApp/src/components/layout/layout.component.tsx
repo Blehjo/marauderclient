@@ -26,7 +26,7 @@ export class Layout extends Component<Props> {
           <LayoutContainer>
             <NavMenu />
             <Sidebar />
-            <Container style={{ height: '100vh' }} tag="main">
+            <Container tag="main">
               {this.props.children}
             </Container>
             <MessageBox/>
@@ -34,7 +34,7 @@ export class Layout extends Component<Props> {
           <AdjustedContainer>
             <NavMenu />
             <Sidebar />
-            <Container style={{ height: '100vh' }} tag="main">
+            <Container tag="main">
               {this.props.children}
             </Container>
             <MessageBox/>

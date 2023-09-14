@@ -22,7 +22,7 @@ class NavMenu extends Component<NavMenuProps, INavMenu> {
         super(props);
         this.state = {
             show: false,
-            sidebar: false
+            sidebar: this.props.messagebox
         }
         this.handleClick = this.handleClick.bind(this);
         this.handleOpen = this.handleOpen.bind(this);
@@ -80,7 +80,8 @@ class NavMenu extends Component<NavMenuProps, INavMenu> {
 
 const mapStateToProps = (state: RootState) => {
     return { 
-        user: state.user.currentUser
+        user: state.user.currentUser,
+        messagebox: state.messagebox.isMaraudersOpen
     };
 };
 

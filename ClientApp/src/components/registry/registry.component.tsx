@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { useServerInsertedHTML } from 'next/navigation'
 import { ServerStyleSheet, StyleSheetManager } from 'styled-components'
  
-export default function StyledComponentsRegistry({
+function StyledComponentsRegistry({
   children,
 }: {
   children: React.ReactNode
@@ -19,7 +19,7 @@ export default function StyledComponentsRegistry({
     return styles
   })
  
-  if (typeof window !== 'undefined') return <>{children}</>
+  if (typeof window !== 'undefined') return <div style={{ background: 'black', height: '100vh' }}>{children}</div>
  
   return (
     <StyleSheetManager sheet={styledComponentsStyleSheet.instance}>
@@ -27,3 +27,5 @@ export default function StyledComponentsRegistry({
     </StyleSheetManager>
   )
 }
+
+export default StyledComponentsRegistry;

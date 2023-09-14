@@ -33,7 +33,7 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
     constructor(props: MessageBoxProps) {
         super(props);
         this.state = {
-            result: false,
+            result: this.props.messagebox,
             socket: false,
             messageValue: "",
             imageSource: "",
