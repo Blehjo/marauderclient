@@ -3,6 +3,7 @@ import { ChatComment } from "../chatcomment/chatcomment.types"
 import { Comment } from "../comment/comment.types";
 import { Favorite } from "../favorite/favorite.types";
 import { User } from "../user/user.types";
+import { UserChatComment } from "../userchatcomment/userchatcomment.types";
 
 export enum CHAT_ACTION_TYPES  {
     CREATE_START = 'chat/CREATE_START',
@@ -40,6 +41,7 @@ export type Chat = {
     userId: number | null;
     user: User;
     chatComments: ChatComment[];
+    userChatComments: UserChatComment[];
     comments: Comment[] | null;
     favorites: Favorite[];
 }

@@ -46,6 +46,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
         if (type === "chat") {
             this.props.getChat(id);
             this.props.getComments(id);
+            this.props.getUserComments(id);
         } else if (type === "post") {
             this.props.getPost(id);
             this.props.getComments(id);

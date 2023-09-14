@@ -34,6 +34,7 @@ class ModalContent extends Component<any, IModalContent> {
         this.handleClose = this.handleClose.bind(this);
         this.showPreview = this.showPreview.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChatCommentSubmit = this.handleChatCommentSubmit.bind(this);
     }
 
     handleClose(): void {
@@ -46,6 +47,15 @@ class ModalContent extends Component<any, IModalContent> {
         event.preventDefault();
         const { commentValue, imageFile } = this.state;
         this.props.createComment(commentValue, imageFile, this.props.singlePost?.postId);
+        this.setState({
+            ...this.state, commentValue: "", imageFile: null
+        })
+    }
+
+    handleChatCommentSubmit(event: FormEvent<HTMLFormElement>): void {
+        event.preventDefault();
+        const { commentValue, imageFile } = this.state;
+        this.props.createUserComment(commentValue, imageFile, this.props.singleChat.chatId);
         this.setState({
             ...this.state, commentValue: "", imageFile: null
         })
@@ -81,7 +91,7 @@ class ModalContent extends Component<any, IModalContent> {
 
     chatFunction(prop: Chat) {
         const { chatId, title, type, userId, chatComments, favorites, dateCreated, user } = prop;
-        const { comments } = this.props;
+        const { comments, userchatcomments } = this.props;
         return (
             <ModalContainer>
                 <Modal.Header closeButton>
@@ -110,6 +120,57 @@ class ModalContent extends Component<any, IModalContent> {
                         </Card>
                         </Col>
                         <Col>
+                            <CommentContainer>
+                            <div>Comments</div>
+                            <div style={{ height: "65%", overflowY: "auto" }}>
+                            {
+                                userchatcomments?.map(({ commentId, commentValue, mediaLink, dateCreated, user }: Comment) => {
+                                    return <Card border="light" className="bg-dark mt-2" key={commentId}>
+                                        <TextContainer>
+                                            <AContainer href={`/profile/${user.userId}`}>
+                                            <Row xs={2}>
+                                                <Col xs={2}>
+                                                <Card.Img src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                                                </Col>
+                                                <Col>
+                                                <Card.Text>{user.username}</Card.Text>
+                                                </Col>
+                                            </Row>
+                                            </AContainer>
+                                            <Card.Text>{commentValue}</Card.Text>
+                                        </TextContainer>
+                                    </Card>
+                                })
+                            }
+                            </div>
+                            <Form style={{ margin: 'auto', position: "absolute", bottom: "0" }} key={chatId} onSubmit={this.handleChatCommentSubmit}>
+                            <Row style={{ marginBottom: '3rem', justifyContent: 'center' }} xs={1}>
+                                <Col xs={12}>
+                                    <Row style={{ marginBottom: '1rem', justifyContent: 'center' }}>
+                                        <Col xs={12}>
+                                            <Form.Group>
+                                                <Form.Control style={{ height: '.5rem' }} name="commentValue" as="textarea" onChange={this.handleChange} placeholder=" Write your comment here" />
+                                            </Form.Group>
+                                        </Col>
+                                    </Row>
+                                    <Row style={{ justifyContent: 'center' }}>
+                                        <Col xs={12}>
+                                            <Form.Group className="mb-3" controlId="formMedia">
+                                                <Form.Control onChange={this.showPreview} name="mediaLink" as="input" accept="image/*" type="file" placeholder="Media" />
+                                            </Form.Group>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                                <Col xs={12}>
+                                    <button style={{ textAlign: 'center', width: '100%', height: '100%'}} className="btn btn-light" type="submit">
+                                        <Send/>
+                                    </button>
+                                </Col>                
+                            </Row>
+                        </Form>
+                            </CommentContainer>
+                            </Col>
+                        <Col>
                         <CommentContainer>
                         <div>Comments</div>
                         <div style={{ height: "85%", overflowY: "auto" }}>
@@ -124,31 +185,6 @@ class ModalContent extends Component<any, IModalContent> {
                             })
                         }
                         </div>
-                        {/* <Form style={{ margin: 'auto', position: "absolute", bottom: "0" }} key={chatId} onSubmit={this.props.postComment}>
-                        <Row style={{ marginBottom: '3rem', justifyContent: 'center' }} xs={1}>
-                            <Col xs={12}>
-                            <Row style={{ marginBottom: '1rem', justifyContent: 'center' }}>
-                                <Col xs={12}>
-                                    <Form.Group>
-                                        <Form.Control style={{ height: '.5rem' }} name="commentValue" as="textarea" onChange={this.handleChange} placeholder=" Write your comment here" />
-                                    </Form.Group>
-                                </Col>
-                            </Row>
-                            <Row style={{ justifyContent: 'center' }}>
-                                <Col xs={12}>
-                                    <Form.Group className="mb-3" controlId="formMedia">
-                                        <Form.Control onChange={this.showPreview} name="mediaLink" as="input" accept="image/*" type="file" placeholder="Media" />
-                                    </Form.Group>
-                                    </Col>
-                                    </Row>
-                                </Col>
-                                <Col xs={12}>
-                                    <button style={{ textAlign: 'center', width: "100%" }} className="btn btn-outline-light" type="submit">
-                                        <Send/>
-                                    </button>
-                                </Col>                
-                            </Row>
-                        </Form> */}
                         </CommentContainer>
                         </Col>
                     </Row>

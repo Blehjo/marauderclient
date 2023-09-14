@@ -11,6 +11,11 @@ import { chatcommentFetchSingleStart } from "../../store/chatcomment/chatcomment
 import { selectIsChatCommentLoading, selectUserChatcomments } from "../../store/chatcomment/chatcomment.selector";
 import { CardContainer, CommentBarContainer, CommentContainer, FormContainer, SingleChatContainer, TextContainer } from "../../styles/messages/messages.styles";
 import { utcConverter } from "../../utils/date/date.utils";
+import { selectAllComments, selectUserComments } from "../../store/userchatcomment/userchatcomment.selector";
+import { commentFetchSingleStart } from "../../store/userchatcomment/userchatcomment.action";
+import { AContainer } from "../../styles/poststab/poststab.styles";
+import { Comment } from "../../store/comment/comment.types";
+import { UserChatComment } from "../../store/userchatcomment/userchatcomment.types";
 
 const defaultFormFields = {
     chatValue: "",
@@ -24,6 +29,7 @@ function SingleChat() {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const chat = useSelector(selectSingleChat);
     const comments = useSelector(selectUserChatcomments);
+    const userComments = useSelector(selectAllComments);
     const chatLoading = useSelector(selectIsChatLoading);
     const chatcommentLoading = useSelector(selectIsChatCommentLoading);
     const router = useRouter();
@@ -75,6 +81,7 @@ function SingleChat() {
     useEffect(() => {
         dispatch(chatFetchSingleStart(chatId));
         dispatch(chatcommentFetchSingleStart(chatId));
+        dispatch(commentFetchSingleStart(chatId));
     }, [id]);
 
     return (
@@ -120,18 +127,25 @@ function SingleChat() {
             <CommentBarContainer>
                 <CommentContainer>
                     <h1 className="notifications">Comments</h1>
-                {
-                    comments?.map(({ chatCommentId, chatValue, mediaLink, dateCreated }) => {
-                        return <CardContainer>
-                            <Card className="bg-dark" key={chatCommentId}>
+                    {
+                        userComments?.map(({ userChatCommentId, commentValue, mediaLink, dateCreated, user }: UserChatComment) => {
+                            return <Card border="light" className="bg-dark mt-2" key={userChatCommentId}>
                                 <TextContainer>
-                                    <Card.Text>{chatValue}</Card.Text>
-                                    <Card.Text>{utcConverter(dateCreated)}</Card.Text>
+                                    <AContainer href={`/profile/${user.userId}`}>
+                                    <Row xs={2}>
+                                        <Col xs={2}>
+                                        <Card.Img src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                                        </Col>
+                                        <Col>
+                                        <Card.Text>{user.username}</Card.Text>
+                                        </Col>
+                                    </Row>
+                                    </AContainer>
+                                    <Card.Text>{commentValue}</Card.Text>
                                 </TextContainer>
                             </Card>
-                        </CardContainer>
-                    })
-                }
+                        })
+                    }
                 </CommentContainer>
                 <FormContainer>
                 <Form style={{ margin: 'auto' }} key={chat?.chatId} onSubmit={postComment}>
