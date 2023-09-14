@@ -1,16 +1,16 @@
-import { Component, Dispatch, ReactNode } from "react";
-import { Badge, Card, Col, Row } from "react-bootstrap";
-import { ArrowRight, Chat, Rocket } from "react-bootstrap-icons";
+import { ChangeEvent, Component, Dispatch, FormEvent, ReactNode } from "react";
+import { Badge, Card, Col, Form, Image, Modal, Row } from "react-bootstrap";
+import { ArrowRight, Chat, Rocket, Send } from "react-bootstrap-icons";
 import { ConnectedProps, connect } from "react-redux";
 import { ChatFetchAllStart, ChatFetchSingleStart, chatFetchAllStart, chatFetchSingleStart } from "../../store/chat/chat.action";
 import { ChatCommentFetchSingleStart, chatcommentFetchSingleStart } from "../../store/chatcomment/chatcomment.action";
-import { CommentFetchSingleStart, commentFetchSingleStart } from "../../store/comment/comment.action";
+import { CommentCreateStart, CommentFetchSingleStart, commentCreateStart, commentFetchSingleStart } from "../../store/comment/comment.action";
 import { FavoriteCreateStart, favoriteCreateStart } from "../../store/favorite/favorite.action";
 import { GltfFetchAllStart, GltfFetchSingleStart, gltfFetchAllStart, gltfFetchSingleStart } from "../../store/gltf/gltf.action";
 import { GltfCommentFetchSingleStart, gltfcommentFetchSingleStart } from "../../store/gltfcomment/gltfcomment.action";
 import { PostFetchAllStart, PostFetchSingleStart, postFetchAllStart, postFetchSingleStart } from "../../store/post/post.action";
 import { RootState } from "../../store/store";
-import { BadgeContainer } from "../../styles/poststab/poststab.styles";
+import { AContainer, BadgeContainer } from "../../styles/poststab/poststab.styles";
 import { User } from "../../store/user/user.types";
 import { Favorite } from "../../store/favorite/favorite.types";
 import { Post } from "../../store/post/post.types";
@@ -20,6 +20,7 @@ import { ChatCommentState } from "../../store/chatcomment/chatcomment.reducer";
 import { CommentState } from "../../store/comment/comment.reducer";
 import { GltfCommentState } from "../../store/gltfcomment/gltfcomment.reducer";
 import { ContentContainer, ResponsiveMemoryContainer } from "../../styles/responsivememory/responsivememory.styles";
+import { CommentContainer, ModalContainer, TextContainer } from "../../styles/modal/modal.styles";
 
 type DashData = {
     id: number;
@@ -34,7 +35,12 @@ type DashData = {
 
 interface IDash {
     content: Array<DashData>;
+    singleContent: DashData | null;
     show: boolean;
+    commentValue: string;
+    mediaLink: string;
+    imageSource: string | ArrayBuffer | null | undefined;
+    imageFile: File | null;
 }
 
 type DashProps = ConnectedProps<typeof connector>;
@@ -44,7 +50,51 @@ class Dash extends Component<DashProps, IDash> {
         super(props);
         this.state = {
             content: [],
-            show: false
+            singleContent: null,
+            show: false,
+            commentValue: "",
+            mediaLink: "",
+            imageSource: null,
+            imageFile: null
+        }
+        this.showPreview = this.showPreview.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleSubmit(event: FormEvent<HTMLFormElement>): void {
+        event.preventDefault();
+        const { commentValue, imageFile } = this.state;
+        this.props.createComment(commentValue, imageFile!, this.state.singleContent?.id!);
+        this.setState({
+            ...this.state, commentValue: "", imageFile: null
+        })
+    }
+
+    handleChange(event: ChangeEvent<HTMLInputElement>): void {
+        const { name, value } = event.target;
+        this.setState({ ...this.state, [name]: value });
+    }
+
+    showPreview(event: ChangeEvent<HTMLInputElement>) {
+        if (event.target.files && event.target.files[0]) {
+          const { files } = event.target;
+          const selectedFiles = files as FileList;
+          let imageFile = selectedFiles[0];
+          const reader = new FileReader();
+          reader.onload = x => {
+            this.setState({
+              ...this.state,
+              imageFile,
+              imageSource: x.target?.result
+            });
+          }
+          reader.readAsDataURL(imageFile);
+        } else {
+          this.setState({
+              ...this.state,
+              imageFile: null,
+              imageSource: null
+          });
         }
     }
 
@@ -68,8 +118,14 @@ class Dash extends Component<DashProps, IDash> {
         });
     }
 
+    handleClose(): void {
+        this.setState({
+            show: !this.state.show
+        });
+    }
+
     postFunction(prop: Post): DashData {
-        const { postId, postValue, mediaLink, comments, favorites, type, imageSource,user } = prop;
+        const { postId, postValue, mediaLink, comments, favorites, type, imageSource, user } = prop;
         const content: DashData = {
             id: postId,
             postValue: postValue ? postValue : "",
@@ -137,8 +193,8 @@ class Dash extends Component<DashProps, IDash> {
         this.props.getChats();
         this.props.getGltfs();
     }
-
-    componentDidUpdate(prevProps: Readonly<{ posts: Post[]; comments: CommentState; chats: ChatContent[]; chatcomments: ChatCommentState; gltfs: Gltf[]; gltfcomments: GltfCommentState; currentUser: User | null; } & { getPosts: () => void; getChats: () => void; getGltfs: () => void; getPost: (postId: number) => void; getChat: (chatId: number) => void; getGltf: (gltfId: number) => void; getPostComments: (postId: number) => void; getChatComments: (chatId: number) => void; getGltfComments: (gltfId: number) => void; likePost: (postId: number, contentType: string) => void; }>, prevState: Readonly<IDash>, snapshot?: any): void {
+    
+    componentDidUpdate(prevProps: Readonly<{ posts: Post[]; comments: CommentState; chats: ChatContent[]; chatcomments: ChatCommentState; gltfs: Gltf[]; gltfcomments: GltfCommentState; currentUser: User | null; } & { getPosts: () => void; getChats: () => void; getGltfs: () => void; getPost: (postId: number) => void; getChat: (chatId: number) => void; getGltf: (gltfId: number) => void; getPostComments: (postId: number) => void; getChatComments: (chatId: number) => void; getGltfComments: (gltfId: number) => void; likePost: (postId: number, contentType: string) => void; createComment: (commentValue: string, imageFile: File, postId: number) => void; }>, prevState: Readonly<IDash>, snapshot?: any): void {
         if (this.props.posts.length != prevProps.posts.length) {
             console.log('Content has changed');
             this.checkType();
@@ -152,9 +208,8 @@ class Dash extends Component<DashProps, IDash> {
             this.checkType();
         }
     }
-    
     render() {
-        const { content } = this.state;
+        const { content, singleContent } = this.state;
         return (
             <ContentContainer>
             <Row xs={1}>
@@ -167,7 +222,9 @@ class Dash extends Component<DashProps, IDash> {
                     <Card.ImgOverlay>
                         <div style={{ cursor: "pointer", position: "absolute", left: "0", top: "0" }}>
                             <BadgeContainer>
+                                <AContainer href={`/${type}s/${id}`}>
                                 <Badge style={{ color: 'black' }} bg="light"><ArrowRight style={{ cursor: 'pointer' }} onClick={() => this.handleClick(id, type)} size={15}/></Badge>
+                                </AContainer>
                             </BadgeContainer>
                             {
                                 <BadgeContainer><Badge style={{ color: 'black' }} bg="light">
@@ -202,6 +259,93 @@ class Dash extends Component<DashProps, IDash> {
                 // </div>   
                 ))}
             </Row>
+            <Modal
+                    size="lg"
+                    show={this.state.show} 
+                    onHide={() => this.handleClose()}
+            >
+                <ModalContainer>
+                    <Modal.Header closeButton>
+                        <Modal.Title >Marauder Log</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Row>
+                            <Col md={8}>
+                            <Image
+                                fluid
+                                style={{ borderRadius: '.2rem', objectFit: 'cover', width: '30rem', height: '30rem' }}
+                                src={singleContent?.mediaLink ? singleContent?.imageSource : "https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"} 
+                            />
+                            <Card style={{ marginTop: "1rem", color: 'white' }} className="bg-dark" key={singleContent?.id}>
+                                <TextContainer>
+                                <Row xs={2}>
+                                    <Col xs={2}>
+                                    <Card.Img style={{ width: '2rem', height: '2rem', marginBottom: '1rem' }} src={`https://localhost:7144/images/${singleContent?.user.imageLink!}`}/>
+                                    </Col>
+                                    <Col>
+                                    {/* <Card.Text>{user.username}</Card.Text> */}
+                                    </Col>
+                                </Row>
+                                <Card.Text>{singleContent?.postValue}</Card.Text>
+                                </TextContainer>
+                            </Card>
+                            </Col>
+                            <Col>
+                            <CommentContainer>
+                            <div>Comments</div>
+                            <div style={{ height: "65%", overflowY: "auto" }}>
+                            {/* {
+                                singleContent?.comments?.map(({ commentId, commentValue, mediaLink, dateCreated, user }: Comment) => {
+                                    return <Card border="light" className="bg-dark mt-2" key={commentId}>
+                                        <TextContainer>
+                                            <Card.Text>{commentValue}</Card.Text>
+                                            <AContainer href={`/profile/${user.userId}`}>{user.username}</AContainer>
+                                        </TextContainer>
+                                    </Card>
+                                })
+                            } */}
+                            </div>
+                            <Form style={{ margin: 'auto', position: "absolute", bottom: "0" }} key={singleContent?.id} onSubmit={this.handleSubmit}>
+                            <Row style={{ marginBottom: '3rem', justifyContent: 'center' }} xs={1}>
+                                <Col xs={12}>
+                                    <Row style={{ marginBottom: '1rem', justifyContent: 'center' }}>
+                                        <Col xs={12}>
+                                            <Form.Group>
+                                                <Form.Control style={{ height: '.5rem' }} name="commentValue" as="textarea" onChange={this.handleChange} placeholder=" Write your comment here" />
+                                            </Form.Group>
+                                        </Col>
+                                    </Row>
+                                    <Row style={{ justifyContent: 'center' }}>
+                                        <Col xs={12}>
+                                            <Form.Group className="mb-3" controlId="formMedia">
+                                                <Form.Control onChange={this.showPreview} name="mediaLink" as="input" accept="image/*" type="file" placeholder="Media" />
+                                            </Form.Group>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                                <Col xs={12}>
+                                    <button style={{ textAlign: 'center', width: '100%', height: '100%'}} className="btn btn-light" type="submit">
+                                        <Send/>
+                                    </button>
+                                </Col>                
+                            </Row>
+                        </Form>
+                        </CommentContainer>
+                        </Col>
+                        </Row>
+                    </Modal.Body>
+                    <Modal.Footer>
+                    <button className="btn btn-dark" onClick={() => this.handleClose()}>
+                        Close
+                    </button>
+                    <button className="btn btn-dark" >
+                        <a style={{ textDecoration: 'none', color: 'white' }} href={`/${singleContent?.type}/${singleContent?.id}`}>
+                        {`See ${singleContent?.type}`}
+                        </a>
+                    </button>
+                    </Modal.Footer>
+                    </ModalContainer>
+            </Modal>
             </ContentContainer>
         )
     }
@@ -219,7 +363,7 @@ const mapStateToProps = (state: RootState) => {
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<FavoriteCreateStart | PostFetchAllStart | PostFetchSingleStart | CommentFetchSingleStart | ChatFetchAllStart | ChatFetchSingleStart | ChatCommentFetchSingleStart | GltfFetchAllStart | GltfFetchSingleStart | GltfCommentFetchSingleStart>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<FavoriteCreateStart | PostFetchAllStart | PostFetchSingleStart | CommentCreateStart | CommentFetchSingleStart | ChatFetchAllStart | ChatFetchSingleStart | ChatCommentFetchSingleStart | GltfFetchAllStart | GltfFetchSingleStart | GltfCommentFetchSingleStart>) => ({
     getPosts: () => dispatch(postFetchAllStart()),
     getChats: () => dispatch(chatFetchAllStart()),
     getGltfs: () => dispatch(gltfFetchAllStart()),
@@ -229,7 +373,8 @@ const mapDispatchToProps = (dispatch: Dispatch<FavoriteCreateStart | PostFetchAl
     getPostComments: (postId: number) => dispatch(commentFetchSingleStart(postId)),
     getChatComments: (chatId: number) => dispatch(chatcommentFetchSingleStart(chatId)),
     getGltfComments: (gltfId: number) => dispatch(gltfcommentFetchSingleStart(gltfId)),
-    likePost: (postId: number, contentType: string) => dispatch(favoriteCreateStart(postId, contentType))
+    likePost: (postId: number, contentType: string) => dispatch(favoriteCreateStart(postId, contentType)),
+    createComment: (commentValue: string, imageFile: File, postId: number) => dispatch(commentCreateStart(commentValue, imageFile, postId)),
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

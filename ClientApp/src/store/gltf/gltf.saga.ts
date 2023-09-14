@@ -1,6 +1,6 @@
 import { all, call, put, takeLatest } from 'typed-redux-saga';
 
-import {GLTF_ACTION_TYPES } from './gltf.types';
+import {GLTF_ACTION_TYPES, Gltf } from './gltf.types';
 
 import {
   GltfCreateStart,
@@ -95,7 +95,7 @@ export function* fetchSingleGltf({
             getSingleGltf,
             gltfId 
         );
-        yield* put(gltfFetchSingleSuccess(gltf));
+        yield* put(gltfFetchSingleSuccess(gltf as Gltf));
     } catch (error) {
         yield* put(gltfFetchSingleFailed(error as Error));
     }

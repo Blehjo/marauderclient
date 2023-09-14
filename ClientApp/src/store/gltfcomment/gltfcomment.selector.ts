@@ -5,6 +5,11 @@ import { GltfCommentState } from './gltfcomment.reducer';
 
 export const selectCommentReducer = (state: RootState): GltfCommentState => state.gltfcomment;
 
+export const selectIsGltfCommentLoading = createSelector(
+    [selectCommentReducer],
+    (gltfcomment) => gltfcomment.isLoading
+);
+
 export const selectCommentId = createSelector(
     [selectCommentReducer],
     (gltfcomment) => gltfcomment.gltfCommentId

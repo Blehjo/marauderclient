@@ -51,7 +51,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
             this.props.getPost(id);
             this.props.getComments(id);
         } else if (type === "gltf") {
-            this.props.getGltf(id);
+            this.props.getFile(id);
             this.props.getComments(id);
         } else {
             this.props.getCommunity(id);
@@ -315,7 +315,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
             }
         } else if (gltfs && gltfs.length > 0) {
             for (let i = 0; i < gltfs.length; i++) {
-                content.push(this.gltfFunction(gltfs[i]));
+                content.push(this.gltfFunction(gltfs[i]))
             }
         } else if (favorites && favorites.length > 0) {
             for (let i = 0; i < favorites.favorites?.length!; i++) {
@@ -324,6 +324,9 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                 }
                 if (favorites.favorites[i].type === "chat") {
                     content.push(this.chatFunction(favorites.favorites[i]))
+                } 
+                if (favorites.favorites[i].type === "gltf") {
+                    content.push(this.gltfFunction(favorites.favorites[i]))
                 }
             }
         } else {
@@ -354,7 +357,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                     size="lg"
                     show={this.state.show} 
                     onHide={() => this.handleClose()}
-                    >
+                >
                     <ModalContent show={this.state.show} { ...this.props }/>
                 </Modal>
                 <Modal

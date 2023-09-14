@@ -212,7 +212,6 @@ export const CommentContainer = styled.div`
         color: white;
         margin-top: 3.5rem;
         float: right;
-        overflow-y: auto;
     }
 
     @media (max-width: 899px) {
@@ -267,7 +266,7 @@ export const CommentContainer = styled.div`
 
 export const SingleChatContainer = styled.div`
   display: flex;
-  margin: 3rem 21rem 3rem 3rem;
+  margin: 5rem 21rem 3rem 3rem;
   flex-direction: column;
   @media (max-width: 900px) {
     margin: 4rem 3rem 0rem 3rem;
@@ -278,7 +277,7 @@ export const SingleChatContainer = styled.div`
 
 export const SinglePostContainer = styled.div`
   display: flex;
-  margin: 3rem 21rem 3rem 3rem;
+  margin: 5rem 21rem 3rem 3rem;
   flex-direction: column;
   @media (max-width: 900px) {
     margin: 4rem 3rem 0rem 3rem;

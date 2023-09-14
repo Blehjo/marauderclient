@@ -61,6 +61,15 @@ class ModalContent extends Component<any, IModalContent> {
         })
     }
 
+    handleGltfCommentSubmit(event: FormEvent<HTMLFormElement>): void {
+        event.preventDefault();
+        const { commentValue, imageFile } = this.state;
+        this.props.createGltfComment(commentValue, imageFile, this.props.singleGltf.gltfId);
+        this.setState({
+            ...this.state, commentValue: "", imageFile: null
+        })
+    }
+
     handleChange(event: ChangeEvent<HTMLInputElement>): void {
         const { name, value } = event.target;
         this.setState({ ...this.state, [name]: value });
@@ -206,98 +215,98 @@ class ModalContent extends Component<any, IModalContent> {
         const { comments } = this.props;
         return (
             <Modal 
-                    size="lg"
-                    show={this.state.show} 
-                    onHide={() => this.handleClose()}
-                >
-                    <ModalContainer>
-                    <Modal.Header closeButton>
-                        <Modal.Title >Marauder Log</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <Row>
-                            <Col md={8}>
-                            <Image
-                                fluid
-                                style={{ borderRadius: '.2rem', objectFit: 'cover', width: '30rem', height: '30rem' }}
-                                src={mediaLink ? imageSource : "https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"} 
-                            />
-                            <Card style={{ marginTop: "1rem", color: 'white' }} className="bg-dark" key={postId}>
-                                <TextContainer>
-                                <Row xs={2}>
-                                    <Col xs={2}>
-                                    <Card.Img style={{ width: '2rem', height: '2rem', marginBottom: '1rem' }} src={`https://localhost:7144/images/${user.imageLink!}`}/>
-                                    </Col>
-                                    <Col>
-                                    <Card.Text>{user.username}</Card.Text>
+                size="lg"
+                show={this.state.show} 
+                onHide={() => this.handleClose()}
+            >
+                <ModalContainer>
+                <Modal.Header closeButton>
+                    <Modal.Title >Marauder Log</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Row>
+                        <Col md={8}>
+                        <Image
+                            fluid
+                            style={{ borderRadius: '.2rem', objectFit: 'cover', width: '30rem', height: '30rem' }}
+                            src={mediaLink ? imageSource : "https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"} 
+                        />
+                        <Card style={{ marginTop: "1rem", color: 'white' }} className="bg-dark" key={postId}>
+                            <TextContainer>
+                            <Row xs={2}>
+                                <Col xs={2}>
+                                <Card.Img style={{ width: '2rem', height: '2rem', marginBottom: '1rem' }} src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                                </Col>
+                                <Col>
+                                <Card.Text>{user.username}</Card.Text>
+                                </Col>
+                            </Row>
+                            <Card.Text>{postValue}</Card.Text>
+                            </TextContainer>
+                        </Card>
+                        </Col>
+                        <Col>
+                        <CommentContainer>
+                        <div>Comments</div>
+                        <div style={{ height: "65%", overflowY: "auto" }}>
+                        {
+                            comments?.map(({ commentId, commentValue, mediaLink, dateCreated, user }: Comment) => {
+                                return <Card border="light" className="bg-dark mt-2" key={commentId}>
+                                    <TextContainer>
+                                        <Card.Text>{commentValue}</Card.Text>
+                                        <AContainer href={`/profile/${user.userId}`}>{user.username}</AContainer>
+                                    </TextContainer>
+                                </Card>
+                            })
+                        }
+                        </div>
+                        <Form style={{ margin: 'auto', position: "absolute", bottom: "0" }} key={postId} onSubmit={this.handleSubmit}>
+                        <Row style={{ marginBottom: '3rem', justifyContent: 'center' }} xs={1}>
+                            <Col xs={12}>
+                                <Row style={{ marginBottom: '1rem', justifyContent: 'center' }}>
+                                    <Col xs={12}>
+                                        <Form.Group>
+                                            <Form.Control style={{ height: '.5rem' }} name="commentValue" as="textarea" onChange={this.handleChange} placeholder=" Write your comment here" />
+                                        </Form.Group>
                                     </Col>
                                 </Row>
-                                <Card.Text>{postValue}</Card.Text>
-                                </TextContainer>
-                            </Card>
+                                <Row style={{ justifyContent: 'center' }}>
+                                    <Col xs={12}>
+                                        <Form.Group className="mb-3" controlId="formMedia">
+                                            <Form.Control onChange={this.showPreview} name="mediaLink" as="input" accept="image/*" type="file" placeholder="Media" />
+                                        </Form.Group>
+                                    </Col>
+                                </Row>
                             </Col>
-                            <Col>
-                            <CommentContainer>
-                            <div>Comments</div>
-                            <div style={{ height: "65%", overflowY: "auto" }}>
-                            {
-                                comments?.map(({ commentId, commentValue, mediaLink, dateCreated, user }: Comment) => {
-                                    return <Card border="light" className="bg-dark mt-2" key={commentId}>
-                                        <TextContainer>
-                                            <Card.Text>{commentValue}</Card.Text>
-                                            <AContainer href={`/profile/${user.userId}`}>{user.username}</AContainer>
-                                        </TextContainer>
-                                    </Card>
-                                })
-                            }
-                            </div>
-                            <Form style={{ margin: 'auto', position: "absolute", bottom: "0" }} key={postId} onSubmit={this.handleSubmit}>
-                            <Row style={{ marginBottom: '3rem', justifyContent: 'center' }} xs={1}>
-                                <Col xs={12}>
-                                    <Row style={{ marginBottom: '1rem', justifyContent: 'center' }}>
-                                        <Col xs={12}>
-                                            <Form.Group>
-                                                <Form.Control style={{ height: '.5rem' }} name="commentValue" as="textarea" onChange={this.handleChange} placeholder=" Write your comment here" />
-                                            </Form.Group>
-                                        </Col>
-                                    </Row>
-                                    <Row style={{ justifyContent: 'center' }}>
-                                        <Col xs={12}>
-                                            <Form.Group className="mb-3" controlId="formMedia">
-                                                <Form.Control onChange={this.showPreview} name="mediaLink" as="input" accept="image/*" type="file" placeholder="Media" />
-                                            </Form.Group>
-                                        </Col>
-                                    </Row>
-                                </Col>
-                                <Col xs={12}>
-                                    <button style={{ textAlign: 'center', width: '100%', height: '100%'}} className="btn btn-light" type="submit">
-                                        <Send/>
-                                    </button>
-                                </Col>                
-                            </Row>
-                        </Form>
-                            </CommentContainer>
-                            </Col>
+                            <Col xs={12}>
+                                <button style={{ textAlign: 'center', width: '100%', height: '100%'}} className="btn btn-light" type="submit">
+                                    <Send/>
+                                </button>
+                            </Col>                
                         </Row>
-                    </Modal.Body>
-                    <Modal.Footer>
-                    <button className="btn btn-dark" onClick={() => this.handleClose()}>
-                        Close
-                    </button>
-                    <button className="btn btn-dark" >
-                        <a style={{ textDecoration: 'none', color: 'white' }} href={`/posts/${postId}`}>
-                        See Post
-                        </a>
-                    </button>
-                    </Modal.Footer>
-                    </ModalContainer>
-                </Modal>
+                    </Form>
+                        </CommentContainer>
+                        </Col>
+                    </Row>
+                </Modal.Body>
+                <Modal.Footer>
+                <button className="btn btn-dark" onClick={() => this.handleClose()}>
+                    Close
+                </button>
+                <button className="btn btn-dark" >
+                    <a style={{ textDecoration: 'none', color: 'white' }} href={`/posts/${postId}`}>
+                    See Post
+                    </a>
+                </button>
+                </Modal.Footer>
+                </ModalContainer>
+            </Modal>
         );
     }
 
     gltfFunction(prop: Gltf) {
-        const { gltfId, fileInformation, favorites, type, imageSource, user } = prop;
-        const { comments } = this.props;
+        // const { gltfId, fileInformation, favorites, type, imageSource, user } = prop;
+        const { comments, singleGltf,  } = this.props;
         return (
             <Modal 
                     size="lg"
@@ -316,17 +325,17 @@ class ModalContent extends Component<any, IModalContent> {
                                 style={{ borderRadius: '.2rem', objectFit: 'cover', width: '30rem', height: '30rem' }}
                                 src={"https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"} 
                             />
-                            <Card style={{ marginTop: "1rem", color: 'white' }} className="bg-dark" key={gltfId}>
+                            <Card style={{ marginTop: "1rem", color: 'white' }} className="bg-dark" key={singleGltf?.gltfId}>
                                 <TextContainer>
                                 <Row xs={2}>
                                     <Col xs={2}>
-                                    <Card.Img style={{ width: '2rem', height: '2rem', marginBottom: '1rem' }} src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                                    <Card.Img style={{ width: '2rem', height: '2rem', marginBottom: '1rem' }} src={`https://localhost:7144/images/${singleGltf?.user.imageLink!}`}/>
                                     </Col>
                                     <Col>
-                                    <Card.Text>{user.username}</Card.Text>
+                                    <Card.Text>{singleGltf?.user.username}</Card.Text>
                                     </Col>
                                 </Row>
-                                {fileInformation}
+                                {singleGltf?.fileInformation}
                                 </TextContainer>
                             </Card>
                             </Col>
@@ -339,13 +348,13 @@ class ModalContent extends Component<any, IModalContent> {
                                     return <Card border="light" className="bg-dark mt-2" key={commentId}>
                                         <TextContainer>
                                             <Card.Text>{commentValue}</Card.Text>
-                                            <AContainer href={`/profile/${user.userId}`}>{user.username}</AContainer>
+                                            <AContainer href={`/profile/${user?.userId}`}>{user?.username}</AContainer>
                                         </TextContainer>
                                     </Card>
                                 })
                             }
                             </div>
-                            <Form style={{ margin: 'auto', position: "absolute", bottom: "0" }} key={gltfId} onSubmit={this.handleSubmit}>
+                            <Form style={{ margin: 'auto', position: "absolute", bottom: "0" }} key={singleGltf?.gltfId} onSubmit={this.handleGltfCommentSubmit}>
                             <Row style={{ marginBottom: '3rem', justifyContent: 'center' }} xs={1}>
                                 <Col xs={12}>
                                     <Row style={{ marginBottom: '1rem', justifyContent: 'center' }}>
@@ -379,8 +388,8 @@ class ModalContent extends Component<any, IModalContent> {
                         Close
                     </button>
                     <button className="btn btn-dark" >
-                        <a style={{ textDecoration: 'none', color: 'white' }} href={`/gltfs/${gltfId}`}>
-                        See Post
+                        <a style={{ textDecoration: 'none', color: 'white', cursor: 'pointer' }} href={`/gltfs/${singleGltf?.gltfId}`}>
+                        See File
                         </a>
                     </button>
                     </Modal.Footer>
@@ -443,27 +452,17 @@ class ModalContent extends Component<any, IModalContent> {
     }
 
     checkType() {
-        const { singlePost, singleChat, singleCommunity } = this.props;
+        const { singlePost, singleChat, singleCommunity, singleGltf } = this.props;
         if (singlePost != undefined) {
             return this.postFunction(singlePost);
         } else if (singleChat != undefined) {
             return this.chatFunction(singleChat);
         } else if (singleCommunity != undefined) {
             return this.communityFunction(singleCommunity);
+        } else {
+            return this.gltfFunction(singleGltf);
         }
     }
-
-    // componentDidMount(): void {
-    //     if (this.props.communities.singleCommunity?.communityId != null) {
-    //         this.props.getMembers(this.props.communities.singleCommunity?.communityId!);
-    //     }
-    // }
-
-    // componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<IModalContent>, snapshot?: any): void {
-    //     if (prevProps.comments.length != this.props.comments.length) {
-    //         this.props.getPostComments(postId);
-    //     }
-    // }
 
     render() {
         return (

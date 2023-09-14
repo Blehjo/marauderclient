@@ -7,6 +7,7 @@ import { FavoriteCreateStart, favoriteCreateStart } from "../../store/favorite/f
 import { PostFetchAllStart, PostFetchSingleStart, postFetchAllStart, postFetchSingleStart } from "../../store/post/post.action";
 import { RootState } from "../../store/store";
 import { GltfFetchAllStart, GltfFetchSingleStart, gltfFetchAllStart, gltfFetchSingleStart } from "../../store/gltf/gltf.action";
+import { GltfCommentFetchSingleStart, gltfcommentFetchSingleStart } from "../../store/gltfcomment/gltfcomment.action";
 
 export type GltfRouteProps = ConnectedProps<typeof connector>;
 
@@ -22,15 +23,15 @@ const mapStateToProps = (state: RootState) => {
     return { 
         gltfs: state.gltf.gltfs,
         singleGltf: state.gltf.singleGltf,
-        comments: state.comment.comments
+        comments: state.gltfcomment.comments
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<GltfFetchAllStart | GltfFetchSingleStart | PostFetchAllStart | PostFetchSingleStart | CommentFetchSingleStart | CommentCreateStart | FavoriteCreateStart>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<GltfFetchAllStart | GltfFetchSingleStart | GltfCommentFetchSingleStart| PostFetchAllStart | PostFetchSingleStart | CommentFetchSingleStart | CommentCreateStart | FavoriteCreateStart>) => ({
 	getAll: () => dispatch(gltfFetchAllStart()),
     getFile: (gltfId: number) => dispatch(gltfFetchSingleStart(gltfId)),
-    getComments: (gltfId: number) => dispatch(commentFetchSingleStart(gltfId)),
-    createComment: (commentValue: string, imageFile: File, postId: number) => dispatch(commentCreateStart(commentValue, imageFile, postId)),
+    getComments: (gltfId: number) => dispatch(gltfcommentFetchSingleStart(gltfId)),
+    createGltfComment: (commentValue: string, imageFile: File, gltfId: number) => dispatch(commentCreateStart(commentValue, imageFile, gltfId)),
     likePost: (gltfId: number, contentType: string) => dispatch(favoriteCreateStart(gltfId, contentType))
 });
 

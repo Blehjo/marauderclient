@@ -96,17 +96,17 @@ function SingleChat() {
                 <Card className="bg-dark">
                     <Card.Body>
                         <Card.Img src="https://www.artlog.net/sites/default/files/styles/al_colorbox_rules/public/turrell_cregis_golay_federal_studio.jpg?itok=2M4Pyn0A"/>
-                        {/* <Row style={{ position: 'relative' }} xs={3}>
-                        <Col xs={2}>
-                        <Card.Img src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                        <Row style={{ position: 'relative', color: 'white', marginTop: '1rem' }} xs={3}>
+                        <Col xs={1}>
+                        <Card.Img style={{ width: '2rem', height: '2rem', objectFit: 'fill' }} src={`https://localhost:7144/images/${chat?.user.imageLink!}`}/>
                         </Col>
                         <Col>
-                        <Card.Text style={{ marginBottom: '.5rem' }}>{user.username}</Card.Text>
+                        <Card.Text style={{ marginBottom: '.5rem' }}>{chat?.user.username}</Card.Text>
                         </Col>
                         <Col>
-                        <Card.Text style={{ position: 'absolute', right: '0.5rem' }}>{utcConverter(dateCreated)}</Card.Text>
+                        <Card.Text style={{ position: 'absolute', right: '0.5rem' }}>{utcConverter(chat?.dateCreated!)}</Card.Text>
                         </Col>
-                        </Row> */}
+                        </Row>
                     </Card.Body>
                 </Card>
                 <div style={{ height: '12rem', overflowY: 'auto' }}>
