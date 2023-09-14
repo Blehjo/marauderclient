@@ -121,13 +121,13 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
     }
 
     chatFunction(prop: ChatContent) {
-        const { chatId, title, type, userId, comments, chatComments, favorites, dateCreated } = prop;
+        const { chatId, title, type, userId, comments, chatComments, favorites, dateCreated, user } = prop;
         return (
             <Card key={chatId} style={{ background: 'black', border: 'solid 1px white', padding: '.5rem', margin: '.3rem', color: 'white'}}>
                 <Row>
                 <Card.Img  src={"https://www.artlog.net/sites/default/files/styles/al_colorbox_rules/public/turrell_cregis_golay_federal_studio.jpg?itok=2M4Pyn0A"}/>
                 <Card.ImgOverlay>
-                <div style={{ cursor: "pointer", position: "absolute", left: "0", top: "0" }}>
+                <div style={{ cursor: "pointer", position: "absolute", left: "0.5rem", top: "0.5rem" }}>
                 <Col>
                 <BadgeContainer>
                     <Badge style={{ color: 'black' }} bg="light"><ArrowsFullscreen style={{ cursor: 'pointer' }} size={15} onClick={() => this.handleClick(chatId, type)}/></Badge>
@@ -155,8 +155,18 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                 </div>
                 </Card.ImgOverlay>
                 <Card.Body>
+                    <Row style={{ position: 'relative' }} xs={3}>
+                        <Col xs={2}>
+                        <Card.Img src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                        </Col>
+                        <Col>
+                        <Card.Text style={{ marginBottom: '.5rem' }}>{user.username}</Card.Text>
+                        </Col>
+                        <Col>
+                        <Card.Text style={{ position: 'absolute', right: '0.5rem' }}>{utcConverter(dateCreated)}</Card.Text>
+                        </Col>
+                    </Row>
                     <Card.Text>{title}</Card.Text>
-                    <Card.Text>{utcConverter(dateCreated)}</Card.Text>
                 </Card.Body>
                 </Row>
             </Card>
@@ -191,22 +201,22 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                     </div>
                 </Card.ImgOverlay>
                 <Card.Body>
-                    <Card.Text>{postValue}</Card.Text>
                     <Row xs={2}>
                         <Col xs={2}>
                         <Card.Img src={`https://localhost:7144/images/${user.imageLink!}`}/>
                         </Col>
                         <Col>
-                        <Card.Text>{user.username}</Card.Text>
+                        <Card.Text style={{ marginBottom: '.5rem' }}>{user.username}</Card.Text>
                         </Col>
                     </Row>
+                    <Card.Text>{postValue}</Card.Text>
                 </Card.Body>
             </Card>
         )
     }
     
     gltfFunction(prop: Gltf) {
-        const { gltfId, fileInformation, mediaLink, comments, favorites, type, imageSource } = prop;
+        const { gltfId, fileInformation, mediaLink, comments, favorites, type, imageSource, user } = prop;
         return (
             <Card key={gltfId} style={{ background: 'black', border: 'solid 1px white', padding: '.5rem', margin: '.3rem', color: 'white'}}>
                 <Card.Img src={mediaLink ? imageSource : "https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"}/>
@@ -233,6 +243,14 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                     </div>
                 </Card.ImgOverlay>
                 <Card.Body>
+                    <Row xs={2}>
+                        <Col xs={2}>
+                        <Card.Img src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                        </Col>
+                        <Col>
+                        <Card.Text>{user.username}</Card.Text>
+                        </Col>
+                    </Row>
                     <Card.Text>{fileInformation}</Card.Text>
                 </Card.Body>
             </Card>

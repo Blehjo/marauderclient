@@ -133,9 +133,17 @@ export class Comment extends Component<CommentQuery, IDefaultFormFields> {
                         return <CardContainer>
                             <Card className="bg-dark" key={commentId}>
                                 <TextCommentContainer>
+                                    <AContainer href={`/profile/${user.userId}`}>
+                                    <Row xs={2}>
+                                        <Col xs={2}>
+                                        <Card.Img src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                                        </Col>
+                                        <Col>
+                                        <Card.Text style={{ marginBottom: '.5rem' }}>{user.username}</Card.Text>
+                                        </Col>
+                                    </Row>
+                                    </AContainer>
                                     <Card.Text>{commentValue}</Card.Text>
-                                    <AContainer href={`/profile/${user.userId}`}>{user.username}</AContainer>
-                                    {/* <Card.Text>{utcConverter(dateCreated)}</Card.Text> */}
                                 </TextCommentContainer>
                             </Card>
                         </CardContainer>

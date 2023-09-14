@@ -6,7 +6,7 @@ import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { ProfileProps } from "../../pages/profile";
 import { CommentState } from "../../store/comment/comment.reducer";
 import { PostState } from "../../store/post/post.reducer";
-import { BadgeContainer, CardContainer, CommentContainer, ModalContainer, ModalPostContainer, PostContainer, TextContainer } from "../../styles/poststab/poststab.styles";
+import { AContainer, BadgeContainer, CardContainer, CommentContainer, ModalContainer, ModalPostContainer, PostContainer, TextContainer } from "../../styles/poststab/poststab.styles";
 import { utcConverter } from "../../utils/date/date.utils";
 import { XContainer } from "../../styles/devices/devices.styles";
 import { SingleProfileProps } from "../../pages/profile/[id]";
@@ -202,6 +202,14 @@ export class UserPostsTab extends Component<any, IDefaultFormFields> {
                     />
                     <Card style={{ marginTop: "1rem" }} className="bg-dark" key={posts.singlePost?.postId}>
                         <TextContainer style={{ color: 'white' }}>
+                            <Row xs={2}>
+                                <Col xs={1}>
+                                <Card.Img style={{ width: '1rem', height: '1rem', objectFit: 'fill' }} src={`https://localhost:7144/images/${posts.singlePost?.user.imageLink!}`}/>
+                                </Col>
+                                <Col>
+                                <Card.Text style={{ marginBottom: '.5rem' }}>{posts.singlePost?.user.username}</Card.Text>
+                                </Col>
+                            </Row>
                             {posts.singlePost?.postValue}
                         </TextContainer>
                     </Card>
@@ -211,10 +219,20 @@ export class UserPostsTab extends Component<any, IDefaultFormFields> {
                     <div>Comments</div>
                     <div style={{ height: "65%", overflowY: "auto" }}>
                     {
-                        comments.comments?.map(({ commentId, commentValue, mediaLink, dateCreated }: Comment) => {
+                        comments.comments?.map(({ commentId, commentValue, mediaLink, dateCreated, user }: Comment) => {
                             return <CardContainer>
                                 <Card className="bg-dark" key={commentId}>
                                     <TextContainer>
+                                        <AContainer href={`/profile/${user.userId}`}>
+                                        <Row xs={2}>
+                                            <Col xs={2}>
+                                            <Card.Img style={{ width: '1rem', height: '1rem', objectFit: 'fill' }} src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                                            </Col>
+                                            <Col>
+                                            <Card.Text style={{ marginBottom: '.5rem' }}>{user.username}</Card.Text>
+                                            </Col>
+                                        </Row>
+                                        </AContainer>
                                         <Card.Text>{commentValue}</Card.Text>
                                         <Card.Text>{utcConverter(dateCreated)}</Card.Text>
                                     </TextContainer>

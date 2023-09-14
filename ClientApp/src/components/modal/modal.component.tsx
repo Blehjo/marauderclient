@@ -80,7 +80,7 @@ class ModalContent extends Component<any, IModalContent> {
     }
 
     chatFunction(prop: Chat) {
-        const { chatId, title, type, userId, chatComments, favorites, dateCreated } = prop;
+        const { chatId, title, type, userId, chatComments, favorites, dateCreated, user } = prop;
         const { comments } = this.props;
         return (
             <ModalContainer>
@@ -97,6 +97,14 @@ class ModalContent extends Component<any, IModalContent> {
                         />
                             <Card border="light" style={{ marginTop: "1rem", color: 'white' }} className="bg-dark" key={chatId}>
                             <TextContainer>
+                            <Row xs={2}>
+                                <Col xs={2}>
+                                <Card.Img style={{ width: '2rem', height: '2rem', marginBottom: '1rem' }} src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                                </Col>
+                                <Col>
+                                <Card.Text>{user.username}</Card.Text>
+                                </Col>
+                            </Row>
                             {title}
                             </TextContainer>
                         </Card>
@@ -158,7 +166,7 @@ class ModalContent extends Component<any, IModalContent> {
     }
 
     postFunction(prop: Post) {
-        const { postId, postValue, mediaLink, favorites, type, imageSource } = prop;
+        const { postId, postValue, mediaLink, favorites, type, imageSource, user } = prop;
         const { comments } = this.props;
         return (
             <Modal 
@@ -180,7 +188,15 @@ class ModalContent extends Component<any, IModalContent> {
                             />
                             <Card style={{ marginTop: "1rem", color: 'white' }} className="bg-dark" key={postId}>
                                 <TextContainer>
-                                {postValue}
+                                <Row xs={2}>
+                                    <Col xs={2}>
+                                    <Card.Img style={{ width: '2rem', height: '2rem', marginBottom: '1rem' }} src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                                    </Col>
+                                    <Col>
+                                    <Card.Text>{user.username}</Card.Text>
+                                    </Col>
+                                </Row>
+                                <Card.Text>{postValue}</Card.Text>
                                 </TextContainer>
                             </Card>
                             </Col>
@@ -244,7 +260,7 @@ class ModalContent extends Component<any, IModalContent> {
     }
 
     gltfFunction(prop: Gltf) {
-        const { gltfId, fileInformation, favorites, type, imageSource } = prop;
+        const { gltfId, fileInformation, favorites, type, imageSource, user } = prop;
         const { comments } = this.props;
         return (
             <Modal 
@@ -266,6 +282,14 @@ class ModalContent extends Component<any, IModalContent> {
                             />
                             <Card style={{ marginTop: "1rem", color: 'white' }} className="bg-dark" key={gltfId}>
                                 <TextContainer>
+                                <Row xs={2}>
+                                    <Col xs={2}>
+                                    <Card.Img style={{ width: '2rem', height: '2rem', marginBottom: '1rem' }} src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                                    </Col>
+                                    <Col>
+                                    <Card.Text>{user.username}</Card.Text>
+                                    </Col>
+                                </Row>
                                 {fileInformation}
                                 </TextContainer>
                             </Card>

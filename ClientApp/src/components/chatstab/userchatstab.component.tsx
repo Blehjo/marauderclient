@@ -58,12 +58,12 @@ export class UserChatsTab extends Component<any, ChatsTabProps> {
         return (
             <Fragment>
             {
-            chats.userChats?.length ?
+            chats.singleUserChats?.length ?
                 <ResponsiveMasonry
                     columnsCountBreakPoints={{350: 1, 750: 2, 900: 3, 1050: 4}}
                 >
                     <Masonry>
-                    {chats.userChats?.map(({ chatId, title, userId, comments, chatComments, favorites, dateCreated }: Chat) => {
+                    {chats.singleUserChats?.map(({ chatId, title, userId, comments, chatComments, favorites, dateCreated }: Chat) => {
                     return <ChatContainer key={chatId}>
                             <Card style={{ background: 'black', border: '1px solid white', color: 'white' }} key={chatId}>
                             <Card.Img  src={"https://www.artlog.net/sites/default/files/styles/al_colorbox_rules/public/turrell_cregis_golay_federal_studio.jpg?itok=2M4Pyn0A"}/>

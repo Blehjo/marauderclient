@@ -1,5 +1,5 @@
 import { Fragment, useEffect } from "react";
-import { Card } from "react-bootstrap";
+import { Card, Col, Row } from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -43,7 +43,15 @@ function SinglePost() {
                         <Card.Img src={post?.mediaLink != null ? post?.imageSource : "https://www.artlog.net/sites/default/files/styles/al_colorbox_rules/public/turrell_cregis_golay_federal_studio.jpg?itok=2M4Pyn0A"}/>
                     </Card.Body>
                     <Card.Footer>
-                    <div style={{ height: '5rem', overflowY: 'auto', color: 'white' }}>
+                    <div style={{  height: '5rem', color: 'white' }}>
+                        <Row style={{ paddingBottom: '1rem' }} xs={2}>
+                        <Col xs={1}>
+                        <Card.Img style={{ width: '2rem', height: '2rem' }} src={`https://localhost:7144/images/${post?.user.imageLink!}`}/>
+                        </Col>
+                        <Col>
+                        <Card.Text>{post?.user.username}</Card.Text>
+                        </Col>
+                        </Row>
                         {post?.postValue}
                     </div>
                     </Card.Footer>

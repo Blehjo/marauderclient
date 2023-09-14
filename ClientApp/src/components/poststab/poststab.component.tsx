@@ -263,6 +263,14 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
                     />
                     <Card style={{ marginTop: "1rem" }} className="bg-dark" key={posts.singlePost?.postId}>
                         <TextContainer style={{ color: 'white' }}>
+                            <Row xs={2}>
+                                <Col xs={1}>
+                                <Card.Img style={{ width: '1rem', height: '1rem', objectFit: 'fill' }} src={`https://localhost:7144/images/${posts.singlePost?.user.imageLink!}`}/>
+                                </Col>
+                                <Col>
+                                <Card.Text style={{ marginBottom: '.5rem' }}>{posts.singlePost?.user.username}</Card.Text>
+                                </Col>
+                            </Row>
                             {posts.singlePost?.postValue}
                         </TextContainer>
                     </Card>
@@ -275,6 +283,16 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
                         comments.comments?.map(({ commentId, commentValue, mediaLink, dateCreated, user }) => {
                             return <Card border="light" className="bg-dark mt-2" key={commentId}>
                                 <TextContainer style={{ color: 'white' }}>
+                                    <AContainer href={`/profile/${user.userId}`}>
+                                        <Row xs={2}>
+                                            <Col xs={2}>
+                                            <Card.Img style={{ width: '1rem', height: '1rem', objectFit: 'fill' }} src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                                            </Col>
+                                            <Col>
+                                            <Card.Text style={{ marginBottom: '.5rem' }}>{user.username}</Card.Text>
+                                            </Col>
+                                        </Row>
+                                    </AContainer>
                                     <Card.Text>{commentValue}</Card.Text>
                                     <AContainer href={`/profile/${user.userId}`}>{user.username}</AContainer>
                                 </TextContainer>

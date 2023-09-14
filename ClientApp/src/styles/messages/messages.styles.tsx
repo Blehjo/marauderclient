@@ -53,12 +53,13 @@ export const TextCommentContainer = styled.div`
 `;
 
 export const TextContainer = styled.div`
-    border: solid 1px blue;
     border-radius: .3rem;
     padding: .2rem;
+    color: white;
     margin: .5rem;
     width: 100%;
     text-align: left;
+    z-index: 20;
 `;
 
 export const UserTextContainer = styled.div`
@@ -68,6 +69,7 @@ export const UserTextContainer = styled.div`
     margin: .5rem;
     width: 100%;
     text-align: right;
+    z-index: 20;
 `;
 
 export const ChatContainer = styled.div`

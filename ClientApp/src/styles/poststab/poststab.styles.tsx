@@ -21,6 +21,7 @@ export const CardContainer = styled.div`
 
 export const TextContainer = styled.div`
   padding: 1rem;
+  color: white;
 `;
 
 export const CommentContainer = styled.div`

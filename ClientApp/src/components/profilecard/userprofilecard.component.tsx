@@ -40,8 +40,8 @@ export class UserProfileCard extends Component<any> {
                                 {
                                 communities.communities?.map(({ communityId, communityName, description, imageSource }: Community) => (
                                     <Row>
-                                        <Col xs={3}>
-                                            <Image src={imageSource}/>
+                                        <Col xs={2}>
+                                            <Image style={{ width: '2rem', height: '2rem', objectFit: 'fill' }} src={imageSource}/>
                                         </Col>
                                         <Col>
                                             <Card.Text key={communityId}>{communityName}</Card.Text>

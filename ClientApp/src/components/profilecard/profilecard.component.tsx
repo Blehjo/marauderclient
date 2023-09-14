@@ -132,8 +132,8 @@ export class ProfileCard extends Component<ProfileProps, IDefaultFormFields> {
                                 {
                                 communities.userCommunities?.map(({ communityId, communityName, description, imageSource }) => (
                                     <Row>
-                                        <Col xs={3}>
-                                            <Image src={imageSource}/>
+                                        <Col xs={2}>
+                                            <Image style={{ width: '2rem', height: '2rem', objectFit: 'fill' }} src={imageSource}/>
                                         </Col>
                                         <Col>
                                             <Card.Text key={communityId}>{communityName}</Card.Text>
