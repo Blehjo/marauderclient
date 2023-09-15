@@ -10,7 +10,7 @@ import { ProfileProps } from '../../pages/profile';
 import { ChatState } from '../../store/chat/chat.reducer';
 import { XContainer } from '../../styles/devices/devices.styles';
 import { UserChatComment } from '../../store/userchatcomment/userchatcomment.types';
-import { CommentContainer } from '../../styles/modal/modal.styles';
+import { CommentContainer, UserCommentContainer } from '../../styles/modal/modal.styles';
 import { ChatComment } from '../../store/chatcomment/chatcomment.types';
 
 type ChatsTabProps = {
@@ -207,6 +207,7 @@ export class ChatsTab extends Component<ProfileProps, ChatsTabProps> {
                                 style={{ borderRadius: '.2rem', objectFit: 'cover', width: '30rem', height: '30rem' }}
                                 src="https://www.artlog.net/sites/default/files/styles/al_colorbox_rules/public/turrell_cregis_golay_federal_studio.jpg?itok=2M4Pyn0A"
                             />
+                            <UserCommentContainer>
                                 {
                                     chats.singleChat?.chatComments.map(({ chatCommentId, chatValue, mediaLink, dateCreated }: ChatComment) => {
                                         return <Card border="light" className="bg-dark mt-2" key={chatCommentId}>
@@ -217,10 +218,11 @@ export class ChatsTab extends Component<ProfileProps, ChatsTabProps> {
                                         </Card>
                                     })
                                 }
+                            </UserCommentContainer>
                             </Col>
                             <Col>
-                                <CommentContainer>
                                 <div>Comments</div>
+                                <CommentContainer>
                                 <div style={{ height: "65%", overflowY: "auto" }}>
                                 {
                                     userComments.comments?.map(({ userChatCommentId, commentValue, mediaLink, dateCreated, user }: UserChatComment) => {

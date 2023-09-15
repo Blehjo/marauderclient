@@ -215,8 +215,8 @@ export class UserPostsTab extends Component<any, IDefaultFormFields> {
                     </Card>
                     </Col>
                     <Col>
-                    <CommentContainer>
                     <div>Comments</div>
+                    <CommentContainer>
                     <div style={{ height: "65%", overflowY: "auto" }}>
                     {
                         comments.comments?.map(({ commentId, commentValue, mediaLink, dateCreated, user }: Comment) => {
@@ -231,10 +231,10 @@ export class UserPostsTab extends Component<any, IDefaultFormFields> {
                                             <Col>
                                             <Card.Text style={{ marginBottom: '.5rem' }}>{user.username}</Card.Text>
                                             </Col>
+                                            {/* <Card.Text style={{ position: 'absolute', right: '-2rem' }}>{utcConverter(dateCreated)}</Card.Text> */}
                                         </Row>
                                         </AContainer>
                                         <Card.Text>{commentValue}</Card.Text>
-                                        <Card.Text>{utcConverter(dateCreated)}</Card.Text>
                                     </TextContainer>
                                 </Card>
                             </CardContainer>

@@ -233,7 +233,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
     }
     
     gltfFunction(prop: Gltf) {
-        const { gltfId, fileInformation, mediaLink, comments, favorites, type, imageSource, user } = prop;
+        const { gltfId, fileInformation, mediaLink, gltfComments, favorites, type, imageSource, user } = prop;
         return (
             <Card key={gltfId} style={{ background: 'black', border: 'solid 1px white', padding: '.5rem', margin: '.3rem', color: 'white'}}>
                 <Card.Img src={mediaLink ? imageSource : "https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"}/>
@@ -245,7 +245,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                         {
                             <BadgeContainer><Badge style={{ color: 'black' }} bg="light">
                                 <Chat size={15}/>
-                                {` ${comments?.length > 0 ? comments?.length : ""}`}
+                                {` ${gltfComments?.length > 0 ? gltfComments?.length : ""}`}
                                 </Badge>
                             </BadgeContainer>
                         }

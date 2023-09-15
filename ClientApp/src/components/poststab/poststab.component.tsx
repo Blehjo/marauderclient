@@ -276,8 +276,8 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
                     </Card>
                     </Col>
                     <Col>
-                    <CommentContainer>
                     <div>Comments</div>
+                    <CommentContainer>
                     <div style={{ height: "65%", overflowY: "auto" }}>
                     {
                         comments.comments?.map(({ commentId, commentValue, mediaLink, dateCreated, user }) => {
@@ -291,10 +291,10 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
                                             <Col>
                                             <Card.Text style={{ marginBottom: '.5rem' }}>{user.username}</Card.Text>
                                             </Col>
+                                            {/* <Card.Text style={{ position: 'absolute', right: '-2rem' }}>{utcConverter(dateCreated)}</Card.Text> */}
                                         </Row>
                                     </AContainer>
                                     <Card.Text>{commentValue}</Card.Text>
-                                    <AContainer href={`/profile/${user.userId}`}>{user.username}</AContainer>
                                 </TextContainer>
                             </Card>
                         })

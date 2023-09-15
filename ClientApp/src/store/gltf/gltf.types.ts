@@ -1,5 +1,6 @@
 import { Editor } from "../editor/editor.types";
 import { Favorite } from "../favorite/favorite.types";
+import { GltfComment } from "../gltfcomment/gltfcomment.types";
 import { User } from "../user/user.types";
 
 export enum GLTF_ACTION_TYPES {
@@ -33,7 +34,7 @@ export type Gltf = {
     type: string;
     mediaLink: string;
     imageSource: string;
-    comments: Comment[];
+    gltfComments: GltfComment[];
     user: User;
     userId: number;
     shapes: Editor;

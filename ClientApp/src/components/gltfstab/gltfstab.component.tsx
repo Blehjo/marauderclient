@@ -6,8 +6,11 @@ import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { ProfileProps } from "../../pages/profile";
 import { CommentState } from "../../store/comment/comment.reducer";
 import { GltfState } from "../../store/gltf/gltf.reducer";
-import { BadgeContainer, CommentContainer, ModalContainer, ModalPostContainer, PostContainer, TextContainer } from "../../styles/poststab/poststab.styles";
+import { AContainer, BadgeContainer, CommentContainer, ModalContainer, ModalPostContainer, PostContainer, TextContainer } from "../../styles/poststab/poststab.styles";
 import { XContainer } from "../../styles/devices/devices.styles";
+import { CardContainer } from "../../styles/modal/modal.styles";
+import { GltfComment } from "../../store/gltfcomment/gltfcomment.types";
+import { utcConverter } from "../../utils/date/date.utils";
 
 interface IDefaultFormFields {
     commentValue: string;
@@ -267,21 +270,31 @@ export class GltfsTab extends Component<ProfileProps, IDefaultFormFields> {
                     </Card>
                     </Col>
                     <Col>
-                    <CommentContainer>
                     <div>Comments</div>
+                    <CommentContainer>
                     <div style={{ height: "65%", overflowY: "auto" }}>
-                    {/* {
-                        comments.comments?.map(({ commentId, commentValue, mediaLink, dateCreated }) => {
+                    {
+                        gltfs.singleGltf?.gltfComments.map(({ gltfCommentId, commentValue, mediaLink, dateCreated, user }: GltfComment) => {
                             return <CardContainer>
-                                <Card className="bg-dark" key={commentId}>
-                                    <TextContainer>
+                                <Card className="bg-dark" key={gltfCommentId}>
+                                <TextContainer>
+                                        <AContainer href={`/profile/${user.userId}`}>
+                                        <Row xs={2}>
+                                            <Col xs={2}>
+                                            <Card.Img style={{ width: '1rem', height: '1rem', objectFit: 'fill' }} src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                                            </Col>
+                                            <Col>
+                                            <Card.Text style={{ marginBottom: '.5rem' }}>{user.username}</Card.Text>
+                                            </Col>
+                                            <Card.Text style={{ position: 'absolute', right: '-2rem' }}>{utcConverter(dateCreated)}</Card.Text>
+                                        </Row>
+                                        </AContainer>
                                         <Card.Text>{commentValue}</Card.Text>
-                                        <Card.Text>{utcConverter(dateCreated)}</Card.Text>
                                     </TextContainer>
                                 </Card>
                             </CardContainer>
                         })
-                    } */}
+                    }
                     </div>
                         <Form style={{ margin: 'auto', position: "absolute", bottom: "0" }} key={gltfs.singleGltf?.gltfId} onSubmit={this.postComment}>
                             <Row style={{ marginBottom: '3rem', justifyContent: 'center' }} xs={1}>
