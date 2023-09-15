@@ -1,7 +1,7 @@
 import { ChangeEvent, Component, FormEvent } from "react";
 import { Card, Col, Form, Image, Modal, Row } from "react-bootstrap";
 import { Send } from "react-bootstrap-icons";
-import { CommentContainer, ModalContainer, TextContainer } from "../../styles/modal/modal.styles";
+import { CommentContainer, ModalContainer, TextContainer, UserCommentContainer } from "../../styles/modal/modal.styles";
 import { Community } from "../../store/community/community.types";
 import { utcConverter } from "../../utils/date/date.utils";
 import { Post } from "../../store/post/post.types";
@@ -38,9 +38,7 @@ class ModalContent extends Component<any, IModalContent> {
     }
 
     handleClose(): void {
-        this.setState({
-            show: !this.state.show
-        });
+        this.props.handleClose();
     }
 
     handleSubmit(event: FormEvent<HTMLFormElement>): void {
@@ -129,8 +127,8 @@ class ModalContent extends Component<any, IModalContent> {
                         </Card>
                         </Col>
                         <Col>
-                            <CommentContainer>
                             <div>Comments</div>
+                            <CommentContainer>
                             <div style={{ height: "65%", overflowY: "auto" }}>
                             {
                                 userchatcomments?.map(({ commentId, commentValue, mediaLink, dateCreated, user }: Comment) => {
@@ -180,9 +178,9 @@ class ModalContent extends Component<any, IModalContent> {
                             </CommentContainer>
                             </Col>
                         <Col>
-                        <CommentContainer>
                         <div>Comments</div>
-                        <div style={{ height: "85%", overflowY: "auto" }}>
+                        <UserCommentContainer>
+                        <div style={{ overflowY: "auto" }}>
                         {
                             comments?.map(({ chatCommentId, chatValue, mediaLink, dateCreated }: ChatComment) => {
                                 return <Card border="light" className="bg-dark mt-2" key={chatCommentId}>
@@ -194,18 +192,18 @@ class ModalContent extends Component<any, IModalContent> {
                             })
                         }
                         </div>
-                        </CommentContainer>
+                        </UserCommentContainer>
                         </Col>
                     </Row>
                 </Modal.Body>
-                <Modal.Footer>
+                {/* <Modal.Footer>
                 <button className="btn btn-dark" onClick={() => this.handleClose()}>
                     Close
                 </button>
                 <a href={`/chats/${chatId}`} style={{ textDecoration: 'none', color: 'white' }} className="btn btn-dark" onClick={() => this.handleClose()}>
                     See Chat
                 </a>
-                </Modal.Footer>
+                </Modal.Footer> */}
             </ModalContainer>
         )
     }
@@ -214,11 +212,11 @@ class ModalContent extends Component<any, IModalContent> {
         const { postId, postValue, mediaLink, favorites, type, imageSource, user } = prop;
         const { comments } = this.props;
         return (
-            <Modal 
-                size="lg"
-                show={this.state.show} 
-                onHide={() => this.handleClose()}
-            >
+            // <Modal 
+            //     size="lg"
+            //     show={this.state.show} 
+            //     onHide={() => this.handleClose()}
+            // >
                 <ModalContainer>
                 <Modal.Header closeButton>
                     <Modal.Title >Marauder Log</Modal.Title>
@@ -246,8 +244,8 @@ class ModalContent extends Component<any, IModalContent> {
                         </Card>
                         </Col>
                         <Col>
-                        <CommentContainer>
                         <div>Comments</div>
+                        <CommentContainer>
                         <div style={{ height: "65%", overflowY: "auto" }}>
                         {
                             comments?.map(({ commentId, commentValue, mediaLink, dateCreated, user }: Comment) => {
@@ -285,11 +283,11 @@ class ModalContent extends Component<any, IModalContent> {
                             </Col>                
                         </Row>
                     </Form>
-                        </CommentContainer>
-                        </Col>
+                    </CommentContainer>
+                    </Col>
                     </Row>
                 </Modal.Body>
-                <Modal.Footer>
+                {/* <Modal.Footer>
                 <button className="btn btn-dark" onClick={() => this.handleClose()}>
                     Close
                 </button>
@@ -298,9 +296,9 @@ class ModalContent extends Component<any, IModalContent> {
                     See Post
                     </a>
                 </button>
-                </Modal.Footer>
+                </Modal.Footer> */}
                 </ModalContainer>
-            </Modal>
+            // {/* </Modal> */}
         );
     }
 
@@ -308,14 +306,14 @@ class ModalContent extends Component<any, IModalContent> {
         // const { gltfId, fileInformation, favorites, type, imageSource, user } = prop;
         const { comments, singleGltf,  } = this.props;
         return (
-            <Modal 
-                    size="lg"
-                    show={this.state.show} 
-                    onHide={() => this.handleClose()}
-                >
+            // <Modal 
+            //         size="lg"
+            //         show={this.props.show} 
+            //         onHide={() => this.handleClose()}
+            //     >
                     <ModalContainer>
                     <Modal.Header closeButton>
-                        <Modal.Title >Marauder Log</Modal.Title>
+                        <Modal.Title >Gltf File</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Row>
@@ -340,8 +338,8 @@ class ModalContent extends Component<any, IModalContent> {
                             </Card>
                             </Col>
                             <Col>
-                            <CommentContainer>
                             <div>Comments</div>
+                            <CommentContainer>
                             <div style={{ height: "65%", overflowY: "auto" }}>
                             {
                                 comments?.map(({ commentId, commentValue, mediaLink, dateCreated, user }: Comment) => {
@@ -379,11 +377,11 @@ class ModalContent extends Component<any, IModalContent> {
                                 </Col>                
                             </Row>
                         </Form>
-                            </CommentContainer>
-                            </Col>
+                        </CommentContainer>
+                        </Col>
                         </Row>
                     </Modal.Body>
-                    <Modal.Footer>
+                    {/* <Modal.Footer>
                     <button className="btn btn-dark" onClick={() => this.handleClose()}>
                         Close
                     </button>
@@ -392,9 +390,9 @@ class ModalContent extends Component<any, IModalContent> {
                         See File
                         </a>
                     </button>
-                    </Modal.Footer>
+                    </Modal.Footer> */}
                     </ModalContainer>
-                </Modal>
+                // {/* </Modal> */}
         );
     }
 

@@ -291,8 +291,8 @@ class Dash extends Component<DashProps, IDash> {
                             </Card>
                             </Col>
                             <Col>
-                            <CommentContainer>
                             <div>Comments</div>
+                            <CommentContainer>
                             <div style={{ height: "65%", overflowY: "auto" }}>
                             {/* {
                                 singleContent?.comments?.map(({ commentId, commentValue, mediaLink, dateCreated, user }: Comment) => {

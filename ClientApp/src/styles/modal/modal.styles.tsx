@@ -21,6 +21,15 @@ export const CommentContainer = styled.div`
   width: auto;
 `;
 
+export const UserCommentContainer = styled.div`
+  margin: auto;
+  position: relative; 
+  height: 12rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: auto;
+`;
+
 export const CardContainer = styled.div`
   margin-top: 1rem;
 `;

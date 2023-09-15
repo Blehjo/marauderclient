@@ -20,6 +20,8 @@ interface IDefaultFormFields {
     show: boolean;
     openModal: boolean;
     messageValue: string;
+    type: string;
+    contentId: number | null;
 }
 
 class ResponsiveMemory extends Component<any, IDefaultFormFields> {
@@ -29,7 +31,9 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
         imageFile: null,
         show: false,
         openModal: false,
-        messageValue: ""
+        messageValue: "",
+        type: "",
+        contentId: null
     }
 
     handleLike(postId: number, type: string): void {
@@ -47,15 +51,27 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
             this.props.getChat(id);
             this.props.getComments(id);
             this.props.getUserComments(id);
+            this.setState({
+                ...this.state, type: type, contentId: id
+            });
         } else if (type === "post") {
             this.props.getPost(id);
             this.props.getComments(id);
+            this.setState({
+                ...this.state, type: type, contentId: id
+            });
         } else if (type === "gltf") {
             this.props.getFile(id);
             this.props.getComments(id);
+            this.setState({
+                ...this.state, type: type, contentId: id
+            });
         } else {
             this.props.getCommunity(id);
             this.props.getMembers(id);
+            this.setState({
+                ...this.state, type: "communitie", contentId: id
+            });
         }
         this.setState({
             show: !this.state.show
@@ -347,6 +363,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
     }
 
     render() {
+        const { type, contentId } = this.state;
         return (
             <ResponsiveMemoryContainer>
                 <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 3, 1050: 4 }}>
@@ -356,9 +373,20 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                 <Modal
                     size="lg"
                     show={this.state.show} 
-                    onHide={() => this.handleClose()}
+                    onHide={() => this.handleClose}
+                    variant={'dark'}
                 >
-                    <ModalContent show={this.state.show} { ...this.props }/>
+                    <ModalContent show={this.state.show} handleClose={this.handleClose} { ...this.props }/>
+                    <Modal.Footer style={{ background: 'black', border: 'white solid 1px' }} >
+                    <button className="btn btn-dark" onClick={() => this.handleClose()}>
+                        Close
+                    </button>
+                    <button className="btn btn-dark" >
+                        <a style={{ textDecoration: 'none', color: 'white', cursor: 'pointer' }} href={`/${type}s/${contentId}`}>
+                        {`See ${type}`}
+                        </a>
+                    </button>
+                    </Modal.Footer>
                 </Modal>
                 <Modal
                     size="lg"
