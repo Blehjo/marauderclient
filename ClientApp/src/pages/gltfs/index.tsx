@@ -2,12 +2,12 @@ import { Component, Dispatch } from "react";
 import { ConnectedProps, connect } from "react-redux";
 
 import ResponsiveMemory from "../../components/responsivememory/responsivememory.component";
-import { CommentCreateStart, CommentFetchSingleStart, commentCreateStart, commentFetchSingleStart } from "../../store/comment/comment.action";
+
 import { FavoriteCreateStart, favoriteCreateStart } from "../../store/favorite/favorite.action";
 import { PostFetchAllStart, PostFetchSingleStart, postFetchAllStart, postFetchSingleStart } from "../../store/post/post.action";
 import { RootState } from "../../store/store";
 import { GltfFetchAllStart, GltfFetchSingleStart, gltfFetchAllStart, gltfFetchSingleStart } from "../../store/gltf/gltf.action";
-import { GltfCommentFetchSingleStart, gltfcommentFetchSingleStart } from "../../store/gltfcomment/gltfcomment.action";
+import { CommentCreateStart, GltfCommentFetchSingleStart, commentCreateStart, gltfcommentFetchSingleStart } from "../../store/gltfcomment/gltfcomment.action";
 
 export type GltfRouteProps = ConnectedProps<typeof connector>;
 
@@ -27,7 +27,7 @@ const mapStateToProps = (state: RootState) => {
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<GltfFetchAllStart | GltfFetchSingleStart | GltfCommentFetchSingleStart| PostFetchAllStart | PostFetchSingleStart | CommentFetchSingleStart | CommentCreateStart | FavoriteCreateStart>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<GltfFetchAllStart | GltfFetchSingleStart | GltfCommentFetchSingleStart| PostFetchAllStart | PostFetchSingleStart | GltfCommentFetchSingleStart | CommentCreateStart | FavoriteCreateStart>) => ({
 	getAll: () => dispatch(gltfFetchAllStart()),
     getFile: (gltfId: number) => dispatch(gltfFetchSingleStart(gltfId)),
     getComments: (gltfId: number) => dispatch(gltfcommentFetchSingleStart(gltfId)),

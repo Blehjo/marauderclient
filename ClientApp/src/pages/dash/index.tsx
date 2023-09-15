@@ -113,8 +113,21 @@ class Dash extends Component<DashProps, IDash> {
             this.props.getGltf(id);
             this.props.getGltfComments(id);
         }
+    }
+
+    openModal(content: any, id: number, type?: string): void {
+        if (type === "chat") {
+            this.props.getChat(id);
+            this.props.getChatComments(id);
+        } else if (type === "post") {
+            this.props.getPost(id);
+            this.props.getPostComments(id);
+        } else {
+            this.props.getGltf(id);
+            this.props.getGltfComments(id);
+        }
         this.setState({
-            show: !this.state.show
+            ...this.state, show: !this.state.show, singleContent: content
         });
     }
 
@@ -210,47 +223,48 @@ class Dash extends Component<DashProps, IDash> {
     }
     render() {
         const { content, singleContent } = this.state;
+        console.log("singleContent", singleContent);
         return (
             <ContentContainer>
             <Row xs={1}>
                 {
-                    content.map(({ id, postValue, mediaLink, imageSource, comments, user, favorites, type }) => (
+                    content.map((element, index) => (
                         // <div style={{ margin: 'auto', width: '50%' }} >
-                    <Col xs={12} key={id}>
-                    <Card key={id} style={{ background: 'black', border: 'solid 1px white', padding: '.5rem', margin: '.3rem', color: 'white'}}>
-                    <Card.Img src={mediaLink ? imageSource : "https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"}/>
+                    <Col xs={12} key={element.id}>
+                    <Card key={element.id} style={{ background: 'black', border: 'solid 1px white', padding: '.5rem', margin: '.3rem', color: 'white'}}>
+                    <Card.Img src={element.mediaLink ? element.imageSource : "https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"}/>
                     <Card.ImgOverlay>
                         <div style={{ cursor: "pointer", position: "absolute", left: "0", top: "0" }}>
                             <BadgeContainer>
-                                <AContainer href={`/${type}s/${id}`}>
-                                <Badge style={{ color: 'black' }} bg="light"><ArrowRight style={{ cursor: 'pointer' }} onClick={() => this.handleClick(id, type)} size={15}/></Badge>
+                                <AContainer href={`/${element.type}s/${element.id}`}>
+                                <Badge style={{ color: 'black' }} bg="light"><ArrowRight style={{ cursor: 'pointer' }} onClick={() => this.handleClick(element.id, element.type)} size={15}/></Badge>
                                 </AContainer>
                             </BadgeContainer>
                             {
-                                <BadgeContainer><Badge style={{ color: 'black' }} bg="light">
+                                <BadgeContainer><Badge style={{ color: 'black' }} bg="light" onClick={() => this.openModal(element, element.id, element.type)}>
                                     <Chat size={15}/>
-                                    {` ${comments != undefined && comments?.length > 0 ? comments?.length : ""}`}
+                                    {` ${element.comments != undefined && element.comments?.length > 0 ? element.comments?.length : ""}`}
                                     </Badge>
                                 </BadgeContainer>
                             }
                             {
                                 <BadgeContainer>
                                     <Badge style={{ color: 'black' }} bg="light">
-                                    <Rocket style={{ cursor: 'pointer' }} onClick={() => this.handleLike(id, type)} size={15}/>
-                                    {` ${favorites?.length > 0 ? favorites?.length : ""}`}
+                                    <Rocket style={{ cursor: 'pointer' }} onClick={() => this.handleLike(element.id, element.type)} size={15}/>
+                                    {` ${element.favorites?.length > 0 ? element.favorites?.length : ""}`}
                                     </Badge>
                                 </BadgeContainer>
                             }
                         </div>
                     </Card.ImgOverlay>
                     <Card.Body>
-                    <Card.Text>{postValue}</Card.Text>
+                    <Card.Text>{element.postValue}</Card.Text>
                         <Row xs={2}>
                             <Col xs={2}>
-                            <Card.Img src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                            <Card.Img src={`https://localhost:7144/images/${element.user.imageLink!}`}/>
                             </Col>
                             <Col>
-                            <Card.Text>{user.username!}</Card.Text>
+                            <Card.Text>{element.user.username!}</Card.Text>
                             </Col>
                         </Row>
                     </Card.Body>
@@ -283,7 +297,7 @@ class Dash extends Component<DashProps, IDash> {
                                     <Card.Img style={{ width: '2rem', height: '2rem', marginBottom: '1rem' }} src={`https://localhost:7144/images/${singleContent?.user.imageLink!}`}/>
                                     </Col>
                                     <Col>
-                                    {/* <Card.Text>{user.username}</Card.Text> */}
+                                    <Card.Text>{singleContent?.user.username}</Card.Text>
                                     </Col>
                                 </Row>
                                 <Card.Text>{singleContent?.postValue}</Card.Text>
@@ -339,7 +353,7 @@ class Dash extends Component<DashProps, IDash> {
                         Close
                     </button>
                     <button className="btn btn-dark" >
-                        <a style={{ textDecoration: 'none', color: 'white' }} href={`/${singleContent?.type}/${singleContent?.id}`}>
+                        <a style={{ textDecoration: 'none', color: 'white' }} href={`/${singleContent?.type}s/${singleContent?.id}`}>
                         {`See ${singleContent?.type}`}
                         </a>
                     </button>

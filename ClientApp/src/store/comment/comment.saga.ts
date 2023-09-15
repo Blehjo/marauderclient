@@ -1,41 +1,32 @@
-import { takeLatest, put, all, call } from 'typed-redux-saga';
+import { all, call, put, takeLatest } from 'typed-redux-saga';
 
-import { Comment, COMMENT_ACTION_TYPES } from './comment.types';
+import { COMMENT_ACTION_TYPES } from './comment.types';
 
 import {
-    commentCreateStart,
-    commentCreateSuccess,
     commentCreateFailed,
-    commentUpdateStart,
-    commentUpdateSuccess,
-    commentUpdateFailed,
-    commentDeleteStart,
-    commentDeleteSuccess,
-    commentDeleteFailed,
-    commentFetchSingleStart,
-    commentFetchSingleSuccess,
-    commentFetchSingleFailed,
-    commentFetchAllStart,
-    commentFetchAllSuccess,
-    commentFetchAllFailed,
     CommentCreateStart,
-    CommentCreateSuccess,
-    CommentFetchAllStart,
+    commentCreateSuccess,
+    commentDeleteFailed,
+    CommentDeleteStart,
+    commentDeleteSuccess,
+    commentFetchAllFailed,
+    commentFetchAllSuccess,
+    commentFetchSingleFailed,
     CommentFetchSingleStart,
+    commentFetchSingleSuccess,
     CommentFetchUserChatsStart,
     CommentUpdateStart,
-    CommentDeleteStart
+    commentUpdateSuccess
 } from './comment.action';
 
-import { 
-    getSingleComment,
-    getAllComments,
-    getUserComments,
-    getUsersComments,
-    getComments, 
-    addComment, 
+import {
+    addComment,
+    deleteComment,
     editComment,
-    deleteComment
+    getAllComments,
+    getSingleComment,
+    getUserComments,
+    getUsersComments
 } from '../../utils/api/comment.api';
 
 export function* createComment({ payload: { commentValue, imageFile, postId }}: CommentCreateStart ) {

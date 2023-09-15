@@ -35,6 +35,7 @@ class ModalContent extends Component<any, IModalContent> {
         this.showPreview = this.showPreview.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChatCommentSubmit = this.handleChatCommentSubmit.bind(this);
+        this.handleGltfCommentSubmit = this.handleGltfCommentSubmit.bind(this);
     }
 
     handleClose(): void {
@@ -53,7 +54,7 @@ class ModalContent extends Component<any, IModalContent> {
     handleChatCommentSubmit(event: FormEvent<HTMLFormElement>): void {
         event.preventDefault();
         const { commentValue, imageFile } = this.state;
-        this.props.createUserComment(commentValue, imageFile, this.props.singleChat.chatId);
+        this.props.createUserComment(commentValue, imageFile, this.props.singleChat?.chatId);
         this.setState({
             ...this.state, commentValue: "", imageFile: null
         })
@@ -62,7 +63,7 @@ class ModalContent extends Component<any, IModalContent> {
     handleGltfCommentSubmit(event: FormEvent<HTMLFormElement>): void {
         event.preventDefault();
         const { commentValue, imageFile } = this.state;
-        this.props.createGltfComment(commentValue, imageFile, this.props.singleGltf.gltfId);
+        this.props.createGltfComment(commentValue, imageFile, this.props.singleGltf?.gltfId);
         this.setState({
             ...this.state, commentValue: "", imageFile: null
         })
@@ -251,8 +252,17 @@ class ModalContent extends Component<any, IModalContent> {
                             comments?.map(({ commentId, commentValue, mediaLink, dateCreated, user }: Comment) => {
                                 return <Card border="light" className="bg-dark mt-2" key={commentId}>
                                     <TextContainer>
+                                        <AContainer href={`/profile/${user.userId}`}>
+                                        <Row xs={2}>
+                                            <Col xs={2}>
+                                            <Card.Img src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                                            </Col>
+                                            <Col>
+                                            <Card.Text>{user.username}</Card.Text>
+                                            </Col>
+                                        </Row>
+                                        </AContainer>
                                         <Card.Text>{commentValue}</Card.Text>
-                                        <AContainer href={`/profile/${user.userId}`}>{user.username}</AContainer>
                                     </TextContainer>
                                 </Card>
                             })
@@ -345,8 +355,17 @@ class ModalContent extends Component<any, IModalContent> {
                                 comments?.map(({ commentId, commentValue, mediaLink, dateCreated, user }: Comment) => {
                                     return <Card border="light" className="bg-dark mt-2" key={commentId}>
                                         <TextContainer>
+                                            <AContainer href={`/profile/${user.userId}`}>
+                                            <Row xs={2}>
+                                                <Col xs={2}>
+                                                <Card.Img src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                                                </Col>
+                                                <Col>
+                                                <Card.Text>{user.username}</Card.Text>
+                                                </Col>
+                                            </Row>
+                                            </AContainer>
                                             <Card.Text>{commentValue}</Card.Text>
-                                            <AContainer href={`/profile/${user?.userId}`}>{user?.username}</AContainer>
                                         </TextContainer>
                                     </Card>
                                 })
