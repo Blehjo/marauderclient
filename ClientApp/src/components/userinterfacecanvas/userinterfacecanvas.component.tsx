@@ -66,7 +66,7 @@ class UserInterfaceCanvas extends Component<any, IUserCanvas> {
                         <LayoutTextWindowReverse className='icons' color="white" />
                         </a>
                         <Nav.Link href="/comms" className="tools ms-4">
-                            Comms
+                            CapCom
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item className="ms-4 d-flex align-items-center">
