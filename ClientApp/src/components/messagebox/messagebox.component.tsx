@@ -178,6 +178,9 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
         const { user, messagebox, messages, crewMessages } = this.props;
         return (
             <>
+            {
+            user &&
+            <>
             { 
                 messagebox ? 
                 <OpenedBox>
@@ -257,6 +260,8 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
                         </div>
                     </ContainerBox>
                 </FixedBox>
+            }
+            </>
             }
             </>
         )

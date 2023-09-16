@@ -223,7 +223,7 @@ class Messages extends Component<MessageProps, IMessage> {
         return (
             <MessageContainer>
                 <ListContainer>
-                    <input style={{ marginTop: '1rem', marginBottom: '1rem', borderRadius: ".3rem", width: "98%" }} onClick={this.handleClickEvent} placeholder="Search" />
+                    <input style={{ borderRadius: ".3rem", width: "98%", border: 'white solid 1px', margin: '.2rem .2rem 1rem .2rem', background: 'black', textAlign: 'center' }} onClick={this.handleClickEvent} placeholder="Search" />
                     <Card style={{ backgroundColor: 'black', borderRadius: '.3rem', border: 'solid 1px white', margin: '.3rem .2rem 1rem .2rem', cursor: 'pointer', color: 'white', textAlign: 'center' }}>
                         New Message +
                     </Card>

@@ -3,9 +3,9 @@ import { styled } from "styled-components";
 export const FixedBox = styled.div`
     position: fixed;
     background: black;
-    bottom: 0%;
+    bottom: 1%;
     right: 1%;
-    border-radius: 1rem 1rem 0rem 0rem;
+    border-radius: .5rem .5rem .5rem .5rem;
     border: white 1px solid;
     text-align: center;
     width: 20%;
@@ -16,9 +16,9 @@ export const FixedBox = styled.div`
 export const OpenedBox = styled.div`
     position: fixed;
     background: black;
-    bottom: 0%;
+    bottom: 1%;
     right: 1%;
-    border-radius: 1rem 1rem 0rem 0rem;
+    border-radius: .5rem .5rem .5rem .5rem;
     border: white 1px solid;
     text-align: center;
     width: 20%;

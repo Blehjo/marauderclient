@@ -320,8 +320,8 @@ class Crew extends Component<CrewProps, ICrew> {
         return (
             <CrewContainer>
                 <CrewMemberContainer>
-                    <input style={{ borderRadius: ".3rem", width: "98%", margin: 'auto' }} onClick={this.handleClickEvent} placeholder="Search" />
-                    <CardContainer style={{ marginTop: '1rem'}} key='cardcontainer' onClick={this.handleClick}>New Crew +</CardContainer>
+                    <input style={{ borderRadius: ".3rem", width: "98%", border: 'white solid 1px', margin: '.2rem .2rem 1rem .2rem', background: 'black', textAlign: 'center' }} onClick={this.handleClickEvent} placeholder="Search" />
+                    <CardContainer key='cardcontainer' onClick={this.handleClick}>New Crew +</CardContainer>
                     <Modal size="lg" style={{ color: 'white' }} show={showInput} onHide={this.handleClickEvent}>
                         <SearchBox onSearchChange={this.onSearchChange} />
                         <div style={{ background: 'black' }}>
