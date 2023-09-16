@@ -4,6 +4,7 @@ import { Pen } from "react-bootstrap-icons";
 import { editUser } from "../../utils/api/user.api";
 import { SingleProfileProps } from "../../pages/profile/[id]";
 import { Community } from "../../store/community/community.types";
+import { AContainer } from "../../styles/poststab/poststab.styles";
 
 export class UserProfileCard extends Component<any> {
     constructor(props: any) {
@@ -39,6 +40,7 @@ export class UserProfileCard extends Component<any> {
                                 <>
                                 {
                                 communities.communities?.map(({ communityId, communityName, description, imageSource }: Community) => (
+                                    <AContainer href={`/communities/${communityId}`}>
                                     <Row>
                                         <Col xs={2}>
                                             <Image style={{ width: '2rem', height: '2rem', objectFit: 'fill' }} src={imageSource}/>
@@ -47,6 +49,7 @@ export class UserProfileCard extends Component<any> {
                                             <Card.Text key={communityId}>{communityName}</Card.Text>
                                         </Col>
                                     </Row>
+                                    </AContainer>
                                 ))
                                 }
                                 </>

@@ -3,6 +3,7 @@ import { Card, Row, Col, Modal, Form, Image } from "react-bootstrap";
 import { Pen } from "react-bootstrap-icons";
 import { editUser } from "../../utils/api/user.api";
 import { ProfileProps } from "../../pages/profile";
+import { AContainer } from "../../styles/poststab/poststab.styles";
 
 interface IDefaultFormFields {
     showEdit: boolean;
@@ -116,8 +117,10 @@ export class ProfileCard extends Component<ProfileProps, IDefaultFormFields> {
         return (
             <Card style={{ color: 'white', background: 'black', border: '.1rem solid white' }} key={"userId"}>
                 <Card.Img style={{ height: '20rem', width: 'auto', objectFit: 'cover', position: 'relative' }} variant="top" src={currentUser?.imageSource ? currentUser.imageSource : "https://www.cooperhewitt.org/wp-content/uploads/2018/07/20914_472d45b4ae377c5f_b1.jpg"} /> 
-                <Card.ImgOverlay >
-                    <Pen onClick={this.handleClick} style={{ position: 'absolute', top: '10', right: '10', cursor: 'pointer' }} size={15}/>
+                <Card.ImgOverlay>
+                    <AContainer>
+                        <Pen onClick={this.handleClick} style={{ position: 'absolute', top: '10', right: '10', cursor: 'pointer' }} size={15}/>
+                    </AContainer>
                 </Card.ImgOverlay>
                 <Card.Body>
                     <Row xs={2}>
@@ -131,6 +134,7 @@ export class ProfileCard extends Component<ProfileProps, IDefaultFormFields> {
                                 <>
                                 {
                                 communities.userCommunities?.map(({ communityId, communityName, description, imageSource }) => (
+                                    <AContainer href={`/communities/${communityId}`}>
                                     <Row>
                                         <Col xs={2}>
                                             <Image style={{ width: '2rem', height: '2rem', objectFit: 'fill' }} src={imageSource}/>
@@ -139,13 +143,12 @@ export class ProfileCard extends Component<ProfileProps, IDefaultFormFields> {
                                             <Card.Text key={communityId}>{communityName}</Card.Text>
                                         </Col>
                                     </Row>
+                                    </AContainer>
                                 ))
                                 }
                                 </>
                             </Card.Link>
                         </Col>
-                    </Row>
-                    <Row style={{ marginBottom: '1rem' }} xs={2}>
                     </Row>
                 </Card.Body>
                 <Modal show={showEdit} onHide={this.handleClick}>

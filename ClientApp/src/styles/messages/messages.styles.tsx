@@ -197,6 +197,7 @@ export const CardContainer = styled.div`
 `;
 
 export const CommentContainer = styled.div`
+    overflow-y: auto;
     .modalIcon {
         font-size: 55px;
     }

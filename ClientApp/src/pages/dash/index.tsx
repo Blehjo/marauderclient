@@ -1,33 +1,38 @@
-import { ChangeEvent, Component, Dispatch, FormEvent, ReactNode } from "react";
+import { ChangeEvent, Component, Dispatch, FormEvent } from "react";
 import { Badge, Card, Col, Form, Image, Modal, Row } from "react-bootstrap";
 import { ArrowRight, Chat, Rocket, Send } from "react-bootstrap-icons";
 import { ConnectedProps, connect } from "react-redux";
 import { ChatFetchAllStart, ChatFetchSingleStart, chatFetchAllStart, chatFetchSingleStart } from "../../store/chat/chat.action";
-import { ChatCommentFetchSingleStart, chatcommentFetchSingleStart } from "../../store/chatcomment/chatcomment.action";
-import { CommentCreateStart, CommentFetchSingleStart, commentCreateStart, commentFetchSingleStart } from "../../store/comment/comment.action";
-import { FavoriteCreateStart, favoriteCreateStart } from "../../store/favorite/favorite.action";
-import { GltfFetchAllStart, GltfFetchSingleStart, gltfFetchAllStart, gltfFetchSingleStart } from "../../store/gltf/gltf.action";
-import { GltfCommentFetchSingleStart, gltfcommentFetchSingleStart } from "../../store/gltfcomment/gltfcomment.action";
-import { PostFetchAllStart, PostFetchSingleStart, postFetchAllStart, postFetchSingleStart } from "../../store/post/post.action";
-import { RootState } from "../../store/store";
-import { AContainer, BadgeContainer } from "../../styles/poststab/poststab.styles";
-import { User } from "../../store/user/user.types";
-import { Favorite } from "../../store/favorite/favorite.types";
-import { Post } from "../../store/post/post.types";
-import { Gltf } from "../../store/gltf/gltf.types";
 import { Chat as ChatContent } from "../../store/chat/chat.types";
+import { ChatCommentFetchSingleStart, chatcommentFetchSingleStart } from "../../store/chatcomment/chatcomment.action";
 import { ChatCommentState } from "../../store/chatcomment/chatcomment.reducer";
+import { ChatComment } from "../../store/chatcomment/chatcomment.types";
+import { CommentCreateStart, CommentFetchSingleStart, commentCreateStart, commentFetchSingleStart } from "../../store/comment/comment.action";
+import { CommentCreateStart as UserChatCommentCreateStart, CommentFetchSingleStart as UserChatCommentFetchSingleStart, commentCreateStart as userChatCommentCreateStart, commentFetchSingleStart as userChatCommentFetchSingleStart} from "../../store/userchatcomment/userchatcomment.action";
 import { CommentState } from "../../store/comment/comment.reducer";
+import { Comment } from "../../store/comment/comment.types";
+import { FavoriteCreateStart, favoriteCreateStart } from "../../store/favorite/favorite.action";
+import { Favorite } from "../../store/favorite/favorite.types";
+import { GltfFetchAllStart, GltfFetchSingleStart, gltfFetchAllStart, gltfFetchSingleStart } from "../../store/gltf/gltf.action";
+import { CommentCreateStart as GltfCommentCreateStart, commentCreateStart as gltfCommentCreateStart, GltfCommentFetchSingleStart, gltfcommentFetchSingleStart } from "../../store/gltfcomment/gltfcomment.action";
+import { Gltf } from "../../store/gltf/gltf.types";
 import { GltfCommentState } from "../../store/gltfcomment/gltfcomment.reducer";
-import { ContentContainer, ResponsiveMemoryContainer } from "../../styles/responsivememory/responsivememory.styles";
+import { GltfComment } from "../../store/gltfcomment/gltfcomment.types";
+import { PostFetchAllStart, PostFetchSingleStart, postFetchAllStart, postFetchSingleStart } from "../../store/post/post.action";
+import { Post } from "../../store/post/post.types";
+import { RootState } from "../../store/store";
+import { User } from "../../store/user/user.types";
+import { UserChatComment } from "../../store/userchatcomment/userchatcomment.types";
 import { CommentContainer, ModalContainer, TextContainer } from "../../styles/modal/modal.styles";
+import { AContainer, BadgeContainer } from "../../styles/poststab/poststab.styles";
+import { ContentContainer } from "../../styles/responsivememory/responsivememory.styles";
 
 type DashData = {
     id: number;
     postValue: string;
     mediaLink?: string;
     imageSource?: string;
-    comments?: Array<string>;
+    comments?: Array<any>;
     user: User;
     favorites: Array<Favorite>;
     type: string;
@@ -59,12 +64,21 @@ class Dash extends Component<DashProps, IDash> {
         }
         this.showPreview = this.showPreview.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     handleSubmit(event: FormEvent<HTMLFormElement>): void {
         event.preventDefault();
         const { commentValue, imageFile } = this.state;
-        this.props.createComment(commentValue, imageFile!, this.state.singleContent?.id!);
+        if (this.state.singleContent?.type === "post") {
+            this.props.createComment(commentValue, imageFile!, this.state.singleContent?.id!);
+        }
+        if (this.state.singleContent?.type === "gltf") {
+            this.props.gltfCreateComment(commentValue, imageFile!, this.state.singleContent?.id!);
+        }
+        if (this.state.singleContent?.type === "chat") {
+            this.props.createComment(commentValue, imageFile!, this.state.singleContent?.id!);
+        }
         this.setState({
             ...this.state, commentValue: "", imageFile: null
         })
@@ -144,7 +158,7 @@ class Dash extends Component<DashProps, IDash> {
             postValue: postValue ? postValue : "",
             mediaLink: mediaLink ? mediaLink : "",
             imageSource: imageSource,
-            // comments: comments,
+            comments: comments!,
             user: user,
             favorites: favorites,
             type: type,
@@ -159,7 +173,7 @@ class Dash extends Component<DashProps, IDash> {
             postValue: title ? title : "",
             mediaLink: "",
             imageSource: "",
-            // comments: comments,
+            comments: comments!,
             user: user,
             favorites: favorites,
             type: type,
@@ -168,13 +182,13 @@ class Dash extends Component<DashProps, IDash> {
     }
 
     gltfFunction(prop: Gltf): DashData {
-        const { gltfId, fileInformation, mediaLink, comments, favorites, type, imageSource, user } = prop;
+        const { gltfId, fileInformation, mediaLink, gltfComments, favorites, type, imageSource, user } = prop;
         const content: DashData = {
             id: gltfId,
             postValue: fileInformation ? fileInformation : "",
             mediaLink: mediaLink ? mediaLink : "",
             imageSource: imageSource,
-            // comments: comments,
+            comments: gltfComments,
             user: user,
             favorites: favorites,
             type: type,
@@ -206,8 +220,8 @@ class Dash extends Component<DashProps, IDash> {
         this.props.getChats();
         this.props.getGltfs();
     }
-    
-    componentDidUpdate(prevProps: Readonly<{ posts: Post[]; comments: CommentState; chats: ChatContent[]; chatcomments: ChatCommentState; gltfs: Gltf[]; gltfcomments: GltfCommentState; currentUser: User | null; } & { getPosts: () => void; getChats: () => void; getGltfs: () => void; getPost: (postId: number) => void; getChat: (chatId: number) => void; getGltf: (gltfId: number) => void; getPostComments: (postId: number) => void; getChatComments: (chatId: number) => void; getGltfComments: (gltfId: number) => void; likePost: (postId: number, contentType: string) => void; createComment: (commentValue: string, imageFile: File, postId: number) => void; }>, prevState: Readonly<IDash>, snapshot?: any): void {
+
+    componentDidUpdate(prevProps: Readonly<{ posts: Post[]; singlePost: Post | null; comments: CommentState; chats: ChatContent[]; singleChat: ChatContent | null; chatcomments: ChatCommentState; gltfs: Gltf[]; singleGltf: Gltf | null; gltfcomments: GltfCommentState; currentUser: User | null; } & { getPosts: () => void; getChats: () => void; getGltfs: () => void; getPost: (postId: number) => void; getChat: (chatId: number) => void; getGltf: (gltfId: number) => void; getPostComments: (postId: number) => void; getChatComments: (chatId: number) => void; getGltfComments: (gltfId: number) => void; likePost: (postId: number, contentType: string) => void; createComment: (commentValue: string, imageFile: File, postId: number) => void; gltfCreateComment: (commentValue: string, imageFile: File, gltfId: number) => void; chatCreateComment: (commentValue: string, imageFile: File, gltfId: number) => void; }>, prevState: Readonly<IDash>, snapshot?: any): void {
         if (this.props.posts.length != prevProps.posts.length) {
             console.log('Content has changed');
             this.checkType();
@@ -220,10 +234,23 @@ class Dash extends Component<DashProps, IDash> {
             console.log('Content has changed');
             this.checkType();
         }
+
+        if (this.props.comments.comments?.length != prevProps.comments.comments?.length) {
+            this.props.getPostComments(this.props.singlePost?.postId!);
+            this.setState({
+                commentValue: ""
+            })
+        }
+
+        if (this.props.gltfcomments.comments?.length != prevProps.gltfcomments.comments?.length) {
+            this.props.getGltfComments(this.props.singleGltf?.gltfId!);
+            this.setState({
+                commentValue: ""
+            })
+        }
     }
     render() {
         const { content, singleContent } = this.state;
-        console.log("singleContent", singleContent);
         return (
             <ContentContainer>
             <Row xs={1}>
@@ -308,16 +335,25 @@ class Dash extends Component<DashProps, IDash> {
                             <div>Comments</div>
                             <CommentContainer>
                             <div style={{ height: "65%", overflowY: "auto" }}>
-                            {/* {
-                                singleContent?.comments?.map(({ commentId, commentValue, mediaLink, dateCreated, user }: Comment) => {
-                                    return <Card border="light" className="bg-dark mt-2" key={commentId}>
+                            {
+                                singleContent?.comments?.map(({ commentValue, mediaLink, dateCreated, user }, index) => {
+                                    return <Card border="light" className="bg-dark mt-2" key={index}>
                                         <TextContainer>
-                                            <Card.Text>{commentValue}</Card.Text>
-                                            <AContainer href={`/profile/${user.userId}`}>{user.username}</AContainer>
+                                            <AContainer href={`/profile/${user.userId}`}>
+                                                <Row xs={2}>
+                                                    <Col xs={2}>
+                                                    <Card.Img src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                                                    </Col>
+                                                    <Col>
+                                                    <Card.Text>{user.username!}</Card.Text>
+                                                    </Col>
+                                                </Row>
+                                            </AContainer>
+                                        <Card.Text style={{ color: 'white' }}>{commentValue}</Card.Text>
                                         </TextContainer>
                                     </Card>
                                 })
-                            } */}
+                            }
                             </div>
                             <Form style={{ margin: 'auto', position: "absolute", bottom: "0" }} key={singleContent?.id} onSubmit={this.handleSubmit}>
                             <Row style={{ marginBottom: '3rem', justifyContent: 'center' }} xs={1}>
@@ -368,16 +404,19 @@ class Dash extends Component<DashProps, IDash> {
 const mapStateToProps = (state: RootState) => {
     return { 
         posts: state.post.posts,
+        singlePost: state.post.singlePost,
         comments: state.comment,
         chats: state.chat.chats,
+        singleChat: state.chat.singleChat,
         chatcomments: state.chatcomment,
         gltfs: state.gltf.gltfs,
+        singleGltf: state.gltf.singleGltf,
         gltfcomments: state.gltfcomment,
         currentUser: state.user.currentUser
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<FavoriteCreateStart | PostFetchAllStart | PostFetchSingleStart | CommentCreateStart | CommentFetchSingleStart | ChatFetchAllStart | ChatFetchSingleStart | ChatCommentFetchSingleStart | GltfFetchAllStart | GltfFetchSingleStart | GltfCommentFetchSingleStart>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<FavoriteCreateStart | PostFetchAllStart | PostFetchSingleStart | CommentCreateStart | UserChatCommentCreateStart | UserChatCommentFetchSingleStart | GltfCommentCreateStart | CommentFetchSingleStart | ChatFetchAllStart | ChatFetchSingleStart | ChatCommentFetchSingleStart | GltfFetchAllStart | GltfFetchSingleStart | GltfCommentFetchSingleStart>) => ({
     getPosts: () => dispatch(postFetchAllStart()),
     getChats: () => dispatch(chatFetchAllStart()),
     getGltfs: () => dispatch(gltfFetchAllStart()),
@@ -389,6 +428,8 @@ const mapDispatchToProps = (dispatch: Dispatch<FavoriteCreateStart | PostFetchAl
     getGltfComments: (gltfId: number) => dispatch(gltfcommentFetchSingleStart(gltfId)),
     likePost: (postId: number, contentType: string) => dispatch(favoriteCreateStart(postId, contentType)),
     createComment: (commentValue: string, imageFile: File, postId: number) => dispatch(commentCreateStart(commentValue, imageFile, postId)),
+    gltfCreateComment: (commentValue: string, imageFile: File, gltfId: number) => dispatch(gltfCommentCreateStart(commentValue, imageFile, gltfId)),
+    chatCreateComment: (commentValue: string, imageFile: File, gltfId: number) => dispatch(userChatCommentCreateStart(commentValue, imageFile, gltfId)),
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

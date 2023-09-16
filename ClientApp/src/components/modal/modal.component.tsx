@@ -456,14 +456,14 @@ class ModalContent extends Component<any, IModalContent> {
                         </Col>
                     </Row>
                 </Modal.Body>
-                <Modal.Footer>
+                {/* <Modal.Footer>
                 <button className="btn btn-dark" onClick={() => this.handleClose()}>
                     Close
                 </button>
                 <a href={`/communities/${communityId}`} style={{ textDecoration: 'none', color: 'white' }} className="btn btn-dark" onClick={() => this.handleClose()}>
                     See Community
                 </a>
-                </Modal.Footer>
+                </Modal.Footer> */}
             </ModalContainer>
         )
     }

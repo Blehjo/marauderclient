@@ -53,7 +53,8 @@ export class UserGltfsTab extends Component<any, IDefaultFormFields> {
         const { gltfs } = this.props;
         const gltfId = gltfs.singleGltf?.gltfId ? gltfs.singleGltf.gltfId : 0
         try {
-            this.props.createComment(commentValue, imageFile, gltfId);
+            console.log("HELLO::: ", commentValue, imageFile, gltfId)
+            this.props.gltfCreateComment(commentValue, imageFile, gltfId);
         } catch (error) {
             return error;
         }
@@ -116,12 +117,20 @@ export class UserGltfsTab extends Component<any, IDefaultFormFields> {
         if (prevProps.marauderId != this.props.marauderId) {
             this.props.fetchGltfFiles(this.props.marauderId);
         }
-        //     if (this.props.comments.comments?.length != prevProps.comments.comments?.length) {
-        //         this.props.getComments(this.props.gltfs.singleGltf?.gltfId!);
-        //         this.setState({
-        //             commentValue: ""
-        //         })
-        //     }
+
+        if (this.props.gltfs.singleGltf?.gltfId != prevProps.gltfs.singleGltf?.gltfId) {
+            this.props.fetchGltfFiles(this.props.marauder.singleMarauder?.userId!);
+            this.setState({
+                commentValue: ""
+            })
+        }
+
+        if (this.props.gltfComments.comments?.length != prevProps.gltfComments.comments?.length) {
+            this.props.getGltfComments(this.props.gltfs.singleGltf?.gltfId!);
+            this.setState({
+                commentValue: ""
+            })
+        }
     }
 
     render() {
@@ -135,7 +144,7 @@ export class UserGltfsTab extends Component<any, IDefaultFormFields> {
                     columnsCountBreakPoints={{350: 2, 750: 3, 900: 3, 1050: 4}}
                 >
                 <Masonry>
-                {gltfs.gltfs?.map(({ gltfId, fileInformation, userId, shapes }: Gltf, index: number) => {
+                {gltfs.gltfs?.map(({ gltfComments, favorites, gltfId, fileInformation, type, userId, shapes }: Gltf, index: number) => {
                     return <PostContainer key={index}>
                         <Card key={gltfId} style={{ background: 'black', border: 'solid 1px white', padding: '.5rem', margin: '.3rem', color: 'white'}}>
                             <Card.Img src="https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"/>
@@ -147,15 +156,15 @@ export class UserGltfsTab extends Component<any, IDefaultFormFields> {
                                     {
                                         <BadgeContainer><Badge style={{ color: 'black' }} bg="light">
                                             <Chat size={15}/>
-                                            {/* {` ${comments?.length > 0 ? comments?.length : ""}`} */}
+                                            {` ${gltfComments?.length > 0 ? gltfComments?.length : ""}`}
                                             </Badge>
                                         </BadgeContainer>
                                     }
                                     {
                                         <BadgeContainer>
                                             <Badge style={{ color: 'black' }} bg="light">
-                                            <Rocket style={{ cursor: 'pointer' }} /* onClick={() => this.handleLike(gltfId, type)} size={15} */ />
-                                            {/* {` ${favorites?.length > 0 ? favorites?.length : ""}`} */}
+                                            <Rocket style={{ cursor: 'pointer' }} onClick={() => this.handleLike(gltfId, type)} size={15} />
+                                            {` ${favorites?.length > 0 ? favorites?.length : ""}`}
                                             </Badge>
                                         </BadgeContainer>
                                     }
@@ -204,8 +213,10 @@ export class UserGltfsTab extends Component<any, IDefaultFormFields> {
                     <div style={{ height: "65%", overflowY: 'auto' }}>
                     {
                         gltfs.singleGltf?.gltfComments.map(({ gltfCommentId, commentValue, mediaLink, dateCreated, user }: GltfComment) => {
-                            return <Card className="bg-dark" key={gltfCommentId}>
-                                <TextContainer>
+                            return (
+                                <CardContainer>
+                                <Card className="bg-dark" key={gltfCommentId}>
+                                    <TextContainer>
                                         <AContainer href={`/profile/${user.userId}`}>
                                         <Row xs={2}>
                                             <Col xs={2}>
@@ -220,6 +231,8 @@ export class UserGltfsTab extends Component<any, IDefaultFormFields> {
                                         <Card.Text>{commentValue}</Card.Text>
                                     </TextContainer>
                                 </Card>
+                                </CardContainer>
+                            )
                         })
                     }
                     </div>

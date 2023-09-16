@@ -11,6 +11,7 @@ import { XContainer } from "../../styles/devices/devices.styles";
 import { CardContainer } from "../../styles/modal/modal.styles";
 import { GltfComment } from "../../store/gltfcomment/gltfcomment.types";
 import { utcConverter } from "../../utils/date/date.utils";
+import { GltfCommentState } from "../../store/gltfcomment/gltfcomment.reducer";
 
 interface IDefaultFormFields {
     commentValue: string;
@@ -59,7 +60,7 @@ export class GltfsTab extends Component<ProfileProps, IDefaultFormFields> {
         const { gltfs } = this.props;
         const gltfId = gltfs.singleGltf?.gltfId ? gltfs.singleGltf.gltfId : 0
         try {
-            this.props.createComment(commentValue, imageFile, gltfId);
+            this.props.gltfCreateComment(commentValue, imageFile, gltfId);
         } catch (error) {
             return error;
         }
@@ -158,7 +159,7 @@ export class GltfsTab extends Component<ProfileProps, IDefaultFormFields> {
         this.props.fetchGltfFiles();
     }
 
-    componentDidUpdate(prevProps: Readonly<{ comments: CommentState; gltfs: GltfState} & { getComments: (gltfId: number) => void; }>, prevState: Readonly<IDefaultFormFields>, snapshot?: any): void {
+    componentDidUpdate(prevProps: Readonly<{ comments: CommentState; gltfs: GltfState, gltfComments: GltfCommentState} & { getComments: (gltfId: number) => void; }>, prevState: Readonly<IDefaultFormFields>, snapshot?: any): void {
         if (this.props.gltfs.gltfs?.length != prevProps.gltfs.gltfs?.length) {
             this.props.fetchGltfFiles();
             this.setState({
@@ -173,12 +174,12 @@ export class GltfsTab extends Component<ProfileProps, IDefaultFormFields> {
             })
         }
 
-        // if (this.props.comments.comments?.length != prevProps.comments.comments?.length) {
-            // this.props.getComments(this.props.gltfs.singleGltf?.gltfId!);
-            // this.setState({
-            //     commentValue: ""
-            // })
-        // }
+        if (this.props.gltfComments.comments?.length != prevProps.gltfComments.comments?.length) {
+            this.props.getGltfComments(this.props.gltfs.singleGltf?.gltfId!);
+            this.setState({
+                commentValue: ""
+            })
+        }
     }
 
     render() {
@@ -201,7 +202,7 @@ export class GltfsTab extends Component<ProfileProps, IDefaultFormFields> {
                     columnsCountBreakPoints={{350: 2, 750: 3, 900: 3, 1050: 4}}
                 >
                 <Masonry>
-                {gltfs.gltfs?.map(({ gltfId, fileInformation, userId, shapes }, index) => {
+                {gltfs.gltfs?.map(({ gltfId, fileInformation, gltfComments, favorites, type, userId, shapes }, index) => {
                     return <PostContainer key={index}>
                         <Card key={gltfId} style={{ background: 'black', border: 'solid 1px white', padding: '.5rem', margin: '.3rem', color: 'white'}}>
                             <Card.Img src="https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"/>
@@ -213,15 +214,15 @@ export class GltfsTab extends Component<ProfileProps, IDefaultFormFields> {
                                     {
                                         <BadgeContainer><Badge style={{ color: 'black' }} bg="light">
                                             <Chat size={15}/>
-                                            {/* {` ${comments?.length > 0 ? comments?.length : ""}`} */}
+                                            {` ${gltfComments?.length > 0 ? gltfComments?.length : ""}`}
                                             </Badge>
                                         </BadgeContainer>
                                     }
                                     {
                                         <BadgeContainer>
                                             <Badge style={{ color: 'black' }} bg="light">
-                                            <Rocket style={{ cursor: 'pointer' }} /* onClick={() => this.handleLike(gltfId, type)} size={15} */ />
-                                            {/* {` ${favorites?.length > 0 ? favorites?.length : ""}`} */}
+                                            <Rocket style={{ cursor: 'pointer' }} onClick={() => this.handleLike(gltfId, type)} size={15}  />
+                                            {` ${favorites?.length > 0 ? favorites?.length : ""}`}
                                             </Badge>
                                         </BadgeContainer>
                                     }
@@ -275,7 +276,8 @@ export class GltfsTab extends Component<ProfileProps, IDefaultFormFields> {
                     <div style={{ height: "65%", overflowY: "auto" }}>
                     {
                         gltfs.singleGltf?.gltfComments.map(({ gltfCommentId, commentValue, mediaLink, dateCreated, user }: GltfComment) => {
-                            return <CardContainer>
+                            return (
+                                <CardContainer>
                                 <Card className="bg-dark" key={gltfCommentId}>
                                 <TextContainer>
                                         <AContainer href={`/profile/${user.userId}`}>
@@ -286,13 +288,14 @@ export class GltfsTab extends Component<ProfileProps, IDefaultFormFields> {
                                             <Col>
                                             <Card.Text style={{ marginBottom: '.5rem' }}>{user.username}</Card.Text>
                                             </Col>
-                                            <Card.Text style={{ position: 'absolute', right: '-2rem' }}>{utcConverter(dateCreated)}</Card.Text>
+                                            {/* <Card.Text style={{ position: 'absolute', right: '-2rem' }}>{utcConverter(dateCreated)}</Card.Text> */}
                                         </Row>
                                         </AContainer>
                                         <Card.Text>{commentValue}</Card.Text>
                                     </TextContainer>
                                 </Card>
-                            </CardContainer>
+                                </CardContainer>
+                            )
                         })
                     }
                     </div>

@@ -8,6 +8,7 @@ import { ProfileCard } from "../../components/profilecard/profilecard.component"
 import { ChatDeleteStart, ChatFetchSingleStart, ChatFetchUserChatsStart, chatDeleteStart, chatFetchSingleStart, chatFetchUserChatsStart } from "../../store/chat/chat.action";
 import { CommentCreateStart, CommentFetchSingleStart, commentCreateStart, commentFetchSingleStart } from "../../store/comment/comment.action";
 import { CommentCreateStart as UserCommentCreateStart, CommentFetchSingleStart as UserCommentFetchSingleStart, commentCreateStart as userCommentCreateStart, commentFetchSingleStart as userCommentFetchSingleStart } from "../../store/userchatcomment/userchatcomment.action";
+import { CommentCreateStart as GltfCommentCreateStart, GltfCommentFetchSingleStart, commentCreateStart as gltfCommentCreateStart } from "../../store/gltfcomment/gltfcomment.action";
 import { FavoriteCreateStart, favoriteCreateStart } from "../../store/favorite/favorite.action";
 import { MarauderFetchSingleStart, marauderFetchSingleStart } from "../../store/marauder/marauder.action";
 import { PostCreateStart, PostDeleteStart, PostFetchAllStart, PostFetchSingleStart, PostFetchUserPostsStart, postCreateStart, postDeleteStart, postFetchAllStart, postFetchSingleStart, postFetchUserPostsStart } from "../../store/post/post.action";
@@ -83,11 +84,12 @@ const mapToStateProps = (state: RootState) => {
         userComments: state.userchatcomment,
         devices: state.device,
         gltfs: state.gltf,
-        shapes: state.editor
+        shapes: state.editor,
+        gltfComments: state.gltfcomment
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<CommunityFetchUsercommunitiesStart | DeviceDeleteStart | DeviceFetchSingleStart | DeviceFetchAllStart | GltfFetchSingleStart | CheckUserSession | UserCommentCreateStart | UserCommentFetchSingleStart | UserprofileFetchSingleStart | MarauderFetchSingleStart | PostFetchAllStart | PostFetchUserPostsStart | PostCreateStart | PostFetchSingleStart | PostDeleteStart | ChatFetchUserChatsStart | ChatFetchSingleStart | ChatDeleteStart | CommentFetchSingleStart | CommentCreateStart | FavoriteCreateStart | EditorFetchAllStart | GltfFetchUserStart | GltfCreateStart>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<CommunityFetchUsercommunitiesStart | GltfFetchSingleStart | DeviceDeleteStart | GltfCommentCreateStart | DeviceFetchSingleStart | DeviceFetchAllStart | GltfFetchSingleStart | CheckUserSession | UserCommentCreateStart | UserCommentFetchSingleStart | UserprofileFetchSingleStart | MarauderFetchSingleStart | PostFetchAllStart | PostFetchUserPostsStart | PostCreateStart | PostFetchSingleStart | PostDeleteStart | ChatFetchUserChatsStart | ChatFetchSingleStart | ChatDeleteStart | CommentFetchSingleStart | CommentCreateStart | FavoriteCreateStart | EditorFetchAllStart | GltfFetchUserStart | GltfCreateStart>) => ({
     getUserProfile: (userId: number) => dispatch(userprofileFetchSingleStart(userId)),
     checkSession: () => dispatch(checkUserSession()),
     getMarauder: (userId: string) => dispatch(marauderFetchSingleStart(userId)),
@@ -112,6 +114,8 @@ const mapDispatchToProps = (dispatch: Dispatch<CommunityFetchUsercommunitiesStar
     getCommunity: () => dispatch(communityFetchUsercommunitiesStart()),
     createUserComment: (commentValue: string, imageFile: File, chatId: number ) => dispatch(userCommentCreateStart(commentValue, imageFile, chatId)),
     getUserComments: (chatId: number) => dispatch(userCommentFetchSingleStart(chatId)),
+    gltfCreateComment: (commentValue: string, imageFile: File, gltfId: number) => dispatch(gltfCommentCreateStart(commentValue, imageFile, gltfId)),
+    getGltfComments: (gltfId: number) => dispatch(gltfFetchSingleStart(gltfId))
 });
 
 export const connector = connect(mapToStateProps, mapDispatchToProps);

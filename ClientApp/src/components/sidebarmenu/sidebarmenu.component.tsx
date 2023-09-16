@@ -10,12 +10,6 @@ import { SidebarMenuContainer } from "../../styles/sidebarmenu/sidebarmenu.style
 type SidebarMenuProps = ConnectedProps<typeof connector>;
 
 export class SidebarMenu extends Component<SidebarMenuProps> {
-    handleClick(): void {
-        if (this.props != undefined) {
-            this.props.checkUserSession();
-            this.props.getUser(this.props.user);
-        }
-    }
 
     render() {
         const { sidemenu } = this.props;
@@ -52,10 +46,10 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                             </Nav.Link>
                         </Nav.Item>
                         <Nav.Item className="ms-4 d-flex align-items-center">
-                            <a onClick={this.handleClick} href="/profile">
+                            <a href="/profile">
                             <PersonBoundingBox className='icons' color="white" />
                             </a>
-                            <Nav.Link onClick={this.handleClick} href="/profile" className="tools ms-4">
+                            <Nav.Link href="/profile" className="tools ms-4">
                                 Profile
                             </Nav.Link>
                         </Nav.Item>

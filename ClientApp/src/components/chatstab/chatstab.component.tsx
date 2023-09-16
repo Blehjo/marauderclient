@@ -1,7 +1,7 @@
 import { ChangeEvent, Component, FormEvent, Fragment } from 'react';
 import { Badge, Card, Col, Form, Image, Modal, Row } from 'react-bootstrap';
 
-import { ArrowsFullscreen, Globe, Rocket, Send, XCircle } from 'react-bootstrap-icons';
+import { ArrowsFullscreen, Chat, Globe, Rocket, Send, XCircle } from 'react-bootstrap-icons';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import { AContainer, BadgeContainer, CardContainer, ChatContainer, ModalContainer, TextContainer } from "../../styles/poststab/poststab.styles";
 import { utcConverter } from '../../utils/date/date.utils';
@@ -41,6 +41,11 @@ export class ChatsTab extends Component<ProfileProps, ChatsTabProps> {
         this.handleChatCommentSubmit = this.handleChatCommentSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.showPreview = this.showPreview.bind(this);
+        this.handleLike = this.handleLike.bind(this);
+    }
+
+    handleLike(gltfId: number, type: string): void {
+        this.props.likePost(gltfId, type);
     }
 
     handleChatCommentSubmit(event: FormEvent<HTMLFormElement>): void {
@@ -144,7 +149,7 @@ export class ChatsTab extends Component<ProfileProps, ChatsTabProps> {
                     columnsCountBreakPoints={{350: 1, 750: 2, 900: 3, 1050: 4}}
                 >
                     <Masonry>
-                    {chats.userChats?.map(({ chatId, title, userId, comments, chatComments, favorites, dateCreated }) => {
+                    {chats.userChats?.map(({ chatId, title, type, userId, comments, chatComments, favorites, dateCreated }) => {
                     return <ChatContainer key={chatId}>
                             <Card style={{ background: 'black', border: '1px solid white', color: 'white' }} key={chatId}>
                             <Card.Img  src={"https://www.artlog.net/sites/default/files/styles/al_colorbox_rules/public/turrell_cregis_golay_federal_studio.jpg?itok=2M4Pyn0A"}/>
@@ -155,7 +160,7 @@ export class ChatsTab extends Component<ProfileProps, ChatsTabProps> {
                                 </BadgeContainer>
                                 {
                                     chatComments && <BadgeContainer><Badge style={{ color: 'black' }} bg="light">
-                                        <Globe size={15}/>
+                                        <Chat size={15}/>
                                         {` ${chatComments.length}`}
                                         </Badge>
                                     </BadgeContainer>
@@ -163,7 +168,7 @@ export class ChatsTab extends Component<ProfileProps, ChatsTabProps> {
                                 {
                                     favorites && <BadgeContainer>
                                         <Badge style={{ color: 'black' }} bg="light">
-                                        <Rocket size={15}/>
+                                        <Rocket style={{ cursor: 'pointer' }} onClick={() => this.handleLike(chatId, type)} size={15}  />
                                         {` ${favorites.length}`}
                                         </Badge>
                                     </BadgeContainer>

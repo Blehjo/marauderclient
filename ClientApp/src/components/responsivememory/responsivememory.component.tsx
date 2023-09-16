@@ -58,19 +58,19 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
             this.props.getPost(id);
             this.props.getComments(id);
             this.setState({
-                ...this.state, type: type, contentId: id
+                ...this.state, type: "posts", contentId: id
             });
         } else if (type === "gltf") {
             this.props.getFile(id);
             this.props.getComments(id);
             this.setState({
-                ...this.state, type: type, contentId: id
+                ...this.state, type: "gltfs", contentId: id
             });
         } else {
             this.props.getCommunity(id);
             this.props.getMembers(id);
             this.setState({
-                ...this.state, type: "communitie", contentId: id
+                ...this.state, type: "communities", contentId: id
             });
         }
         this.setState({
@@ -382,7 +382,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                         Close
                     </button>
                     <button className="btn btn-dark" >
-                        <a style={{ textDecoration: 'none', color: 'white', cursor: 'pointer' }} href={`/${type}s/${contentId}`}>
+                        <a style={{ textDecoration: 'none', color: 'white', cursor: 'pointer' }} href={`/${type}/${contentId}`}>
                         {`See ${type}`}
                         </a>
                     </button>

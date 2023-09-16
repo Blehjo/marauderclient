@@ -12,6 +12,7 @@ import { ChatDeleteStart, ChatFetchSingleStart, ChatFetchSingleUserChatsStart, C
 import { CommentCreateStart, CommentFetchSingleStart, commentCreateStart, commentFetchSingleStart } from "../../store/comment/comment.action";
 import { CommentCreateStart as UserCommentCreateStart, CommentFetchSingleStart as UserCommentFetchSingleStart, commentCreateStart as userCommentCreateStart, commentFetchSingleStart as userCommentFetchSingleStart } from "../../store/userchatcomment/userchatcomment.action";
 import { CommunityFetchOtherUsercommunitiesStart, CommunityFetchSingleStart, communityFetchOtherUsercommunitiesStart, communityFetchSingleStart } from "../../store/community/community.action";
+import { CommentCreateStart as GltfCommentCreateStart, GltfCommentFetchSingleStart, commentCreateStart as gltfCommentCreateStart } from "../../store/gltfcomment/gltfcomment.action";
 import { EditorFetchAllStart, editorFetchAllStart } from "../../store/editor/editor.action";
 import { FavoriteCreateStart, favoriteCreateStart } from "../../store/favorite/favorite.action";
 import { GltfCreateStart, GltfFetchOtherUserStart, GltfFetchSingleStart, gltfFetchOtherUserStart, gltfFetchSingleStart } from "../../store/gltf/gltf.action";
@@ -81,10 +82,11 @@ const mapToStateProps = (state: RootState) => {
         gltfs: state.gltf,
         shapes: state.editor,
         userComments: state.userchatcomment,
+        gltfComments: state.gltfcomment
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<ChatFetchSingleUserChatsStart | GltfFetchOtherUserStart | UserCommentCreateStart | UserCommentFetchSingleStart | CommunityFetchOtherUsercommunitiesStart | CommunityFetchSingleStart | GltfFetchSingleStart | CheckUserSession | UserprofileFetchSingleStart | MarauderFetchSingleStart | PostFetchAllStart | PostFetchUserPostsStart | PostCreateStart | PostFetchSingleStart | PostDeleteStart | ChatFetchUserChatsStart | ChatFetchSingleStart | ChatDeleteStart | CommentFetchSingleStart | CommentCreateStart | FavoriteCreateStart | EditorFetchAllStart | GltfCreateStart>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<ChatFetchSingleUserChatsStart | GltfFetchSingleStart | GltfFetchOtherUserStart | UserCommentCreateStart | UserCommentFetchSingleStart | GltfCommentCreateStart | CommunityFetchOtherUsercommunitiesStart | CommunityFetchSingleStart | GltfFetchSingleStart | CheckUserSession | UserprofileFetchSingleStart | MarauderFetchSingleStart | PostFetchAllStart | PostFetchUserPostsStart | PostCreateStart | PostFetchSingleStart | PostDeleteStart | ChatFetchUserChatsStart | ChatFetchSingleStart | ChatDeleteStart | CommentFetchSingleStart | CommentCreateStart | FavoriteCreateStart | EditorFetchAllStart | GltfCreateStart>) => ({
     getUserProfile: (userId: number) => dispatch(userprofileFetchSingleStart(userId)),
     getMarauder: (userId: string) => dispatch(marauderFetchSingleStart(userId)),
     getAllPosts: () => dispatch(postFetchAllStart()),
@@ -102,6 +104,8 @@ const mapDispatchToProps = (dispatch: Dispatch<ChatFetchSingleUserChatsStart | G
     fetchSingleCommunity: (communityId: number) => dispatch(communityFetchSingleStart(communityId)),
     createUserComment: (commentValue: string, imageFile: File, chatId: number ) => dispatch(userCommentCreateStart(commentValue, imageFile, chatId)),
     getUserComments: (chatId: number) => dispatch(userCommentFetchSingleStart(chatId)),
+    gltfCreateComment: (commentValue: string, imageFile: File, gltfId: number) => dispatch(gltfCommentCreateStart(commentValue, imageFile, gltfId)),
+    getGltfComments: (gltfId: number) => dispatch(gltfFetchSingleStart(gltfId))
 });
 
 export const connector = connect(mapToStateProps, mapDispatchToProps);

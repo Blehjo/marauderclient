@@ -1,16 +1,15 @@
 import { ChangeEvent, Component, FormEvent, Fragment } from 'react';
 import { Badge, Card, Col, Form, Image, Modal, Row } from 'react-bootstrap';
 
-import { ArrowsFullscreen, Globe, Rocket, Send } from 'react-bootstrap-icons';
+import { ArrowsFullscreen, Chat as ChatIcon, Rocket, Send } from 'react-bootstrap-icons';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
-import { AContainer, BadgeContainer, CardContainer, ChatContainer, ModalContainer, TextContainer } from "../../styles/poststab/poststab.styles";
+import { AContainer, BadgeContainer, ChatContainer, ModalContainer, TextContainer } from "../../styles/poststab/poststab.styles";
 import { utcConverter } from '../../utils/date/date.utils';
 
-import { ChatState } from '../../store/chat/chat.reducer';
 import { Chat } from '../../store/chat/chat.types';
 import { ChatComment } from '../../store/chatcomment/chatcomment.types';
-import { CommentContainer, UserCommentContainer } from '../../styles/modal/modal.styles';
 import { UserChatComment } from '../../store/userchatcomment/userchatcomment.types';
+import { CommentContainer, UserCommentContainer } from '../../styles/modal/modal.styles';
 
 type ChatsTabProps = {
     show: boolean;
@@ -37,6 +36,11 @@ export class UserChatsTab extends Component<any, ChatsTabProps> {
         this.handleChatCommentSubmit = this.handleChatCommentSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.showPreview = this.showPreview.bind(this);
+        this.handleLike = this.handleLike.bind(this);
+    }
+
+    handleLike(gltfId: number, type: string): void {
+        this.props.likePost(gltfId, type);
     }
 
     handleChatCommentSubmit(event: FormEvent<HTMLFormElement>): void {
@@ -113,7 +117,7 @@ export class UserChatsTab extends Component<any, ChatsTabProps> {
                     columnsCountBreakPoints={{350: 1, 750: 2, 900: 3, 1050: 4}}
                 >
                     <Masonry>
-                    {chats.singleUserChats?.map(({ chatId, title, userId, comments, chatComments, favorites, dateCreated }: Chat) => {
+                    {chats.singleUserChats?.map(({ chatId, title, userId, type, comments, chatComments, favorites, dateCreated }: Chat) => {
                     return <ChatContainer key={chatId}>
                             <Card style={{ background: 'black', border: '1px solid white', color: 'white' }} key={chatId}>
                             <Card.Img  src={"https://www.artlog.net/sites/default/files/styles/al_colorbox_rules/public/turrell_cregis_golay_federal_studio.jpg?itok=2M4Pyn0A"}/>
@@ -124,7 +128,7 @@ export class UserChatsTab extends Component<any, ChatsTabProps> {
                                 </BadgeContainer>
                                 {
                                     chatComments && <BadgeContainer><Badge style={{ color: 'black' }} bg="light">
-                                        <Globe size={15}/>
+                                        <ChatIcon size={15}/>
                                         {` ${chatComments.length}`}
                                         </Badge>
                                     </BadgeContainer>
@@ -132,7 +136,7 @@ export class UserChatsTab extends Component<any, ChatsTabProps> {
                                 {
                                     favorites && <BadgeContainer>
                                         <Badge style={{ color: 'black' }} bg="light">
-                                        <Rocket size={15}/>
+                                        <Rocket style={{ cursor: 'pointer' }} onClick={() => this.handleLike(chatId, type)} size={15}  />
                                         {` ${favorites.length}`}
                                         </Badge>
                                     </BadgeContainer>
