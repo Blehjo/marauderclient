@@ -1,40 +1,30 @@
-import { takeLatest, put, all, call } from 'typed-redux-saga';
+import { all, call, put, takeLatest } from 'typed-redux-saga';
 
 import { FAVORITE_ACTION_TYPES } from './favorite.types';
 
 import {
-    favoriteCreateStart,
-    favoriteCreateSuccess,
-    favoriteCreateFailed,
-    favoriteUpdateStart,
-    favoriteUpdateSuccess,
-    favoriteUpdateFailed,
-    favoriteDeleteStart,
-    favoriteDeleteSuccess,
-    favoriteDeleteFailed,
-    favoriteFetchSingleStart,
-    favoriteFetchSingleSuccess,
-    favoriteFetchSingleFailed,
-    favoriteFetchAllStart,
-    favoriteFetchAllSuccess,
-    favoriteFetchAllFailed,
     FavoriteCreateStart,
     FavoriteDeleteStart,
     FavoriteFetchAllStart,
     FavoriteFetchSingleUserFavoritesStart,
-    favoriteFetchSingleUserFavoritesSuccess,
+    favoriteCreateFailed,
+    favoriteCreateSuccess,
+    favoriteDeleteFailed,
+    favoriteDeleteSuccess,
+    favoriteFetchAllFailed,
+    favoriteFetchAllSuccess,
     favoriteFetchSingleUserFavoritesFailed,
-    favoriteFetchUserFavoritesSuccess,
+    favoriteFetchSingleUserFavoritesSuccess,
     favoriteFetchUserFavoritesFailed,
+    favoriteFetchUserFavoritesSuccess
 } from './favorite.action';
 
-import { 
-    getSingleFavorite,
-    getUserFavorites,
-    getFavorites, 
-    addFavorite, 
+import {
+    addFavorite,
     deleteFavorite,
-    getSingleUserFavorites
+    getFavorites,
+    getSingleUserFavorites,
+    getUserFavorites
 } from '../../utils/api/favorite.api';
 import { FavoriteFetchUserFavoritesStart } from './favorite.action';
 

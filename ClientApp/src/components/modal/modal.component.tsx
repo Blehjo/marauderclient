@@ -355,13 +355,13 @@ class ModalContent extends Component<any, IModalContent> {
                                 comments?.map(({ commentId, commentValue, mediaLink, dateCreated, user }: Comment) => {
                                     return <Card border="light" className="bg-dark mt-2" key={commentId}>
                                         <TextContainer>
-                                            <AContainer href={`/profile/${user.userId}`}>
+                                            <AContainer href={`/profile/${user?.userId}`}>
                                             <Row xs={2}>
                                                 <Col xs={2}>
-                                                <Card.Img src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                                                <Card.Img src={`https://localhost:7144/images/${user?.imageLink!}`}/>
                                                 </Col>
                                                 <Col>
-                                                <Card.Text>{user.username}</Card.Text>
+                                                <Card.Text>{user?.username}</Card.Text>
                                                 </Col>
                                             </Row>
                                             </AContainer>
@@ -440,15 +440,24 @@ class ModalContent extends Component<any, IModalContent> {
                         <Col>
                         <CommentContainer>
                         <div>Members</div>
-                        <div style={{ height: "65%", overflowY: "auto" }}>
+                        <div >
                         {
                             members.members?.map(({ memberId, user, dateCreated }: Member) => {
-                                return <Card style={{ margin: '1rem' }} className="bg-dark" key={memberId}>
-                                    <TextContainer>
-                                        <AContainer href={`/profile/${user.userId}`}>{user.username}</AContainer>
-                                        <Card.Text>Joined: {utcConverter(dateCreated)}</Card.Text>
-                                    </TextContainer>
-                                </Card>
+                                return (
+                                    <Card style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', padding: '.5rem' }} key={memberId}>
+                                    <AContainer href={`/profile/${user.userId}`}>
+                                    <Row xs={2}>
+                                        <Col xs={2}>
+                                        <Card.Img style={{ width: '2rem', height: '2rem', objectFit: 'fill' }} src={`https://localhost:7144/images/${user?.imageLink!}`}/>
+                                        </Col>
+                                        <Col>
+                                        <Card.Text>{user.username}</Card.Text>
+                                        </Col>
+                                    </Row>
+                                    </AContainer>
+                                    <Card.Text>Joined: {utcConverter(dateCreated)}</Card.Text>
+                                    </Card>
+                                )
                             })
                         }
                         </div>

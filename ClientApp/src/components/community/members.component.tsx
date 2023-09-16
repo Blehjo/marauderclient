@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { ChatsContainer, TextFitContainer } from "../../styles/crew/crew.styles";
-import { CardContainer } from "../../styles/poststab/poststab.styles";
+import { AContainer, CardContainer } from "../../styles/poststab/poststab.styles";
 import { Card, Row, Col, Modal } from "react-bootstrap";
 import { XContainer } from "../../styles/devices/devices.styles";
 import { XCircle } from "react-bootstrap-icons";
@@ -64,7 +64,8 @@ export class MembersChannel extends Component<any, IMembersChannel> {
     }
 
     render() {
-        const { members, user, communities } = this.props;
+        const { members, main, communities } = this.props;
+        console.log(main, communities)
         const { showMarauder, showDelete } = this.state;
         return (
             <ChatsContainer>
@@ -72,18 +73,21 @@ export class MembersChannel extends Component<any, IMembersChannel> {
                 {
                     members.members?.map(({ memberId, dateCreated, user }: Member, index: number) => (
                         <Card onClick={() => this.handleMemberSelect(user.userId)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', padding: '.5rem' }} key={index}>
-                            <Row key={index} xs={2}>
-                                <Col xs={10}>
-                                    <TextFitContainer>
-                                        {user.username}
-                                    </TextFitContainer>
-                                </Col>
-                                <Col xs={2}>
-                                    {user?.userId == communities.singleCommunity?.userId && <XContainer>
-                                        <XCircle onClick={this.deleteModal} />
-                                    </XContainer>}
-                                </Col>
-                            </Row>
+                            <AContainer href={`/profile/${user.userId}`}>
+                                <Row xs={2}>
+                                    <Col xs={3}>
+                                    <Card.Img style={{ width: '2rem', height: '2rem', objectFit: 'fill' }} src={`https://localhost:7144/images/${user?.imageLink!}`}/>
+                                    </Col>
+                                    <Col>
+                                    <Card.Text>{user.username}</Card.Text>
+                                    </Col>
+                                </Row>
+                            </AContainer>
+                            <Col xs={2}>
+                                {main?.userId == communities.singleCommunity?.userId && <XContainer>
+                                    <XCircle onClick={this.deleteModal} />
+                                </XContainer>}
+                            </Col>
                         </Card>
                     ))
                 }

@@ -26,10 +26,19 @@ import { RootState } from "../../store/store";
 import { ChatBox, ChatForm, ChatsContainer, Container, CrewContainer, CrewMemberContainer, HeaderContainer, PenContainer } from "../../styles/crew/crew.styles";
 import { ButtonContainer, CardContainer, FormContainer, XContainer } from "../../styles/devices/devices.styles";
 import { InputContainer, TextContainer } from "../../styles/messages/messages.styles";
-import { addChat } from "../../utils/api/chat.api";
+import { addChat, getUsersChats } from "../../utils/api/chat.api";
 import { callArtoo } from "../../utils/api/completion.api";
+import { AContainer } from "../../styles/poststab/poststab.styles";
+import { SearchBox } from "../../components/searchbar/searchbox.component";
+import { AiList } from "../../components/searchbar/ailist.component";
+import { getUsersArtificialIntelligences } from "../../utils/api/artificialintelligence.api";
+import { getAllChatComments } from "../../utils/api/chatcomment.api";
+import { getUsersArtificialIntelligenceChats } from "../../utils/api/artificialintelligencechat.api";
 
 interface ICrew {
+    artificialIntelligences: ArtificialIntelligence[];
+    userchats: Chat[];
+    userchatcomments: ChatComment[];
     name: string;
     role: string;
     imageSource: string | ArrayBuffer | null | undefined;
@@ -42,6 +51,8 @@ interface ICrew {
     artificialIntelligenceId: number | null;
     inputContainer: boolean;
     dropDownValue: string;
+    showInput: boolean;
+    searchField: string;
 }
 
 type CrewProps = ConnectedProps<typeof connector>;
@@ -50,6 +61,9 @@ class Crew extends Component<CrewProps, ICrew> {
     constructor(props: CrewProps) {
         super(props);
         this.state = {
+            artificialIntelligences: [],
+            userchats: [],
+            userchatcomments: [],
             name: "",
             role: "",
             imageSource: "",
@@ -61,7 +75,9 @@ class Crew extends Component<CrewProps, ICrew> {
             show: false,
             inputContainer: false,
             messageValue: "",
-            dropDownValue: "Choose Crew"
+            dropDownValue: "Choose Crew",
+            showInput: false,
+            searchField: ""
         }
         this.handleChange = this.handleChange.bind(this);
         this.sendMessage = this.sendMessage.bind(this);
@@ -72,6 +88,11 @@ class Crew extends Component<CrewProps, ICrew> {
         this.createNewChat = this.createNewChat.bind(this);
         this.setDropDown = this.setDropDown.bind(this);
         this.getArtificialChat = this.getArtificialChat.bind(this);
+        this.handleClickEvent = this.handleClickEvent.bind(this);
+    }
+
+    handleClickEvent() {
+        this.setState({ showInput: !this.state.showInput });
     }
 
     createNewChat(): void {
@@ -193,6 +214,31 @@ class Crew extends Component<CrewProps, ICrew> {
         }
     }
 
+    // async speakWith(event: FormEvent<HTMLFormElement>) {
+    //     event.preventDefault();
+    //     const { artificialId, chatValue, chatId, imageFile } = this.state;
+    //     const { chats } = this.props;
+    //     try {
+    //         if (chats.chatId == null) {
+    //             await addChat(chatValue, artificialId)
+    //             .then((response) => this.props.setId(response.chatId))
+    //             .then((response) => this.props.createComment(this.props.chats.chatId!, chatValue, imageFile));
+
+    //             await callArtoo(chatValue)
+    //             .then((response) => this.props.createComment(this.props.chats.chatId!, response.data, imageFile));
+    //         } else {
+    //             this.props.createComment(this.props.chats.chatId!, chatValue, imageFile);
+
+    //             await callArtoo(chatValue)
+    //             .then((response) => this.props.createComment(this.props.chats.chatId!, response.data, imageFile));
+    //         }
+    //     } catch (error: any) {
+    //         if (error) {
+    //             alert(error)
+    //         }
+    //     }
+    // }
+
     setDropDown(name: string, artificialIntelligenceId: number): void {
         this.setState({
             ...this.state, dropDownValue: name, artificialIntelligenceId: artificialIntelligenceId
@@ -245,36 +291,59 @@ class Crew extends Component<CrewProps, ICrew> {
         return content;
     }
 
+    onSearchChange = (event: ChangeEvent<HTMLInputElement>): void => {
+        this.setState({ searchField: event.target.value });
+    };
+
     componentDidMount(): void {
         this.props.getCrew();
         this.props.getChats();
+        getUsersArtificialIntelligences()
+        .then(artificialIntelligences => this.setState({ artificialIntelligences: artificialIntelligences }));
+       
+        getUsersChats()
+        .then(chats => this.setState({ userchats: chats }));
+
+        getAllChatComments()
+        .then(chatcomments => this.setState({ userchatcomments: chatcomments }));
     }
 
     render() {
-        const { dropDownValue, show, role, name, messageValue, inputContainer } = this.state;
+        const { dropDownValue, show, role, name, messageValue, inputContainer, showInput, searchField, artificialIntelligences, userchats, userchatcomments } = this.state;
         const { artificialIntelligence, } = this.props;
+        const filteredAis = artificialIntelligences.filter(artificialIntelligence =>
+            artificialIntelligence.name?.toLowerCase().includes(searchField.toLowerCase()));
+        const filteredChats = userchats.filter(chat =>
+            chat.title.toLowerCase().includes(searchField.toLowerCase()));
+        const filteredChatcomments = userchatcomments.filter(chat =>
+            chat.chatValue.toLowerCase().includes(searchField.toLowerCase()));
         return (
             <CrewContainer>
                 <CrewMemberContainer>
-                    <CardContainer key='cardcontainer' onClick={this.handleClick}>New Crew +</CardContainer>
+                    <input style={{ borderRadius: ".3rem", width: "98%", margin: 'auto' }} onClick={this.handleClickEvent} placeholder="Search" />
+                    <CardContainer style={{ marginTop: '1rem'}} key='cardcontainer' onClick={this.handleClick}>New Crew +</CardContainer>
+                    <Modal size="lg" style={{ color: 'white' }} show={showInput} onHide={this.handleClickEvent}>
+                        <SearchBox onSearchChange={this.onSearchChange} />
+                        <div style={{ background: 'black' }}>
+                            {searchField.length > 0 && <AiList artificialIntelligences={filteredAis} chats={filteredChats} chatcomments={filteredChatcomments} />}
+                        </div>
+                    </Modal>
                     {
                         artificialIntelligence.userArtificialIntelligences?.map(({ artificialIntelligenceId, name, role, imageSource }, index) => (
-                            <Card key={artificialIntelligenceId} onClick={() => this.getArtificialChat(name, artificialIntelligenceId)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer' }}>
-                                <Row style={{ lineHeight: '3rem' }} key={index} xs={3}>
-                                    <Col key='col1' xs={3}>
-                                        <Image style={{ borderRadius: '.4rem', margin: '.5rem', width: '2rem', height: '2rem', objectFit: 'cover' }} fluid src={imageSource} />
+                            <Card key={artificialIntelligenceId} onClick={() => this.getArtificialChat(name, artificialIntelligenceId)} style={{ backgroundColor: 'black', borderRadius: '.3rem', border: 'solid 1px white', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', color: 'white', textAlign: 'center' }}>
+                                <AContainer >
+                                <Row xs={2}>
+                                    <Col xs={3}>
+                                    <Card.Img src={imageSource}/>
                                     </Col>
-                                    <Col key='col2' xs={6}>
-                                        <Textfit style={{ width: "100px" }}>
-                                        {name}
-                                        </Textfit>
-                                    </Col>
-                                    <Col key='col3' xs={1}>
-                                        <XContainer>
-                                            <XCircle onClick={() => this.handleDelete(artificialIntelligenceId)} />
-                                        </XContainer>
+                                    <Col>
+                                    <Card.Text>{name}</Card.Text>
                                     </Col>
                                 </Row>
+                                </AContainer>
+                                <XContainer style={{ position: 'absolute', top: '0rem', right: '0.5rem' }}>
+                                    <XCircle onClick={() => this.handleDelete(artificialIntelligenceId)} />
+                                </XContainer>
                             </Card>
                         ))
                     }
@@ -286,10 +355,10 @@ class Crew extends Component<CrewProps, ICrew> {
                             <Dropdown.Toggle variant="dark" id="dropdown-autoclose-true">{dropDownValue}</Dropdown.Toggle>
                             <Dropdown.Menu>
                                 {
-                                    artificialIntelligence.userArtificialIntelligences?.map(({ name, artificialIntelligenceId }) => (
-                                        <Dropdown.Item onClick={() => this.setDropDown(name, artificialIntelligenceId )} eventKey="1">{name}</Dropdown.Item>
-                                        ))
-                                    }
+                                artificialIntelligence.userArtificialIntelligences?.map(({ name, artificialIntelligenceId }) => (
+                                    <Dropdown.Item onClick={() => this.setDropDown(name, artificialIntelligenceId )} eventKey="1">{name}</Dropdown.Item>
+                                    ))
+                                }
                             </Dropdown.Menu>
                         </Dropdown>
                         <PenContainer onClick={this.createNewChat}>
@@ -302,8 +371,8 @@ class Crew extends Component<CrewProps, ICrew> {
                             this.handleChatComments()
                             : 
                                 artificialIntelligence.userArtificialIntelligences?.find(({artificialIntelligenceId}) => artificialIntelligenceId == this.state.artificialIntelligenceId)?.chats != null &&
-                                artificialIntelligence.userArtificialIntelligences?.find(({artificialIntelligenceId}) => artificialIntelligenceId == this.state.artificialIntelligenceId)?.chats?.map(({ chatId, title, artificialIntelligence }) => (
-                                    <ChatBox style={{ cursor: 'pointer' }} onClick={() => this.handleChatSelect(chatId, artificialIntelligence?.artificialIntelligenceId, artificialIntelligence?.name)} key={chatId}>
+                                artificialIntelligence.userArtificialIntelligences?.find(({artificialIntelligenceId}) => artificialIntelligenceId == this.state.artificialIntelligenceId)?.chats?.map(({ chatId, title, artificialIntelligences }) => (
+                                    <ChatBox style={{ cursor: 'pointer' }} onClick={() => this.handleChatSelect(chatId, artificialIntelligences?.artificialIntelligenceId, artificialIntelligences?.name)} key={chatId}>
                                     {title}
                                     </ChatBox>
                                 ))
@@ -332,20 +401,18 @@ class Crew extends Component<CrewProps, ICrew> {
                 <ChatsContainer>
                     <CardContainer>Chats</CardContainer>
                     {
-                        this.props.chats.userChats?.map(({ artificialIntelligence, chatId, title }, index) => (
-                            <Card onClick={() => this.handleChatSelect(chatId, artificialIntelligence?.artificialIntelligenceId, artificialIntelligence?.name)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', padding: '.5rem' }} key={index}>
-                                <Row key={index} xs={2}>
-                                    <Col xs={10}>
-                                        <div style={{ alignItems: 'center' }}>
-                                            {title}
-                                        </div>
-                                    </Col>
-                                    <Col xs={2}>
-                                        <XContainer>
-                                            <XCircle onClick={() => this.handleChatDelete(chatId)} />
-                                        </XContainer>
+                        this.props.chats.userChats?.map(({ artificialIntelligences, chatId, title }, index) => (
+                            <Card onClick={() => this.handleChatSelect(chatId, artificialIntelligences?.artificialIntelligenceId, artificialIntelligences?.name)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', padding: '.5rem' }} key={index}>
+                                <AContainer>
+                                <Row xs={1}>
+                                    <Col>
+                                    <Card.Text>{title}</Card.Text>
                                     </Col>
                                 </Row>
+                                </AContainer>
+                                <XContainer style={{ position: 'absolute', top: '0.5rem', right: '0.5rem' }}>
+                                    <XCircle onClick={() => this.handleDelete(chatId)} />
+                                </XContainer>
                             </Card>
                         ))
                     }

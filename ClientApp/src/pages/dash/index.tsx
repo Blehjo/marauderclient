@@ -27,7 +27,7 @@ import { CommentContainer, ModalContainer, TextContainer } from "../../styles/mo
 import { AContainer, BadgeContainer } from "../../styles/poststab/poststab.styles";
 import { ContentContainer } from "../../styles/responsivememory/responsivememory.styles";
 
-type DashData = {
+export type DashData = {
     id: number;
     postValue: string;
     mediaLink?: string;

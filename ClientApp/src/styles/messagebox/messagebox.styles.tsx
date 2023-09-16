@@ -2,6 +2,7 @@ import { styled } from "styled-components";
 
 export const FixedBox = styled.div`
     position: fixed;
+    background: black;
     bottom: 0%;
     right: 1%;
     border-radius: 1rem 1rem 0rem 0rem;
@@ -9,10 +10,12 @@ export const FixedBox = styled.div`
     text-align: center;
     width: 20%;
     height: 5%;
+    z-index: 5;
 `;
 
 export const OpenedBox = styled.div`
     position: fixed;
+    background: black;
     bottom: 0%;
     right: 1%;
     border-radius: 1rem 1rem 0rem 0rem;
@@ -20,6 +23,7 @@ export const OpenedBox = styled.div`
     text-align: center;
     width: 20%;
     height: 80%;
+    z-index: 3;
 `;
 
 export const ContainerBox = styled.div`

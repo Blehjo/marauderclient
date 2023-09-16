@@ -35,7 +35,7 @@ export type Chat = {
     chatId: number;
     title: string;
     artificialIntelligenceId: number;
-    artificialIntelligence: ArtificialIntelligence;
+    artificialIntelligences: ArtificialIntelligence;
     dateCreated: Date;
     type: string;
     userId: number | null;

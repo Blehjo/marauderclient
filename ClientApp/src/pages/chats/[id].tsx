@@ -1,4 +1,4 @@
-import { ChangeEvent, Fragment, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, Fragment, useEffect, useState } from "react";
 import { Card, Col, Form, Row } from "react-bootstrap";
 import ReactLoading from "react-loading";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,13 +12,23 @@ import { selectIsChatCommentLoading, selectUserChatcomments } from "../../store/
 import { CardContainer, CommentBarContainer, CommentContainer, FormContainer, SingleChatContainer, TextContainer } from "../../styles/messages/messages.styles";
 import { utcConverter } from "../../utils/date/date.utils";
 import { selectAllComments, selectUserComments } from "../../store/userchatcomment/userchatcomment.selector";
-import { commentFetchSingleStart } from "../../store/userchatcomment/userchatcomment.action";
+import { commentCreateStart, commentFetchSingleStart } from "../../store/userchatcomment/userchatcomment.action";
 import { AContainer } from "../../styles/poststab/poststab.styles";
 import { Comment } from "../../store/comment/comment.types";
 import { UserChatComment } from "../../store/userchatcomment/userchatcomment.types";
+import { addComment } from "../../utils/api/userchatcomment.api";
 
-const defaultFormFields = {
-    chatValue: "",
+interface IForm {
+    commentValue: string;
+    mediaLink: string;
+    imageSource: string | ArrayBuffer | null | undefined;
+    imageFile: File | null;
+    show: boolean;
+}
+
+const defaultFormFields: IForm = {
+    commentValue: "",
+    mediaLink: "",
     imageSource: "",
     imageFile: null,
     show: false
@@ -36,16 +46,10 @@ function SingleChat() {
     const { id } = router.query;
     const chatId = parseInt(Array.isArray(id) ? id[0] : id!);
 
-    async function postComment() {
-
-        // const formData = new FormData();
-        // formData.append('postId', event.target.id)
-        // formData.append('commentValue', formFields.commentValue);
-        // formData.append('mediaLink', formFields.mediaLink);
-        // formData.append('imageFile', formFields.imageFile);
-        // addComment(formData)
-        // .then(() => window.location.reload());
-        // resetFormFields();
+    async function postComment(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        dispatch(commentCreateStart(formFields.commentValue, formFields.imageFile!, chatId));
+        resetFormFields();
     };
 
     const resetFormFields = () =>
@@ -58,8 +62,8 @@ function SingleChat() {
             reader.onload = x => {
                 setFormFields({
                     ...formFields,
-                    // imageFile,
-                    // imageSource: x.target.result
+                    imageFile,
+                    imageSource: x.target?.result
                 })
             }
             reader.readAsDataURL(imageFile)
@@ -68,7 +72,7 @@ function SingleChat() {
             setFormFields({
                 ...formFields,
                 imageFile: null,
-                // imageSource: null
+                imageSource: null
             })
         }
     }
@@ -82,7 +86,7 @@ function SingleChat() {
         dispatch(chatFetchSingleStart(chatId));
         dispatch(chatcommentFetchSingleStart(chatId));
         dispatch(commentFetchSingleStart(chatId));
-    }, [id]);
+    }, [chatId]);
 
     return (
         <Fragment>

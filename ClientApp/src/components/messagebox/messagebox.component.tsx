@@ -1,6 +1,6 @@
 import { ChangeEvent, Component, Dispatch, FormEvent, ReactNode } from "react";
 import { ContainerBox, FixedBox, OpenedBox } from "../../styles/messagebox/messagebox.styles";
-import { ChevronDown, ChevronUp, PencilSquare, ThreeDots, XCircle } from "react-bootstrap-icons";
+import { ChevronDown, ChevronUp, PencilSquare, Search, ThreeDots, XCircle } from "react-bootstrap-icons";
 import { ConnectedProps, connect } from "react-redux";
 import { RootState } from "../../store/store";
 import { MessageCreateStart, MessageDeleteStart, MessageFetchUserMessagesStart, MessageSetID, messageCreateStart, messageDeleteStart, messageFetchUserMessagesStart, messageSetId } from "../../store/message/message.action";
@@ -16,6 +16,13 @@ import { MessageCommentState } from "../../store/messagecomment/messagecomment.r
 import { HubConnectionBuilder } from "@microsoft/signalr";
 import { User } from "../../store/user/user.types";
 import { Marauder } from "../../store/marauder/marauder.types";
+import { ArtificialIntelligenceState } from "../../store/artificialintelligence/artificialintelligence.reducer";
+import { ArtificialIntelligenceChatState } from "../../store/artificialIntelligencechat/artificialintelligencechat.reducer";
+import { ChatState } from "../../store/chat/chat.reducer";
+import { ArtificialIntelligenceFetchUsersStart, artificialIntelligenceFetchUsersStart } from "../../store/artificialintelligence/artificialintelligence.action";
+import { ChatFetchUserChatsStart, chatFetchUserChatsStart } from "../../store/chat/chat.action";
+import { ChatComment } from "../../store/chatcomment/chatcomment.types";
+import { AContainer } from "../../styles/poststab/poststab.styles";
 
 type MessageBoxProps = ConnectedProps<typeof connector>;
 
@@ -144,10 +151,12 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
     
     componentDidMount(): void {
         this.props.getMessages();
+        this.props.getChats();
+        this.props.getCrew();
         this.props.checkUserSession();
     }
 
-    componentDidUpdate(prevProps: Readonly<{ user: User | null; messages: MessageState; messagecomments: MessageCommentState; messagebox: boolean; } & { openMessages: (boolean: boolean) => void; getMessages: () => void; getMessageComments: (messageId: number) => void; createMessage: (messageValue: string, receiverId: string) => void; deleteMessage: (messageId: number) => void; createMessageComment: (messageId: number, messageValue: string, imageFile: File) => void; setId: (messageId: number) => void; setMessageCommentId: (messageCommentId: number) => void; checkUserSession: () => void; }>, prevState: Readonly<IMessageBox>, snapshot?: any): void {
+    componentDidUpdate(prevProps: Readonly<{ user: User | null; crew: ArtificialIntelligenceState; crewMessages: ChatState; chatcomments: ChatComment[]; messages: MessageState; messagecomments: MessageCommentState; messagebox: boolean; } & { openMessages: (boolean: boolean) => void; getMessages: () => void; getMessageComments: (messageId: number) => void; createMessage: (messageValue: string, receiverId: string, marauder: Marauder) => void; deleteMessage: (messageId: number) => void; createMessageComment: (messageId: number, messageValue: string, imageFile: File) => void; setId: (messageId: number) => void; setMessageCommentId: (messageCommentId: number) => void; checkUserSession: () => void; getCrew: () => void; getChats: () => void; }>, prevState: Readonly<IMessageBox>, snapshot?: any): void {
         if (prevProps.messages.messageId != this.props.messages.messageId) {
             this.setState({
                 connection: new HubConnectionBuilder()
@@ -165,9 +174,8 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
             });
         }
     }
-
     render() {
-        const { user, messagebox, messages } = this.props;
+        const { user, messagebox, messages, crewMessages } = this.props;
         return (
             <>
             { 
@@ -175,8 +183,8 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
                 <OpenedBox>
                     <ContainerBox>
                         <Row xs={2}>
-                        <Col >
-                            <Image style={{ width: '2rem', height: '2rem', borderRadius: '1rem', paddingTop: '.3rem' }} fluid src={user?.imageLink ? user?.imageSource! : ""}/>
+                        <Col xs={6}>
+                            <Image style={{ width: '2rem', height: '2rem', borderRadius: '1rem', paddingTop: '.3rem', objectFit: 'cover' }} fluid src={user?.imageLink ? user?.imageSource! : ""}/>
                         </Col>
                         <Col>
                             <div style={{ paddingTop: '.3rem' }}>Comms</div>
@@ -191,23 +199,40 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
                         </div>
                     </ContainerBox>
                     {
-                        this.props.messages.userMessages?.map(({ messageValue, messageId, dateCreated, receiver }) => (
-                            <Card onClick={() => this.handleClick(messageId)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', padding: '.5rem' }} key={messageId}>
-                                <Row key={messageId} xs={2}>
-                                    <Col xs={4}>
-                                        {/* <Image style={{ borderRadius: '.4rem', margin: '.5rem', width: '2rem', height: '2rem', objectFit: 'cover' }} fluid src={receiver.imageSource!} /> */}
-                                    </Col>
-                                    <Col xs={10}>
-                                        <div style={{ alignItems: 'center' }}>
-                                            {messageValue}
-                                        </div>
-                                    </Col>
+                        messages.userMessages?.map(({ messageValue, messageId, dateCreated, receiver }) => (
+                            <Card onClick={() => this.handleClick(messageId)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '1rem 1rem 1rem 1rem', cursor: 'pointer', padding: '.5rem' }} key={messageId}>
+                                <AContainer >
+                                <Row xs={2}>
                                     <Col xs={2}>
-                                        <XContainer>
-                                        <XCircle onClick={() => this.handleDelete(messageId)} />
-                                        </XContainer>
+                                    <Card.Img src={`https://localhost:7144/images/${receiver?.imageLink!}`}/>
+                                    </Col>
+                                    <Col>
+                                    <Card.Text>{messageValue}</Card.Text>
                                     </Col>
                                 </Row>
+                                </AContainer>
+                                <XContainer style={{ position: 'absolute', top: '0.5rem', right: '0.5rem' }}>
+                                    <XCircle onClick={() => this.handleDelete(messageId)} />
+                                </XContainer>
+                            </Card>
+                        ))
+                    }
+                    {
+                        crewMessages.userChats?.map(({ title, chatId, dateCreated, artificialIntelligences }) => (
+                            <Card onClick={() => this.handleClick(chatId)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '1rem 1rem 1rem 1rem', cursor: 'pointer', padding: '.5rem' }} key={chatId}>
+                                <AContainer >
+                                <Row xs={2}>
+                                    <Col xs={2}>
+                                    <Card.Img src={`https://localhost:7144/images/${artificialIntelligences?.imageLink!}`}/>
+                                    </Col>
+                                    <Col>
+                                    <Card.Text>{title}</Card.Text>
+                                    </Col>
+                                </Row>
+                                </AContainer>
+                                <XContainer style={{ position: 'absolute', top: '0.5rem', right: '0.5rem' }}>
+                                    <XCircle onClick={() => this.handleDelete(chatId)} />
+                                </XContainer>
                             </Card>
                         ))
                     }
@@ -215,8 +240,8 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
                 <FixedBox>
                     <ContainerBox>
                         <Row xs={2}>
-                        <Col >
-                            <Image style={{ width: '2rem', height: '2rem', borderRadius: '1rem', paddingTop: '.3rem' }} fluid src={user?.imageLink ? user?.imageSource! : ""}/>
+                        <Col xs={6}>
+                            <Image style={{ width: '2rem', height: '2rem', borderRadius: '1rem', paddingTop: '.3rem', objectFit: 'cover' }} fluid src={user?.imageLink ? user?.imageSource! : ""}/>
                         </Col>
                         <Col>
                             <div style={{ paddingTop: '.3rem' }}>Comms</div>
@@ -226,6 +251,7 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
                     <ContainerBox>
                         <div style={{ position: 'absolute', right: '1rem' }}>
                             <ThreeDots size={20} style={{ cursor: 'pointer' }}/>
+                            <Search size={28} style={{ padding: '0rem .4rem 0rem .4rem', cursor: 'pointer' }}/>
                             <PencilSquare size={30} style={{ padding: '0rem .4rem 0rem .4rem', cursor: 'pointer' }}/>
                             <ChevronUp onClick={this.handleOpen} size={20} style={{ cursor: 'pointer' }}/>
                         </div>
@@ -240,13 +266,16 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
 const mapStateToProps = (state: RootState) => {
     return { 
         user: state.user.currentUser,
+        crew: state.artificialIntelligence,
+        crewMessages: state.chat,
+        chatcomments: state.chatcomment.userChatcomments,
         messages: state.message,
         messagecomments: state.messagecomment,
         messagebox: state.messagebox.isMessagesOpen
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<CheckUserSession | SetIsMessagesOpen | MessageCreateStart | MessageDeleteStart | MessageCommentCreateStart | MessageFetchUserMessagesStart | MessageCommentFetchSingleStart | MessageSetID | MessageCommentSetID>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<ArtificialIntelligenceFetchUsersStart | ChatFetchUserChatsStart | CheckUserSession | SetIsMessagesOpen | MessageCreateStart | MessageDeleteStart | MessageCommentCreateStart | MessageFetchUserMessagesStart | MessageCommentFetchSingleStart | MessageSetID | MessageCommentSetID>) => ({
     openMessages: (boolean: boolean) => dispatch(setIsMessagesOpen(boolean)),
     getMessages: () => dispatch(messageFetchUserMessagesStart()),
     getMessageComments: (messageId: number) => dispatch(messagecommentFetchSingleStart(messageId)),
@@ -255,7 +284,9 @@ const mapDispatchToProps = (dispatch: Dispatch<CheckUserSession | SetIsMessagesO
     createMessageComment: (messageId: number, messageValue: string, imageFile: File) => dispatch(messagecommentCreateStart(messageId, messageValue, imageFile)),
     setId: (messageId: number) => dispatch(messageSetId(messageId)),
     setMessageCommentId: (messageCommentId: number) => dispatch(messageCommentSetId(messageCommentId)),
-    checkUserSession: () => dispatch(checkUserSession())
+    checkUserSession: () => dispatch(checkUserSession()),
+    getCrew: () => dispatch(artificialIntelligenceFetchUsersStart()),
+    getChats: () => dispatch(chatFetchUserChatsStart()),
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

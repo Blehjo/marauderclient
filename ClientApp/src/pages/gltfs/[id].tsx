@@ -46,14 +46,8 @@ function SingleGltf() {
 
     async function postComment(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        const formData = new FormData();
-        formData.append('commentValue', formFields.commentValue);
-        formData.append('mediaLink', formFields.mediaLink);
-        formData.append('imageSource', "");
-        formData.append('imageFile', formFields.imageFile!);
-        addComment(gltfId, formData)
-        // .then(() => window.location.reload());
-        // resetFormFields();
+        dispatch(commentCreateStart(formFields.commentValue, formFields.imageFile!, gltfId));
+        resetFormFields();
     };
 
     const resetFormFields = () =>

@@ -57,7 +57,7 @@ export const TextContainer = styled.div`
     padding: .2rem;
     color: white;
     margin: .5rem;
-    width: 100%;
+    width: 90%;
     text-align: left;
     z-index: 20;
 `;
@@ -140,7 +140,7 @@ export const CommentBarContainer = styled.div`
 export const FormContainer = styled.div`
     @media (min-width: 900px) {
         position: fixed;
-        bottom: 0;
+        bottom: 2rem;
         right: 0;
         width: 18rem; 
         background: black;
@@ -213,6 +213,7 @@ export const CommentContainer = styled.div`
         color: white;
         margin-top: 3.5rem;
         float: right;
+        z-index: 2;
     }
 
     @media (max-width: 899px) {

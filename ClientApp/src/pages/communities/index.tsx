@@ -79,12 +79,6 @@ class Communities extends Component<CommunityProps, ICommunity> {
         }
     }
 
-    // componentDidUpdate(prevProps: Readonly<{ communities: Community[]; singleCommunity: Community | null; members: Member[] | null; } & { getAll: () => void; getCommunity: (communityId: number) => void; createCommunity: (communityName: string, description: string, mediaLink: string, imageFile: File) => void; joinCommunity: (communityId: number) => void; getMembers: (communityId: number) => void; }>, prevState: Readonly<ICommunity>, snapshot?: any): void {
-    //     if (prevProps.communities.length != this.props.communities.length) {
-    //         this.props.getAll();
-    //     }
-    // }
-
     componentDidUpdate(prevProps: Readonly<{ communities: Community[]; singleCommunity: Community | null; members: MemberState; } & { getAll: () => void; getCommunity: (communityId: number) => void; createCommunity: (communityName: string, description: string, mediaLink: string, imageFile: File) => void; joinCommunity: (communityId: number) => void; getMembers: (communityId: number) => void; }>, prevState: Readonly<ICommunity>, snapshot?: any): void {
         if (prevProps.communities.length != this.props.communities.length) {
             this.props.getAll();

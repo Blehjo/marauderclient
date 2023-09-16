@@ -34,6 +34,7 @@ function SingleCommunity(props: SingleCommunityProps) {
 const mapToStateProps = (state: RootState) => {
     return { 
         user: state.user.currentUser,
+        main: state.user.currentUser,
         channels: state.channel,
         channelcomments: state.channelcomment,
         chats: state.chat,

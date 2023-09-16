@@ -51,14 +51,11 @@ export class Searchbar extends Component<{}, DefaultProps> {
 
     componentDidUpdate(prevProps: Readonly<{}>, prevState: Readonly<DefaultProps>, snapshot?: any): void {
         const { searchField } = this.state;
-        // if (this.state.searchField.length > 0) {
-            if (prevState.searchField.length != this.state.searchField.length) {
-                console.log("HELLOO::::: ", searchField.length)
-                this.setState({
-                    show: true
-                })
-            }
-        // }
+        if (prevState.searchField.length != this.state.searchField.length) {
+            this.setState({
+                show: true
+            })
+        }
     }
 
     onSearchChange = (event: ChangeEvent<HTMLInputElement>): void => {

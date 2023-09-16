@@ -21,11 +21,11 @@ export class AiList extends Component<ISearchProps> {
 
         return (
             <div className='card-list'>
-                {artificialIntelligences.length > 0 && <div style={{ margin: ".5rem", color: "black" }}>
+                {artificialIntelligences.length > 0 && <div style={{ margin: ".5rem", color: "white" }}>
                     A.I.s
                 </div>}
                 {artificialIntelligences.slice(0,5).map(artificialIntelligence => (
-                    <Card bg="dark" style={{ margin: ".2rem", position: "relative" }} key={artificialIntelligence.artificialIntelligenceId} >
+                    <Card bg="dark" style={{ margin: ".2rem", position: "relative", color: 'white' }} key={artificialIntelligence.artificialIntelligenceId} >
                         <Row xs={2}>
                             <Col xs={10}>
                                 <Card.Body>{artificialIntelligence.name}</Card.Body>
@@ -42,7 +42,7 @@ export class AiList extends Component<ISearchProps> {
                     Chats
                 </div>}
                 {chats.slice(0,5).map(chat => (
-                    <Card bg="dark" style={{ margin: ".2rem", position: "relative" }} key={chat.chatId} >
+                    <Card bg="dark" style={{ margin: ".2rem", position: "relative", color: 'white' }} key={chat.chatId} >
                         <Row xs={2}>
                             <Col xs={10}>
                                 <Card.Body>{chat.title}</Card.Body>
@@ -55,11 +55,11 @@ export class AiList extends Component<ISearchProps> {
                         </Row>
                     </Card>
                 ))}
-                {chatcomments.length > 0 && <div style={{ margin: ".5rem", color: "black" }}>
+                {chatcomments.length > 0 && <div style={{ margin: ".5rem", color: "white" }}>
                     Comments
                 </div>}
                 {chatcomments.slice(0,5).map(chatcomment => (
-                    <Card bg="dark" style={{ margin: ".2rem", position: "relative" }} key={chatcomment.chatCommentId} >
+                    <Card bg="dark" style={{ margin: ".2rem", position: "relative", color: 'white' }} key={chatcomment.chatCommentId} >
                         <Row xs={2}>
                             <Col xs={10}>
                                 <Card.Body>{chatcomment.chatValue}</Card.Body>

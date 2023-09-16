@@ -17,12 +17,12 @@ export class MessageList extends Component<ISearchProps> {
     render() {
         const { users, messages } = this.props;
         return (
-            <div className='card-list'>
-                {users.length > 0 && <div style={{ margin: ".5rem", color: "black" }}>
+            <div style={{ background: 'black' }} className='card-list'>
+                {users.length > 0 && <div style={{ margin: ".5rem", color: "white" }}>
                     Users
                 </div>}
                 {users.slice(0,5).map(user => (
-                    <Card bg="dark" style={{ margin: ".2rem", position: "relative" }} key={user.userId} >
+                    <Card bg="dark" style={{ margin: ".2rem", position: "relative", color: 'white' }} key={user.userId} >
                         <Row xs={2}>
                             <Col xs={10}>
                                 <Card.Body>{user.username}</Card.Body>
@@ -35,11 +35,11 @@ export class MessageList extends Component<ISearchProps> {
                         </Row>
                     </Card>
                 ))}
-                {messages.length > 0 && <div style={{ margin: ".5rem", color: "black" }}>
+                {messages.length > 0 && <div style={{ margin: ".5rem", color: 'white' }}>
                     Messages
                 </div>}
                 {messages.slice(0,5).map(message => (
-                    <Card bg="dark" style={{ margin: ".2rem", position: "relative" }} key={message.messageId} >
+                    <Card bg="dark" style={{ margin: ".2rem", position: "relative", color: 'white' }} key={message.messageId} >
                         <Row xs={2}>
                             <Col xs={10}>
                                 <Card.Body>{message.messageValue}</Card.Body>

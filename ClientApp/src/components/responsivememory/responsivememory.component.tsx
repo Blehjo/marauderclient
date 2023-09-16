@@ -52,7 +52,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
             this.props.getComments(id);
             this.props.getUserComments(id);
             this.setState({
-                ...this.state, type: type, contentId: id
+                ...this.state, type: "chats", contentId: id
             });
         } else if (type === "post") {
             this.props.getPost(id);
@@ -236,7 +236,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
         const { gltfId, fileInformation, mediaLink, gltfComments, favorites, type, imageSource, user } = prop;
         return (
             <Card key={gltfId} style={{ background: 'black', border: 'solid 1px white', padding: '.5rem', margin: '.3rem', color: 'white'}}>
-                <Card.Img src={mediaLink ? imageSource : "https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"}/>
+                <Card.Img src={"https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"}/>
                 <Card.ImgOverlay>
                     <div style={{ cursor: "pointer", position: "absolute", left: "0", top: "0" }}>
                         <BadgeContainer>
@@ -286,8 +286,8 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                         </BadgeContainer>
                         {
                             <BadgeContainer><Badge style={{ color: 'black' }} bg="light">
-                                <Chat size={15}/>
-                                {` ${channels?.length > 0 ? channels?.length : ""}`}
+                                <Person size={15}/>
+                                {` ${members?.length > 0 ? members?.length : ""}`}
                                 </Badge>
                             </BadgeContainer>
                         }
@@ -295,7 +295,6 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                             <BadgeContainer>
                                 <Badge style={{ color: 'black' }} bg="light">
                                 <Plus onClick={() => this.props.joinCommunity(communityId)} size={15}/>
-                                {` ${members?.length > 0 ? members?.length : ""}`}
                                 </Badge>
                             </BadgeContainer>
                         }
@@ -334,15 +333,15 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                 content.push(this.gltfFunction(gltfs[i]))
             }
         } else if (favorites && favorites.length > 0) {
-            for (let i = 0; i < favorites.favorites?.length!; i++) {
-                if (favorites.favorites[i].type === "post") {
-                    content.push(this.postFunction(favorites.favorites[i]))
+            for (let i = 0; i < favorites.length; i++) {
+                if (favorites[i].type === "post") {
+                    content.push(this.postFunction(favorites[i]))
                 }
-                if (favorites.favorites[i].type === "chat") {
-                    content.push(this.chatFunction(favorites.favorites[i]))
+                if (favorites[i].type === "chat") {
+                    content.push(this.chatFunction(favorites[i]))
                 } 
-                if (favorites.favorites[i].type === "gltf") {
-                    content.push(this.gltfFunction(favorites.favorites[i]))
+                if (favorites[i].type === "gltf") {
+                    content.push(this.gltfFunction(favorites[i]))
                 }
             }
         } else {
