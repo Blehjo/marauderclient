@@ -1,7 +1,7 @@
 import { Component, ReactNode } from "react";
 import { CloseButton, Col, Image, Modal, Nav, Offcanvas, Row } from "react-bootstrap";
 import { UserInterfaceCanvasContainer } from "../../styles/userinterfacecanvas/userinterfacecanvas.styles";
-import { ChatDots, ChatLeft, Collection, Controller, DeviceHdd, DeviceSsd, DoorClosed, DoorOpen, Eye, Gear, LayoutTextWindowReverse, Lightbulb, PersonBadge, Robot, Screwdriver, Star } from "react-bootstrap-icons";
+import { ChatDots, ChatLeft, Collection, Controller, DeviceHdd, DeviceSsd, DoorClosed, DoorOpen, Eye, Gear, LayoutTextWindowReverse, Lightbulb, People, PersonBadge, Robot, Screwdriver, Star } from "react-bootstrap-icons";
 import { RootState } from "../../store/store";
 import Authentication from "../../pages/authentication";
 
@@ -39,7 +39,7 @@ class UserInterfaceCanvas extends Component<any, IUserCanvas> {
         const { show, handleClick, user, signOut } = this.props;
         return (
             <UserInterfaceCanvasContainer>
-                <Offcanvas style={{ background: 'black', width: '25%', borderRadius: '.5rem 0rem 0rem .5rem', color: 'white' }} scroll backdrop={false} placement="end" show={show} onHide={handleClick}>
+                <Offcanvas style={{ background: 'black', width: '25%', borderRadius: '.5rem 0rem 0rem .5rem', borderTop: '1px solid white', borderLeft: '1px solid white', borderBottom: '1px solid white', color: 'white' }} scroll backdrop={false} placement="end" show={show} onHide={handleClick}>
                     <Offcanvas.Header >
                     {user && <Offcanvas.Title style={{ lineHeight: '1.5rem'}}>
                             <Row xs={2}>
@@ -93,6 +93,14 @@ class UserInterfaceCanvas extends Component<any, IUserCanvas> {
                             Profile
                         </Nav.Link>
                     </Nav.Item>
+                    <Nav.Item className="ms-4 d-flex align-items-center">
+                        <a href="/explore">
+                        <Eye className='icons' color="white" />
+                        </a>
+                        <Nav.Link href="/explore" className="tools ms-4">
+                            Explore
+                        </Nav.Link>
+                    </Nav.Item>
                     <hr style={{ color: 'white' }}/>
                     <Nav.Item className="ms-4 d-flex align-items-center">
                         <a href="/crew">
@@ -108,14 +116,6 @@ class UserInterfaceCanvas extends Component<any, IUserCanvas> {
                         </a>
                         <Nav.Link href="/messages" className="tools ms-4">
                             Messages
-                        </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item className="ms-4 d-flex align-items-center">
-                        <a href="/explore">
-                        <Eye className='icons' color="white" />
-                        </a>
-                        <Nav.Link href="/explore" className="tools ms-4">
-                            Explore
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item className="ms-4 d-flex align-items-center">
@@ -144,6 +144,14 @@ class UserInterfaceCanvas extends Component<any, IUserCanvas> {
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item className="ms-4 d-flex align-items-center">
+                            <a href="/communities">
+                            <People className='icons' color="white" />
+                            </a>
+                            <Nav.Link href="/communities" className="tools ms-4">
+                                Communities
+                            </Nav.Link>
+                        </Nav.Item>
+                    <Nav.Item className="ms-4 d-flex align-items-center">
                         <a href="/posts">
                         <Collection className='icons' color="white" />
                         </a>
@@ -151,6 +159,14 @@ class UserInterfaceCanvas extends Component<any, IUserCanvas> {
                             Posts
                         </Nav.Link>
                     </Nav.Item>
+                    <Nav.Item className="ms-4 d-flex align-items-center">
+                            <a href="/posts">
+                            <DeviceSsd className='icons' color="white" />
+                            </a>
+                            <Nav.Link href="/gltfs" className="tools ms-4">
+                                Files
+                            </Nav.Link>
+                        </Nav.Item>
                     <Nav.Item className="ms-4 d-flex align-items-center">
                         <a href="/chats">
                         <ChatLeft className='icons' color="white" />
@@ -176,6 +192,7 @@ class UserInterfaceCanvas extends Component<any, IUserCanvas> {
                             Settings
                         </Nav.Link>
                     </Nav.Item>
+                    <hr style={{ color: 'white' }} />
                     <Nav.Item className="ms-4 d-flex align-items-center">
                         {
                             user ?
