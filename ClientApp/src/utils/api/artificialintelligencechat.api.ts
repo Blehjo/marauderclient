@@ -33,7 +33,7 @@ export async function getAllArtificialIntelligenceChats(): Promise<ArtificialInt
   return result;
 }
 
-export async function getOtherUserArtificialIntelligenceChats(userId: number): Promise<ArtificialIntelligenceChat[]> {
+export async function getOtherUserArtificialIntelligenceChats(userId: string): Promise<ArtificialIntelligenceChat[]> {
   const response = await axios({
     method: 'get',
     url: `${api}/user/${userId}`,

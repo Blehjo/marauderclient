@@ -30,7 +30,7 @@ export async function getAllComments(): Promise<Comment[]> {
   return result;
 }
 
-export async function getUserComments(userId: number): Promise<Comment[]> {
+export async function getUserComments(userId: string): Promise<Comment[]> {
   const response = await axios({
     method: 'get',
     url: `${api}/user/${userId}`,

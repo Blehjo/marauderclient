@@ -5,13 +5,13 @@ import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 import { Chat as ChatContent } from "../../store/chat/chat.types";
 import { Community } from "../../store/community/community.types";
+import { Gltf } from "../../store/gltf/gltf.types";
 import { Marauder } from "../../store/marauder/marauder.types";
 import { Post } from "../../store/post/post.types";
 import { BadgeContainer, ResponsiveMemoryContainer } from "../../styles/responsivememory/responsivememory.styles";
 import { utcConverter } from "../../utils/date/date.utils";
 import MessagemodalComponent from "../messagemodal/messagemodal.component";
 import ModalContent from "../modal/modal.component";
-import { Gltf } from "../../store/gltf/gltf.types";
 
 interface IDefaultFormFields {
     commentValue: string;
@@ -78,7 +78,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
         });
     }
 
-    handleProfile(userId: number): void {
+    handleProfile(userId: string): void {
         this.props.getMarauder(userId);
     }
 

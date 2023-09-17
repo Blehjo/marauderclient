@@ -1,10 +1,10 @@
 import { ARTIFICIALINTELLIGENCE_ACTION_TYPES, ArtificialIntelligence } from './artificialintelligence.types';
 
 import {
-  createAction,
-  withMatcher,
-  Action,
-  ActionWithPayload
+    Action,
+    ActionWithPayload,
+    createAction,
+    withMatcher
 } from '../../utils/reducer/reducer.utils';
 
 export type ArtificialIntelligenceCreateStart = ActionWithPayload<
@@ -78,7 +78,7 @@ export type ArtificialIntelligenceFetchUsersFailed = ActionWithPayload<
 >;
 
 export type ArtificialIntelligenceFetchOtherUsersStart = ActionWithPayload<
-    ARTIFICIALINTELLIGENCE_ACTION_TYPES.FETCH_OTHER_USER_ARTIFICIALINTELLIGENCE_START, { userId: number }
+    ARTIFICIALINTELLIGENCE_ACTION_TYPES.FETCH_OTHER_USER_ARTIFICIALINTELLIGENCE_START, { userId: string }
 >;
 
 export type ArtificialIntelligenceFetchOtherUsersSuccess = ActionWithPayload<
@@ -181,7 +181,7 @@ export const artificialIntelligenceFetchUsersFailed = withMatcher(
 );
 
 export const artificialIntelligenceFetchOtherUsersStart = withMatcher(
-    (userId: number): ArtificialIntelligenceFetchOtherUsersStart => 
+    (userId: string): ArtificialIntelligenceFetchOtherUsersStart => 
     createAction(ARTIFICIALINTELLIGENCE_ACTION_TYPES.FETCH_OTHER_USER_ARTIFICIALINTELLIGENCE_START, { userId })
 );
 

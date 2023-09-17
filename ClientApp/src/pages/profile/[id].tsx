@@ -10,16 +10,16 @@ import UserPostsTab from "../../components/poststab/userpoststab.component";
 import { UserProfileCard } from "../../components/profilecard/userprofilecard.component";
 import { ChatDeleteStart, ChatFetchSingleStart, ChatFetchSingleUserChatsStart, ChatFetchUserChatsStart, chatFetchSingleStart, chatFetchSingleUserChatsStart } from "../../store/chat/chat.action";
 import { CommentCreateStart, CommentFetchSingleStart, commentCreateStart, commentFetchSingleStart } from "../../store/comment/comment.action";
-import { CommentCreateStart as UserCommentCreateStart, CommentFetchSingleStart as UserCommentFetchSingleStart, commentCreateStart as userCommentCreateStart, commentFetchSingleStart as userCommentFetchSingleStart } from "../../store/userchatcomment/userchatcomment.action";
 import { CommunityFetchOtherUsercommunitiesStart, CommunityFetchSingleStart, communityFetchOtherUsercommunitiesStart, communityFetchSingleStart } from "../../store/community/community.action";
-import { CommentCreateStart as GltfCommentCreateStart, GltfCommentFetchSingleStart, commentCreateStart as gltfCommentCreateStart } from "../../store/gltfcomment/gltfcomment.action";
 import { EditorFetchAllStart, editorFetchAllStart } from "../../store/editor/editor.action";
 import { FavoriteCreateStart, favoriteCreateStart } from "../../store/favorite/favorite.action";
 import { GltfCreateStart, GltfFetchOtherUserStart, GltfFetchSingleStart, gltfFetchOtherUserStart, gltfFetchSingleStart } from "../../store/gltf/gltf.action";
+import { CommentCreateStart as GltfCommentCreateStart, commentCreateStart as gltfCommentCreateStart } from "../../store/gltfcomment/gltfcomment.action";
 import { MarauderFetchSingleStart, marauderFetchSingleStart } from "../../store/marauder/marauder.action";
 import { PostCreateStart, PostDeleteStart, PostFetchAllStart, PostFetchSingleStart, PostFetchUserPostsStart, postFetchAllStart, postFetchSingleStart, postFetchUserPostsStart } from "../../store/post/post.action";
 import { RootState } from "../../store/store";
 import { CheckUserSession } from "../../store/user/user.action";
+import { CommentCreateStart as UserCommentCreateStart, CommentFetchSingleStart as UserCommentFetchSingleStart, commentCreateStart as userCommentCreateStart, commentFetchSingleStart as userCommentFetchSingleStart } from "../../store/userchatcomment/userchatcomment.action";
 import { UserprofileFetchSingleStart, userprofileFetchSingleStart } from "../../store/userprofile/userprofile.action";
 import { ProfileContainer } from "../../styles/profile/profile.styles";
 
@@ -87,20 +87,20 @@ const mapToStateProps = (state: RootState) => {
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<ChatFetchSingleUserChatsStart | GltfFetchSingleStart | GltfFetchOtherUserStart | UserCommentCreateStart | UserCommentFetchSingleStart | GltfCommentCreateStart | CommunityFetchOtherUsercommunitiesStart | CommunityFetchSingleStart | GltfFetchSingleStart | CheckUserSession | UserprofileFetchSingleStart | MarauderFetchSingleStart | PostFetchAllStart | PostFetchUserPostsStart | PostCreateStart | PostFetchSingleStart | PostDeleteStart | ChatFetchUserChatsStart | ChatFetchSingleStart | ChatDeleteStart | CommentFetchSingleStart | CommentCreateStart | FavoriteCreateStart | EditorFetchAllStart | GltfCreateStart>) => ({
-    getUserProfile: (userId: number) => dispatch(userprofileFetchSingleStart(userId)),
+    getUserProfile: (userId: string) => dispatch(userprofileFetchSingleStart(userId)),
     getMarauder: (userId: string) => dispatch(marauderFetchSingleStart(userId)),
     getAllPosts: () => dispatch(postFetchAllStart()),
-    getUserPosts: (userId: number) => dispatch(postFetchUserPostsStart(userId)),
+    getUserPosts: (userId: string) => dispatch(postFetchUserPostsStart(userId)),
     getPost: (postId: number) => dispatch(postFetchSingleStart(postId)),
     likePost: (postId: number, contentType: string) => dispatch(favoriteCreateStart(postId, contentType)),
     createComment: (commentValue: string, imageFile: File, postId: number) => dispatch(commentCreateStart(commentValue, imageFile, postId)),
     getComments: (planetId: number) => dispatch(commentFetchSingleStart(planetId)),
-    getChats: (userId: number) => dispatch(chatFetchSingleUserChatsStart(userId)),
+    getChats: (userId: string) => dispatch(chatFetchSingleUserChatsStart(userId)),
     getChat: (chatId: number) => dispatch(chatFetchSingleStart(chatId)),
     fetchShapes: () => dispatch(editorFetchAllStart()),
     fetchGltfFiles: (userId: string) => dispatch(gltfFetchOtherUserStart(userId)),
     fetchSingleGltf: (gltfId: number) => dispatch(gltfFetchSingleStart(gltfId)),
-    fetchCommunities: (userId: number) => dispatch(communityFetchOtherUsercommunitiesStart(userId)),
+    fetchCommunities: (userId: string) => dispatch(communityFetchOtherUsercommunitiesStart(userId)),
     fetchSingleCommunity: (communityId: number) => dispatch(communityFetchSingleStart(communityId)),
     createUserComment: (commentValue: string, imageFile: File, chatId: number ) => dispatch(userCommentCreateStart(commentValue, imageFile, chatId)),
     getUserComments: (chatId: number) => dispatch(userCommentFetchSingleStart(chatId)),

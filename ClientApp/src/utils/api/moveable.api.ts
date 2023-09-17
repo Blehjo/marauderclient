@@ -20,7 +20,7 @@ export async function getSingleMoveable(moveableId: number): Promise<Moveable> {
   return result;
 }
 
-export async function getUserMoveables(userId: number): Promise<Moveable[]> {
+export async function getUserMoveables(userId: string): Promise<Moveable[]> {
   const response = await axios({
     method: 'get',
     url: `${api}/${userId}`,

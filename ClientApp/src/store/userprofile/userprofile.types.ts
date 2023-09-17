@@ -27,7 +27,7 @@ export enum USERPROFILE_ACTION_TYPES {
 };
 
 export type Userprofile = {
-    userId: number | null;
+    userId: string | null;
     username: string | null;
     firstName: string | null;
     lastName: string | null;

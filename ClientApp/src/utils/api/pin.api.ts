@@ -19,7 +19,7 @@ export async function getSinglePin(pinId: number): Promise<Pin> {
   return result;
 }
 
-export async function getUserPins(userId: number): Promise<Pin[]> {
+export async function getUserPins(userId: string): Promise<Pin[]> {
   const response = await axios({
     method: 'get',
     url: `${api}/${userId}`,

@@ -5,6 +5,7 @@ export const FixedBox = styled.div`
     background: black;
     bottom: 1%;
     right: 1%;
+    padding-top: .2rem;
     border-radius: .5rem .5rem .5rem .5rem;
     border: white 1px solid;
     text-align: center;
@@ -16,6 +17,7 @@ export const FixedBox = styled.div`
 export const OpenedBox = styled.div`
     position: fixed;
     background: black;
+    padding-top: .2rem;
     bottom: 1%;
     right: 1%;
     border-radius: .5rem .5rem .5rem .5rem;

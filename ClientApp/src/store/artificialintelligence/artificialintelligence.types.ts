@@ -32,7 +32,7 @@ export type ArtificialIntelligence = {
     imageLink: string | null;
     imageSource: string;
     dateCreated: Date | null;
-    userId: number | null,
+    userId: string | null,
     chats: Chat[] | null;
     chatcomments: ChatComment[] | null;
 }

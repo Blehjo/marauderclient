@@ -80,7 +80,7 @@ export type ArtificialIntelligenceChatFetchUsersFailed = ActionWithPayload<
 >;
 
 export type ArtificialIntelligenceChatFetchOtherUsersStart = ActionWithPayload<
-    ARTIFICIALINTELLIGENCECHAT_ACTION_TYPES.FETCH_OTHER_USER_ARTIFICIALINTELLIGENCE_START, { userId: number }
+    ARTIFICIALINTELLIGENCECHAT_ACTION_TYPES.FETCH_OTHER_USER_ARTIFICIALINTELLIGENCE_START, { userId: string }
 >;
 
 export type ArtificialIntelligenceChatFetchOtherUsersSuccess = ActionWithPayload<
@@ -183,7 +183,7 @@ export const artificialIntelligenceChatFetchUsersFailed = withMatcher(
 );
 
 export const artificialIntelligenceChatFetchOtherUsersStart = withMatcher(
-    (userId: number): ArtificialIntelligenceChatFetchOtherUsersStart => 
+    (userId: string): ArtificialIntelligenceChatFetchOtherUsersStart => 
     createAction(ARTIFICIALINTELLIGENCECHAT_ACTION_TYPES.FETCH_OTHER_USER_ARTIFICIALINTELLIGENCE_START, { userId })
 );
 

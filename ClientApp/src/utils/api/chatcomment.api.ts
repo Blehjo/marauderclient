@@ -30,7 +30,7 @@ export async function getAllChatComments(): Promise<ChatComment[]> {
   return result;
 }
 
-export async function getUserChatComments(userId: number): Promise<ChatComment[]> {
+export async function getUserChatComments(userId: string): Promise<ChatComment[]> {
   const response = await axios({
     method: 'get',
     url: `${api}/user/${userId}`,

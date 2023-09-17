@@ -32,7 +32,7 @@ export type MessageComment = {
     type: string | null;
     dateCreated: Date;
     messageId: number | null;
-    userId: number | null;
+    userId: string | null;
     user: User | null;
     favorites: Favorite[] | null;
 }

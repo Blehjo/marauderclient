@@ -22,6 +22,6 @@ export enum FOLLOWER_ACTION_TYPES  {
 export type Follower = {
     followerId: number | null;
     followerUser: number;
-    userId: number | null;
+    userId: string | null;
     dateCreated: Date | null;
 }

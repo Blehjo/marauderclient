@@ -21,7 +21,7 @@ export enum USER_ACTION_TYPES {
 };
 
 export type User = {
-    userId: number;
+    userId: string;
     username: string | null;
     firstName: string | null;
     lastName: string | null;

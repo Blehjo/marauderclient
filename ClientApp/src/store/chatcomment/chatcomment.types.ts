@@ -25,5 +25,5 @@ export type ChatComment = {
     mediaLink: string | null;
     type: string | null;
     dateCreated: Date;
-    userId: number | null,
+    userId: string | null,
 }

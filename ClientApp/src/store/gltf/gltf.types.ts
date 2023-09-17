@@ -36,6 +36,6 @@ export type Gltf = {
     imageSource: string;
     gltfComments: GltfComment[];
     user: User;
-    userId: number;
+    userId: string;
     shapes: Editor;
 }

@@ -168,7 +168,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<CheckUserSession | UserprofileFetchSingleStart | CheckUserSession>) => ({
     getCurrentUser: () => dispatch(checkUserSession()),
-    getUser: (userId: number | undefined) => dispatch(userprofileFetchSingleStart(userId)),
+    getUser: (userId: string | undefined) => dispatch(userprofileFetchSingleStart(userId)),
     checkUserSession: () => dispatch(checkUserSession())
 });
 

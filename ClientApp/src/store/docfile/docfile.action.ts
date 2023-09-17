@@ -67,7 +67,7 @@ export type DocFileFetchSingleFailed = ActionWithPayload<
 >;
 
 export type DocFileFetchAllUserStart = ActionWithPayload<
-    DOCFILE_ACTION_TYPES.FETCH_ALL_USER_START, { userId: number }
+    DOCFILE_ACTION_TYPES.FETCH_ALL_USER_START, { userId: string }
 >;
 
 export type DocFileFetchAllUserSuccess = ActionWithPayload<
@@ -155,7 +155,7 @@ export const docFileFetchSingleFailed = withMatcher(
 );
 
 export const docFileFetchAllUserStart = withMatcher(
-    (userId: number): DocFileFetchAllUserStart => 
+    (userId: string): DocFileFetchAllUserStart => 
     createAction(DOCFILE_ACTION_TYPES.FETCH_ALL_USER_START, { userId })
 );
 

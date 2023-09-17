@@ -31,7 +31,7 @@ export async function getAllMessages(): Promise<Message[]> {
   return result;
 }
 
-export async function getUserMessages(userId: number): Promise<Message[]> {
+export async function getUserMessages(userId: string): Promise<Message[]> {
   const response = await axios({
     method: 'get',
     url: `${api}/user/${userId}`,

@@ -30,7 +30,7 @@ export type Post = {
     imageSource: string;
     type: string;
     dateCreated: Date;
-    userId: number | null,
+    userId: string | null,
     user: User,
     comments: Comment[];
     favorites: Favorite[];

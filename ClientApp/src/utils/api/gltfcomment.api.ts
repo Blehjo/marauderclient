@@ -30,7 +30,7 @@ export async function getAllComments(): Promise<GltfComment[]> {
   return result;
 }
 
-export async function getUserComments(userId: number): Promise<GltfComment[]> {
+export async function getUserComments(userId: string): Promise<GltfComment[]> {
   const response = await axios({
     method: 'get',
     url: `${api}/user/${userId}`,

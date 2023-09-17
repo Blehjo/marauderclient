@@ -44,7 +44,7 @@ export async function addMember(communityId: number): Promise<Member[]> {
   return result;
 }
 
-export async function editMember(memberId: number, communityId: number, userId: number): Promise<Member[]> {
+export async function editMember(memberId: number, communityId: number, userId: string): Promise<Member[]> {
   const response = await axios({
     method: 'put',
     url:`${api}/${memberId}`, 

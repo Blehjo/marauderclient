@@ -80,7 +80,7 @@ export async function addChat(title: string, artificialIntelligenceId: number): 
   return result;
 }
 
-export async function editChat(chatId: number, title: string, userId: number): Promise<Chat[]> {
+export async function editChat(chatId: number, title: string, userId: string): Promise<Chat[]> {
   const response = await axios({
     method: 'put',
     url: `${api}/${chatId}`, 

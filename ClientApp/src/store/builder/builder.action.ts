@@ -1,10 +1,10 @@
 import { BUILDER_ACTION_TYPES, Builder } from './builder.types';
 
 import {
-  createAction,
-  withMatcher,
-  Action,
-  ActionWithPayload
+    Action,
+    ActionWithPayload,
+    createAction,
+    withMatcher
 } from '../../utils/reducer/reducer.utils';
 import { Brick } from './builder.reducer';
 
@@ -79,7 +79,7 @@ export type BuilderFetchUsersFailed = ActionWithPayload<
 >;
 
 export type BuilderFetchOtherUsersStart = ActionWithPayload<
-    BUILDER_ACTION_TYPES.FETCH_OTHER_USER_BUILDER_START, { userId: number }
+    BUILDER_ACTION_TYPES.FETCH_OTHER_USER_BUILDER_START, { userId: string }
 >;
 
 export type BuilderFetchOtherUsersSuccess = ActionWithPayload<
@@ -198,7 +198,7 @@ export const builderFetchUsersFailed = withMatcher(
 );
 
 export const builderFetchOtherUsersStart = withMatcher(
-    (userId: number): BuilderFetchOtherUsersStart => 
+    (userId: string): BuilderFetchOtherUsersStart => 
     createAction(BUILDER_ACTION_TYPES.FETCH_OTHER_USER_BUILDER_START, { userId })
 );
 

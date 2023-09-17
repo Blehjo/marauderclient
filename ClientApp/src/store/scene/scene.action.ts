@@ -1,10 +1,10 @@
 import { SCENE_ACTION_TYPES, Scene } from './scene.types';
 
 import {
-  createAction,
-  withMatcher,
-  Action,
-  ActionWithPayload
+    Action,
+    ActionWithPayload,
+    createAction,
+    withMatcher
 } from '../../utils/reducer/reducer.utils';
 
 import { Brick } from '../builder/builder.reducer';
@@ -80,7 +80,7 @@ export type SceneFetchUsersFailed = ActionWithPayload<
 >;
 
 export type SceneFetchOtherUsersStart = ActionWithPayload<
-    SCENE_ACTION_TYPES.FETCH_OTHER_USER_SCENE_START, { userId: number }
+    SCENE_ACTION_TYPES.FETCH_OTHER_USER_SCENE_START, { userId: string }
 >;
 
 export type SceneFetchOtherUsersSuccess = ActionWithPayload<
@@ -203,7 +203,7 @@ export const sceneFetchUsersFailed = withMatcher(
 );
 
 export const sceneFetchOtherUsersStart = withMatcher(
-    (userId: number): SceneFetchOtherUsersStart => 
+    (userId: string): SceneFetchOtherUsersStart => 
     createAction(SCENE_ACTION_TYPES.FETCH_OTHER_USER_SCENE_START, { userId })
 );
 

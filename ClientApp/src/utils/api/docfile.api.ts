@@ -20,7 +20,7 @@ export async function getSingleDocFile(docFileId: number): Promise<DocFile> {
   return result;
 }
 
-export async function getUserDocFiles(userId: number): Promise<DocFile[]> {
+export async function getUserDocFiles(userId: string): Promise<DocFile[]> {
   const response = await axios({
     method: 'get',
     url: `${api}/${userId}`,

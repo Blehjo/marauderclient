@@ -1,10 +1,10 @@
 import { FAVORITE_ACTION_TYPES, Favorite } from './favorite.types';
 
 import {
-  createAction,
-  withMatcher,
-  Action,
-  ActionWithPayload
+    Action,
+    ActionWithPayload,
+    createAction,
+    withMatcher
 } from '../../utils/reducer/reducer.utils';
 
 export type FavoriteCreateStart = ActionWithPayload<
@@ -66,7 +66,7 @@ export type FavoriteFetchSingleFailed = ActionWithPayload<
 >;
 
 export type FavoriteFetchSingleUserFavoritesStart = ActionWithPayload<
-    FAVORITE_ACTION_TYPES.FETCH_SINGLE_USER_FAVORITES_START, { userId: number }
+    FAVORITE_ACTION_TYPES.FETCH_SINGLE_USER_FAVORITES_START, { userId: string }
 >;
 
 export type FavoriteFetchSingleUserFavoritesSuccess = ActionWithPayload<
@@ -168,7 +168,7 @@ export const favoriteFetchSingleFailed = withMatcher(
 );
 
 export const favoriteFetchSingleUserFavoritesStart = withMatcher(
-    (userId: number): FavoriteFetchSingleUserFavoritesStart => 
+    (userId: string): FavoriteFetchSingleUserFavoritesStart => 
     createAction(FAVORITE_ACTION_TYPES.FETCH_SINGLE_USER_FAVORITES_START, { userId }
 ));
 

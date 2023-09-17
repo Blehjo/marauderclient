@@ -1,10 +1,10 @@
 import { COMMENT_ACTION_TYPES, Comment } from './comment.types';
 
 import {
-  createAction,
-  withMatcher,
-  Action,
-  ActionWithPayload
+    Action,
+    ActionWithPayload,
+    createAction,
+    withMatcher
 } from '../../utils/reducer/reducer.utils';
 
 export type CommentCreateStart = ActionWithPayload<
@@ -68,7 +68,7 @@ export type CommentFetchSingleFailed = ActionWithPayload<
 
 export type CommentFetchUserChatsStart = ActionWithPayload<
     COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_START,
-    { userId: number }
+    { userId: string }
 >;
 
 export type CommentFetchUserChatsSuccess = ActionWithPayload<
@@ -111,7 +111,7 @@ export const commentCreateFailed = withMatcher(
 );
  
 export const commentUpdateStart = withMatcher(
-    (commentId: number, commentValue: string, mediaLink: string, userId: number): CommentUpdateStart => 
+    (commentId: number, commentValue: string, mediaLink: string, userId: string): CommentUpdateStart => 
     createAction(COMMENT_ACTION_TYPES.UPDATE_START, { commentId, commentValue, mediaLink, userId })
 );
 
@@ -156,7 +156,7 @@ export const commentFetchSingleFailed = withMatcher(
 );
 
 export const commentFetchUserChatsStart = withMatcher(
-    (userId: number): CommentFetchUserChatsStart => 
+    (userId: string): CommentFetchUserChatsStart => 
     createAction(COMMENT_ACTION_TYPES.FETCH_USER_COMMENTS_START, { userId })
 );
 

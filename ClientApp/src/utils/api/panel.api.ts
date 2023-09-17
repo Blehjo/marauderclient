@@ -20,7 +20,7 @@ export async function getSinglePanel(panelId: number): Promise<Panel[]> {
   return result;
 }
 
-export async function getUserPanels(userId: number): Promise<Panel[]> {
+export async function getUserPanels(userId: string): Promise<Panel[]> {
   const response = await axios({
     method: 'get',
     url: `${api}/user/${userId}`,

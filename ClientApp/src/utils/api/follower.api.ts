@@ -30,7 +30,7 @@ export async function getUserFollowers(): Promise<Follower[]> {
   return result;
 }
 
-export async function getFollowers(userId: number): Promise<Follower[]> {
+export async function getFollowers(userId: string): Promise<Follower[]> {
   const response = await axios({
     method: 'get',
     url: `${api}/users/${userId}`, 

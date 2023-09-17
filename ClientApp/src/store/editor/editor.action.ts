@@ -1,13 +1,12 @@
 import { EDITOR_ACTION_TYPES, Editor } from './editor.types';
 
+import { Vector3 } from '@react-three/fiber';
 import {
     Action,
     ActionWithPayload,
     createAction,
     withMatcher
 } from '../../utils/reducer/reducer.utils';
-import { ReactNode } from 'react';
-import { Vector3 } from '@react-three/fiber';
 
 export type EditorCreateStart = ActionWithPayload<
     EDITOR_ACTION_TYPES.CREATE_START, { shapeName: string, position?: Vector3, height?: number, width?: number, depth?: number, radius?: number, length?: number, color?: string, gltfId: number }
@@ -80,7 +79,7 @@ export type EditorFetchUsersFailed = ActionWithPayload<
 >;
 
 export type EditorFetchOtherUsersStart = ActionWithPayload<
-    EDITOR_ACTION_TYPES.FETCH_OTHER_USER_EDITOR_START, { userId: number }
+    EDITOR_ACTION_TYPES.FETCH_OTHER_USER_EDITOR_START, { userId: string }
 >;
 
 export type EditorFetchOtherUsersSuccess = ActionWithPayload<
@@ -203,7 +202,7 @@ export const editorFetchUsersFailed = withMatcher(
 );
 
 export const editorFetchOtherUsersStart = withMatcher(
-    (userId: number): EditorFetchOtherUsersStart => 
+    (userId: string): EditorFetchOtherUsersStart => 
     createAction(EDITOR_ACTION_TYPES.FETCH_OTHER_USER_EDITOR_START, { userId })
 );
 

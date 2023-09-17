@@ -28,7 +28,7 @@ export type Message = {
     messageId: number;
     messageValue: string | null;
     dateCreated: Date | null;
-    userId: number | null,
+    userId: string | null,
     user: User,
     receiver: User,
     messageComments: MessageComment[];

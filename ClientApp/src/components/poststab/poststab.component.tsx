@@ -1,4 +1,4 @@
-import { ChangeEvent, Component, FormEvent, Fragment } from "react";
+import { ChangeEvent, Component, FormEvent, Fragment, ReactNode } from "react";
 import { Badge, Card, Col, Form, Image, Modal, Row } from "react-bootstrap";
 import { ArrowsFullscreen, Chat, Rocket, Send, XCircle } from "react-bootstrap-icons";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
@@ -6,9 +6,9 @@ import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { ProfileProps } from "../../pages/profile";
 import { CommentState } from "../../store/comment/comment.reducer";
 import { PostState } from "../../store/post/post.reducer";
-import { AContainer, BadgeContainer, CardContainer, CommentContainer, ModalContainer, ModalPostContainer, PostContainer, TextContainer } from "../../styles/poststab/poststab.styles";
-import { utcConverter } from "../../utils/date/date.utils";
 import { XContainer } from "../../styles/devices/devices.styles";
+import { AContainer, BadgeContainer, CommentContainer, ModalContainer, ModalPostContainer, PostContainer, TextContainer } from "../../styles/poststab/poststab.styles";
+import { Favorite } from "../../store/favorite/favorite.types";
 
 interface IDefaultFormFields {
     commentValue: string;
@@ -65,6 +65,10 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
 
     handleLike(postId: number, type: string): void {
         this.props.likePost(postId, type);
+    }
+
+    handleUnlike(favoriteId: number): any {
+        this.props.unlikePost(favoriteId);
     }
 
     handleCreate(): void {
@@ -152,11 +156,38 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
         }
     }
 
+    checkFavorites(favorite: Favorite, userId: string): boolean {
+        if (favorite.userId == userId) {
+            return true;
+        }
+        return false;
+    }
+    
+    checksFavorites(favorites: Favorite[], postId: number, type: string, userId: string): ReactNode {
+        const filteredFavorites = favorites.filter(favorite => favorite.userId)
+
+        for (let i = 0; i < filteredFavorites.length; i++) {
+            if (filteredFavorites[i].userId == userId) {
+                return (
+                    <>
+                        <Rocket style={{ cursor: 'pointer', color: 'red' }} size={15} onClick={this.handleUnlike(filteredFavorites[i]?.favoriteId!)}/>
+                        {` ${favorites?.length > 0 ? favorites?.length : ""}`}
+                    </>
+                );
+            };
+        }
+        
+        return <>
+            <Rocket style={{ cursor: 'pointer' }} onClick={() => this.handleLike(postId, type)} size={15}/>
+            {` ${favorites?.length > 0 ? favorites?.length : ""}`}
+        </>;
+    }
+
     componentDidMount(): void {
         this.props.getUserPosts(this.props.currentUser?.userId)
     }
 
-    componentDidUpdate(prevProps: Readonly<{ posts: PostState; comments: CommentState; } & { getUserPosts: (userId: number) => void; getComments: (postId: number) => void; }>, prevState: Readonly<IDefaultFormFields>, snapshot?: any): void {
+    componentDidUpdate(prevProps: Readonly<{ posts: PostState; comments: CommentState; } & { getUserPosts: (userId: string) => void; getComments: (postId: number) => void; }>, prevState: Readonly<IDefaultFormFields>, snapshot?: any): void {
         if (this.props.posts.userPosts?.length != prevProps.posts.userPosts?.length) {
             this.props.getUserPosts(this.props.currentUser?.userId);
             this.setState({
@@ -218,8 +249,9 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
                                 {
                                     <BadgeContainer>
                                         <Badge style={{ color: 'black' }} bg="light">
-                                        <Rocket style={{ cursor: 'pointer' }} onClick={() => this.handleLike(postId, type)} size={15}/>
-                                        {` ${favorites?.length > 0 ? favorites?.length : ""}`}
+                                        {
+                                            this.checksFavorites(favorites, postId, type, currentUser?.userId!)
+                                        }
                                         </Badge>
                                     </BadgeContainer>
                                 }

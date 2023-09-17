@@ -1,5 +1,5 @@
 import { ArtificialIntelligence } from "../artificialintelligence/artificialintelligence.types";
-import { ChatComment } from "../chatcomment/chatcomment.types"
+import { ChatComment } from "../chatcomment/chatcomment.types";
 import { Comment } from "../comment/comment.types";
 import { Favorite } from "../favorite/favorite.types";
 import { User } from "../user/user.types";
@@ -38,7 +38,7 @@ export type Chat = {
     artificialIntelligences: ArtificialIntelligence;
     dateCreated: Date;
     type: string;
-    userId: number | null;
+    userId: string | null;
     user: User;
     chatComments: ChatComment[];
     userChatComments: UserChatComment[];

@@ -19,7 +19,7 @@ export async function getSingleFavorite(favoriteId: number): Promise<Favorite> {
   return result;
 }
 
-export async function getSingleUserFavorites(userId: number): Promise<Favorite[]> {
+export async function getSingleUserFavorites(userId: string): Promise<Favorite[]> {
   const response = await axios({
     method: 'get',
     url: `${api}/favorite/${userId}`,

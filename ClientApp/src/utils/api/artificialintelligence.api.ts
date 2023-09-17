@@ -30,7 +30,7 @@ export async function getAllArtificialIntelligences(): Promise<ArtificialIntelli
   return result;
 }
 
-export async function getOtherUserArtificialIntelligences(userId: number): Promise<ArtificialIntelligence[]> {
+export async function getOtherUserArtificialIntelligences(userId: string): Promise<ArtificialIntelligence[]> {
   const response = await axios({
     method: 'get',
     url: `${api}/user/${userId}`,

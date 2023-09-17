@@ -91,7 +91,7 @@ export type CommunityFetchUsercommunitiesFailed = ActionWithPayload<
 
 export type CommunityFetchOtherUsercommunitiesStart = ActionWithPayload<
     COMMUNITY_ACTION_TYPES.FETCH_OTHER_USER_COMMUNITIES_START,
-    { userId: number }
+    { userId: string }
 >;
 
 export type CommunityFetchOtherUsercommunitiesSuccess = ActionWithPayload<
@@ -212,7 +212,7 @@ export const communityFetchUsercommunitiesFailed = withMatcher(
 );
 
 export const communityFetchOtherUsercommunitiesStart = withMatcher(
-    (userId: number): CommunityFetchOtherUsercommunitiesStart => 
+    (userId: string): CommunityFetchOtherUsercommunitiesStart => 
     createAction(COMMUNITY_ACTION_TYPES.FETCH_OTHER_USER_COMMUNITIES_START, { userId })
 );
 

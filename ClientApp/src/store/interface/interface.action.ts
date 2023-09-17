@@ -1,10 +1,10 @@
 import { INTERFACE_ACTION_TYPES, Interface } from './interface.types';
 
 import {
-  createAction,
-  withMatcher,
-  Action,
-  ActionWithPayload
+    Action,
+    ActionWithPayload,
+    createAction,
+    withMatcher
 } from '../../utils/reducer/reducer.utils';
 
 export type InterfaceCreateStart = ActionWithPayload<
@@ -78,7 +78,7 @@ export type InterfaceFetchUsersFailed = ActionWithPayload<
 >;
 
 export type InterfaceFetchOtherUsersStart = ActionWithPayload<
-    INTERFACE_ACTION_TYPES.FETCH_OTHER_USER_INTERFACE_START, { userId: number }
+    INTERFACE_ACTION_TYPES.FETCH_OTHER_USER_INTERFACE_START, { userId: string }
 >;
 
 export type InterfaceFetchOtherUsersSuccess = ActionWithPayload<
@@ -185,7 +185,7 @@ export const interfaceFetchUsersFailed = withMatcher(
 );
 
 export const interfaceFetchOtherUsersStart = withMatcher(
-    (userId: number): InterfaceFetchOtherUsersStart => 
+    (userId: string): InterfaceFetchOtherUsersStart => 
     createAction(INTERFACE_ACTION_TYPES.FETCH_OTHER_USER_INTERFACE_START, { userId })
 );
 

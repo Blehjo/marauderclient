@@ -49,7 +49,7 @@ const mapToStateProps = (state: RootState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<ChannelCommentSetIdStart | ChannelSetIdStart | ChannelCommentCreateStart | MemberFetchSingleStart | MemberDeleteStart | ChannelCreateStart | ChannelDeleteStart | MarauderFetchSingleStart | PostFetchUserPostsStart | ChannelCommentFetchSingleStart | ChannelFetchAllStart | GltfFetchOtherUserStart | CommunityFetchOtherUsercommunitiesStart | CommunityFetchSingleStart | ChannelCommentCreateStart>) => ({
     getMarauder: (userId: string) => dispatch(marauderFetchSingleStart(userId)),
-    getUserPosts: (userId: number) => dispatch(postFetchUserPostsStart(userId)),
+    getUserPosts: (userId: string) => dispatch(postFetchUserPostsStart(userId)),
     getComments: (channelId: number) => dispatch(channelcommentFetchSingleStart(channelId)),
     getChannels: (communityId: number) => dispatch(channelFetchAllStart(communityId)),
     createChannel: (description: string, communityId: number) => dispatch(channelCreateStart(description, communityId)),
@@ -58,7 +58,7 @@ const mapDispatchToProps = (dispatch: Dispatch<ChannelCommentSetIdStart | Channe
     setChannelCommentId: (channelCommentId: number) => dispatch(channelcommentSetIdStart(channelCommentId)),
     deleteChannel: (channelId: number) => dispatch(channelDeleteStart(channelId)),
     fetchGltfFiles: (userId: string) => dispatch(gltfFetchOtherUserStart(userId)),
-    fetchCommunities: (userId: number) => dispatch(communityFetchOtherUsercommunitiesStart(userId)),
+    fetchCommunities: (userId: string) => dispatch(communityFetchOtherUsercommunitiesStart(userId)),
     fetchSingleCommunity: (communityId: number) => dispatch(communityFetchSingleStart(communityId)),
     getMembers: (communityId: number) => dispatch(memberFetchSingleStart(communityId)),
     deleteMember: (memberId: number) => dispatch(memberDeleteStart(memberId))

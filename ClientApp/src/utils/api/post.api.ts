@@ -30,7 +30,7 @@ export async function getAllPosts(): Promise<Post[]> {
   return result;
 }
 
-export async function getUserPosts(userId: number): Promise<Post[]> {
+export async function getUserPosts(userId: string): Promise<Post[]> {
   const response = await axios({
     method: 'get',
     url: `${api}/user/${userId}`,

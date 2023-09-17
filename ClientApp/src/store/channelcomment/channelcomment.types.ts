@@ -30,5 +30,5 @@ export type ChannelComment = {
     type: string | null;
     dateCreated: Date;
     channelId: number | null,
-    userId: number | null,
+    userId: string | null,
 }

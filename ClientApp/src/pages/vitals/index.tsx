@@ -1,11 +1,11 @@
 import { ChangeEvent, Component, Dispatch, ReactNode } from "react";
-import { CardContainer, InfoContainer, OptionsContainer, VitalsContainer } from "../../styles/vitals/vitals.styles";
 import { Form, Modal } from "react-bootstrap";
 import { Send } from "react-bootstrap-icons";
-import { RootState } from "../../store/store";
 import { ConnectedProps, connect } from "react-redux";
 import { EditorFetchAllStart, editorFetchAllStart } from "../../store/editor/editor.action";
 import { GltfFetchUserStart, gltfFetchUserStart } from "../../store/gltf/gltf.action";
+import { RootState } from "../../store/store";
+import { CardContainer, InfoContainer, OptionsContainer, VitalsContainer } from "../../styles/vitals/vitals.styles";
 import Builder from "../builder";
 
 interface IVitals {
@@ -172,7 +172,7 @@ const mapStateToProps = (state: RootState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<EditorFetchAllStart | GltfFetchUserStart>) => ({
     fetchShapes: () => dispatch(editorFetchAllStart()),
-    fetchGltfFiles: (userId: number) => dispatch(gltfFetchUserStart(userId))
+    fetchGltfFiles: (userId: string) => dispatch(gltfFetchUserStart(userId))
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

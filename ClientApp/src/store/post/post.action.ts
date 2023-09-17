@@ -1,10 +1,10 @@
 import { POST_ACTION_TYPES, Post } from './post.types';
 
 import {
-  createAction,
-  withMatcher,
-  Action,
-  ActionWithPayload
+    Action,
+    ActionWithPayload,
+    createAction,
+    withMatcher
 } from '../../utils/reducer/reducer.utils';
 
 export type PostCreateStart = ActionWithPayload<
@@ -68,7 +68,7 @@ export type PostFetchSingleFailed = ActionWithPayload<
 
 export type PostFetchUserPostsStart = ActionWithPayload<
     POST_ACTION_TYPES.FETCH_USER_POSTS_START,
-    { userId: number | undefined}
+    { userId: string | undefined}
 >;
 
 export type PostFetchUserPostsSuccess = ActionWithPayload<
@@ -156,7 +156,7 @@ export const postFetchSingleFailed = withMatcher(
 );
 
 export const postFetchUserPostsStart = withMatcher(
-    (userId: number | undefined): PostFetchUserPostsStart => 
+    (userId: string | undefined): PostFetchUserPostsStart => 
     createAction(POST_ACTION_TYPES.FETCH_USER_POSTS_START, { userId })
 );
 

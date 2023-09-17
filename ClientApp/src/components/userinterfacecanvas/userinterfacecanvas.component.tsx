@@ -35,16 +35,32 @@ class UserInterfaceCanvas extends Component<any, IUserCanvas> {
         )
     }
 
+    componentDidMount(): void {
+        if (this.props.user?.currentUser != null) {
+            console.log("CHECK::")
+            this.props.check();
+        }
+    }
+
+    componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<IUserCanvas>, snapshot?: any): void {
+        if (prevProps.user?.currentUser != this.props.user?.currentUser) {
+            console.log("DIFFERENT::")
+            this.setState({
+                ...this.state, authentication: false
+            })
+        }
+    }
+
     render() {
         const { show, handleClick, user, signOut } = this.props;
         return (
             <UserInterfaceCanvasContainer>
                 <Offcanvas style={{ background: 'black', width: '25%', borderRadius: '.5rem 0rem 0rem .5rem', borderTop: '1px solid white', borderLeft: '1px solid white', borderBottom: '1px solid white', color: 'white' }} scroll backdrop={false} placement="end" show={show} onHide={handleClick}>
                     <Offcanvas.Header >
-                    {user && <Offcanvas.Title style={{ lineHeight: '1.5rem'}}>
+                    {user && <Offcanvas.Title style={{ lineHeight: '1.5rem', marginTop: '1rem' }}>
                             <Row xs={2}>
                             <Col xs={3}>
-                            <Image style={{ width: '3rem', height: '3rem' }} fluid src={user?.imageLink ? user?.imageSource : ""}/>
+                            <Image style={{ marginLeft: '1.5rem', marginRight: '3rem', width: '3rem', height: '3rem' }} fluid src={user?.imageLink ? user?.imageSource : ""}/>
                             </Col>
                             <Col>
                             <Row xs={1}>

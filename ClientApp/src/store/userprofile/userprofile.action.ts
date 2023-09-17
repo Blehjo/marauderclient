@@ -1,10 +1,10 @@
 import { USERPROFILE_ACTION_TYPES } from './userprofile.types';
 
 import {
-  createAction,
-  withMatcher,
-  Action,
-  ActionWithPayload
+    Action,
+    ActionWithPayload,
+    createAction,
+    withMatcher
 } from '../../utils/reducer/reducer.utils';
 import { User } from '../user/user.types';
 
@@ -33,7 +33,7 @@ export type UserprofileCreateFailed = ActionWithPayload<
 
 export type UserprofileUpdateStart = ActionWithPayload<
     USERPROFILE_ACTION_TYPES.UPDATE_START, {
-        userId: number,
+        userId: string,
         username: string,
         firstName: string,
         lastName: string,
@@ -58,7 +58,7 @@ export type UserprofileUpdateFailed = ActionWithPayload<
    
 export type UserprofileDeleteStart = ActionWithPayload<
     USERPROFILE_ACTION_TYPES.DELETE_START,
-    { userId: number }
+    { userId: string }
 >;
 
 export type UserprofileDeleteSuccess = ActionWithPayload<
@@ -73,7 +73,7 @@ export type UserprofileDeleteteFailed = ActionWithPayload<
    
 export type UserprofileFetchSingleStart = ActionWithPayload<
     USERPROFILE_ACTION_TYPES.FETCH_SINGLE_START,
-    { userId: number | undefined }
+    { userId: string | undefined }
 >;
 
 export type UserprofileFetchSingleSuccess = ActionWithPayload<
@@ -135,7 +135,7 @@ export const userprofileCreateFailed = withMatcher(
  
 export const userprofileUpdateStart = withMatcher(
     (
-        userId: number,
+        userId: string,
         username: string, 
         firstName: string,
         lastName: string,
@@ -171,7 +171,7 @@ export const userprofileUpdateFailed = withMatcher(
 );
 
 export const userprofileDeleteStart = withMatcher(
-    (userId: number): UserprofileDeleteStart => 
+    (userId: string): UserprofileDeleteStart => 
     createAction(USERPROFILE_ACTION_TYPES.DELETE_START, { userId })
 );
 
@@ -186,7 +186,7 @@ export const userprofileDeleteFailed = withMatcher(
 );
 
 export const userprofileFetchSingleStart = withMatcher(
-    (userId: number | undefined): UserprofileFetchSingleStart => 
+    (userId: string | undefined): UserprofileFetchSingleStart => 
     createAction(USERPROFILE_ACTION_TYPES.FETCH_SINGLE_START, { userId })
 );
 

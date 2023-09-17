@@ -67,7 +67,7 @@ export type PanelFetchSingleFailed = ActionWithPayload<
 >;
 
 export type PanelFetchAllUserStart = ActionWithPayload<
-    PANEL_ACTION_TYPES.FETCH_ALL_USER_START, { userId: number }
+    PANEL_ACTION_TYPES.FETCH_ALL_USER_START, { userId: string }
 >;
 
 export type PanelFetchAllUserSuccess = ActionWithPayload<
@@ -170,7 +170,7 @@ export const panelFetchSingleFailed = withMatcher(
 );
 
 export const panelFetchAllUserStart = withMatcher(
-    (userId: number): PanelFetchAllUserStart => 
+    (userId: string): PanelFetchAllUserStart => 
     createAction(PANEL_ACTION_TYPES.FETCH_ALL_USER_START, { userId })
 );
 

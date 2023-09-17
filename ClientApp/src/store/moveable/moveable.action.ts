@@ -67,7 +67,7 @@ export type MoveableFetchSingleFailed = ActionWithPayload<
 >;
 
 export type MoveableFetchAllUserStart = ActionWithPayload<
-    MOVEABLE_ACTION_TYPES.FETCH_ALL_USER_START, { userId: number }
+    MOVEABLE_ACTION_TYPES.FETCH_ALL_USER_START, { userId: string }
 >;
 
 export type MoveableFetchAllUserSuccess = ActionWithPayload<
@@ -155,7 +155,7 @@ export const moveableFetchSingleFailed = withMatcher(
 );
 
 export const moveableFetchAllUserStart = withMatcher(
-    (userId: number): MoveableFetchAllUserStart => 
+    (userId: string): MoveableFetchAllUserStart => 
     createAction(MOVEABLE_ACTION_TYPES.FETCH_ALL_USER_START, { userId })
 );
 

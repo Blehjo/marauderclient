@@ -68,7 +68,7 @@ export type ChatCommentFetchSingleFailed = ActionWithPayload<
 
 export type ChatCommentFetchUserChatsStart = ActionWithPayload<
     CHATCOMMENT_ACTION_TYPES.FETCH_USER_CHATCOMMENTS_START,
-    { userId: number }
+    { userId: string }
 >;
 
 export type ChatCommentFetchUserChatsSuccess = ActionWithPayload<
@@ -111,7 +111,7 @@ export const chatcommentCreateFailed = withMatcher(
 );
  
 export const chatcommentUpdateStart = withMatcher(
-    (chatcommentId: number, chatcommentValue: string, mediaLink: string, userId: number): ChatCommentUpdateStart => 
+    (chatcommentId: number, chatcommentValue: string, mediaLink: string, userId: string): ChatCommentUpdateStart => 
     createAction(CHATCOMMENT_ACTION_TYPES.UPDATE_START, { chatcommentId, chatcommentValue, mediaLink, userId })
 );
 
@@ -156,7 +156,7 @@ export const chatcommentFetchSingleFailed = withMatcher(
 );
 
 export const chatcommentFetchUserChatsStart = withMatcher(
-    (userId: number): ChatCommentFetchUserChatsStart => 
+    (userId: string): ChatCommentFetchUserChatsStart => 
     createAction(CHATCOMMENT_ACTION_TYPES.FETCH_USER_CHATCOMMENTS_START, { userId })
 );
 

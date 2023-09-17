@@ -1,5 +1,5 @@
 import { Component, Dispatch, FormEvent, MouseEvent, MouseEventHandler } from 'react';
-import { Container, Form, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { Container, Form, Image, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { List, PersonCircle } from 'react-bootstrap-icons';
 
 import { NavmenuContainer, PersonContainer } from '../../styles/navmenu/navmenu.styles';
@@ -53,7 +53,7 @@ class NavMenu extends Component<NavMenuProps, INavMenu> {
             <NavmenuContainer className="fixed-top">
                 <Navbar style={{ border: "3px solid #E6C487", borderRadius: "5px" }} variant="dark" bg="dark" sticky="top" expand="lg" >
                     <Container fluid>
-                    <List onClick={this.handleOpen} style={{ marginLeft: '.75rem', border: '1px solid white', marginRight: '1rem', padding: '.02rem', borderRadius: '.2rem', cursor: 'pointer' }} className="d-flex align-items-center"/>
+                    <List size={25} onClick={this.handleOpen} style={{ marginLeft: '.5rem', marginRight: '1rem', padding: '.02rem', cursor: 'pointer' }} className="d-flex align-items-center"/>
                     <Navbar.Brand href="/">Marauders</Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     {/* <Navbar.Collapse id="navbarScroll"> */}
@@ -67,8 +67,8 @@ class NavMenu extends Component<NavMenuProps, INavMenu> {
                         </Nav>
                         <Searchbar/>
                         <PersonContainer>
-                            <PersonCircle onClick={this.handleClick} size={30}/>
-                            <UserInterfaceCanvas signOut={this.props.signOut} user={user}  handleClick={this.handleClick} show={show}/>
+                            {user?.imageSource ? <Image style={{ width: '2rem', height: '2rem', objectFit: 'fill', borderRadius: '1rem', border: 'white solid 1px' }} src={`https://localhost:7144/images/${user?.imageLink}`} onClick={this.handleClick}/> : <PersonCircle onClick={this.handleClick} size={30}/>}
+                            <UserInterfaceCanvas signOut={this.props.signOut} user={user} check={this.props.checkUserSession}  handleClick={this.handleClick} show={show}/>
                         </PersonContainer>
                     {/* </Navbar.Collapse> */}
                     </Container>

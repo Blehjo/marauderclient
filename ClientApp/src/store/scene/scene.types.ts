@@ -34,5 +34,5 @@ export type Scene = {
     imageLink: string | null;
     imageSource: string;
     dateCreated: Date | null;
-    userId: number | null,
+    userId: string | null,
 }

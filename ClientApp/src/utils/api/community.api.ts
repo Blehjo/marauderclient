@@ -30,7 +30,7 @@ export async function getAllCommunities(): Promise<Community[]> {
   return result;
 }
 
-export async function getUserCommunities(userId: number | undefined): Promise<Community[]> {
+export async function getUserCommunities(userId: string | undefined): Promise<Community[]> {
   const response = await axios({
     method: 'get',
     url: `${api}/user/${userId}`,

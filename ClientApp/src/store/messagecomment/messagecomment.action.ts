@@ -1,10 +1,10 @@
 import { MESSAGECOMMENT_ACTION_TYPES, MessageComment } from './messagecomment.types';
 
 import {
-  createAction,
-  withMatcher,
-  Action,
-  ActionWithPayload
+    Action,
+    ActionWithPayload,
+    createAction,
+    withMatcher
 } from '../../utils/reducer/reducer.utils';
 
 export type MessageCommentCreateStart = ActionWithPayload<
@@ -68,7 +68,7 @@ export type MessageCommentFetchSingleFailed = ActionWithPayload<
 
 export type MessageCommentFetchUserMessagesStart = ActionWithPayload<
     MESSAGECOMMENT_ACTION_TYPES.FETCH_USER_MESSAGECOMMENTS_START,
-    { userId: number }
+    { userId: string }
 >;
 
 export type MessageCommentFetchUserMessagesSuccess = ActionWithPayload<
@@ -171,7 +171,7 @@ export const messagecommentFetchSingleFailed = withMatcher(
 );
 
 export const messagecommentFetchUserMessagesStart = withMatcher(
-    (userId: number): MessageCommentFetchUserMessagesStart => 
+    (userId: string): MessageCommentFetchUserMessagesStart => 
     createAction(MESSAGECOMMENT_ACTION_TYPES.FETCH_USER_MESSAGECOMMENTS_START, { userId })
 );
 

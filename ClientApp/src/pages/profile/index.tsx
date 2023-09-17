@@ -3,26 +3,26 @@ import { Col, Row, Tab, Tabs } from "react-bootstrap";
 import { ConnectedProps, connect } from "react-redux";
 
 import { ChatsTab } from "../../components/chatstab/chatstab.component";
+import { DevicesTab } from "../../components/devicestab/devicestab.component";
+import GltfsTab from "../../components/gltfstab/gltfstab.component";
 import PostsTab from "../../components/poststab/poststab.component";
 import { ProfileCard } from "../../components/profilecard/profilecard.component";
 import { ChatDeleteStart, ChatFetchSingleStart, ChatFetchUserChatsStart, chatDeleteStart, chatFetchSingleStart, chatFetchUserChatsStart } from "../../store/chat/chat.action";
 import { CommentCreateStart, CommentFetchSingleStart, commentCreateStart, commentFetchSingleStart } from "../../store/comment/comment.action";
-import { CommentCreateStart as UserCommentCreateStart, CommentFetchSingleStart as UserCommentFetchSingleStart, commentCreateStart as userCommentCreateStart, commentFetchSingleStart as userCommentFetchSingleStart } from "../../store/userchatcomment/userchatcomment.action";
-import { CommentCreateStart as GltfCommentCreateStart, GltfCommentFetchSingleStart, commentCreateStart as gltfCommentCreateStart } from "../../store/gltfcomment/gltfcomment.action";
-import { FavoriteCreateStart, favoriteCreateStart } from "../../store/favorite/favorite.action";
+import { CommunityFetchUsercommunitiesStart, communityFetchUsercommunitiesStart } from "../../store/community/community.action";
+import { DeviceDeleteStart, DeviceFetchAllStart, DeviceFetchSingleStart, deviceDeleteStart, deviceFetchAllStart, deviceFetchSingleStart } from "../../store/device/device.action";
+import { EditorFetchAllStart, editorFetchAllStart } from "../../store/editor/editor.action";
+import { FavoriteCreateStart, FavoriteDeleteStart, favoriteCreateStart, favoriteDeleteStart } from "../../store/favorite/favorite.action";
+import { GltfCreateStart, GltfFetchSingleStart, GltfFetchUserStart, gltfCreateStart, gltfFetchSingleStart, gltfFetchUserStart } from "../../store/gltf/gltf.action";
+import { CommentCreateStart as GltfCommentCreateStart, commentCreateStart as gltfCommentCreateStart } from "../../store/gltfcomment/gltfcomment.action";
 import { MarauderFetchSingleStart, marauderFetchSingleStart } from "../../store/marauder/marauder.action";
 import { PostCreateStart, PostDeleteStart, PostFetchAllStart, PostFetchSingleStart, PostFetchUserPostsStart, postCreateStart, postDeleteStart, postFetchAllStart, postFetchSingleStart, postFetchUserPostsStart } from "../../store/post/post.action";
 import { RootState } from "../../store/store";
 import { CheckUserSession, checkUserSession } from "../../store/user/user.action";
+import { CommentCreateStart as UserCommentCreateStart, CommentFetchSingleStart as UserCommentFetchSingleStart, commentCreateStart as userCommentCreateStart, commentFetchSingleStart as userCommentFetchSingleStart } from "../../store/userchatcomment/userchatcomment.action";
 import { UserprofileFetchSingleStart, userprofileFetchSingleStart } from "../../store/userprofile/userprofile.action";
 import { ProfileContainer } from "../../styles/profile/profile.styles";
 import Authentication from "../authentication";
-import GltfsTab from "../../components/gltfstab/gltfstab.component";
-import { EditorFetchAllStart, editorFetchAllStart } from "../../store/editor/editor.action";
-import { GltfCreateStart, GltfFetchSingleStart, GltfFetchUserStart, gltfCreateStart, gltfFetchSingleStart, gltfFetchUserStart } from "../../store/gltf/gltf.action";
-import { DevicesTab } from "../../components/devicestab/devicestab.component";
-import { DeviceDeleteStart, DeviceFetchAllStart, DeviceFetchSingleStart, deviceDeleteStart, deviceFetchAllStart, deviceFetchSingleStart } from "../../store/device/device.action";
-import { CommunityFetchUsercommunitiesStart, communityFetchUsercommunitiesStart } from "../../store/community/community.action";
 
 export type ProfileProps = ConnectedProps<typeof connector>;
 
@@ -84,19 +84,21 @@ const mapToStateProps = (state: RootState) => {
         userComments: state.userchatcomment,
         devices: state.device,
         gltfs: state.gltf,
-        shapes: state.editor,
-        gltfComments: state.gltfcomment
+        gltfComments: state.gltfcomment,
+        favorites: state.favorite,
+        shapes: state.editor
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<CommunityFetchUsercommunitiesStart | GltfFetchSingleStart | DeviceDeleteStart | GltfCommentCreateStart | DeviceFetchSingleStart | DeviceFetchAllStart | GltfFetchSingleStart | CheckUserSession | UserCommentCreateStart | UserCommentFetchSingleStart | UserprofileFetchSingleStart | MarauderFetchSingleStart | PostFetchAllStart | PostFetchUserPostsStart | PostCreateStart | PostFetchSingleStart | PostDeleteStart | ChatFetchUserChatsStart | ChatFetchSingleStart | ChatDeleteStart | CommentFetchSingleStart | CommentCreateStart | FavoriteCreateStart | EditorFetchAllStart | GltfFetchUserStart | GltfCreateStart>) => ({
-    getUserProfile: (userId: number) => dispatch(userprofileFetchSingleStart(userId)),
+const mapDispatchToProps = (dispatch: Dispatch<FavoriteDeleteStart | CommunityFetchUsercommunitiesStart | GltfFetchSingleStart | DeviceDeleteStart | GltfCommentCreateStart | DeviceFetchSingleStart | DeviceFetchAllStart | GltfFetchSingleStart | CheckUserSession | UserCommentCreateStart | UserCommentFetchSingleStart | UserprofileFetchSingleStart | MarauderFetchSingleStart | PostFetchAllStart | PostFetchUserPostsStart | PostCreateStart | PostFetchSingleStart | PostDeleteStart | ChatFetchUserChatsStart | ChatFetchSingleStart | ChatDeleteStart | CommentFetchSingleStart | CommentCreateStart | FavoriteCreateStart | EditorFetchAllStart | GltfFetchUserStart | GltfCreateStart>) => ({
+    getUserProfile: (userId: string) => dispatch(userprofileFetchSingleStart(userId)),
     checkSession: () => dispatch(checkUserSession()),
     getMarauder: (userId: string) => dispatch(marauderFetchSingleStart(userId)),
     getAllPosts: () => dispatch(postFetchAllStart()),
-    getUserPosts: (userId: number | undefined) => dispatch(postFetchUserPostsStart(userId)),
+    getUserPosts: (userId: string | undefined) => dispatch(postFetchUserPostsStart(userId)),
     getPost: (postId: number) => dispatch(postFetchSingleStart(postId)),
     likePost: (postId: number, contentType: string) => dispatch(favoriteCreateStart(postId, contentType)),
+    unlikePost: (favoriteId: number) => dispatch(favoriteDeleteStart(favoriteId)),
     createComment: (commentValue: string, imageFile: File, postId: number) => dispatch(commentCreateStart(commentValue, imageFile, postId)),
     createPost: (postValue: string, mediaLink: string, imageFile: File) => dispatch(postCreateStart(postValue, mediaLink, imageFile)),
     deletePost: (postId: number) => dispatch(postDeleteStart(postId)),

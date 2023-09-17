@@ -1,10 +1,10 @@
 import { CHAT_ACTION_TYPES, Chat } from './chat.types';
 
 import {
-  createAction,
-  withMatcher,
-  Action,
-  ActionWithPayload
+    Action,
+    ActionWithPayload,
+    createAction,
+    withMatcher
 } from '../../utils/reducer/reducer.utils';
 
 export type ChatCreateStart = ActionWithPayload<
@@ -23,7 +23,7 @@ export type ChatCreateFailed = ActionWithPayload<
 
 export type ChatUpdateStart = ActionWithPayload<
     CHAT_ACTION_TYPES.UPDATE_START,
-    { chatId: number, title: string, userId: number }
+    { chatId: number, title: string, userId: string }
 >;
 
 export type ChatUpdateSuccess = ActionWithPayload<
@@ -82,7 +82,7 @@ export type ChatFetchUserChatsFailed = ActionWithPayload<
 
 export type ChatFetchSingleUserChatsStart = ActionWithPayload<
     CHAT_ACTION_TYPES.FETCH_SINGLE_USER_CHATS_START,
-    { userId: number }
+    { userId: string }
 >;
 
 export type ChatFetchSingleUserChatsSuccess = ActionWithPayload<
@@ -135,7 +135,7 @@ export const chatCreateFailed = withMatcher(
 );
  
 export const chatUpdateStart = withMatcher(
-    (chatId: number, title: string, userId: number): ChatUpdateStart => 
+    (chatId: number, title: string, userId: string): ChatUpdateStart => 
     createAction(CHAT_ACTION_TYPES.UPDATE_START, { chatId, title, userId })
 );
 
@@ -195,7 +195,7 @@ export const chatFetchUserChatsFailed = withMatcher(
 );
 
 export const chatFetchSingleUserChatsStart = withMatcher(
-    (userId: number): ChatFetchSingleUserChatsStart => 
+    (userId: string): ChatFetchSingleUserChatsStart => 
     createAction(CHAT_ACTION_TYPES.FETCH_SINGLE_USER_CHATS_START, { userId })
 );
 

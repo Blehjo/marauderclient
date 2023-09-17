@@ -18,7 +18,7 @@ export enum MARAUDER_ACTION_TYPES  {
 };
 
 export type Marauder = {
-    userId: number;
+    userId: string;
     username: string;
     firstName: string;
     lastName: string;

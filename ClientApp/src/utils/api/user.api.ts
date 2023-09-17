@@ -84,7 +84,7 @@ export async function addUser(
 }
 
 export async function editUser(
-  userId: number,
+  userId: string,
   formData: FormData
 ): Promise<User> {
   const response = await axios({
@@ -98,7 +98,7 @@ export async function editUser(
   return result;
 }
 
-export async function deleteUser(userId: number): Promise<User> {
+export async function deleteUser(userId: string): Promise<User> {
   const response = await axios({
     method: 'delete',
     url: `${api}/${userId}`,

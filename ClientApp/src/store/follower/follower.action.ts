@@ -1,10 +1,9 @@
 import { FOLLOWER_ACTION_TYPES, Follower } from './follower.types';
 
 import {
-  createAction,
-  withMatcher,
-  Action,
-  ActionWithPayload
+    ActionWithPayload,
+    createAction,
+    withMatcher
 } from '../../utils/reducer/reducer.utils';
 
 export type FollowerCreateStart = ActionWithPayload<
@@ -81,7 +80,7 @@ export type FollowerFetchUserChatsFailed = ActionWithPayload<
 >;
 
 export type FollowerFetchAllStart = ActionWithPayload<
-    FOLLOWER_ACTION_TYPES.FETCH_ALL_START, { userId: number }
+    FOLLOWER_ACTION_TYPES.FETCH_ALL_START, { userId: string }
 >;
 
 export type FollowerFetchAllSuccess = ActionWithPayload<
@@ -170,7 +169,7 @@ export const followerFetchUserChatsFailed = withMatcher(
 );
 
 export const followerFetchAllStart = withMatcher(
-    (userId: number): FollowerFetchAllStart => 
+    (userId: string): FollowerFetchAllStart => 
     createAction(FOLLOWER_ACTION_TYPES.FETCH_ALL_START, { userId })
 );
 

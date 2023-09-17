@@ -184,10 +184,11 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
             { 
                 messagebox ? 
                 <OpenedBox>
+                    <div style={{ margin: '.5rem', borderRadius: '.5rem', border: 'white solid 1px' }} >
                     <ContainerBox>
                         <Row xs={2}>
                         <Col xs={6}>
-                            <Image style={{ width: '2rem', height: '2rem', borderRadius: '1rem', paddingTop: '.3rem', objectFit: 'cover' }} fluid src={user?.imageLink ? user?.imageSource! : ""}/>
+                        <Image style={{ width: '2rem', height: '2rem', borderRadius: '1rem',  objectFit: 'fill' }} fluid src={user?.imageLink ? user?.imageSource! : ""}/>
                         </Col>
                         <Col>
                             <div style={{ paddingTop: '.3rem' }}>Comms</div>
@@ -197,10 +198,12 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
                     <ContainerBox>
                         <div style={{ position: 'absolute', right: '1rem' }}>
                             <ThreeDots size={20} style={{ cursor: 'pointer' }}/>
+                            <Search size={28} style={{ padding: '0rem .4rem 0rem .4rem', cursor: 'pointer' }}/>
                             <PencilSquare size={30} style={{ padding: '0rem .4rem 0rem .4rem', cursor: 'pointer' }}/>
                             <ChevronDown onClick={this.handleOpen} size={20} style={{ cursor: 'pointer' }}/>
                         </div>
                     </ContainerBox>
+                    </div>
                     {
                         messages.userMessages?.map(({ messageValue, messageId, dateCreated, receiver }) => (
                             <Card onClick={() => this.handleClick(messageId)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '1rem 1rem 1rem 1rem', cursor: 'pointer', padding: '.5rem' }} key={messageId}>
@@ -244,7 +247,7 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
                     <ContainerBox>
                         <Row xs={2}>
                         <Col xs={6}>
-                            <Image style={{ width: '2rem', height: '2rem', borderRadius: '1rem', paddingTop: '.3rem', objectFit: 'cover' }} fluid src={user?.imageLink ? user?.imageSource! : ""}/>
+                            <Image style={{ width: '2rem', height: '2rem', borderRadius: '1rem',  objectFit: 'fill' }} fluid src={user?.imageLink ? user?.imageSource! : ""}/>
                         </Col>
                         <Col>
                             <div style={{ paddingTop: '.3rem' }}>Comms</div>

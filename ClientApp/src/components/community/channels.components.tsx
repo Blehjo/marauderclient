@@ -6,7 +6,7 @@ import { Textfit } from "react-textfit";
 import { Channel } from "../../store/channel/channel.types";
 import { CrewMemberContainer, TextFitContainer } from "../../styles/crew/crew.styles";
 import { CardContainer, XContainer } from "../../styles/devices/devices.styles";
-import { ModalPostContainer } from "../../styles/poststab/poststab.styles";
+import { AContainer, ModalPostContainer } from "../../styles/poststab/poststab.styles";
 
 interface ICommunityChannels {
     description: string;
@@ -102,21 +102,17 @@ export class CommunityChannels extends Component<any, ICommunityChannels> {
                 {user?.userId == communities.singleCommunity?.userId && <CardContainer key='cardcontainer' onClick={this.handleClick}>New Channel +</CardContainer>}
                 {
                     channels.channels?.map(({ channelId, description, dateCreated, communityId }: Channel, index: number) => (
-                        <Card key={channelId} onClick={() => this.getChannelComments(channelId!)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer' }}>
-                            <Row style={{ lineHeight: '3rem' }} key={index} xs={3}>
-                                <Col key='col2' xs={6}>
-                                    <TextFitContainer>
-                                    <Textfit style={{ width: "100px" }}>
+                        <Card key={channelId} onClick={() => this.getChannelComments(channelId!)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', cursor: 'pointer', padding: '.5rem' }}>
+                            <Row key={index}>
+                                <Col key='col2'>
                                     {description}
-                                    </Textfit>
-                                    </TextFitContainer>
                                 </Col>
-                                {user?.userId == communities.singleCommunity?.userId && <Col key='col3' xs={1}>
-                                    <XContainer>
+                            </Row>
+                                {user?.userId == communities.singleCommunity?.userId && 
+                                    <XContainer style={{ position: 'absolute', top: '0.5rem', right: '0.5rem' }}>
                                         <XCircle onClick={() => this.handleDelete(channelId!)} />
                                     </XContainer>
-                                </Col>}
-                            </Row>
+                                }
                         </Card>
                     ))
                 }
