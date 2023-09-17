@@ -23,7 +23,7 @@ export const OpenedBox = styled.div`
     text-align: center;
     width: 20%;
     height: 80%;
-    z-index: 3;
+    z-index: 5;
 `;
 
 export const ContainerBox = styled.div`

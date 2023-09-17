@@ -206,7 +206,7 @@ export const CommentContainer = styled.div`
         position: fixed;
         top: 0;
         right: 0;
-        height: 75vh; 
+        height: 70%; 
         width: 18rem; 
         background: black;
         text-align: center;
@@ -225,7 +225,7 @@ export const CommentContainer = styled.div`
         width: 100%;
         margin-left: 16rem;
         padding-right: 16rem;
-        height: 50vh;
+        height: 50%;
         z-index: 5;
         overflow-y: auto;
         .notifications {
