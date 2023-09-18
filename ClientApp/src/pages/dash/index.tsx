@@ -6,26 +6,23 @@ import { ChatFetchAllStart, ChatFetchSingleStart, chatFetchAllStart, chatFetchSi
 import { Chat as ChatContent } from "../../store/chat/chat.types";
 import { ChatCommentFetchSingleStart, chatcommentFetchSingleStart } from "../../store/chatcomment/chatcomment.action";
 import { ChatCommentState } from "../../store/chatcomment/chatcomment.reducer";
-import { ChatComment } from "../../store/chatcomment/chatcomment.types";
 import { CommentCreateStart, CommentFetchSingleStart, commentCreateStart, commentFetchSingleStart } from "../../store/comment/comment.action";
-import { CommentCreateStart as UserChatCommentCreateStart, CommentFetchSingleStart as UserChatCommentFetchSingleStart, commentCreateStart as userChatCommentCreateStart, commentFetchSingleStart as userChatCommentFetchSingleStart} from "../../store/userchatcomment/userchatcomment.action";
 import { CommentState } from "../../store/comment/comment.reducer";
-import { Comment } from "../../store/comment/comment.types";
 import { FavoriteCreateStart, favoriteCreateStart } from "../../store/favorite/favorite.action";
 import { Favorite } from "../../store/favorite/favorite.types";
 import { GltfFetchAllStart, GltfFetchSingleStart, gltfFetchAllStart, gltfFetchSingleStart } from "../../store/gltf/gltf.action";
-import { CommentCreateStart as GltfCommentCreateStart, commentCreateStart as gltfCommentCreateStart, GltfCommentFetchSingleStart, gltfcommentFetchSingleStart } from "../../store/gltfcomment/gltfcomment.action";
 import { Gltf } from "../../store/gltf/gltf.types";
+import { CommentCreateStart as GltfCommentCreateStart, GltfCommentFetchSingleStart, commentCreateStart as gltfCommentCreateStart, gltfcommentFetchSingleStart } from "../../store/gltfcomment/gltfcomment.action";
 import { GltfCommentState } from "../../store/gltfcomment/gltfcomment.reducer";
-import { GltfComment } from "../../store/gltfcomment/gltfcomment.types";
 import { PostFetchAllStart, PostFetchSingleStart, postFetchAllStart, postFetchSingleStart } from "../../store/post/post.action";
 import { Post } from "../../store/post/post.types";
 import { RootState } from "../../store/store";
 import { User } from "../../store/user/user.types";
-import { UserChatComment } from "../../store/userchatcomment/userchatcomment.types";
+import { CommentCreateStart as UserChatCommentCreateStart, CommentFetchSingleStart as UserChatCommentFetchSingleStart, commentCreateStart as userChatCommentCreateStart } from "../../store/userchatcomment/userchatcomment.action";
 import { CommentContainer, ModalContainer, TextContainer } from "../../styles/modal/modal.styles";
 import { AContainer, BadgeContainer } from "../../styles/poststab/poststab.styles";
-import { ContentContainer } from "../../styles/responsivememory/responsivememory.styles";
+import { ContentContainer, ResponsiveMemoryContainer } from "../../styles/responsivememory/responsivememory.styles";
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 export type DashData = {
     id: number;
@@ -252,11 +249,14 @@ class Dash extends Component<DashProps, IDash> {
     render() {
         const { content, singleContent } = this.state;
         return (
-            <ContentContainer>
+            <>
             <Row xs={1}>
                 {
+                    content.length > 0 ?
+                <>
+                <ContentContainer>
+                {
                     content.map((element, index) => (
-                        // <div style={{ margin: 'auto', width: '50%' }} >
                     <Col xs={12} key={element.id}>
                     <Card key={element.id} style={{ background: 'black', border: 'solid 1px white', padding: '.5rem', margin: '.3rem', color: 'white'}}>
                     <Card.Img src={element.mediaLink ? element.imageSource : "https://i.pinimg.com/originals/8e/47/2a/8e472a9d5d7d25f4a88281952aed110e.png"}/>
@@ -296,9 +296,22 @@ class Dash extends Component<DashProps, IDash> {
                         </Row>
                     </Card.Body>
                     </Card>
-                    </Col>    
-                // </div>   
+                    </Col>     
                 ))}
+                </ContentContainer> 
+                </> :
+                <ResponsiveMemoryContainer>
+                <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 3, 1050: 4 }}>
+                <Masonry>
+                <Card key="default" bg="dark" style={{ margin: '.3rem', textAlign: 'center', color: 'white'}} >
+                <Card.Body>
+                    <Card.Text>Currently no content</Card.Text>
+                </Card.Body>
+                </Card>
+                </Masonry>
+                </ResponsiveMasonry>
+                </ResponsiveMemoryContainer>
+                }
             </Row>
             <Modal
                     size="lg"
@@ -396,7 +409,7 @@ class Dash extends Component<DashProps, IDash> {
                     </Modal.Footer>
                     </ModalContainer>
             </Modal>
-            </ContentContainer>
+            </>
         )
     }
 }
