@@ -8,7 +8,7 @@ const headers = {
   'Content-Type': 'application/json' 
 }
 
-export async function getSingleDevice(deviceId: number): Promise<Device> {
+export async function getSingleDevice(deviceId: string): Promise<Device> {
   const response = await axios({
     method: 'get',
     url: `${api}/${deviceId}`,
@@ -45,7 +45,7 @@ export async function addDevice(deviceName: string, deviceType: number): Promise
   return result;
 }
 
-export async function editDevice(deviceId: number, deviceName: string, deviceType: number): Promise<Device[]> {
+export async function editDevice(deviceId: string, deviceName: string, deviceType: number): Promise<Device[]> {
   const response = await axios({
     method: 'put',
     url:`${api}/${deviceId}`, 
@@ -60,7 +60,7 @@ export async function editDevice(deviceId: number, deviceName: string, deviceTyp
   return result;
 }
 
-export async function deleteDevice(deviceId: number): Promise<Device[]> {
+export async function deleteDevice(deviceId: string): Promise<Device[]> {
   const response = await axios({
     method: 'delete',
     url: `${api}/${deviceId}`,

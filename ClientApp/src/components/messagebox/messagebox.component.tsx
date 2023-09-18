@@ -244,6 +244,7 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
                     }
                 </OpenedBox> :
                 <FixedBox>
+                    <div style={{  borderRadius: '.5rem', border: 'white solid 1px' }} >
                     <ContainerBox>
                         <Row xs={2}>
                         <Col xs={6}>
@@ -262,6 +263,7 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
                             <ChevronUp onClick={this.handleOpen} size={20} style={{ cursor: 'pointer' }}/>
                         </div>
                     </ContainerBox>
+                    </div>
                 </FixedBox>
             }
             </>

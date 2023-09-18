@@ -1,13 +1,13 @@
 import { ChangeEvent, Component, Dispatch, FormEvent } from "react";
-import { ConnectedProps, connect } from "react-redux";
 import { Card, Col, Dropdown, Form, Image, Modal, Row } from "react-bootstrap";
 import { Plus, XCircle } from "react-bootstrap-icons";
+import { ConnectedProps, connect } from "react-redux";
 
 import { ButtonContainer, CardContainer, DeviceContainer, FormContainer, XContainer } from "../../styles/devices/devices.styles";
 import { ListContainer } from "../../styles/messages/messages.styles";
 
-import { RootState } from "../../store/store";
 import { DeviceCreateStart, DeviceDeleteStart, DeviceFetchAllStart, deviceCreateStart, deviceDeleteStart, deviceFetchAllStart } from "../../store/device/device.action";
+import { RootState } from "../../store/store";
 
 interface IDevice {
     deviceName: string;
@@ -74,7 +74,7 @@ class Devices extends Component<DeviceProps, IDevice> {
         })
     }
 
-    handleDelete(deviceId: number): void {
+    handleDelete(deviceId: string): void {
         this.props.deleteDevice(deviceId);
     }
 
@@ -185,7 +185,7 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: Dispatch<DeviceCreateStart | DeviceDeleteStart | DeviceFetchAllStart>) => ({
     addDevice: (deviceName: string, deviceType: number ) => dispatch(deviceCreateStart(deviceName, deviceType)),
-    deleteDevice: (deviceId: number) => dispatch(deviceDeleteStart(deviceId)),
+    deleteDevice: (deviceId: string) => dispatch(deviceDeleteStart(deviceId)),
     getDevices: () => dispatch(deviceFetchAllStart())
 });
 

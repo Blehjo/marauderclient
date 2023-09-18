@@ -6,8 +6,6 @@ export const FixedBox = styled.div`
     bottom: 1%;
     right: 1%;
     padding-top: .2rem;
-    border-radius: .5rem .5rem .5rem .5rem;
-    border: white 1px solid;
     text-align: center;
     width: 20%;
     height: 5%;

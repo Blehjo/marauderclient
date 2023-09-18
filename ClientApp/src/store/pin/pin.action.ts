@@ -8,7 +8,7 @@ import {
 } from '../../utils/reducer/reducer.utils';
 
 export type PinCreateStart = ActionWithPayload<
-    PIN_ACTION_TYPES.CREATE_START, { pinLocation: string, isAnalog: boolean, deviceId: number }
+    PIN_ACTION_TYPES.CREATE_START, { pinLocation: string, isAnalog: boolean, deviceId: string }
 >;
 
 export type PinCreateSuccess = ActionWithPayload<
@@ -23,7 +23,7 @@ export type PinCreateFailed = ActionWithPayload<
 
 export type PinUpdateStart = ActionWithPayload<
     PIN_ACTION_TYPES.UPDATE_START,
-    { pinId: number, pinLocation: string, isAnalog: boolean, deviceId: number }
+    { pinId: number, pinLocation: string, isAnalog: boolean, deviceId: string }
 >;
 
 export type PinUpdateSuccess = ActionWithPayload<
@@ -81,7 +81,7 @@ export type PinFetchAllFailed = ActionWithPayload<
 >;
 
 export const pinCreateStart = withMatcher(
-    (pinLocation: string, isAnalog: boolean, deviceId: number ): PinCreateStart => 
+    (pinLocation: string, isAnalog: boolean, deviceId: string ): PinCreateStart => 
     createAction(PIN_ACTION_TYPES.CREATE_START, { pinLocation, isAnalog, deviceId })
 );
 
@@ -96,7 +96,7 @@ export const pinCreateFailed = withMatcher(
 );
  
 export const pinUpdateStart = withMatcher(
-    (pinId: number, pinLocation: string, isAnalog: boolean, deviceId: number): PinUpdateStart => 
+    (pinId: number, pinLocation: string, isAnalog: boolean, deviceId: string): PinUpdateStart => 
     createAction(PIN_ACTION_TYPES.UPDATE_START, { pinId, pinLocation, isAnalog, deviceId })
 );
 

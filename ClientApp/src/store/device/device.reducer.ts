@@ -17,7 +17,7 @@ import {
 } from './device.action';
 
 export type DeviceState = {
-    readonly deviceId: number | null;
+    readonly deviceId: string | null;
     readonly singleDevice: Device | null;
     readonly userDevices: Device[];
     readonly devices: Device[];

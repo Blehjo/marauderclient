@@ -23,7 +23,7 @@ export type DeviceCreateFailed = ActionWithPayload<
 
 export type DeviceUpdateStart = ActionWithPayload<
     DEVICE_ACTION_TYPES.UPDATE_START,
-    { deviceId: number, deviceName: string, deviceType: number }
+    { deviceId: string, deviceName: string, deviceType: number }
 >;
 
 export type DeviceUpdateSuccess = ActionWithPayload<
@@ -38,7 +38,7 @@ export type DeviceUpdateFailed = ActionWithPayload<
    
 export type DeviceDeleteStart = ActionWithPayload<
     DEVICE_ACTION_TYPES.DELETE_START,
-    { deviceId: number }
+    { deviceId: string }
 >;
 
 export type DeviceDeleteSuccess = ActionWithPayload<
@@ -53,7 +53,7 @@ export type DeviceDeleteteFailed = ActionWithPayload<
    
 export type DeviceFetchSingleStart = ActionWithPayload<
     DEVICE_ACTION_TYPES.FETCH_SINGLE_START,
-    { deviceId: number }
+    { deviceId: string }
 >;
 
 export type DeviceFetchSingleSuccess = ActionWithPayload<
@@ -96,7 +96,7 @@ export const deviceCreateFailed = withMatcher(
 );
  
 export const deviceUpdateStart = withMatcher(
-    (deviceId: number, deviceName: string, deviceType: number): DeviceUpdateStart => 
+    (deviceId: string, deviceName: string, deviceType: number): DeviceUpdateStart => 
     createAction(DEVICE_ACTION_TYPES.UPDATE_START, { deviceId, deviceName, deviceType })
 );
 
@@ -111,7 +111,7 @@ export const deviceUpdateFailed = withMatcher(
 );
 
 export const deviceDeleteStart = withMatcher(
-    (deviceId: number): DeviceDeleteStart => 
+    (deviceId: string): DeviceDeleteStart => 
     createAction(DEVICE_ACTION_TYPES.DELETE_START, { deviceId })
 );
 
@@ -126,7 +126,7 @@ export const deviceDeleteFailed = withMatcher(
 );
 
 export const deviceFetchSingleStart = withMatcher(
-    (deviceId: number): DeviceFetchSingleStart => 
+    (deviceId: string): DeviceFetchSingleStart => 
     createAction(DEVICE_ACTION_TYPES.FETCH_SINGLE_START, { deviceId })
 );
 

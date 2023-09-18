@@ -1,17 +1,17 @@
 import { Component, Fragment } from 'react';
 import { Badge, Card, Col, Image, Modal, Row } from 'react-bootstrap';
-import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import { ArrowsFullscreen, Globe, Rocket, XCircle } from 'react-bootstrap-icons';
+import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 
-import { BadgeContainer, ChatContainer, ModalContainer } from "../../styles/poststab/poststab.styles";
 import { ProfileProps } from '../../pages/profile';
 import { DeviceState } from '../../store/device/device.reducer';
 import { XContainer } from '../../styles/devices/devices.styles';
+import { BadgeContainer, ChatContainer, ModalContainer } from "../../styles/poststab/poststab.styles";
 
 type DevicesTabProps = {
     show: boolean;
     showDelete: boolean;
-    deviceId: number | null;
+    deviceId: string | null;
 }
 
 export class DevicesTab extends Component<ProfileProps, DevicesTabProps> {
@@ -33,7 +33,7 @@ export class DevicesTab extends Component<ProfileProps, DevicesTabProps> {
         });
     }
 
-    handleClick(deviceId: number): void {
+    handleClick(deviceId: string): void {
         this.props.fetchSingleDevice(deviceId);
         // this.props.getComments(deviceId);
         this.setState({
@@ -52,7 +52,7 @@ export class DevicesTab extends Component<ProfileProps, DevicesTabProps> {
         });
     }
 
-    handleDeleteClick(deviceId: number): void {
+    handleDeleteClick(deviceId: string): void {
         this.setState({
             deviceId: deviceId
         })

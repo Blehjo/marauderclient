@@ -41,7 +41,7 @@ export async function getAllPins(): Promise<Pin[]> {
   return result;
 }
 
-export async function addPin(pinLocation: string, isAnalog: boolean, deviceId: number): Promise<Pin[]> {
+export async function addPin(pinLocation: string, isAnalog: boolean, deviceId: string): Promise<Pin[]> {
   const response = await axios({
     method: 'post',
     url: api, 
@@ -57,7 +57,7 @@ export async function addPin(pinLocation: string, isAnalog: boolean, deviceId: n
   return result;
 }
 
-export async function editPin(pinId: number, pinLocation: string, isAnalog: boolean, deviceId: number): Promise<Pin[]> {
+export async function editPin(pinId: number, pinLocation: string, isAnalog: boolean, deviceId: string): Promise<Pin[]> {
   const response = await axios({
     method: 'put',
     url:`${api}/${pinId}`, 
