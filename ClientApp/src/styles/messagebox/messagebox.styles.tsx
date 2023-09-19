@@ -2,7 +2,6 @@ import { styled } from "styled-components";
 
 export const FixedBox = styled.div`
     position: fixed;
-    background: black;
     bottom: 1%;
     right: 1%;
     padding-top: .2rem;

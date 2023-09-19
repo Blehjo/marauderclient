@@ -1,9 +1,8 @@
 import { Component, ReactNode } from "react";
 import { CloseButton, Col, Image, Modal, Nav, Offcanvas, Row } from "react-bootstrap";
-import { UserInterfaceCanvasContainer } from "../../styles/userinterfacecanvas/userinterfacecanvas.styles";
-import { ChatDots, ChatLeft, Collection, Controller, DeviceHdd, DeviceSsd, DoorClosed, DoorOpen, Eye, Gear, LayoutTextWindowReverse, Lightbulb, People, PersonBadge, Robot, Screwdriver, Star } from "react-bootstrap-icons";
-import { RootState } from "../../store/store";
+import { ChatDots, ChatLeft, Collection, DeviceHdd, DeviceSsd, DoorClosed, DoorOpen, Eye, Gear, Globe, LayoutTextWindowReverse, Lightbulb, People, PersonBadge, Robot, Screwdriver, Star } from "react-bootstrap-icons";
 import Authentication from "../../pages/authentication";
+import { UserInterfaceCanvasContainer } from "../../styles/userinterfacecanvas/userinterfacecanvas.styles";
 
 interface IUserCanvas {
     authentication: boolean;
@@ -95,10 +94,10 @@ class UserInterfaceCanvas extends Component<any, IUserCanvas> {
                     </Nav.Item>
                     <Nav.Item className="ms-4 d-flex align-items-center">
                         <a href="/vitals">
-                        <Controller className='icons' color="white" />
+                        <Globe className='icons' color="white" />
                         </a>
                         <Nav.Link href="/vitals" className="tools ms-4">
-                            Vitals
+                            Odyssey
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item className="ms-4 d-flex align-items-center">
