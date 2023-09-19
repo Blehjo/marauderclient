@@ -39,7 +39,7 @@ const getListStyle = (isDraggingOver: boolean) => ({
     background: isDraggingOver ? 'lightgrey' : 'black',
     padding: grid,
     width: '100%',
-    position: 'relative'
+    // position: 'relative'
 });
 
 type PanelProps = {
