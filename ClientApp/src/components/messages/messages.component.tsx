@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { Socket } from 'socket.io-client';
 import { User } from '../../store/user/user.types';
+import { Message } from '../../store/message/message.types';
 
 type InputProps = {
     socket: Socket,
@@ -21,7 +22,7 @@ class MessagesComponent extends Component<InputProps> {
 
     compenentDidMount() {
         const { socket } = this.props;
-        const messageListener = (message) => {
+        const messageListener = (message: Message) => {
             // setMessages((prevMessages) => {
             //     const newMessages = {...prevMessages};
             //     newMessages[message.id] = message;
@@ -29,7 +30,7 @@ class MessagesComponent extends Component<InputProps> {
             // });
         };
         
-        const deleteMessageListener = (messageID) => {
+        const deleteMessageListener = (messageID: number) => {
             // setMessages((prevMessages) => {
             //     const newMessages = {...prevMessages};
             //     delete newMessages[messageID];
@@ -56,22 +57,23 @@ class MessagesComponent extends Component<InputProps> {
     render() {
         const { messages } = this.state;
         return (
-            <div className="message-list">
-                {[...Object.values(messages)]
-                    .sort((a, b) => a.time - b.time)
-                    .map((message) => (
-                        <div
-                        key={message.id}
-                        className="message-container"
-                        title={`Sent at ${new Date(message.time).toLocaleTimeString()}`}
-                        >
-                        <span className="user">{message.user.name}:</span>
-                        <span className="message">{message.value}</span>
-                        <span className="date">{new Date(message.time).toLocaleTimeString()}</span>
-                    </div>
-                    ))
-                }
-            </div>
+            // <div className="message-list">
+            //     {[...Object.values(messages)]
+            //         .sort((a, b) => a.time - b.time)
+            //         .map((message) => (
+            //             <div
+            //             key={message.id}
+            //             className="message-container"
+            //             title={`Sent at ${new Date(message.time).toLocaleTimeString()}`}
+            //             >
+            //             <span className="user">{message.user.name}:</span>
+            //             <span className="message">{message.value}</span>
+            //             <span className="date">{new Date(message.time).toLocaleTimeString()}</span>
+            //         </div>
+            //         ))
+            //     }
+            // </div>
+            null
         );
     }
 }
