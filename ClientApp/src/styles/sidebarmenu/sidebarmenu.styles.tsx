@@ -5,9 +5,9 @@ export const SidebarMenuContainer = styled.div`
     font-size: 15px;
     width: 16rem;
     color: white; 
-    height: 94.6%;
+    height: 100%;
     overflow-y: auto;
-    padding-top: 1rem; 
+    padding-top: 4rem; 
     overflow-x: hidden;
     border: 3px solid white;
     border-radius: 5px;

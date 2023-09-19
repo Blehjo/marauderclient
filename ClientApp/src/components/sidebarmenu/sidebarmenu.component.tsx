@@ -17,7 +17,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
             <>
             {
                 sidemenu &&
-                <SidebarMenuContainer className='mt-5 fixed-top bg-dark'>
+                <SidebarMenuContainer className='fixed-top bg-dark'>
                     <Row 
                     xs={1} 
                     >
