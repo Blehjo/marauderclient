@@ -156,13 +156,13 @@ class Devices extends Component<DeviceProps, IDevice> {
                         <FormContainer>
                             <Dropdown style={{ marginBottom: '1rem' }}>
                             <Dropdown.Toggle variant="dark" id="dropdown-autoclose-true">{dropDownValue}</Dropdown.Toggle>
-                                <Dropdown.Menu>
+                                {/* <Dropdown.Menu>
                                     <Dropdown.Item eventKey="1">Arduino Nano</Dropdown.Item>
                                     <Dropdown.Item eventKey="2">Esp 32</Dropdown.Item>
                                     <Dropdown.Item eventKey="3">Esp 32 Camera</Dropdown.Item>
                                     <Dropdown.Item eventKey="4">Raspberry Pi 4</Dropdown.Item>
                                     <Dropdown.Item eventKey="4">Raspberry Pi Zero W</Dropdown.Item>
-                                </Dropdown.Menu>
+                                </Dropdown.Menu> */}
                             </Dropdown>
                             <ButtonContainer className="btn btn-outline-dark" type="submit">
                                 <Plus style={{ cursor: 'pointer' }} size={15}/>
