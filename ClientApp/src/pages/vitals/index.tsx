@@ -172,7 +172,7 @@ const mapStateToProps = (state: RootState) => {
 
 const mapDispatchToProps = (dispatch: Dispatch<EditorFetchAllStart | GltfFetchUserStart>) => ({
     fetchShapes: () => dispatch(editorFetchAllStart()),
-    fetchGltfFiles: (userId: string) => dispatch(gltfFetchUserStart(userId))
+    fetchGltfFiles: () => dispatch(gltfFetchUserStart())
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
