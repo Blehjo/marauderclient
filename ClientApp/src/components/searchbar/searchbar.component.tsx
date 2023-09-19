@@ -78,7 +78,7 @@ export class Searchbar extends Component<{}, DefaultProps> {
         gltf.fileInformation?.toLowerCase().includes(searchField.toLowerCase())) : [];
         return (
             <>
-                <input style={{ borderRadius: ".5rem", width: "20rem", color: "white", background: "black", border: 'white solid 1px', textAlign: 'center' }} onClick={this.handleClickEvent} placeholder="Click here to search" />
+                <input style={{ borderRadius: ".5rem", width: "20rem", color: "white", background: "black", border: 'white solid 1px', textAlign: 'center', position: 'absolute', right: '35%' }} onClick={this.handleClickEvent} placeholder="Click here to search" />
                 {<Modal show={show} onHide={this.handleClickEvent}>
                     <SearchBox onSearchChange={this.onSearchChange} />
                     {searchField.length > 0 && <CardList users={filteredUsers} posts={filteredPosts} communities={filteredCommunities} gltfs={filteredGltfs}/>}

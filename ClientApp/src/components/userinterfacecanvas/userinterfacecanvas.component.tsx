@@ -54,7 +54,7 @@ class UserInterfaceCanvas extends Component<any, IUserCanvas> {
         const { show, handleClick, user, signOut } = this.props;
         return (
             <UserInterfaceCanvasContainer>
-                <Offcanvas style={{ background: 'black', width: '25%', borderRadius: '.5rem 0rem 0rem .5rem', borderTop: '1px solid white', borderLeft: '1px solid white', borderBottom: '1px solid white', color: 'white' }} scroll backdrop={false} placement="end" show={show} onHide={handleClick}>
+                <Offcanvas style={{ background: 'black', opacity: '75%', width: '25%', borderRadius: '.5rem 0rem 0rem .5rem', borderTop: '1px solid white', borderLeft: '1px solid white', borderBottom: '1px solid white', color: 'white' }} scroll backdrop={false} placement="end" show={show} onHide={handleClick}>
                     <Offcanvas.Header >
                     {user && <Offcanvas.Title style={{ lineHeight: '1.5rem', marginTop: '1rem' }}>
                             <Row xs={2}>
