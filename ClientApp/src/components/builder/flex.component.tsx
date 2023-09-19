@@ -11,7 +11,7 @@ function FlexDisplay() {
     return (
         <>
         <Canvas>
-            <Flex 
+            {/* <Flex 
                 mainAxis="x"
                 crossAxis="y"
                 flexDirection="row"
@@ -20,7 +20,7 @@ function FlexDisplay() {
                 // justify="space-between"
                 alignItems="center"
                 // size={[vpWidth, 0, 0]}
-            >
+            > */}
                 <Box>
                 <mesh>
                     <sphereBufferGeometry args={[3, 30, 30]} attach="geometry"  />
@@ -43,7 +43,7 @@ function FlexDisplay() {
                     <boxBufferGeometry args={[3, 30, 30]} attach="geometry"  />
                     <meshBasicMaterial color={0xfff1ef} attach="material" />
                 </mesh> */}
-            </Flex>
+            {/* </Flex> */}
         </Canvas>
         </>
     )
