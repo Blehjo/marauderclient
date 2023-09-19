@@ -110,7 +110,7 @@ function Shape({ shape, position, orbit, shapeId }: ShapeProps) {
         showY={active ? true : false}
         showZ={active ? true : false}
         position={positionArray}
-        ref={transform}
+        // ref={transform}
         mode="translate"
       >
         <mesh 
