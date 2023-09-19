@@ -9,7 +9,7 @@ import { Member } from "../../store/member/member.types";
 import { UserProfileCard } from "../profilecard/userprofilecard.component";
 
 interface IMembersChannel {
-    marauderId: number | null;
+    marauderId: string | null;
     showMarauder: boolean;
     showDelete: boolean;
 }
@@ -38,7 +38,7 @@ export class MembersChannel extends Component<any, IMembersChannel> {
         })
     }
 
-    handleMemberSelect(memberId: number): void {
+    handleMemberSelect(memberId: string): void {
         this.props.getMarauder(memberId);
         this.setState({
             marauderId: memberId
