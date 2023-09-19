@@ -354,11 +354,11 @@ class Crew extends Component<CrewProps, ICrew> {
                         <Dropdown style={{ }}>
                             <Dropdown.Toggle variant="dark" id="dropdown-autoclose-true">{dropDownValue}</Dropdown.Toggle>
                             <Dropdown.Menu>
-                                {/* {
+                                {
                                 artificialIntelligence.userArtificialIntelligences?.map(({ name, artificialIntelligenceId }) => (
                                     <Dropdown.Item onClick={() => this.setDropDown(name, artificialIntelligenceId )} eventKey="1">{name}</Dropdown.Item>
                                     ))
-                                } */}
+                                }
                             </Dropdown.Menu>
                         </Dropdown>
                         <PenContainer onClick={this.createNewChat}>
