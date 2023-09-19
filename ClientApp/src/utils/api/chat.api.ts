@@ -31,7 +31,7 @@ export async function getAllChats(): Promise<Chat[]> {
 }
 
 // Gets chats from another user's page
-export async function getUserChats(id: number): Promise<Chat[]> {
+export async function getUserChats(id: string): Promise<Chat[]> {
   const response = await axios({
     method: 'get',
     url: `${api}/user/${id}`,
