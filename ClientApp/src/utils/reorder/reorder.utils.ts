@@ -9,60 +9,60 @@ const reorder = (list: [], startIndex: number, endIndex: number) => {
   
   export default reorder;
   
-  export const reorderQuoteMap = ({ quoteMap, source, destination }) => {
-    const current = [...quoteMap[source.droppableId]];
-    const next = [...quoteMap[destination.droppableId]];
-    const target = current[source.index];
+  // export const reorderQuoteMap = ({ quoteMap, source, destination }) => {
+  //   const current = [...quoteMap[source.droppableId]];
+  //   const next = [...quoteMap[destination.droppableId]];
+  //   const target = current[source.index];
   
-    // moving to same list
-    if (source.droppableId === destination.droppableId) {
-      const reordered = reorder(current, source.index, destination.index);
-      const result = {
-        ...quoteMap,
-        [source.droppableId]: reordered
-      };
-      return {
-        quoteMap: result
-      };
-    }
+  //   // moving to same list
+  //   if (source.droppableId === destination.droppableId) {
+  //     const reordered = reorder(current, source.index, destination.index);
+  //     const result = {
+  //       ...quoteMap,
+  //       [source.droppableId]: reordered
+  //     };
+  //     return {
+  //       quoteMap: result
+  //     };
+  //   }
   
-    // moving to different list
+  //   // moving to different list
   
-    // remove from original
-    current.splice(source.index, 1);
-    // insert into next
-    next.splice(destination.index, 0, target);
+  //   // remove from original
+  //   current.splice(source.index, 1);
+  //   // insert into next
+  //   next.splice(destination.index, 0, target);
   
-    const result = {
-      ...quoteMap,
-      [source.droppableId]: current,
-      [destination.droppableId]: next
-    };
+  //   const result = {
+  //     ...quoteMap,
+  //     [source.droppableId]: current,
+  //     [destination.droppableId]: next
+  //   };
   
-    return {
-      quoteMap: result
-    };
-  };
+  //   return {
+  //     quoteMap: result
+  //   };
+  // };
   
-  export function moveBetween({ list1, list2, source, destination }) {
-    const newFirst = Array.from(list1.values);
-    const newSecond = Array.from(list2.values);
+  // export function moveBetween({ list1, list2, source, destination }) {
+  //   const newFirst = Array.from(list1.values);
+  //   const newSecond = Array.from(list2.values);
   
-    const moveFrom = source.droppableId === list1.id ? newFirst : newSecond;
-    const moveTo = moveFrom === newFirst ? newSecond : newFirst;
+  //   const moveFrom = source.droppableId === list1.id ? newFirst : newSecond;
+  //   const moveTo = moveFrom === newFirst ? newSecond : newFirst;
   
-    const [moved] = moveFrom.splice(source.index, 1);
-    moveTo.splice(destination.index, 0, moved);
+  //   const [moved] = moveFrom.splice(source.index, 1);
+  //   moveTo.splice(destination.index, 0, moved);
   
-    return {
-      list1: {
-        ...list1,
-        values: newFirst
-      },
-      list2: {
-        ...list2,
-        values: newSecond
-      }
-    };
-  }
+  //   return {
+  //     list1: {
+  //       ...list1,
+  //       values: newFirst
+  //     },
+  //     list2: {
+  //       ...list2,
+  //       values: newSecond
+  //     }
+  //   };
+  // }
   
