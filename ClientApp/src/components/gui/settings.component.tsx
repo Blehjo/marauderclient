@@ -120,13 +120,13 @@ class Generation extends Component {
 
 function setGeneration(){
     const singleShape: Array<Generation> = [];
-    getSingleShape(2).then((response) => { 
-        response.map(({ positionX, positionY, positionZ, height, width, depth, radius, length }) => {
-            const newShape = new Generation({ positionX, positionY, positionZ, height, width, depth, radius, length });
-            singleShape.push(newShape);
-        })
-        return singleShape;
-    });
+    // getSingleShape(2).then((response) => { 
+    //     response.map(({ positionX, positionY, positionZ, height, width, depth, radius, length }) => {
+    //         const newShape = new Generation({ positionX, positionY, positionZ, height, width, depth, radius, length });
+    //         singleShape.push(newShape);
+    //     })
+    // });
+    return singleShape;
 }
 
 setGeneration();
