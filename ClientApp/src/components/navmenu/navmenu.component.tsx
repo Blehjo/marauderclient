@@ -1,14 +1,14 @@
-import { Component, Dispatch, FormEvent, MouseEvent, MouseEventHandler } from 'react';
-import { Container, Form, Image, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import { Component, Dispatch } from 'react';
+import { Container, Image, Nav, Navbar } from 'react-bootstrap';
 import { List, PersonCircle } from 'react-bootstrap-icons';
 
-import { NavmenuContainer, PersonContainer } from '../../styles/navmenu/navmenu.styles';
-import UserInterfaceCanvas from '../userinterfacecanvas/userinterfacecanvas.component';
 import { ConnectedProps, connect } from 'react-redux';
+import { SetIsMaraudersOpen, setIsMaraudersOpen } from '../../store/messagebox/messagebox.action';
 import { RootState } from '../../store/store';
 import { CheckUserSession, SignOutStart, checkUserSession, signOutStart } from '../../store/user/user.action';
+import { NavmenuContainer, PersonContainer } from '../../styles/navmenu/navmenu.styles';
 import { Searchbar } from '../searchbar/searchbar.component';
-import { SetIsMaraudersOpen, setIsMaraudersOpen } from '../../store/messagebox/messagebox.action';
+import UserInterfaceCanvas from '../userinterfacecanvas/userinterfacecanvas.component';
 
 interface INavMenu {
     show: boolean;
@@ -55,8 +55,6 @@ class NavMenu extends Component<NavMenuProps, INavMenu> {
                     <Container fluid>
                     <List size={25} onClick={this.handleOpen} style={{ marginLeft: '.5rem', marginRight: '1rem', padding: '.02rem', cursor: 'pointer' }} className="d-flex align-items-center"/>
                     <Navbar.Brand href="/">Marauders</Navbar.Brand>
-                    {/* <Navbar.Toggle aria-controls="navbarScroll" /> */}
-                    {/* <Navbar.Collapse id="navbarScroll"> */}
                         <Nav
                         className="me-auto my-2 my-lg-0"
                         style={{ maxHeight: '100px' }}
@@ -70,7 +68,6 @@ class NavMenu extends Component<NavMenuProps, INavMenu> {
                             {user?.imageSource ? <Image style={{ width: '2rem', height: '2rem', objectFit: 'fill', borderRadius: '1rem', border: 'white solid 1px' }} src={`https://localhost:7144/images/${user?.imageLink}`} onClick={this.handleClick}/> : <PersonCircle onClick={this.handleClick} size={30}/>}
                             <UserInterfaceCanvas signOut={this.props.signOut} user={user} check={this.props.checkUserSession}  handleClick={this.handleClick} show={show}/>
                         </PersonContainer>
-                    {/* </Navbar.Collapse> */}
                     </Container>
                 </Navbar>
             </NavmenuContainer>

@@ -96,7 +96,7 @@ class UserInterfaceCanvas extends Component<any, IUserCanvas> {
                         <a href="/vitals">
                         <Globe className='icons' color="white" />
                         </a>
-                        <Nav.Link href="/vitals" className="tools ms-4">
+                        <Nav.Link href="/odyssey" className="tools ms-4">
                             Odyssey
                         </Nav.Link>
                     </Nav.Item>
