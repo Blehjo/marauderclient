@@ -184,7 +184,7 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
             { 
                 messagebox ? 
                 <OpenedBox>
-                    <div style={{ margin: '.5rem', borderRadius: '.5rem', border: 'white solid 1px' }} >
+                    <div style={{ margin: '.5rem', borderRadius: '.5rem', border: 'white solid 1px', opacity: '100%' }} >
                     <ContainerBox>
                         <Row xs={2}>
                         <Col xs={6}>

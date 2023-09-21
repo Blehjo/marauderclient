@@ -1,4 +1,4 @@
-import { ChangeEvent, Component, FormEvent, ReactNode } from "react";
+import { CSSProperties, ChangeEvent, Component, FormEvent, ReactNode } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import { Card, Col, Form, Modal, Row } from "react-bootstrap";
 import { Plus, XCircle } from "react-bootstrap-icons";
@@ -33,13 +33,13 @@ const getItemStyle = (draggableStyle: any, isDragging: boolean) => ({
     ...draggableStyle
 });
 
-const getListStyle = (isDraggingOver: boolean) => ({
+const getListStyle = (isDraggingOver: boolean): CSSProperties => ({
     border: '1px solid white',
     borderRadius: '1rem',
     background: isDraggingOver ? 'lightgrey' : 'black',
     padding: grid,
     width: '100%',
-    // position: 'relative'
+    position: 'relative'
 });
 
 type PanelProps = {
@@ -225,7 +225,7 @@ class Panel extends Component<any, IPanel> {
                             {(provided, snapshot) => (
                                 <div 
                                 ref={provided.innerRef} 
-                                style={getListStyle(snapshot.isDraggingOver)}
+                                style={getListStyle(snapshot.isDraggingOver)} 
                                 {...provided.droppableProps}
                                 >
                                 <CardContainer onClick={() => this.handleClick(panelId!)} style={{ backgroundColor: 'black', borderRadius: '.3rem', border: 'solid 1px white', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', color: 'white', textAlign: 'center' }}>

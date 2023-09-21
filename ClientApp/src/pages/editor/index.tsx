@@ -75,7 +75,7 @@ function handleShape(shape?: string): ReactNode {
 }
 
 function Shape({ shape, position, orbit, shapeId }: ShapeProps) {
-  const transform = useRef<THREE.Mesh>(null!);
+  const transform = useRef<any>(null!);
   const [active, setActive] = useState(false);
   const positionArray: THREE.Vector3 = new THREE.Vector3(position?.x, position?.y, position?.z);
   const colors = useSettings((s) => s.colors);
@@ -110,7 +110,7 @@ function Shape({ shape, position, orbit, shapeId }: ShapeProps) {
         showY={active ? true : false}
         showZ={active ? true : false}
         position={positionArray}
-        // ref={transform}
+        ref={transform}
         mode="translate"
       >
         <mesh 

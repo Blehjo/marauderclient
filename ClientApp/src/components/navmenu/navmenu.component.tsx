@@ -55,7 +55,7 @@ class NavMenu extends Component<NavMenuProps, INavMenu> {
                     <Container fluid>
                     <List size={25} onClick={this.handleOpen} style={{ marginLeft: '.5rem', marginRight: '1rem', padding: '.02rem', cursor: 'pointer' }} className="d-flex align-items-center"/>
                     <Navbar.Brand href="/">Marauders</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="navbarScroll" />
+                    {/* <Navbar.Toggle aria-controls="navbarScroll" /> */}
                     {/* <Navbar.Collapse id="navbarScroll"> */}
                         <Nav
                         className="me-auto my-2 my-lg-0"
