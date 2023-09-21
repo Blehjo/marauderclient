@@ -73,7 +73,7 @@ class UserInterfaceCanvas extends Component<any, IUserCanvas> {
                             </Col>
                             </Row>
                         </Offcanvas.Title>}
-                        <CloseButton className="bg-light" onClick={handleClick}></CloseButton>
+                        <CloseButton style={{ position: 'absolute', right: '5.5%', top: '2.5%' }} className="bg-light" onClick={handleClick}></CloseButton>
                     </Offcanvas.Header>
                     <Offcanvas.Body>
                     <Nav.Item className="ms-4 d-flex align-items-center">
