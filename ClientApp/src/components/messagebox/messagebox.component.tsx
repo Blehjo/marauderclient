@@ -184,7 +184,7 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
             { 
                 messagebox ? 
                 <OpenedBox>
-                    <div style={{ margin: '.5rem', borderRadius: '.5rem', border: 'white solid 1px', opacity: '100%' }} >
+                    <div style={{ margin: '.5rem', borderRadius: '.5rem', border: 'white solid 1px' }} >
                     <ContainerBox>
                         <Row xs={2}>
                         <Col xs={6}>
@@ -244,7 +244,7 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
                     }
                 </OpenedBox> :
                 <FixedBox>
-                    <div style={{  borderRadius: '.5rem', border: 'white solid 1px', background: 'black', opacity: '75%' }} >
+                    <div style={{  borderRadius: '.5rem', border: 'white solid 1px', background: 'rgba(0, 0, 0, .75)'}} >
                     <ContainerBox>
                         <Row xs={2}>
                         <Col xs={6}>

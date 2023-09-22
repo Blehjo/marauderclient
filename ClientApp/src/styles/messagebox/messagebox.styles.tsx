@@ -12,9 +12,8 @@ export const FixedBox = styled.div`
 `;
 
 export const OpenedBox = styled.div`
-    opacity: 75%;
     position: fixed;
-    background: black;
+    background: rgba(0, 0, 0, .75);
     bottom: 1%;
     right: 1%;
     padding-top: .2rem;
