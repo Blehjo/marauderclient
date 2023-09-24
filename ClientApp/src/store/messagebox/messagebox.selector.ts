@@ -10,9 +10,9 @@ export const selectIsArtificialIntelligenceOpen = createSelector(
     (messagebox) => messagebox.isArtificialIntelligenceOpen
 );
 
-export const selectIsVitalsOpen = createSelector(
+export const selectIsDevicesOpen = createSelector(
     [selectMessageboxReducer],
-    (messagebox) => messagebox.isVitalsOpen
+    (messagebox) => messagebox.isDevicesOpen
 );
 
 export const selectIsPostOpen = createSelector(

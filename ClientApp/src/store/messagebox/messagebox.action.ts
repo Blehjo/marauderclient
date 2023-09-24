@@ -11,8 +11,8 @@ export type SetIsArtificialIntelligenceOpen = ActionWithPayload<
   boolean
 >;
 
-export type SetIsVitalsOpen = ActionWithPayload<
-  MESSAGEBOX_ACTION_TYPES.SET_IS_VITALS_OPEN,
+export type SetIsDevicesOpen = ActionWithPayload<
+  MESSAGEBOX_ACTION_TYPES.SET_IS_DEVICES_OPEN,
   boolean
 >;
 
@@ -51,9 +51,9 @@ export const setIsArtificialIntelligenceOpen = withMatcher(
     createAction(MESSAGEBOX_ACTION_TYPES.SET_IS_ARTIFICIALINTELLIGENCE_OPEN, boolean)
 );
 
-export const setIsVitalsOpen = withMatcher(
-    (boolean: boolean): SetIsVitalsOpen =>
-    createAction(MESSAGEBOX_ACTION_TYPES.SET_IS_VITALS_OPEN, boolean)
+export const setIsDevicesOpen = withMatcher(
+    (boolean: boolean): SetIsDevicesOpen =>
+    createAction(MESSAGEBOX_ACTION_TYPES.SET_IS_DEVICES_OPEN, boolean)
 );
 
 export const setIsPostOpen = withMatcher(

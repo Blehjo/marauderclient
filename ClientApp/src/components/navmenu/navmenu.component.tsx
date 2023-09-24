@@ -9,6 +9,7 @@ import { CheckUserSession, SignOutStart, checkUserSession, signOutStart } from '
 import { NavmenuContainer, PersonContainer } from '../../styles/navmenu/navmenu.styles';
 import { Searchbar } from '../searchbar/searchbar.component';
 import UserInterfaceCanvas from '../userinterfacecanvas/userinterfacecanvas.component';
+import { AContainer } from '../../styles/poststab/poststab.styles';
 
 interface INavMenu {
     show: boolean;

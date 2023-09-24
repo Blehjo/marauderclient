@@ -8,12 +8,12 @@ import {
     setIsPlanetsOpen,
     setIsPostOpen,
     setIsSolarSystemOpen,
-    setIsVitalsOpen
+    setIsDevicesOpen
 } from './messagebox.action';
 
 export type MessageBoxState = {
   readonly isArtificialIntelligenceOpen: boolean;
-  readonly isVitalsOpen: boolean;
+  readonly isDevicesOpen: boolean;
   readonly isPostOpen: boolean;
   readonly isSolarSystemOpen: boolean;
   readonly isPlanetsOpen: boolean;
@@ -24,7 +24,7 @@ export type MessageBoxState = {
 
 const INITIAL_STATE: MessageBoxState = {
     isArtificialIntelligenceOpen: false,
-    isVitalsOpen: false,
+    isDevicesOpen: false,
     isPostOpen: false,
     isSolarSystemOpen: false,
     isPlanetsOpen: false,
@@ -43,10 +43,10 @@ export const messageboxReducer = (
         isArtificialIntelligenceOpen: action.payload,
       };
     }
-    if (setIsVitalsOpen.match(action)) {
+    if (setIsDevicesOpen.match(action)) {
       return {
         ...state,
-        isVitalsOpen: action.payload,
+        isDevicesOpen: action.payload,
       };
     }
     if (setIsPostOpen.match(action)) {

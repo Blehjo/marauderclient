@@ -32,9 +32,6 @@ export const CardContainer = styled.div`
     cursor: pointer; 
     color: white; 
     text-align: center;
-    &:hover {
-        color: gray;
-    }
 `;
 
 export const ListContainer = styled.div`
