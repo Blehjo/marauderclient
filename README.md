@@ -2,7 +2,7 @@
   <a target="_blank" rel="noopener noreferrer" href="https://"><img style="object-fit: cover; width: 100px; height: 100px; border-radius: 1rem;" src="https://i.imgur.com/20LpIohs.jpg"/></a>
   <h3>Marauders is a web application that provides you with the tools to develop 3D and Augmented Reality objects. Add a device to control the tools while you're at it or add a device to keep track of things in your home. Use your creativity and the sites tools and guides to create your own world that can be shared with the community.</h3>
 
-  [See it here](https://marauders.azurewebsites.net)
+  [See it here](https://marauders.vercel.app)
 
   ---
 </div>
