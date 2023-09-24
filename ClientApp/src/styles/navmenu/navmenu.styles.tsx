@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 
 export const NavmenuContainer = styled.div`
-    
+    .brand:hover {
+        color: gray;
+    }
 `;
 
 export const PersonContainer = styled.div`
