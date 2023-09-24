@@ -1,6 +1,6 @@
 <div id="header" align="center">
-  <a target="_blank" rel="noopener noreferrer" href="https://"><img style="object-fit: cover; width: 100px; height: 100px; border-radius: 1rem;" src="https://i.imgur.com/K0z1k9P.jpg"/></a>
-  <h3>Marauders is a web application that provides you with the tools to develop 3D and Augmented Reality objects. Add a device to control the tools while your at it or add a device to keep track of things in your home. Use your creativity and the sites tools and guides to create your own world that can be shared with the community.</h3>
+  <a target="_blank" rel="noopener noreferrer" href="https://"><img style="object-fit: cover; width: 100px; height: 100px; border-radius: 1rem;" src="https://i.imgur.com/20LpIohs.jpg"/></a>
+  <h3>Marauders is a web application that provides you with the tools to develop 3D and Augmented Reality objects. Add a device to control the tools while you're at it or add a device to keep track of things in your home. Use your creativity and the sites tools and guides to create your own world that can be shared with the community.</h3>
 
   [See it here](https://marauders.azurewebsites.net)
 
@@ -35,8 +35,8 @@
  <a target="_blank" rel="noopener noreferrer" href="https://learn.microsoft.com/">
     <img src="https://img.shields.io/badge/Microsoft-0078D4?style=for-the-badge&logo=microsoft&logoColor=white" alt="Microsoft Badge" style="max-width: 100%;">
  </a>
- <a target="_blank" rel="noopener noreferrer" href="https://www.sqlite.com/">
-    <img src="https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white" alt="Sqlite Badge" style="max-width: 100%;">
+ <a target="_blank" rel="noopener noreferrer" href="https://www.docker.com/">
+    <img src="https://img.shields.io/badge/docker-%2307405e.svg?style=for-the-badge&logo=docker&logoColor=white" alt="Sqlite Badge" style="max-width: 100%;">
  </a>
  <a target="_blank" rel="noopener noreferrer" href="https://www.visualstudio.com/">
     <img src="https://img.shields.io/badge/Visual%20Studio-5C2D91.svg?style=for-the-badge&logo=visual-studio&logoColor=white" alt="Visual Studio Badge" style="max-width: 100%;">

@@ -36,3 +36,13 @@ export const CardContainer = styled.div`
         color: gray;
     }
 `;
+
+export const ListContainer = styled.div`
+    height: 85vh;
+    // width: 100%;
+    overflow-y: auto;
+    padding: 1rem;
+    border: solid 1px white;
+    border-radius: 1rem;
+    background: black;
+`;
