@@ -54,7 +54,7 @@ class NavMenu extends Component<NavMenuProps, INavMenu> {
                 <Navbar style={{ border: "3px solid white", borderRadius: "5px", position: 'relative' }} variant="dark" bg="dark" sticky="top" expand="lg" >
                     <Container fluid>
                     <List size={25} onClick={this.handleOpen} style={{ marginLeft: '.5rem', marginRight: '1rem', padding: '.02rem', cursor: 'pointer' }} className="d-flex align-items-center"/>
-                    <Navbar.Brand href="/">Marauders</Navbar.Brand>
+                    <Navbar.Brand href="/"><Image style={{ width: '1.5rem', height: '1.5rem', borderRadius: '.2rem', marginRight: '.5rem' }} src='/favicon.ico'/>Marauders</Navbar.Brand>
                         <Nav
                         className="me-auto my-2 my-lg-0"
                         style={{ maxHeight: '100px' }}
