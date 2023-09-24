@@ -65,7 +65,7 @@ class NavMenu extends Component<NavMenuProps, INavMenu> {
                         </Nav>
                         <Searchbar/>
                         <PersonContainer>
-                            {user?.imageSource ? <Image style={{ width: '2rem', height: '2rem', objectFit: 'fill', borderRadius: '1rem', border: 'white solid 1px' }} src={`https://localhost:7144/images/${user?.imageLink}`} onClick={this.handleClick}/> : <PersonCircle onClick={this.handleClick} size={30}/>}
+                            {user?.imageSource ? <Image style={{ width: '2rem', height: '2rem', objectFit: 'fill', borderRadius: '1rem', border: 'white solid 1px' }} src={`http://localhost:8000/images/${user?.imageLink}`} onClick={this.handleClick}/> : <PersonCircle onClick={this.handleClick} size={30}/>}
                             <UserInterfaceCanvas signOut={this.props.signOut} user={user} check={this.props.checkUserSession}  handleClick={this.handleClick} show={show}/>
                         </PersonContainer>
                     </Container>

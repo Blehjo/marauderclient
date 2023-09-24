@@ -178,11 +178,11 @@ class Messages extends Component<MessageProps, IMessage> {
         this.props.getMessages();
         this.props.checkUserSession();
 
-        fetch('https://localhost:7144/api/user')
+        fetch('http://localhost:8000/api/user')
         .then(response => response.json())
         .then(users => this.setState({ users: users }));
        
-        fetch('https://localhost:7144/api/messagecomment')
+        fetch('http://localhost:8000/api/messagecomment')
         .then(response => response.json())
         .then(messages => this.setState({ userMessages: messages }));
     }
@@ -191,7 +191,7 @@ class Messages extends Component<MessageProps, IMessage> {
         if (prevProps.messages.messageId != this.props.messages.messageId) {
             this.setState({
                 connection: new HubConnectionBuilder()
-                .withUrl(`https://localhost:7144/hub/${this.props.messages.messageId}`)
+                .withUrl(`http://localhost:8000/hub/${this.props.messages.messageId}`)
                 .withAutomaticReconnect()
                 .build()
             }, () => {
@@ -239,7 +239,7 @@ class Messages extends Component<MessageProps, IMessage> {
                                 <AContainer>
                                 <Row xs={2}>
                                     <Col xs={2}>
-                                    <Card.Img src={`https://localhost:7144/images/${receiver?.imageLink!}`}/>
+                                    <Card.Img src={`http://localhost:8000/images/${receiver?.imageLink!}`}/>
                                     </Col>
                                     <Col>
                                     <Card.Text>{messageValue}</Card.Text>

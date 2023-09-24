@@ -2,7 +2,7 @@ import axios from "axios";
 import { Marauder } from "../../store/marauder/marauder.types";
 import { Message } from "../../store/message/message.types";
 
-const api = "https://localhost:7144/api/message";
+const api = "http://localhost:8000/api/message";
 
 const headers = {
   'Accept': 'application/json',

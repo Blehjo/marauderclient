@@ -1,7 +1,7 @@
 import axios from "axios";
 import { UserChatComment } from "../../store/userchatcomment/userchatcomment.types";
 
-const api = "https://localhost:7144/api/userchatcomment";
+const api = "http://localhost:8000/api/userchatcomment";
 
 const headers = {
   'Accept': 'application/x-www-form-urlencoded',

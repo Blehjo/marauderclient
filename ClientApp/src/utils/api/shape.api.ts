@@ -2,7 +2,7 @@ import axios from "axios";
 import { Editor } from "../../store/editor/editor.types";
 import { Vector3 } from "@react-three/fiber";
 
-const api = "https://localhost:7144/api/shape";
+const api = "http://localhost:8000/api/shape";
 
 const headers = {
   'Accept': 'application/json',

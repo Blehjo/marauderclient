@@ -13,23 +13,24 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
 
     render() {
         const { sidemenu } = this.props;
+        const pathname = window.location.pathname;
         return (
             <>
             {
                 sidemenu &&
                 <SidebarMenuContainer className='fixed-top bg-dark'>
                     <Row 
-                    xs={1} 
+                xs={1} 
                     >
-                        <Nav.Item className="ms-4 d-flex align-items-center">
-                            <a href="/voyager">
+                        <Nav.Item style={pathname == "/capcom" ? {background: 'rgb(255,83,73)', width: '82%', borderRadius: '.2rem' } : {visibility: 'visible'}} className="ms-4 d-flex align-items-center">
+                            <a href="/capcom">
                             <LayoutTextWindowReverse className='icons' color="white" />
                             </a>
                             <Nav.Link href="/capcom" className="tools ms-4">
                                 CapCom
                             </Nav.Link>
                         </Nav.Item>
-                        <Nav.Item className="ms-4 d-flex align-items-center">
+                        <Nav.Item style={pathname == "/builder" ? {background: 'rgb(255,83,73)', width: '82%', borderRadius: '.2rem' } : {visibility: 'visible'}} className="ms-4 d-flex align-items-center">
                             <a href="/builder">
                             <Screwdriver className='icons' color="white" />
                             </a>
@@ -37,15 +38,15 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                                 Builder
                             </Nav.Link>
                         </Nav.Item>
-                        <Nav.Item className="ms-4 d-flex align-items-center">
-                            <a href="/builder">
+                        <Nav.Item style={pathname == "/odyssey" ? {background: 'rgb(255,83,73)', width: '82%', borderRadius: '.2rem' } : {visibility: 'visible'}} className="ms-4 d-flex align-items-center">
+                            <a href="/odyssey">
                             <Globe className='icons' color="white" />
                             </a>
                             <Nav.Link href="/odyssey" className="tools ms-4">
                                 Odyssey
                             </Nav.Link>
                         </Nav.Item>
-                        <Nav.Item className="ms-4 d-flex align-items-center">
+                        <Nav.Item style={pathname == "/profile" ? {background: 'rgb(255,83,73)', width: '82%', borderRadius: '.2rem' } : {visibility: 'visible'}} className="ms-4 d-flex align-items-center">
                             <a href="/profile">
                             <PersonBoundingBox className='icons' color="white" />
                             </a>
@@ -53,7 +54,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                                 Profile
                             </Nav.Link>
                         </Nav.Item>
-                        <Nav.Item className="ms-4 d-flex align-items-center">
+                        <Nav.Item style={pathname == "/explore" ? {background: 'rgb(255,83,73)', width: '82%', borderRadius: '.2rem' } : {visibility: 'visible'}} className="ms-4 d-flex align-items-center">
                             <a href="/explore">
                             <Eye className='icons' color="white" />
                             </a>
@@ -62,7 +63,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                             </Nav.Link>
                         </Nav.Item>
                         <hr style={{ marginTop: '7%' }}/>
-                        <Nav.Item className="ms-4 d-flex align-items-center">
+                        <Nav.Item style={pathname == "/crew" ? {background: 'rgb(255,83,73)', width: '82%', borderRadius: '.2rem' } : {visibility: 'visible'}} className="ms-4 d-flex align-items-center">
                             <a href="/crew">
                             <Robot className='icons' color="white"  />
                             </a>
@@ -70,7 +71,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                                 Crew
                             </Nav.Link>
                         </Nav.Item>
-                        <Nav.Item className="ms-4 d-flex align-items-center">
+                        <Nav.Item style={pathname == "/messages" ? {background: 'rgb(255,83,73)', width: '82%', borderRadius: '.2rem' } : {visibility: 'visible'}} className="ms-4 d-flex align-items-center">
                             <a href="/messages">
                             <ChatDots className='icons' color="white"  />
                             </a>
@@ -78,7 +79,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                                 Messages
                             </Nav.Link>
                         </Nav.Item>
-                        <Nav.Item className="ms-4 d-flex align-items-center">
+                        <Nav.Item style={pathname == "/devices" ? {background: 'rgb(255,83,73)', width: '82%', borderRadius: '.2rem' } : {visibility: 'visible'}} className="ms-4 d-flex align-items-center">
                             <a href="/devices">
                             <Tablet className='icons' color="white"  />
                             </a>
@@ -86,7 +87,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                                 Devices
                             </Nav.Link>
                         </Nav.Item>
-                        <Nav.Item className="ms-4 d-flex align-items-center">
+                        <Nav.Item style={pathname == "/projects" ? {background: 'rgb(255,83,73)', width: '82%', borderRadius: '.2rem' } : {visibility: 'visible'}} className="ms-4 d-flex align-items-center">
                             <a href="/projects">
                             <Lightbulb className='icons' color="white" />
                             </a>
@@ -95,7 +96,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                             </Nav.Link>
                         </Nav.Item >
                         <hr style={{ marginTop: '7%' }}/>
-                        <Nav.Item className="ms-4 d-flex align-items-center">
+                        <Nav.Item style={pathname == "/marauders" ? {background: 'rgb(255,83,73)', width: '82%', borderRadius: '.2rem' } : {visibility: 'visible'}} className="ms-4 d-flex align-items-center">
                             <a href="/marauders">
                             <PersonBadge className='icons' color="white" />
                             </a>
@@ -103,7 +104,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                                 Marauders
                             </Nav.Link>
                         </Nav.Item>
-                        <Nav.Item className="ms-4 d-flex align-items-center">
+                        <Nav.Item style={pathname == "/communities" ? {background: 'rgb(255,83,73)', width: '82%', borderRadius: '.2rem' } : {visibility: 'visible'}} className="ms-4 d-flex align-items-center">
                             <a href="/communities">
                             <People className='icons' color="white" />
                             </a>
@@ -111,7 +112,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                                 Communities
                             </Nav.Link>
                         </Nav.Item>
-                        <Nav.Item className="ms-4 d-flex align-items-center">
+                        <Nav.Item style={pathname == "/posts" ? {background: 'rgb(255,83,73)', width: '82%', borderRadius: '.2rem' } : {visibility: 'visible'}} className="ms-4 d-flex align-items-center">
                             <a href="/posts">
                             <Collection className='icons' color="white" />
                             </a>
@@ -119,7 +120,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                                 Posts
                             </Nav.Link>
                         </Nav.Item>
-                        <Nav.Item className="ms-4 d-flex align-items-center">
+                        <Nav.Item style={pathname == "/posts" ? {background: 'rgb(255,83,73)', width: '82%', borderRadius: '.2rem' } : {visibility: 'visible'}} className="ms-4 d-flex align-items-center">
                             <a href="/posts">
                             <DeviceSsd className='icons' color="white" />
                             </a>
@@ -127,7 +128,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                                 Files
                             </Nav.Link>
                         </Nav.Item>
-                        <Nav.Item className="ms-4 d-flex align-items-center">
+                        <Nav.Item style={pathname == "/chats" ? {background: 'rgb(255,83,73)', width: '82%', borderRadius: '.2rem' } : {visibility: 'visible'}} className="ms-4 d-flex align-items-center">
                             <a href="/chats">
                             <ChatLeft className='icons' color="white" />
                             </a>
@@ -135,7 +136,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                                 Chats
                             </Nav.Link>
                         </Nav.Item>
-                        <Nav.Item className="ms-4 d-flex align-items-center">
+                        <Nav.Item style={pathname == "/favorites" ? {background: 'rgb(255,83,73)', width: '82%', borderRadius: '.2rem' } : {visibility: 'visible'}} className="ms-4 d-flex align-items-center">
                             <a href="/favorites">
                             <Star className='icons' color="white" />
                             </a>
@@ -144,7 +145,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                             </Nav.Link>
                         </Nav.Item>
                         <hr style={{ marginTop: '7%' }}/>
-                        <Nav.Item className="ms-4 d-flex align-items-center">
+                        <Nav.Item style={pathname == "/settings" ? {background: 'rgb(255,83,73)', width: '82%', borderRadius: '.2rem' } : {visibility: 'visible'}} className="ms-4 d-flex align-items-center">
                             <a href="/settings">
                             <Gear className='icons' color="white" />
                             </a>

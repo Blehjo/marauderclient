@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Post } from "../../store/post/post.types";
 
-const api = "https://localhost:7144/api/post";
+const api = "http://localhost:8000/api/post";
 
 const headers = {
   'Accept': 'application/x-www-form-urlencoded',

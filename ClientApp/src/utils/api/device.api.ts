@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Device } from "../../store/device/device.types";
 
-const api = "https://localhost:7144/api/devices";
+const api = "http://localhost:8000/api/devices";
 
 const headers = {
   'Accept': 'application/json',

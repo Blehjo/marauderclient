@@ -12,8 +12,11 @@ export const SidebarMenuContainer = styled.div`
     border: 3px solid white;
     border-radius: 5px;
     padding-bottom: 8rem;
-    .ms-4:hover {
+    .d-flex:hover {
         color: gray;
+        background: rgb(255,83,73);
+        border-radius: .2rem;
+        width: 82%;
     }
     .icons:hover {
         color: gray;

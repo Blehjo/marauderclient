@@ -297,7 +297,7 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
                         <TextContainer style={{ color: 'white' }}>
                             <Row xs={2}>
                                 <Col xs={1}>
-                                <Card.Img style={{ width: '1rem', height: '1rem', objectFit: 'fill' }} src={`https://localhost:7144/images/${posts.singlePost?.user.imageLink!}`}/>
+                                <Card.Img style={{ width: '1rem', height: '1rem', objectFit: 'fill' }} src={`http://localhost:8000/images/${posts.singlePost?.user.imageLink!}`}/>
                                 </Col>
                                 <Col>
                                 <Card.Text style={{ marginBottom: '.5rem' }}>{posts.singlePost?.user.username}</Card.Text>
@@ -318,7 +318,7 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
                                     <AContainer href={`/profile/${user.userId}`}>
                                         <Row xs={2}>
                                             <Col xs={2}>
-                                            <Card.Img style={{ width: '1rem', height: '1rem', objectFit: 'fill' }} src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                                            <Card.Img style={{ width: '1rem', height: '1rem', objectFit: 'fill' }} src={`http://localhost:8000/images/${user.imageLink!}`}/>
                                             </Col>
                                             <Col>
                                             <Card.Text style={{ marginBottom: '.5rem' }}>{user.username}</Card.Text>

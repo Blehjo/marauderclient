@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ArtificialIntelligence } from "../../store/artificialintelligence/artificialintelligence.types";
 
-const api = "https://localhost:7144/api/artificialintelligence";
+const api = "http://localhost:8000/api/artificialintelligence";
 
 const headers = {
   'Accept': 'application/x-www-form-urlencoded',

@@ -32,19 +32,19 @@ export class Searchbar extends Component<{}, DefaultProps> {
     }
 
     componentDidMount(): void {
-        fetch('https://localhost:7144/api/user')
+        fetch('http://localhost:8000/api/user')
         .then(response => response.json())
         .then(users => this.setState({ users: users }));
 
-        fetch('https://localhost:7144/api/post')
+        fetch('http://localhost:8000/api/post')
         .then(response => response.json())
         .then(posts => this.setState({ posts: posts }));
 
-        fetch('https://localhost:7144/api/community')
+        fetch('http://localhost:8000/api/community')
         .then(response => response.json())
         .then(communities => this.setState({ communities: communities }));
         
-        fetch('https://localhost:7144/api/gltfs')
+        fetch('http://localhost:8000/api/gltfs')
         .then(response => response.json())
         .then(gltfs => this.setState({ gltfs: gltfs }));
     }

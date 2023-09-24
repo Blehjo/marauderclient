@@ -76,7 +76,7 @@ export class MembersChannel extends Component<any, IMembersChannel> {
                             <AContainer href={`/profile/${user.userId}`}>
                                 <Row xs={2}>
                                     <Col xs={3}>
-                                    <Card.Img style={{ width: '2rem', height: '2rem', objectFit: 'fill' }} src={`https://localhost:7144/images/${user?.imageLink!}`}/>
+                                    <Card.Img style={{ width: '2rem', height: '2rem', objectFit: 'fill' }} src={`http://localhost:8000/images/${user?.imageLink!}`}/>
                                     </Col>
                                     <Col>
                                     <Card.Text>{user.username}</Card.Text>

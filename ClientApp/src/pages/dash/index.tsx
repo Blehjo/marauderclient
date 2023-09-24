@@ -288,7 +288,7 @@ class Dash extends Component<DashProps, IDash> {
                     <Card.Text>{element.postValue}</Card.Text>
                         <Row xs={2}>
                             <Col xs={2}>
-                            <Card.Img src={`https://localhost:7144/images/${element.user.imageLink!}`}/>
+                            <Card.Img src={`http://localhost:8000/images/${element.user.imageLink!}`}/>
                             </Col>
                             <Col>
                             <Card.Text>{element.user.username!}</Card.Text>
@@ -334,7 +334,7 @@ class Dash extends Component<DashProps, IDash> {
                                 <TextContainer>
                                 <Row xs={2}>
                                     <Col xs={2}>
-                                    <Card.Img style={{ width: '2rem', height: '2rem', marginBottom: '1rem' }} src={`https://localhost:7144/images/${singleContent?.user.imageLink!}`}/>
+                                    <Card.Img style={{ width: '2rem', height: '2rem', marginBottom: '1rem' }} src={`http://localhost:8000/images/${singleContent?.user.imageLink!}`}/>
                                     </Col>
                                     <Col>
                                     <Card.Text>{singleContent?.user.username}</Card.Text>
@@ -355,7 +355,7 @@ class Dash extends Component<DashProps, IDash> {
                                             <AContainer href={`/profile/${user.userId}`}>
                                                 <Row xs={2}>
                                                     <Col xs={2}>
-                                                    <Card.Img src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                                                    <Card.Img src={`http://localhost:8000/images/${user.imageLink!}`}/>
                                                     </Col>
                                                     <Col>
                                                     <Card.Text>{user.username!}</Card.Text>

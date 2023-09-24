@@ -236,7 +236,7 @@ export class ChatsTab extends Component<ProfileProps, ChatsTabProps> {
                                                 <AContainer href={`/profile/${user.userId}`}>
                                                 <Row xs={2}>
                                                     <Col xs={2}>
-                                                    <Card.Img src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                                                    <Card.Img src={`http://localhost:8000/images/${user.imageLink!}`}/>
                                                     </Col>
                                                     <Col>
                                                     <Card.Text>{user.username}</Card.Text>

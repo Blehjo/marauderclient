@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Channel } from "../../store/channel/channel.types";
 
-const api = "https://localhost:7144/api/channel";
+const api = "http://localhost:8000/api/channel";
 
 const headers = {
     'Accept': 'application/json',

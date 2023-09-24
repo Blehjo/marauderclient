@@ -160,7 +160,7 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
         if (prevProps.messages.messageId != this.props.messages.messageId) {
             this.setState({
                 connection: new HubConnectionBuilder()
-                .withUrl(`https://localhost:7144/hub/${this.props.messages.messageId}`)
+                .withUrl(`http://localhost:8000/hub/${this.props.messages.messageId}`)
                 .withAutomaticReconnect()
                 .build()
             }, () => {
@@ -210,7 +210,7 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
                                 <AContainer >
                                 <Row xs={2}>
                                     <Col xs={2}>
-                                    <Card.Img src={`https://localhost:7144/images/${receiver?.imageLink!}`}/>
+                                    <Card.Img src={`http://localhost:8000/images/${receiver?.imageLink!}`}/>
                                     </Col>
                                     <Col>
                                     <Card.Text>{messageValue}</Card.Text>
@@ -229,7 +229,7 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
                                 <AContainer >
                                 <Row xs={2}>
                                     <Col xs={2}>
-                                    <Card.Img src={`https://localhost:7144/images/${artificialIntelligences?.imageLink!}`}/>
+                                    <Card.Img src={`http://localhost:8000/images/${artificialIntelligences?.imageLink!}`}/>
                                     </Col>
                                     <Col>
                                     <Card.Text>{title}</Card.Text>

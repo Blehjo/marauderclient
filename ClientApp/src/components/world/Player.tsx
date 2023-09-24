@@ -37,7 +37,7 @@ export function Player({ lerp = THREE.MathUtils.lerp }) {
 
   useEffect(() => {
     const newConnection = new HubConnectionBuilder()
-    .withUrl(`https://localhost:7144/hub/odyssey/${id}`)
+    .withUrl(`http://localhost:8000/hub/odyssey/${id}`)
     .withAutomaticReconnect()
     .build();
     setConnection(newConnection);

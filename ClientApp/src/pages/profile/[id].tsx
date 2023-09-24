@@ -26,7 +26,7 @@ import { ProfileContainer } from "../../styles/profile/profile.styles";
 export type SingleProfileProps = ConnectedProps<typeof connector>;
 
 // export const getServerSideProps = (async (context) => {
-//     const res = await fetch('https://localhost:7144/api/user')
+//     const res = await fetch('http://localhost:8000/api/user')
 //     const marauders = await res.json()
 //     return { props: { marauders } }
 // }) satisfies GetServerSideProps<{

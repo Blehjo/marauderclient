@@ -117,7 +117,7 @@ class ModalContent extends Component<any, IModalContent> {
                             <TextContainer>
                             <Row xs={2}>
                                 <Col xs={2}>
-                                <Card.Img style={{ width: '2rem', height: '2rem', marginBottom: '1rem' }} src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                                <Card.Img style={{ width: '2rem', height: '2rem', marginBottom: '1rem' }} src={`http://localhost:8000/images/${user.imageLink!}`}/>
                                 </Col>
                                 <Col>
                                 <Card.Text>{user.username}</Card.Text>
@@ -138,7 +138,7 @@ class ModalContent extends Component<any, IModalContent> {
                                             <AContainer href={`/profile/${user.userId}`}>
                                             <Row xs={2}>
                                                 <Col xs={2}>
-                                                <Card.Img src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                                                <Card.Img src={`http://localhost:8000/images/${user.imageLink!}`}/>
                                                 </Col>
                                                 <Col>
                                                 <Card.Text>{user.username}</Card.Text>
@@ -234,7 +234,7 @@ class ModalContent extends Component<any, IModalContent> {
                             <TextContainer>
                             <Row xs={2}>
                                 <Col xs={2}>
-                                <Card.Img style={{ width: '2rem', height: '2rem', marginBottom: '1rem' }} src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                                <Card.Img style={{ width: '2rem', height: '2rem', marginBottom: '1rem' }} src={`http://localhost:8000/images/${user.imageLink!}`}/>
                                 </Col>
                                 <Col>
                                 <Card.Text>{user.username}</Card.Text>
@@ -255,7 +255,7 @@ class ModalContent extends Component<any, IModalContent> {
                                         <AContainer href={`/profile/${user.userId}`}>
                                         <Row xs={2}>
                                             <Col xs={2}>
-                                            <Card.Img src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                                            <Card.Img src={`http://localhost:8000/images/${user.imageLink!}`}/>
                                             </Col>
                                             <Col>
                                             <Card.Text>{user.username}</Card.Text>
@@ -337,7 +337,7 @@ class ModalContent extends Component<any, IModalContent> {
                                 <TextContainer>
                                 <Row xs={2}>
                                     <Col xs={2}>
-                                    <Card.Img style={{ width: '2rem', height: '2rem', marginBottom: '1rem' }} src={`https://localhost:7144/images/${singleGltf?.user.imageLink!}`}/>
+                                    <Card.Img style={{ width: '2rem', height: '2rem', marginBottom: '1rem' }} src={`http://localhost:8000/images/${singleGltf?.user.imageLink!}`}/>
                                     </Col>
                                     <Col>
                                     <Card.Text>{singleGltf?.user.username}</Card.Text>
@@ -358,7 +358,7 @@ class ModalContent extends Component<any, IModalContent> {
                                             <AContainer href={`/profile/${user?.userId}`}>
                                             <Row xs={2}>
                                                 <Col xs={2}>
-                                                <Card.Img src={`https://localhost:7144/images/${user?.imageLink!}`}/>
+                                                <Card.Img src={`http://localhost:8000/images/${user?.imageLink!}`}/>
                                                 </Col>
                                                 <Col>
                                                 <Card.Text>{user?.username}</Card.Text>
@@ -448,7 +448,7 @@ class ModalContent extends Component<any, IModalContent> {
                                     <AContainer href={`/profile/${user.userId}`}>
                                     <Row xs={2}>
                                         <Col xs={2}>
-                                        <Card.Img style={{ width: '2rem', height: '2rem', objectFit: 'fill' }} src={`https://localhost:7144/images/${user?.imageLink!}`}/>
+                                        <Card.Img style={{ width: '2rem', height: '2rem', objectFit: 'fill' }} src={`http://localhost:8000/images/${user?.imageLink!}`}/>
                                         </Col>
                                         <Col>
                                         <Card.Text>{user.username}</Card.Text>

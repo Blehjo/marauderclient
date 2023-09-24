@@ -2,7 +2,7 @@ import axios from "axios";
 import { DocFile } from "../../store/docfile/docfile.types";
 
 
-const api = "https://localhost:7144/api/docfiles";
+const api = "http://localhost:8000/api/docfiles";
 
 const headers = {
   'Accept': 'application/json',

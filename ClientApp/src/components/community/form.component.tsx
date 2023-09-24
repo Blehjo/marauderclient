@@ -122,7 +122,7 @@ export class FormChannel extends Component<any, IFormChannel> {
         if (prevProps.channels.channelId != this.props.channels.channelId) {
             this.setState({
                 connection: new HubConnectionBuilder()
-                .withUrl(`https://localhost:7144/hub/community/${this.props.channels.channelId}`)
+                .withUrl(`http://localhost:8000/hub/community/${this.props.channels.channelId}`)
                 .withAutomaticReconnect()
                 .build()
             }, () => {

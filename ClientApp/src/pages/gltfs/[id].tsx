@@ -99,7 +99,7 @@ function SingleGltf() {
                         <Card.Img src="https://www.artlog.net/sites/default/files/styles/al_colorbox_rules/public/turrell_cregis_golay_federal_studio.jpg?itok=2M4Pyn0A"/>
                         <Row style={{ position: 'relative', color: 'white', marginTop: '1rem' }} xs={3}>
                         <Col xs={1}>
-                        <Card.Img style={{ width: '2rem', height: '2rem', objectFit: 'fill' }} src={`https://localhost:7144/images/${gltf?.user.imageLink!}`}/>
+                        <Card.Img style={{ width: '2rem', height: '2rem', objectFit: 'fill' }} src={`http://localhost:8000/images/${gltf?.user.imageLink!}`}/>
                         </Col>
                         <Col>
                         <Card.Text style={{ marginBottom: '.5rem' }}>{gltf?.user.username}</Card.Text>
@@ -119,7 +119,7 @@ function SingleGltf() {
                                     <AContainer href={`/profile/${user.userId}`}>
                                     <Row xs={2}>
                                         <Col xs={2}>
-                                        <Card.Img src={`https://localhost:7144/images/${user.imageLink!}`}/>
+                                        <Card.Img src={`http://localhost:8000/images/${user.imageLink!}`}/>
                                         </Col>
                                         <Col>
                                         <Card.Text>{user.username}</Card.Text>

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Action } from "../../store/action/action.types";
 
-const api = "https://localhost:7144/api/action";
+const api = "http://localhost:8000/api/action";
 
 const headers = {
     'Accept': 'application/x-www-form-urlencoded',

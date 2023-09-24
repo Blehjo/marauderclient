@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Member } from "../../store/member/member.types";
 
-const api = "https://localhost:7144/api/members";
+const api = "http://localhost:8000/api/members";
 
 const headers = {
   'Accept': 'application/json',
