@@ -21,4 +21,7 @@ export const SidebarMenuContainer = styled.div`
     .icons:hover {
         color: gray;
     }
+    @media (max-width: 700px) {
+        display: none;
+    }
 `;

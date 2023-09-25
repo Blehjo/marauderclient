@@ -9,11 +9,13 @@ import { CheckUserSession, SignOutStart, checkUserSession, signOutStart } from '
 import { NavmenuContainer, PersonContainer } from '../../styles/navmenu/navmenu.styles';
 import { Searchbar } from '../searchbar/searchbar.component';
 import UserInterfaceCanvas from '../userinterfacecanvas/userinterfacecanvas.component';
-import { AContainer } from '../../styles/poststab/poststab.styles';
+import { AContainer, NavContainer, SearchContainer } from '../../styles/poststab/poststab.styles';
+import { User } from '../../store/user/user.types';
 
 interface INavMenu {
     show: boolean;
     sidebar: boolean;
+    width: number;
 }
 
 type NavMenuProps = ConnectedProps<typeof connector>;
@@ -23,7 +25,8 @@ class NavMenu extends Component<NavMenuProps, INavMenu> {
         super(props);
         this.state = {
             show: false,
-            sidebar: this.props.messagebox
+            sidebar: this.props.messagebox,
+            width: window.innerWidth
         }
         this.handleClick = this.handleClick.bind(this);
         this.handleOpen = this.handleOpen.bind(this);
@@ -48,7 +51,7 @@ class NavMenu extends Component<NavMenuProps, INavMenu> {
     }
 
     render() {
-        const { show } = this.state;
+        const { show, width } = this.state;
         const { user } = this.props;
         return (
             <NavmenuContainer className="fixed-top">
@@ -57,14 +60,16 @@ class NavMenu extends Component<NavMenuProps, INavMenu> {
                     <List size={25} onClick={this.handleOpen} style={{ marginLeft: '.5rem', marginRight: '1rem', padding: '.02rem', cursor: 'pointer' }} className="d-flex align-items-center"/>
                     <Navbar.Brand className='brand' href="/"><Image style={{ width: '1.5rem', height: '1.5rem', borderRadius: '.2rem', marginRight: '.5rem' }} src='/favicon.ico'/>Marauders</Navbar.Brand>
                         <Nav
-                        className="me-auto my-2 my-lg-0"
+                        className="me-auto"
                         style={{ maxHeight: '100px' }}
                         navbarScroll
                         >
-                        <Nav.Link href="/dash">Dashboard</Nav.Link>
-                        <Nav.Link href="/capcom">CapCom</Nav.Link>
+                        <NavContainer href="/dash">Dashboard</NavContainer>
+                        <NavContainer href="/capcom">CapCom</NavContainer>
                         </Nav>
+                        <SearchContainer>
                         <Searchbar/>
+                        </SearchContainer>
                         <PersonContainer>
                             {user?.imageSource ? <Image style={{ width: '2rem', height: '2rem', objectFit: 'fill', borderRadius: '1rem', border: 'white solid 1px' }} src={`http://localhost:8000/images/${user?.imageLink}`} onClick={this.handleClick}/> : <PersonCircle onClick={this.handleClick} size={30}/>}
                             <UserInterfaceCanvas signOut={this.props.signOut} user={user} check={this.props.checkUserSession}  handleClick={this.handleClick} show={show}/>

@@ -16,8 +16,9 @@ type DefaultProps = {
     searchField: string,
     show: boolean
 }
+
 export class Searchbar extends Component<{}, DefaultProps> {
-    constructor(props: DefaultProps) {
+    constructor(props: {}) {
         super(props);
 
         this.state = {
@@ -67,18 +68,18 @@ export class Searchbar extends Component<{}, DefaultProps> {
     }
 
     render() {
-    const { users, posts, communities, gltfs, searchField, show } = this.state;
-    const filteredUsers = users.length > 0 ? users.filter(user =>
-        user.username?.toLowerCase().includes(searchField.toLowerCase())) : [];
-    const filteredPosts = posts.length > 0 ? posts.filter(post =>
-        post.postValue?.toLowerCase().includes(searchField.toLowerCase())) : [];
-    const filteredCommunities = communities.length > 0 ? communities.filter(community =>
-        community.communityName?.toLowerCase().includes(searchField.toLowerCase())) : [];
-    const filteredGltfs = gltfs.length > 0 ? gltfs.filter(gltf =>
-        gltf.fileInformation?.toLowerCase().includes(searchField.toLowerCase())) : [];
+        const { users, posts, communities, gltfs, searchField, show } = this.state;
+        const filteredUsers = users.length > 0 ? users.filter(user =>
+            user.username?.toLowerCase().includes(searchField.toLowerCase())) : [];
+        const filteredPosts = posts.length > 0 ? posts.filter(post =>
+            post.postValue?.toLowerCase().includes(searchField.toLowerCase())) : [];
+        const filteredCommunities = communities.length > 0 ? communities.filter(community =>
+            community.communityName?.toLowerCase().includes(searchField.toLowerCase())) : [];
+        const filteredGltfs = gltfs.length > 0 ? gltfs.filter(gltf =>
+            gltf.fileInformation?.toLowerCase().includes(searchField.toLowerCase())) : [];
         return (
             <>
-                <input style={{ borderRadius: ".5rem", width: "20rem", color: "white", background: "black", border: 'white solid 1px', textAlign: 'center', position: 'absolute', right: '35%' }} onClick={this.handleClickEvent} placeholder="Click here to search" />
+                <input style={{ borderRadius: ".5rem", width: "20rem", color: "white", background: "black", border: 'white solid 1px', textAlign: 'center', position: 'absolute', right: '38%', top: '25%' }} onClick={this.handleClickEvent} placeholder="Click here to search" />
                 {<Modal show={show} onHide={this.handleClickEvent}>
                     <SearchBox onSearchChange={this.onSearchChange} />
                     {searchField.length > 0 && <CardList users={filteredUsers} posts={filteredPosts} communities={filteredCommunities} gltfs={filteredGltfs}/>}

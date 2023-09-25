@@ -91,3 +91,21 @@ export const AContainer = styled.a`
     color: gray;
   }
 `;
+
+export const NavContainer = styled.a`
+  text-decoration: none;
+  margin-right: 1rem;
+  color: white;
+  &:hover {
+    color: gray;
+  }
+  @media (max-width: 1139px) {
+    visibility: hidden;
+  } 
+`;
+
+export const SearchContainer = styled.div`
+  @media (max-width: 992px) {
+    visibility: hidden;
+  } 
+`;

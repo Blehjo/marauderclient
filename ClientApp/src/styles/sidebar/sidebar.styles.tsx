@@ -3,6 +3,9 @@ import styled from 'styled-components';
 export const SidebarContainer = styled.div`
     position: sticky;
     z-index: 3;
+    @media (max-width: 700px) {
+        display: none;
+    }
 `;
 
 export const ContentContainer = styled.div`
