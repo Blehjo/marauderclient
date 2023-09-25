@@ -78,7 +78,7 @@ class UserInterfaceCanvas extends Component<any, IUserCanvas> {
                     </Offcanvas.Header>
                     <Offcanvas.Body>
                     <NavContainer>
-                    <Nav.Item style={pathname == "/capcom" ? {border: 'rgb(255,83,73) 1px solid', width: '88%', borderRadius: '.2rem' } : {margin: 'auto'}} className="ms-4 d-flex align-items-center p-1">
+                    <Nav.Item style={pathname == "/capcom" ? {border: 'rgb(255,83,73) 1px solid', width: '88%', borderRadius: '.2rem' } : {visibility: 'visible' }} className="ms-4 d-flex align-items-center p-1">
                         <a href="/capcom">
                         <LayoutTextWindowReverse className='icons' color="white" />
                         </a>

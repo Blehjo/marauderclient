@@ -6,6 +6,9 @@ export const UserInterfaceCanvasContainer = styled.div`
 `;
 
 export const NavContainer = styled.div`
+    .d-flex {
+        border: 1px solid transparent;
+    }
     .d-flex:hover {
         color: gray;
         border: rgb(255,83,73) solid 1px;

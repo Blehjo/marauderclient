@@ -93,11 +93,16 @@ export const AContainer = styled.a`
 `;
 
 export const NavContainer = styled.a`
+  border: 1px solid transparent;
+  padding: .2rem;
   text-decoration: none;
   margin-right: 1rem;
   color: white;
   &:hover {
     color: gray;
+    background: rgb(255,83,73);
+    border-radius: .2rem;
+    padding: .2rem;
   }
   @media (max-width: 1139px) {
     visibility: hidden;
@@ -111,7 +116,15 @@ export const SearchContainer = styled.div`
 `;
 
 export const ListContainer = styled.div`
+  margin-right: 1rem;
+  margin-left: .5rem;
+  border: 1px solid transparent;
   @media (max-width: 700px) {
     visibility: hidden;
   } 
+  &:hover {
+    color: gray;
+    background: rgb(255,83,73);
+    border-radius: .2rem;
+  }
 `;
