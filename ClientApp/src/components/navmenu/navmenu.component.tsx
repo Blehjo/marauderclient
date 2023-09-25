@@ -62,7 +62,7 @@ class NavMenu extends Component<NavMenuProps, INavMenu> {
                     </ListContainer>
                     <Navbar.Brand className='brand' href="/"><Image style={{ width: '1.5rem', height: '1.5rem', borderRadius: '.2rem', marginRight: '.5rem' }} src='/favicon.ico'/>Marauders</Navbar.Brand>
                         <Nav
-                        className="me-auto"
+                        className="me-auto nav-hidden"
                         style={{ maxHeight: '100px' }}
                         navbarScroll
                         >

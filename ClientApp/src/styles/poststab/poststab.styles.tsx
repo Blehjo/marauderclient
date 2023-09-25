@@ -105,7 +105,7 @@ export const NavContainer = styled.a`
     padding: .2rem;
   }
   @media (max-width: 1139px) {
-    visibility: hidden;
+    display: none;
   } 
 `;
 

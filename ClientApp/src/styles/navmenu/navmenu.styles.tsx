@@ -11,6 +11,11 @@ export const NavmenuContainer = styled.div`
         border-radius: .2rem;
         padding: .2rem;
     }
+    // .nav-hidden {
+    //     @media (max-width: 992px) {
+    //         display: none;
+    //     }
+    // }
 `;
 
 export const PersonContainer = styled.div`
