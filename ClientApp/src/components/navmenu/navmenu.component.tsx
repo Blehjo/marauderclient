@@ -9,7 +9,7 @@ import { CheckUserSession, SignOutStart, checkUserSession, signOutStart } from '
 import { NavmenuContainer, PersonContainer } from '../../styles/navmenu/navmenu.styles';
 import { Searchbar } from '../searchbar/searchbar.component';
 import UserInterfaceCanvas from '../userinterfacecanvas/userinterfacecanvas.component';
-import { AContainer, NavContainer, SearchContainer } from '../../styles/poststab/poststab.styles';
+import { AContainer, ListContainer, NavContainer, SearchContainer } from '../../styles/poststab/poststab.styles';
 import { User } from '../../store/user/user.types';
 
 interface INavMenu {
@@ -57,7 +57,9 @@ class NavMenu extends Component<NavMenuProps, INavMenu> {
             <NavmenuContainer className="fixed-top">
                 <Navbar style={{ border: "3px solid white", borderRadius: "5px", position: 'relative' }} variant="dark" bg="dark" sticky="top" expand="lg" >
                     <Container fluid>
-                    <List size={25} onClick={this.handleOpen} style={{ marginLeft: '.5rem', marginRight: '1rem', padding: '.02rem', cursor: 'pointer' }} className="d-flex align-items-center"/>
+                    <ListContainer>
+                        <List size={25} onClick={this.handleOpen} style={{ marginLeft: '.5rem', marginRight: '1rem', padding: '.02rem', cursor: 'pointer' }} className="d-flex align-items-center"/>
+                    </ListContainer>
                     <Navbar.Brand className='brand' href="/"><Image style={{ width: '1.5rem', height: '1.5rem', borderRadius: '.2rem', marginRight: '.5rem' }} src='/favicon.ico'/>Marauders</Navbar.Brand>
                         <Nav
                         className="me-auto"

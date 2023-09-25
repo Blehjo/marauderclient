@@ -109,3 +109,9 @@ export const SearchContainer = styled.div`
     visibility: hidden;
   } 
 `;
+
+export const ListContainer = styled.div`
+  @media (max-width: 700px) {
+    visibility: hidden;
+  } 
+`;
