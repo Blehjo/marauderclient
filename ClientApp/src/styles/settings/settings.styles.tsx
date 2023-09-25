@@ -19,4 +19,7 @@ export const ItemContainer = styled.div`
     padding: .5rem;
     color: white;
     cursor: pointer;
+    &:hover {
+        color: gray;
+    }
 `;
