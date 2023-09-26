@@ -29,6 +29,10 @@ function App({ Component, ...rest }: AppProps) {
               persistor={persistor} 
               >
               <Layout>
+                <meta
+                  name="viewport"
+                  content="width=device-width, initial-scale=1, maximum-scale=1"
+                />
                 <Component {...pageProps} />
               </Layout>
             </PersistGate>

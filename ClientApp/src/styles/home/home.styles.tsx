@@ -7,6 +7,11 @@ export const HomeContainer = styled.div`
     align-items: center;
     justify-content: center;
     padding-bottom: 2rem;
+    background: black;
+    height: 100%;
+    // @media (max-width: 686px) {
+    //     width: 100vw;
+    // }
 `;
 
 export const ImageContainer = styled.div`
@@ -20,4 +25,5 @@ export const TextContainer = styled.div`
     text-align: center;
     top: 50%;
     width: 100%;
+    word-wrap: break-word;
 `;

@@ -4,6 +4,9 @@ export const NavmenuContainer = styled.div`
     .brand {
         border: 1px solid transparent;
         padding: .2rem;
+        @media (max-width: 686px) {
+            margin: -3rem;
+        }
     }
     .brand:hover {
         color: gray;
@@ -16,6 +19,9 @@ export const NavmenuContainer = styled.div`
     //         display: none;
     //     }
     // }
+    @media (max-width: 686px) {
+        width: 100vw;
+    }
 `;
 
 export const PersonContainer = styled.div`
