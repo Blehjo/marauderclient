@@ -46,4 +46,10 @@ export const ListContainer = styled.div`
     border: solid 1px white;
     border-radius: 1rem;
     background: black;
+    @media (max-width: 1100px) {
+        height: 30rem;
+    }
+    @media (max-width: 686px) {
+        height: calc(100% - 1em);
+    }
 `;

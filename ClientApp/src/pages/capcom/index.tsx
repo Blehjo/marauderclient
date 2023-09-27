@@ -126,18 +126,19 @@ class CapCom extends Component<CapComProps, ICapCom> {
         const { devices, isDevicesOpen } = this.props; 
         return (
             <CapsuleContainer>
+                <Row xs={1} md={2}>
+                    <Col xs={12} md={12} lg={4}>
                 {
-                    isDevicesOpen ? 
-                <>    
+                    isDevicesOpen ?  
                 <FirstColumn>
                 <ListContainer>
                 <CardContainer>
-                    <ContainerBox onClick={this.handleClick}>
-                    New Device +
+                    <ContainerBox style={{ marginLeft: '.5rem'}}>
+                    Devices
                     </ContainerBox>
                     <ContainerBox>
                         <div style={{ position: 'absolute', right: '0rem' }}>
-                            <AContainer><Plus size={40} style={{ padding: '1rem 0rem 0rem 0rem', cursor: 'pointer' }}/></AContainer>
+                            <AContainer><Plus size={40} style={{ padding: '1rem 0rem 0rem 0rem', cursor: 'pointer' }} onClick={this.handleClick}/></AContainer>
                             <AContainer><Search size={30} style={{ padding: '1rem .4rem 0rem .4rem', cursor: 'pointer' }}/></AContainer>
                             <AContainer><ChevronUp size={40} onClick={this.handleOpenDevices} style={{ cursor: 'pointer', padding: '1rem .4rem 0rem 0rem' }}/></AContainer>
                         </div>
@@ -166,20 +167,19 @@ class CapCom extends Component<CapComProps, ICapCom> {
                         </Card>
                 ))}
                 </ListContainer>
-                </FirstColumn>
-                </> :
+                </FirstColumn> :
                  <FixedBox>
                     <div style={{  borderRadius: '.5rem', border: 'white solid 1px', background: 'rgba(0, 0, 0, .75)'}} >
                     <ContainerBox>
                         <Row xs={2}>
                         <Col>
-                            <div style={{ paddingLeft: '1rem'}}>Devices</div>
+                            <div style={{ paddingLeft: '1rem' }}>Devices</div>
                         </Col>
                         </Row>
                     </ContainerBox> 
                     <ContainerBox>
                         <div style={{ position: 'absolute', right: '0rem' }}>
-                            <AContainer><Plus size={40} style={{ padding: '1rem 0rem 0rem 0rem', cursor: 'pointer' }}/></AContainer>
+                            <AContainer><Plus size={40} style={{ padding: '1rem 0rem 0rem 0rem', cursor: 'pointer' }} onClick={this.handleClick}/></AContainer>
                             <AContainer><Search size={30} style={{ padding: '1rem .4rem 0rem .4rem', cursor: 'pointer' }}/></AContainer>
                             <AContainer><ChevronDown size={40} onClick={this.handleOpenDevices} style={{ cursor: 'pointer', padding: '1rem .4rem 0rem 0rem' }}/></AContainer>
                         </div>
@@ -187,17 +187,18 @@ class CapCom extends Component<CapComProps, ICapCom> {
                     </div>
                  </FixedBox> 
                 }
+                </Col>
+                <Col xs={12} md={12} lg={8}>
                 <SecondColumn>
-                <h1>Capsule Communication</h1>
                 <CommandContainer>
                     <ButtonContainer>
-                        <h1>Hello</h1>
+                        Hello
                     </ButtonContainer>
                     <ButtonContainer>
-                        <h1>Hello</h1>
+                        Hello
                     </ButtonContainer>
                     <ButtonContainer>
-                        <h1>Hello</h1>
+                        Hello
                     </ButtonContainer>
                 </CommandContainer>
                 <CommandContainer>
@@ -212,6 +213,8 @@ class CapCom extends Component<CapComProps, ICapCom> {
                     </ButtonContainer>
                 </CommandContainer>
                 </SecondColumn>
+                </Col>
+                </Row>
                 <Modal show={show} onHide={this.handleClick}>
                     <Modal.Header closeButton>Add new device?</Modal.Header>
                     <Modal.Body>

@@ -5,7 +5,7 @@ import { ConnectedProps, connect } from "react-redux";
 import { RootState } from "../../store/store";
 import { MessageCreateStart, MessageDeleteStart, MessageFetchUserMessagesStart, MessageSetID, messageCreateStart, messageDeleteStart, messageFetchUserMessagesStart, messageSetId } from "../../store/message/message.action";
 import { MessageCommentCreateStart, MessageCommentFetchSingleStart, MessageCommentSetID, messageCommentSetId, messagecommentCreateStart, messagecommentFetchSingleStart } from "../../store/messagecomment/messagecomment.action";
-import { Card, Col, Image, Row } from "react-bootstrap";
+import { Card, Col, Image, Row, Tab, Tabs } from "react-bootstrap";
 import { SetIsMessagesOpen, setIsMessagesOpen } from "../../store/messagebox/messagebox.action";
 import { XContainer } from "../../styles/devices/devices.styles";
 import { MessageComment } from "../../store/messagecomment/messagecomment.types";
@@ -204,6 +204,13 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
                         </div>
                     </ContainerBox>
                     </div>
+                    <Tabs
+                        defaultActiveKey="messages"
+                        justify
+                        className='mb-5'
+                        variant='pills'
+                    >
+                    <Tab eventKey="messages" title="Messages">
                     {
                         messages.userMessages?.map(({ messageValue, messageId, dateCreated, receiver }) => (
                             <Card onClick={() => this.handleClick(messageId)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '1rem 1rem 1rem 1rem', cursor: 'pointer', padding: '.5rem' }} key={messageId}>
@@ -223,6 +230,8 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
                             </Card>
                         ))
                     }
+                    </Tab>
+                    <Tab eventKey="chats" title="Chats">
                     {
                         crewMessages.userChats?.map(({ title, chatId, dateCreated, artificialIntelligences }) => (
                             <Card onClick={() => this.handleClick(chatId)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '1rem 1rem 1rem 1rem', cursor: 'pointer', padding: '.5rem' }} key={chatId}>
@@ -242,6 +251,8 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
                             </Card>
                         ))
                     }
+                    </Tab>
+                    </Tabs>
                 </OpenedBox> :
                 <FixedBox>
                     <div style={{  borderRadius: '.5rem', border: 'white solid 1px', background: 'rgba(0, 0, 0, .75)'}} >
