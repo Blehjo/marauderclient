@@ -4,7 +4,7 @@ import { Plus, XCircle } from "react-bootstrap-icons";
 import { ConnectedProps, connect } from "react-redux";
 
 import { ButtonContainer, CardContainer, DeviceContainer, FormContainer, XContainer } from "../../styles/devices/devices.styles";
-import { ListContainer } from "../../styles/messages/messages.styles";
+import { ListContainer, MessageForm } from "../../styles/messages/messages.styles";
 
 import { DeviceCreateStart, DeviceDeleteStart, DeviceFetchAllStart, deviceCreateStart, deviceDeleteStart, deviceFetchAllStart } from "../../store/device/device.action";
 import { RootState } from "../../store/store";
@@ -118,6 +118,8 @@ class Devices extends Component<DeviceProps, IDevice> {
         const { devices } = this.props;
         return (
             <DeviceContainer>
+                <Row xs={1} md={2}>
+                    <Col xs={12} md={12} lg={4}>
             <ListContainer>
                 <CardContainer onClick={this.handleClick}>
                     New Device +
@@ -149,6 +151,8 @@ class Devices extends Component<DeviceProps, IDevice> {
                     ))
                 }
             </ListContainer>
+            </Col>
+            <Col xs={12}>
             <Modal show={show} onHide={this.handleClick}>
                 <Modal.Header closeButton>Add new device?</Modal.Header>
                 <Modal.Body>
@@ -174,6 +178,12 @@ class Devices extends Component<DeviceProps, IDevice> {
                     </Form>
                 </Modal.Body>
             </Modal>
+            <MessageForm>
+                Device Comms
+
+            </MessageForm>
+            </Col>
+            </Row>
             </DeviceContainer>
         );
     }

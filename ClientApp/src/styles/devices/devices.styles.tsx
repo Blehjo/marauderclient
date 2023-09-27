@@ -2,6 +2,10 @@ import { styled } from "styled-components";
 
 export const DeviceContainer = styled.div`
     padding-top: 5rem;
+    // display: flex;
+    // flex-direction: row;
+    // justify-content: center;
+    // align-items: center;
     position: relative;
 `;
 

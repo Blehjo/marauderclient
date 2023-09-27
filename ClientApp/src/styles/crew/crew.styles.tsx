@@ -29,6 +29,18 @@ export const CrewMemberContainer = styled.div`
     border: solid 1px white;
     border-radius: 1rem;
     background: black;
+    @media (max-width: 1100px) {
+        position: absolute;
+        height: 25vh;
+        top: 5rem;
+        width: 48%;
+        left: 0%;
+    }
+    @media (max-width: 686px) {
+        position: static;
+        width: 100%;
+        height: 25vh;
+    }
 `;
 
 export const ChatForm = styled.div`
@@ -40,10 +52,21 @@ export const ChatForm = styled.div`
     width: 55%;
     border: solid 1px white;
     border-radius: 1rem;
-    // .form-control {
-    //     background-color: black; 
-    //     color: white;
-    // }
+    @media (max-width: 1100px) {
+        position: absolute;
+        width: 100%;
+        height: 55vh;
+        top: 40vh;
+        left: 0%;
+    }
+    @media (max-width: 686px) {
+        position: static;
+        margin-top: 1rem;
+        width: 100%;
+        height: 60vh;
+        margin-bottom: 3.5rem;
+    }
+    
 `;
 
 export const HeaderContainer = styled.div`
@@ -63,6 +86,19 @@ export const ChatsContainer = styled.div`
     border: solid 1px white;
     border-radius: 1rem;
     background: black;
+    @media (max-width: 1100px) {
+        position: absolute;
+        width: 48%;
+        top: 5rem;
+        left: 52%;
+        height: 25vh;
+    }
+    @media (max-width: 686px) {
+        position: static;
+        margin-top: 1rem;
+        width: 100%;
+        height: 25vh;
+    }
 `;
 
 export const ChatBox = styled.div`

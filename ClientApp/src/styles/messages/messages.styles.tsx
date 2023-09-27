@@ -2,10 +2,10 @@ import { styled } from "styled-components";
 
 export const MessageContainer = styled.div`
     padding-top: 5rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    // display: flex;
+    // flex-direction: row;
+    // justify-content: center;
+    // align-items: center;
     position: relative;
 `;  
 
@@ -20,6 +20,16 @@ export const ListContainer = styled.div`
     border: solid 1px white;
     border-radius: 1rem;
     background: black;
+    @media (max-width: 1100px) {
+        position: absolute;
+        width: 40%;
+        left: 0%;
+    }
+    @media (max-width: 686px) {
+        position: static;
+        width: 100%;
+        height: 25vh;
+    }
 `;
 
 export const MessageForm = styled.div`
@@ -35,12 +45,30 @@ export const MessageForm = styled.div`
         background-color: black; 
         color: white;
     }
+    @media (max-width: 1100px) {
+        position: absolute;
+        width: 57.5%;
+        left: 42.5%;
+    }
+    @media (max-width: 686px) {
+        margin-top: 2rem;
+        position: static;
+        width: 100%;
+        height: 75vh;
+    }
 `;
 
 export const InputContainer = styled.div`
     position: absolute;
     bottom: 0rem;
     width: 100%;
+    @media (max-width: 686px) {
+        // bottom: 4rem;
+        width: 90%;
+        .boarders {
+            margin-bottom: 4rem;
+        }
+    }
 `;
 
 export const TextCommentContainer = styled.div`

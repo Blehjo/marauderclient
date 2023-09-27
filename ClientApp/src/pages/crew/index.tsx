@@ -319,6 +319,8 @@ class Crew extends Component<CrewProps, ICrew> {
             chat.chatValue.toLowerCase().includes(searchField.toLowerCase()));
         return (
             <CrewContainer>
+                <Row xs={1} md={2} xl={3}>
+                    <Col xs={12} md={12} lg={4}>
                 <CrewMemberContainer>
                     <input style={{ borderRadius: ".3rem", width: "98%", border: 'white solid 1px', margin: '.2rem .2rem 1rem .2rem', background: 'black', textAlign: 'center' }} onClick={this.handleClickEvent} placeholder="Search" />
                     <CardContainer key='cardcontainer' onClick={this.handleClick}>New Crew +</CardContainer>
@@ -348,6 +350,29 @@ class Crew extends Component<CrewProps, ICrew> {
                         ))
                     }
                 </CrewMemberContainer>
+                </Col>
+                <Col xs={12} md={12} lg={4}>
+                <ChatsContainer>
+                    <CardContainer>Chats</CardContainer>
+                    {
+                        this.props.chats.userChats?.map(({ artificialIntelligences, chatId, title }, index) => (
+                            <Card onClick={() => this.handleChatSelect(chatId, artificialIntelligences?.artificialIntelligenceId, artificialIntelligences?.name)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', padding: '.5rem' }} key={index}>
+                                <AContainer>
+                                <Row xs={1}>
+                                    <Col>
+                                    <Card.Text>{title}</Card.Text>
+                                    </Col>
+                                </Row>
+                                </AContainer>
+                                <XContainer style={{ position: 'absolute', top: '0.5rem', right: '0.5rem' }}>
+                                    <XCircle onClick={() => this.handleDelete(chatId)} />
+                                </XContainer>
+                            </Card>
+                        ))
+                    }
+                </ChatsContainer>
+                </Col>
+                <Col xs={12}>
                 <ChatForm>
                     <Form onSubmit={this.sendMessage}>
                         <HeaderContainer>
@@ -381,6 +406,7 @@ class Crew extends Component<CrewProps, ICrew> {
                         {
                             inputContainer &&
                             <InputContainer>
+                            <div className="boarders">
                             <Row xs={2}>
                                 <Col xs={10}>
                                 <Form.Group className="mb-3" controlId="request">
@@ -394,29 +420,13 @@ class Crew extends Component<CrewProps, ICrew> {
                                 <button className="btn btn-outline-light"><Send/></button>
                                 </Col>
                             </Row>
+                            </div>
                             </InputContainer>
                         }
                     </Form>
                 </ChatForm>
-                <ChatsContainer>
-                    <CardContainer>Chats</CardContainer>
-                    {
-                        this.props.chats.userChats?.map(({ artificialIntelligences, chatId, title }, index) => (
-                            <Card onClick={() => this.handleChatSelect(chatId, artificialIntelligences?.artificialIntelligenceId, artificialIntelligences?.name)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', padding: '.5rem' }} key={index}>
-                                <AContainer>
-                                <Row xs={1}>
-                                    <Col>
-                                    <Card.Text>{title}</Card.Text>
-                                    </Col>
-                                </Row>
-                                </AContainer>
-                                <XContainer style={{ position: 'absolute', top: '0.5rem', right: '0.5rem' }}>
-                                    <XCircle onClick={() => this.handleDelete(chatId)} />
-                                </XContainer>
-                            </Card>
-                        ))
-                    }
-                </ChatsContainer>
+                </Col>
+                </Row>
                 <Modal show={show} onHide={this.handleClick}>
                     <Modal.Header closeButton>Add a crew member</Modal.Header>
                     <Modal.Body>

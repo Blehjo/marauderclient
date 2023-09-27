@@ -13,4 +13,15 @@ export const PanelContainer = styled.div`
         background-color: black; 
         color: white;
     }
+    @media (max-width: 1100px) {
+        position: absolute;
+        width: 57.5%;
+        left: 42.5%;
+    }
+    @media (max-width: 686px) {
+        margin-top: 2rem;
+        position: static;
+        width: 100%;
+        height: 75vh;
+    }
 `;

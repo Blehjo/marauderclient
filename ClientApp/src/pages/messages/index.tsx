@@ -222,6 +222,8 @@ class Messages extends Component<MessageProps, IMessage> {
             message.messageValue.toLowerCase().includes(searchField.toLowerCase()));
         return (
             <MessageContainer>
+                <Row xs={1} md={2}>
+                    <Col xs={12} md={12} lg={4}>
                 <ListContainer>
                     <input style={{ borderRadius: ".3rem", width: "98%", border: 'white solid 1px', margin: '.2rem .2rem 1rem .2rem', background: 'black', textAlign: 'center' }} onClick={this.handleClickEvent} placeholder="Search" />
                     <Card style={{ backgroundColor: 'black', borderRadius: '.3rem', border: 'solid 1px white', margin: '.3rem .2rem 1rem .2rem', cursor: 'pointer', color: 'white', textAlign: 'center' }}>
@@ -253,6 +255,8 @@ class Messages extends Component<MessageProps, IMessage> {
                         ))
                     }
                 </ListContainer>
+                </Col>
+                <Col xs={12}>
                 <MessageForm>
                     <Form onSubmit={this.sendMessage}>
                         <Container style={{ height: '75%', overflow: 'auto' }}>
@@ -277,6 +281,8 @@ class Messages extends Component<MessageProps, IMessage> {
                         </InputContainer>
                     </Form>
                 </MessageForm>
+                </Col>
+                </Row>
             </MessageContainer>
         );
     }

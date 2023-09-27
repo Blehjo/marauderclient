@@ -87,6 +87,8 @@ class Projects extends Component<ProjectProps, IProject> {
         const { panels, docFiles } = this.props;
         return (
             <ProjectContainer>
+                <Row xs={1} md={2}>
+                    <Col xs={12} md={12} lg={4}>
                 <ListContainer>
                     <CardContainer onClick={this.newProject} style={{ backgroundColor: 'black', borderRadius: '.3rem', border: 'solid 1px white', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', color: 'white', textAlign: 'center' }}>
                         New Project +
@@ -108,7 +110,10 @@ class Projects extends Component<ProjectProps, IProject> {
                         ))
                     }
                 </ListContainer>
+                </Col>
+                <Col xs={12}>
                 <Panel {...this.props} />
+                </Col>
                 <Modal show={showProject} onHide={this.newProject}>
                     <Modal.Header closeButton>Create new project</Modal.Header>
                     <Modal.Body>
@@ -124,6 +129,7 @@ class Projects extends Component<ProjectProps, IProject> {
                     </Form>
                     </Modal.Body>
                 </Modal>
+                </Row>
             </ProjectContainer>
         );
     }

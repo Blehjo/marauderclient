@@ -14,6 +14,7 @@ class Index extends Component {
           </TextContainer>
           <Image style={{ borderRadius: '1rem', objectFit: 'cover', width: '100rem', height: '45rem' }} src="/home.jpeg"/>
         </ImageContainer>
+        <Row xs={1}>
           <ImageContainer>
           <TextContainer>
               DEVICES
@@ -32,8 +33,7 @@ class Index extends Component {
             </TextContainer>
             <Image style={{ borderRadius: '1rem', objectFit: 'cover', width: '100rem', height: '30rem' }} src="/dashboard.jpeg" />
           </ImageContainer>
-        <Row xs={1}>
-          <Col xs={6}>
+          <Col sm={12} md={6}>
           <ImageContainer>
             <TextContainer>
               ESP-32
@@ -41,7 +41,7 @@ class Index extends Component {
             <Image style={{ borderRadius: '1rem', objectFit: 'cover', width: '100rem', height: '30rem' }} src="/esp32-image.jpeg" />
           </ImageContainer>
           </Col>
-          <Col xs={6}>
+          <Col sm={12} md={6}>
           <ImageContainer>
             <TextContainer>
               SKETCH
