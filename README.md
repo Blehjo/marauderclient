@@ -2,7 +2,9 @@
   <a target="_blank" rel="noopener noreferrer" href="https://"><img style="object-fit: cover; width: 100px; height: 100px; border-radius: 1rem;" src="https://i.imgur.com/20LpIohs.jpg"/></a>
   <h3>Marauders is a web application that provides you with the tools to develop 3D and Augmented Reality objects. Add a device to control the tools while you're at it or add a device to keep track of things in your home. Use your creativity and the sites tools and guides to create your own world that can be shared with the community.</h3>
 
-  [See it here](https://marauders.vercel.app)
+   [See it here](https://marauders.vercel.app)
+
+<img src="./ClientApp/src/images/marauders.png"  alt="Marauders">
 
   ---
 </div>
@@ -29,6 +31,9 @@
  <a target="_blank" rel="noopener noreferrer" href="https://react.dev/">
     <img src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" alt="React Badge" style="max-width: 100%;">
  </a>
+ <a target="_blank" rel="noopener noreferrer" href="https://typescriptlang.org/">
+    <img src="https://img.shields.io/badge/typescript-%2320232a.svg?style=for-the-badge&logo=typescript&logoColor=white" alt="Typescript Badge" style="max-width: 100%;">
+ </a>
  <a target="_blank" rel="noopener noreferrer" href="https://learn.microsoft.com/en-us/dotnet/csharp/">
     <img src="https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=c-sharp&logoColor=white" alt="C# Badge" style="max-width: 100%;">
  </a>
@@ -36,7 +41,10 @@
     <img src="https://img.shields.io/badge/Microsoft-0078D4?style=for-the-badge&logo=microsoft&logoColor=white" alt="Microsoft Badge" style="max-width: 100%;">
  </a>
  <a target="_blank" rel="noopener noreferrer" href="https://www.docker.com/">
-    <img src="https://img.shields.io/badge/docker-%2307405e.svg?style=for-the-badge&logo=docker&logoColor=white" alt="Sqlite Badge" style="max-width: 100%;">
+    <img src="https://img.shields.io/badge/docker-%2307405e.svg?style=for-the-badge&logo=docker&logoColor=white" alt="Docker Badge" style="max-width: 100%;">
+ </a>
+ <a target="_blank" rel="noopener noreferrer" href="https://www.mysql.com/">
+    <img src="https://img.shields.io/badge/sql-%2307405e.svg?style=for-the-badge&logo=sql&logoColor=white" alt="SQL Badge" style="max-width: 100%;">
  </a>
  <a target="_blank" rel="noopener noreferrer" href="https://www.visualstudio.com/">
     <img src="https://img.shields.io/badge/Visual%20Studio-5C2D91.svg?style=for-the-badge&logo=visual-studio&logoColor=white" alt="Visual Studio Badge" style="max-width: 100%;">
@@ -56,8 +64,8 @@
       <td>Solar System</td>
    </tr>
    <tr>
-      <td style="width: 50%;"><img src="./ClientApp/src/images/homepage.png" alt="Homepage"></td>
-      <td style="width: 50%;"><img src="./ClientApp/src/images/solar.png" alt="Solar System"></td>
+      <td style="width: 50%;"><img src="./ClientApp/src/images/odyssey.png" alt="Odyssey"></td>
+      <td style="width: 50%;"><img src="./ClientApp/src/images/capcom.png" alt="CapCom"></td>
    </tr>
    </table>
 </div>
@@ -67,52 +75,38 @@
 <div align="center">
    <table>
    <tr>
-      <td>Planets</td>
-      <td>Moons</td>
+      <td>Builder</td>
+      <td>Editor</td>
    </tr>
    <tr>
-      <td style="width: 50%;"><img src="./ClientApp/src/images/planets.png"  alt="Marauders planets"></td>
-      <td style="width: 50%;"><img src="./ClientApp/src/images/moons.png" alt="Marauders moons"></td>
+      <td style="width: 50%;"><img src="./ClientApp/src/images/builder.png"  alt="Builder"></td>
+      <td style="width: 50%;"><img src="./ClientApp/src/images/editor.png" alt="Editor"></td>
    </tr>
    </table>
 </div>
 
 ## Usage:
 
-Planets: 
+Projects: 
 
-Use your personal AI to find answer's to your curiosity and find inspiration for your plans and explorations.
+Use your personal AI to find answer's to your curiosity and find inspiration for your projects.
 
-Moons:
+Files:
 
-Alternatively, search the application for already discovered moons and moons created by other artists looking for answers and inspirations.
-
-Stay up to date by viewing single planets for specific discussions.
+Alternatively, search the application for files, answers and inspirations.
 
 <div align="center">
    <table>
    <tr>
-      <td>Single Planet</td>
-      <td>Single Moon</td>
+      <td>Projects</td>
+      <td>Files</td>
    </tr>
    <tr>
-      <td style="width: 50%;"><img src="./ClientApp/src/images/planetsingle.png"  alt="Marauders create community"></td>
-      <td style="width: 50%;"><img src="./ClientApp/src/images/moonsingle.png"  alt="Marauders community"></td>
+      <td style="width: 50%;"><img src="./ClientApp/src/images/projects.png"  alt="Marauders create project"></td>
+      <td style="width: 50%;"><img src="./ClientApp/src/images/files.png"  alt="Marauders create file"></td>
    </tr>
    </table>
 </div>
-
-Voyage:
-
-Get an up close look at our solar system and take that information to your crew for missions.
-
-<img src="./ClientApp/src/images/voyage.png"  alt="Marauders dilemmas">
-
-Fractals: 
-
-Design 3D models from your imagination. These can be organisms you've imagined in space and devices that your crew will use.
-
-<img src="./ClientApp/src/images/fractals.png"  alt="Marauders messages">
 
 ## License: 
 

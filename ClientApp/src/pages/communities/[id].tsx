@@ -36,7 +36,7 @@ function SingleCommunity(props: SingleCommunityProps) {
         </div>
         </Card.ImgOverlay>
         </Card>
-        <CrewContainer>
+        <CrewContainer style={{ marginTop: '5rem' }}>
             <CommunityChannels communityId={id} {...props} />
             <MembersChannel communityId={id} {...props} />
             <FormChannel communityId={id} {...props} />

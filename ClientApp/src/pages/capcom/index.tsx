@@ -192,13 +192,13 @@ class CapCom extends Component<CapComProps, ICapCom> {
                 <SecondColumn>
                 <CommandContainer>
                     <ButtonContainer>
-                        Hello
+                        Room
                     </ButtonContainer>
                     <ButtonContainer>
-                        Hello
+                        Bathroom
                     </ButtonContainer>
                     <ButtonContainer>
-                        Hello
+                        Bathroom
                     </ButtonContainer>
                 </CommandContainer>
                 <CommandContainer>
