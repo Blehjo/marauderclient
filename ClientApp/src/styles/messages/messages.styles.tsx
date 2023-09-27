@@ -312,6 +312,6 @@ export const SinglePostContainer = styled.div`
   @media (max-width: 900px) {
     margin: 4rem 3rem 0rem 3rem;
     position: fixed;
-    top: 0rem;
+    top: 1rem;
   }
 `;

@@ -2,9 +2,10 @@ import { ChangeEvent, Component, FormEvent, ReactNode } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import { Send } from "react-bootstrap-icons";
 import { ChannelComment } from "../../store/channelcomment/channelcomment.types";
-import { ChatForm, Container } from "../../styles/crew/crew.styles";
+import { Container } from "../../styles/crew/crew.styles";
 import { InputContainer, TextContainer, UserTextContainer } from "../../styles/messages/messages.styles";
 import { HubConnectionBuilder } from "@microsoft/signalr";
+import { ChatForm } from "../../styles/communities/communities.styles";
 
 interface IFormChannel {
     socket: boolean;

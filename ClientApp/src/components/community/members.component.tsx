@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { ChatsContainer, TextFitContainer } from "../../styles/crew/crew.styles";
+import { ChatsContainer } from "../../styles/communities/communities.styles";
 import { AContainer, CardContainer } from "../../styles/poststab/poststab.styles";
 import { Card, Row, Col, Modal } from "react-bootstrap";
 import { XContainer } from "../../styles/devices/devices.styles";

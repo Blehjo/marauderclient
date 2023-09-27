@@ -4,7 +4,7 @@ import { XCircle } from "react-bootstrap-icons";
 import { Textfit } from "react-textfit";
 
 import { Channel } from "../../store/channel/channel.types";
-import { CrewMemberContainer, TextFitContainer } from "../../styles/crew/crew.styles";
+import { CrewMemberContainer } from "../../styles/communities/communities.styles";
 import { CardContainer, XContainer } from "../../styles/devices/devices.styles";
 import { AContainer, ModalPostContainer } from "../../styles/poststab/poststab.styles";
 
