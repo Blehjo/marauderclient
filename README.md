@@ -60,12 +60,12 @@
 <div align="center">
    <table>
    <tr>
-      <td>Landing Page</td>
-      <td>Solar System</td>
+      <td>Odyssey</td>
+
    </tr>
    <tr>
       <td style="width: 50%;"><img src="./ClientApp/src/images/odyssey.png" alt="Odyssey"></td>
-      <td style="width: 50%;"><img src="./ClientApp/src/images/capcom.png" alt="CapCom"></td>
+      <td style="width: 50%;"><img src="./ClientApp/src/images/odysseypage.png" alt="CapCom"></td>
    </tr>
    </table>
 </div>
@@ -79,7 +79,7 @@
       <td>Editor</td>
    </tr>
    <tr>
-      <td style="width: 50%;"><img src="./ClientApp/src/images/builder.png"  alt="Builder"></td>
+      <td style="width: 50%;"><img src="./ClientApp/src/images/editorpage.png"  alt="Builder"></td>
       <td style="width: 50%;"><img src="./ClientApp/src/images/editor.png" alt="Editor"></td>
    </tr>
    </table>
@@ -102,8 +102,8 @@ Alternatively, search the application for files, answers and inspirations.
       <td>Files</td>
    </tr>
    <tr>
-      <td style="width: 50%;"><img src="./ClientApp/src/images/projects.png"  alt="Marauders create project"></td>
-      <td style="width: 50%;"><img src="./ClientApp/src/images/files.png"  alt="Marauders create file"></td>
+      <td style="width: 50%;"><img src="./ClientApp/src/images/builder.png"  alt="Marauders create project"></td>
+      <td style="width: 50%;"><img src="./ClientApp/src/images/gltfstab.png"  alt="Marauders create file"></td>
    </tr>
    </table>
 </div>
