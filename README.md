@@ -4,7 +4,7 @@
 
    [See it here](https://marauders.vercel.app)
 
-<img src="./ClientApp/src/images/marauders.png"  alt="Marauders">
+<img src="./ClientApp/src/images/marauders.png" style="border-radius: .2rem;"  alt="Marauders">
 
   ---
 </div>
