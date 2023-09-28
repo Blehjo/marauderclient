@@ -18,6 +18,7 @@ import FlexDisplay from "../../components/builder/flex.component";
 import { EditorState } from "../../store/editor/editor.reducer";
 import { GltfState } from "../../store/gltf/gltf.reducer";
 import { XContainer } from "../../styles/devices/devices.styles";
+import { SetIsBuilderOpen, SetIsEditorOpen, SetIsMaraudersOpen, setIsBuilderOpen, setIsEditorOpen, setIsMaraudersOpen } from "../../store/messagebox/messagebox.action";
 
 interface IBuilder {
     showNewFileDialogue: boolean;
@@ -56,15 +57,15 @@ class Vitals extends Component<BuilderProps, IBuilder> {
     }
 
     handleBuilderClick(): void {
-        this.setState({
-            ...this.state, builder: !this.state.builder
-        })
+        if (this.props.marauders == true) {
+            this.props.closeMarauders(!this.props.marauders)
+        }
     }
 
     handleEditorClick(): void {
-        this.setState({
-            ...this.state, editor: !this.state.editor
-        })
+        if (this.props.marauders == true) {
+            this.props.closeMarauders(!this.props.marauders)
+        }
     }
 
     handleFileClick(): void {
@@ -219,6 +220,10 @@ class Vitals extends Component<BuilderProps, IBuilder> {
     componentDidMount(): void {
         this.props.fetchShapes();
         this.props.fetchGltfFiles();
+        if (this.props.builder == true) {
+            this.props.toggleBuilder(false);
+            this.props.toggleEditor(false);
+        }
     }
 
     // componentDidUpdate(prevProps: Readonly<{ gltfs: GltfState; shapes: EditorState; } & { fetchShapes: () => void; fetchGltfFiles: () => void; fetchSingleFile: (gltfId: number) => void; createGltfFile: (fileInformation: string) => void; deleteFile: (gltfId: number) => void; }>, prevState: Readonly<IBuilder>, snapshot?: any): void {
@@ -229,29 +234,19 @@ class Vitals extends Component<BuilderProps, IBuilder> {
     // }
 
     render() {
-        const { builder, editor } = this.state;
-        const { shapes, gltfs } = this.props;
+        // const { builder, editor } = this.state;
+        const { shapes, gltfs, builder, editor } = this.props;
         return (
             <>
-            {
-                editor ?
-                <div style={{ height: '100vh' }}>
-                    <Editor/> 
-                </div> :
-                builder ?
-                <div style={{ height: '100vh' }}>
-                    <Builder/> 
-                </div> :
-                <>
                 <VitalsContainer>
                     <InfoContainer>Get Started</InfoContainer>
-                    <p>Create a new file and start building your imagination!</p>
+                    <div className="subtitle">Create a new file and start building your imagination!</div>
                     <OptionsContainer>
-                        <CardContainer onClick={this.handleFileClick} style={{ cursor: 'pointer' }}>New File</CardContainer>
-                        <CardContainer onClick={this.handleNewTeamClick} style={{ cursor: 'pointer' }}>Create Team</CardContainer>
-                        <CardContainer onClick={this.handleViewShapes} style={{ cursor: 'pointer' }}>View Community</CardContainer>
-                        <CardContainer onClick={this.handleBuilderClick} style={{ cursor: 'pointer' }}>Go To Builder</CardContainer>
-                        <CardContainer onClick={this.handleEditorClick} style={{ cursor: 'pointer' }}>Go To Editor</CardContainer>
+                        <CardContainer onClick={this.handleFileClick} style={{ cursor: 'pointer' }}><div>New File</div></CardContainer>
+                        <CardContainer onClick={this.handleNewTeamClick} style={{ cursor: 'pointer' }}><div>Create Team</div></CardContainer>
+                        <CardContainer onClick={this.handleViewShapes} style={{ cursor: 'pointer' }}><div>View Community</div></CardContainer>
+                        <CardContainer href="/designer" onClick={this.handleBuilderClick} style={{ cursor: 'pointer' }}><div>Go To Builder</div></CardContainer>
+                        <CardContainer href="/editor" onClick={this.handleEditorClick} style={{ cursor: 'pointer' }}><div>Go To Editor</div></CardContainer>
                     </OptionsContainer>
                     {this.handleNewFile()}
                     {this.handleTeamClick()}
@@ -273,8 +268,6 @@ class Vitals extends Component<BuilderProps, IBuilder> {
                         </Masonry>
                     </ResponsiveMasonry>
                 </CardsContainer>}
-            </>
-            }
             {/* <CardsContainer style={{ marginBottom: '5rem' }}>
                 <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 3, 1050: 4 }}>
                     <Masonry>
@@ -290,16 +283,22 @@ class Vitals extends Component<BuilderProps, IBuilder> {
 const mapStateToProps = (state: RootState) => {
     return {
         gltfs: state.gltf,
-        shapes: state.editor 
+        shapes: state.editor,
+        marauders: state.messagebox.isMaraudersOpen,
+        builder: state.messagebox.isBuilderOpen,
+        editor: state.messagebox.isEditorOpen
     }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<EditorFetchAllStart | GltfFetchUserStart | GltfCreateStart | GltfFetchSingleStart | GltfDeleteStart>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<EditorFetchAllStart | GltfFetchUserStart | GltfCreateStart | GltfFetchSingleStart | GltfDeleteStart | SetIsMaraudersOpen | SetIsBuilderOpen | SetIsEditorOpen>) => ({
     fetchShapes: () => dispatch(editorFetchAllStart()),
     fetchGltfFiles: () => dispatch(gltfFetchUserStart()),
     fetchSingleFile: (gltfId: number) => dispatch(gltfFetchSingleStart(gltfId)),
     createGltfFile: (fileInformation: string) => dispatch(gltfCreateStart(fileInformation)),
-    deleteFile: (gltfId: number) => dispatch(gltfDeleteStart(gltfId))
+    deleteFile: (gltfId: number) => dispatch(gltfDeleteStart(gltfId)),
+    closeMarauders: (boolean: boolean) => dispatch(setIsMaraudersOpen(boolean)),
+    toggleBuilder: (boolean: boolean) => dispatch(setIsBuilderOpen(boolean)),
+    toggleEditor: (boolean: boolean) => dispatch(setIsEditorOpen(boolean))
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

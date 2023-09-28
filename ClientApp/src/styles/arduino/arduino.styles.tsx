@@ -25,15 +25,8 @@ export const ButtonContainer = styled.div`
 
 export const FirstColumn = styled.div`
     padding-top: 2rem;
-    // width: 25%;
-    @media (max-width: 1100px) {
-        // position: absolute;
-        // width: 40%;
-        // left: 0%;
-    }
     @media (max-width: 686px) {
         position: static;
-        // width: 100%;
         height: 25vh;
     }
 `;

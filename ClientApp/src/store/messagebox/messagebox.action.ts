@@ -26,13 +26,13 @@ export type SetIsSolarSystemOpen = ActionWithPayload<
   boolean
 >;
 
-export type SetIsPlanetsOpen = ActionWithPayload<
-  MESSAGEBOX_ACTION_TYPES.SET_IS_PLANETS_OPEN,
+export type SetIsEditorOpen = ActionWithPayload<
+  MESSAGEBOX_ACTION_TYPES.SET_IS_EDITOR_OPEN,
   boolean
 >;
 
-export type SetIsMoonsOpen = ActionWithPayload<
-  MESSAGEBOX_ACTION_TYPES.SET_IS_MOONS_OPEN,
+export type SetIsBuilderOpen = ActionWithPayload<
+  MESSAGEBOX_ACTION_TYPES.SET_IS_BUILDER_OPEN,
   boolean
 >;
 
@@ -66,14 +66,14 @@ export const setIsSolarSystemOpen = withMatcher(
     createAction(MESSAGEBOX_ACTION_TYPES.SET_IS_SOLARSYSTEM_OPEN, boolean)
 );
 
-export const setIsPlanetsOpen = withMatcher(
-    (boolean: boolean): SetIsPlanetsOpen =>
-    createAction(MESSAGEBOX_ACTION_TYPES.SET_IS_PLANETS_OPEN, boolean)
+export const setIsEditorOpen = withMatcher(
+    (boolean: boolean): SetIsEditorOpen =>
+    createAction(MESSAGEBOX_ACTION_TYPES.SET_IS_EDITOR_OPEN, boolean)
 );
 
-export const setIsMoonsOpen = withMatcher(
-    (boolean: boolean): SetIsMoonsOpen =>
-    createAction(MESSAGEBOX_ACTION_TYPES.SET_IS_MOONS_OPEN, boolean)
+export const setIsBuilderOpen = withMatcher(
+    (boolean: boolean): SetIsBuilderOpen =>
+    createAction(MESSAGEBOX_ACTION_TYPES.SET_IS_BUILDER_OPEN, boolean)
 );
 
 export const setIsMaraudersOpen = withMatcher(

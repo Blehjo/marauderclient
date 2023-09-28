@@ -39,15 +39,13 @@ class NavMenu extends Component<NavMenuProps, INavMenu> {
     }
 
     handleOpen(): void {
-        const { sidebar } = this.state;
-        this.setState({
-            ...this.state, sidebar: !sidebar
-        });
-        this.props.openMarauders(!sidebar);
+        this.props.openMarauders(!this.props.messagebox);
     }
 
     componentDidMount(): void {
-        this.props.checkUserSession();
+        if (this.props.user == null) {
+            this.props.checkUserSession();
+        }
     }
 
     render() {
@@ -58,7 +56,7 @@ class NavMenu extends Component<NavMenuProps, INavMenu> {
                 <Navbar style={{ border: "3px solid white", borderRadius: "5px", position: 'relative' }} variant="dark" bg="dark" sticky="top" expand="lg" >
                     <Container fluid>
                     <ListContainer>
-                        <List size={25} onClick={this.handleOpen} style={{ padding: '.02rem', cursor: 'pointer' }} className="d-flex align-items-center"/>
+                        <List type='button' size={25} onClick={this.handleOpen} style={{ padding: '.02rem', cursor: 'pointer' }} className="d-flex align-items-center"/>
                     </ListContainer>
                     <Navbar.Brand className='brand' href="/"><Image style={{ width: '1.5rem', height: '1.5rem', borderRadius: '.2rem', marginRight: '.5rem' }} src='/favicon.ico'/>Marauders</Navbar.Brand>
                         <Nav

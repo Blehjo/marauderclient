@@ -6,10 +6,15 @@ import { RootState } from "../../store/store";
 import { CheckUserSession, checkUserSession } from "../../store/user/user.action";
 import { UserprofileFetchSingleStart, userprofileFetchSingleStart } from "../../store/userprofile/userprofile.action";
 import { SidebarMenuContainer } from "../../styles/sidebarmenu/sidebarmenu.styles";
+import { SetIsBuilderOpen, SetIsEditorOpen, setIsBuilderOpen, setIsEditorOpen } from "../../store/messagebox/messagebox.action";
 
 type SidebarMenuProps = ConnectedProps<typeof connector>;
 
 export class SidebarMenu extends Component<SidebarMenuProps> {
+    handleBuilderClick(): void {
+        this.props.toggleBuilder(false);
+        this.props.toggleEditor(false);
+    }
 
     render() {
         const { sidemenu } = this.props;
@@ -164,13 +169,17 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
 const mapStateToProps = (state: RootState) => ({
     user: state.user.currentUser?.userId,
     userprofile: state.userprofile,
-    sidemenu: state.messagebox.isMaraudersOpen
+    sidemenu: state.messagebox.isMaraudersOpen,
+    builder: state.messagebox.isBuilderOpen,
+    editor: state.messagebox.isEditorOpen
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<CheckUserSession | UserprofileFetchSingleStart | CheckUserSession>) => ({
+const mapDispatchToProps = (dispatch: Dispatch<CheckUserSession | UserprofileFetchSingleStart | CheckUserSession | SetIsBuilderOpen | SetIsEditorOpen>) => ({
     getCurrentUser: () => dispatch(checkUserSession()),
     getUser: (userId: string | undefined) => dispatch(userprofileFetchSingleStart(userId)),
-    checkUserSession: () => dispatch(checkUserSession())
+    checkUserSession: () => dispatch(checkUserSession()),
+    toggleBuilder: (boolean: boolean) => dispatch(setIsBuilderOpen(boolean)),
+    toggleEditor: (boolean: boolean) => dispatch(setIsEditorOpen(boolean))
 });
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

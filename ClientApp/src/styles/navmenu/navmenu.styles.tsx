@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 
 export const NavmenuContainer = styled.div`
+    // margin-right: -2rem;
     .brand {
         border: 1px solid transparent;
         padding: .2rem;
         @media (max-width: 686px) {
-            margin: -3rem;
+            margin-left: -3rem;
         }
     }
     .brand:hover {

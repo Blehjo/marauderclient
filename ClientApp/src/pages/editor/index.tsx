@@ -169,7 +169,7 @@ export default function Editor() {
   }, [shapes.length]);
 
   return (
-    <>
+    <div style={{ height: '100vh' }}>
       <Selectors getAllFiles={fetchFiles} getFile={fetchSingleFile} files={files} file={file} shapes={shapes} shape={shape} userShapes={userShapes} handleShape={handleInquiry} addShape={addShape} deleteShape={deleteShape} fetchShapes={fetchShapes}/>
       <Canvas
         camera={{ fov: 75, near: 0.1, far: 1000, position: [1, 2, 5] }}
@@ -187,6 +187,6 @@ export default function Editor() {
         <Gizmo/>
         <OrbitControls makeDefault />
       </Canvas>
-    </>
+    </div>
   );
 }

@@ -4,8 +4,8 @@ import {
     setIsArtificialIntelligenceOpen,
     setIsMaraudersOpen,
     setIsMessagesOpen,
-    setIsMoonsOpen,
-    setIsPlanetsOpen,
+    setIsBuilderOpen,
+    setIsEditorOpen,
     setIsPostOpen,
     setIsSolarSystemOpen,
     setIsDevicesOpen
@@ -16,8 +16,8 @@ export type MessageBoxState = {
   readonly isDevicesOpen: boolean;
   readonly isPostOpen: boolean;
   readonly isSolarSystemOpen: boolean;
-  readonly isPlanetsOpen: boolean;
-  readonly isMoonsOpen: boolean;
+  readonly isEditorOpen: boolean;
+  readonly isBuilderOpen: boolean;
   readonly isMaraudersOpen: boolean;
   readonly isMessagesOpen: boolean;
 };
@@ -27,8 +27,8 @@ const INITIAL_STATE: MessageBoxState = {
     isDevicesOpen: false,
     isPostOpen: false,
     isSolarSystemOpen: false,
-    isPlanetsOpen: false,
-    isMoonsOpen: false,
+    isEditorOpen: false,
+    isBuilderOpen: false,
     isMaraudersOpen: true,
     isMessagesOpen: false
 };
@@ -61,16 +61,16 @@ export const messageboxReducer = (
         isSolarSystemOpen: action.payload,
       };
     }
-    if (setIsPlanetsOpen.match(action)) {
+    if (setIsEditorOpen.match(action)) {
       return {
         ...state,
-        isPlanetsOpen: action.payload,
+        isEditorOpen: action.payload,
       };
     }
-    if (setIsMoonsOpen.match(action)) {
+    if (setIsBuilderOpen.match(action)) {
       return {
         ...state,
-        isMoonsOpen: action.payload,
+        isBuilderOpen: action.payload,
       };
     }
     if (setIsMaraudersOpen.match(action)) {

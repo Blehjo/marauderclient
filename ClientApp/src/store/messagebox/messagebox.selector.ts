@@ -27,12 +27,12 @@ export const selectIsSolarSystemsOpen = createSelector(
 
 export const selectIsPlantesOpen = createSelector(
     [selectMessageboxReducer],
-    (messagebox) => messagebox.isPlanetsOpen
+    (messagebox) => messagebox.isBuilderOpen
 );
 
 export const selectIsMoonsOpen = createSelector(
     [selectMessageboxReducer],
-    (messagebox) => messagebox.isMoonsOpen
+    (messagebox) => messagebox.isEditorOpen
 );
 
 export const selectIsMaraudersOpen = createSelector(
