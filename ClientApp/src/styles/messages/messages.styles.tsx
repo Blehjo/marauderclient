@@ -51,8 +51,9 @@ export const MessageForm = styled.div`
         left: 42.5%;
     }
     @media (max-width: 686px) {
-        margin-top: 2rem;
         position: static;
+        margin-top: 2rem;
+        margin-bottom: 4.5rem;
         width: 100%;
         height: 75vh;
     }
@@ -63,10 +64,9 @@ export const InputContainer = styled.div`
     bottom: 0rem;
     width: 100%;
     @media (max-width: 686px) {
-        // bottom: 4rem;
         width: 90%;
+        margin-bottom: 5rem;
         .boarders {
-            margin-bottom: 4rem;
         }
     }
 `;

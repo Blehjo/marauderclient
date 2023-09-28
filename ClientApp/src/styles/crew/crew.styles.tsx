@@ -64,7 +64,7 @@ export const ChatForm = styled.div`
         margin-top: 1rem;
         width: 100%;
         height: 60vh;
-        margin-bottom: 3.5rem;
+        margin-bottom: 4.5rem;
     }
     
 `;

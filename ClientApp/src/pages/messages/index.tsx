@@ -259,7 +259,7 @@ class Messages extends Component<MessageProps, IMessage> {
                 <Col xs={12}>
                 <MessageForm>
                     <Form onSubmit={this.sendMessage}>
-                        <Container style={{ height: '75%', overflow: 'auto' }}>
+                        <Container style={{ height: 'fit-content', overflow: 'auto' }}>
                             {
                                 this.handleMessageComments()
                             }

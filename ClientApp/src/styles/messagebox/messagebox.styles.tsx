@@ -11,7 +11,7 @@ export const FixedBox = styled.div`
     z-index: 5;
     @media (max-width: 686px) {
         width: 90%;
-        right: 7%;
+        right: 5%;
     }
 `;
 

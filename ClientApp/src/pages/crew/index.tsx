@@ -406,7 +406,6 @@ class Crew extends Component<CrewProps, ICrew> {
                         {
                             inputContainer &&
                             <InputContainer>
-                            <div className="boarders">
                             <Row xs={2}>
                                 <Col xs={10}>
                                 <Form.Group className="mb-3" controlId="request">
@@ -420,7 +419,6 @@ class Crew extends Component<CrewProps, ICrew> {
                                 <button className="btn btn-outline-light"><Send/></button>
                                 </Col>
                             </Row>
-                            </div>
                             </InputContainer>
                         }
                     </Form>
