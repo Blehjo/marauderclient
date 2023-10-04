@@ -2,7 +2,7 @@ import axios from "axios";
 import { Moveable } from "../../store/moveable/moveable.types";
 
 
-const api = "http://localhost:8000/api/moveable";
+const api = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/moveable`;
 
 const headers = {
   'Accept': 'application/x-www-form-urlencoded',

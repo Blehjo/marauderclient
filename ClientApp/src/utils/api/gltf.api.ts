@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Gltf } from "../../store/gltf/gltf.types";
 
-const api = "http://localhost:8000/api/gltfs";
+const api = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/gltfs`;
 
 const headers = {
   'Accept': 'application/json',

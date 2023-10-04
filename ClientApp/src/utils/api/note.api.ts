@@ -2,7 +2,7 @@
 import axios from "axios";
 import { Note } from "../../store/note/note.types";
 
-const api = "http://localhost:8000/api/note";
+const api = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/note`;
 
 const headers = {
   'Accept': 'application/x-www-form-urlencoded',

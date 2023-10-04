@@ -1,17 +1,17 @@
 import { ChangeEvent, Component, FormEvent, Fragment } from 'react';
 import { Badge, Card, Col, Form, Image, Modal, Row } from 'react-bootstrap';
 
-import { ArrowsFullscreen, Chat, Globe, Rocket, Send, XCircle } from 'react-bootstrap-icons';
+import { ArrowsFullscreen, Chat, Rocket, Send, XCircle } from 'react-bootstrap-icons';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
-import { AContainer, BadgeContainer, CardContainer, ChatContainer, ModalContainer, TextContainer } from "../../styles/poststab/poststab.styles";
+import { AContainer, BadgeContainer, ChatContainer, ModalContainer, TextContainer } from "../../styles/poststab/poststab.styles";
 import { utcConverter } from '../../utils/date/date.utils';
 
 import { ProfileProps } from '../../pages/profile';
 import { ChatState } from '../../store/chat/chat.reducer';
-import { XContainer } from '../../styles/devices/devices.styles';
-import { UserChatComment } from '../../store/userchatcomment/userchatcomment.types';
-import { CommentContainer, UserCommentContainer } from '../../styles/modal/modal.styles';
 import { ChatComment } from '../../store/chatcomment/chatcomment.types';
+import { UserChatComment } from '../../store/userchatcomment/userchatcomment.types';
+import { XContainer } from '../../styles/devices/devices.styles';
+import { CommentContainer, UserCommentContainer } from '../../styles/modal/modal.styles';
 
 type ChatsTabProps = {
     show: boolean;
@@ -236,7 +236,7 @@ export class ChatsTab extends Component<ProfileProps, ChatsTabProps> {
                                                 <AContainer href={`/profile/${user.userId}`}>
                                                 <Row xs={2}>
                                                     <Col xs={2}>
-                                                    <Card.Img src={`http://localhost:8000/images/${user.imageLink!}`}/>
+                                                    <Card.Img src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user.imageLink!}`}/>
                                                     </Col>
                                                     <Col>
                                                     <Card.Text>{user.username}</Card.Text>

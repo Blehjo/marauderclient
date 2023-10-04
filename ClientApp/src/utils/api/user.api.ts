@@ -2,7 +2,7 @@ import axios from "axios";
 import { Marauder } from "../../store/marauder/marauder.types";
 import { User } from "../../store/user/user.types";
 
-const api = "http://localhost:8000/api/user";
+const api = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/user`;
 
 const headers = {
   'Accept': 'application/x-www-form-urlencoded',

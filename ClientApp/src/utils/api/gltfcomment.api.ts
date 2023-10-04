@@ -1,7 +1,7 @@
 import axios from "axios";
 import { GltfComment } from "../../store/gltfcomment/gltfcomment.types";
 
-const api = "http://localhost:8000/api/gltfcomment";
+const api = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/gltfcomment`;
 
 const headers = {
   'Accept': 'application/x-www-form-urlencoded',

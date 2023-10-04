@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Community } from "../../store/community/community.types";
 
-const api = "http://localhost:8000/api/community";
+const api = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/community`;
 
 const headers = {
   'Accept': 'application/x-www-form-urlencoded',

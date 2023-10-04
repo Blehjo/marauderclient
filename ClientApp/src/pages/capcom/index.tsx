@@ -112,13 +112,13 @@ class CapCom extends Component<CapComProps, ICapCom> {
 
     turnOffLight() {
         const { light } = this.state;
-        const socket = io('https://localhost:8000');
+        const socket = io('http://localhost:8000');
         socket.emit('lightsoff', light);
     }
     
     turnOnLight() {
         const { light } = this.state;
-        const socket = io('https://localhost:8000');
+        const socket = io('http://localhost:8000');
         socket.emit('lightson', light);
     }
     render() {

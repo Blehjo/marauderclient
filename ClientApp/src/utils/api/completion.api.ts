@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const api = "http://localhost:8000/api/chatgpt";
+const api = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/chatgpt`;
 
 const headers = {
   // 'Accept': 'application/json',

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Follower } from "../../store/follower/follower.types";
 
-const api = "http://localhost:8000/api/follower";
+const api = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/follower`;
 
 const headers = {
   'Accept': 'application/json',

@@ -1,17 +1,11 @@
 import { ChangeEvent, Component, FormEvent, Fragment } from "react";
 import { Badge, Card, Col, Form, Image, Modal, Row } from "react-bootstrap";
 
-import { ArrowsFullscreen, Chat, Rocket, Send, XCircle } from "react-bootstrap-icons";
+import { ArrowsFullscreen, Chat, Rocket, Send } from "react-bootstrap-icons";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
-import { ProfileProps } from "../../pages/profile";
-import { CommentState } from "../../store/comment/comment.reducer";
-import { PostState } from "../../store/post/post.reducer";
-import { AContainer, BadgeContainer, CardContainer, CommentContainer, ModalContainer, ModalPostContainer, PostContainer, TextContainer } from "../../styles/poststab/poststab.styles";
-import { utcConverter } from "../../utils/date/date.utils";
-import { XContainer } from "../../styles/devices/devices.styles";
-import { SingleProfileProps } from "../../pages/profile/[id]";
 import { Comment } from "../../store/comment/comment.types";
 import { Post } from "../../store/post/post.types";
+import { AContainer, BadgeContainer, CardContainer, CommentContainer, ModalContainer, PostContainer, TextContainer } from "../../styles/poststab/poststab.styles";
 
 interface IDefaultFormFields {
     commentValue: string;
@@ -204,7 +198,7 @@ export class UserPostsTab extends Component<any, IDefaultFormFields> {
                         <TextContainer style={{ color: 'white' }}>
                             <Row xs={2}>
                                 <Col xs={1}>
-                                <Card.Img style={{ width: '1rem', height: '1rem', objectFit: 'fill' }} src={`http://localhost:8000/images/${posts.singlePost?.user.imageLink!}`}/>
+                                <Card.Img style={{ width: '1rem', height: '1rem', objectFit: 'fill' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${posts.singlePost?.user.imageLink!}`}/>
                                 </Col>
                                 <Col>
                                 <Card.Text style={{ marginBottom: '.5rem' }}>{posts.singlePost?.user.username}</Card.Text>
@@ -226,7 +220,7 @@ export class UserPostsTab extends Component<any, IDefaultFormFields> {
                                         <AContainer href={`/profile/${user.userId}`}>
                                         <Row xs={2}>
                                             <Col xs={2}>
-                                            <Card.Img style={{ width: '1rem', height: '1rem', objectFit: 'fill' }} src={`http://localhost:8000/images/${user.imageLink!}`}/>
+                                            <Card.Img style={{ width: '1rem', height: '1rem', objectFit: 'fill' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user.imageLink!}`}/>
                                             </Col>
                                             <Col>
                                             <Card.Text style={{ marginBottom: '.5rem' }}>{user.username}</Card.Text>

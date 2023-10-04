@@ -3,14 +3,10 @@ import { Badge, Card, Col, Form, Image, Modal, Row } from "react-bootstrap";
 
 import { ArrowsFullscreen, Chat, Rocket, Send } from "react-bootstrap-icons";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
-import { SingleProfileProps } from "../../pages/profile/[id]";
-import { CommentState } from "../../store/comment/comment.reducer";
-import { GltfState } from "../../store/gltf/gltf.reducer";
-import { AContainer, BadgeContainer, CommentContainer, ModalContainer, PostContainer, TextContainer } from "../../styles/poststab/poststab.styles";
 import { Gltf } from "../../store/gltf/gltf.types";
-import { CardContainer } from "../../styles/modal/modal.styles";
-import { utcConverter } from "../../utils/date/date.utils";
 import { GltfComment } from "../../store/gltfcomment/gltfcomment.types";
+import { CardContainer } from "../../styles/modal/modal.styles";
+import { AContainer, BadgeContainer, CommentContainer, ModalContainer, PostContainer, TextContainer } from "../../styles/poststab/poststab.styles";
 
 interface IDefaultFormFields {
     commentValue: string;
@@ -220,7 +216,7 @@ export class UserGltfsTab extends Component<any, IDefaultFormFields> {
                                         <AContainer href={`/profile/${user.userId}`}>
                                         <Row xs={2}>
                                             <Col xs={2}>
-                                            <Card.Img style={{ width: '1rem', height: '1rem', objectFit: 'fill' }} src={`http://localhost:8000/images/${user.imageLink!}`}/>
+                                            <Card.Img style={{ width: '1rem', height: '1rem', objectFit: 'fill' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user.imageLink!}`}/>
                                             </Col>
                                             <Col>
                                             <Card.Text style={{ marginBottom: '.5rem' }}>{user.username}</Card.Text>

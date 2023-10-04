@@ -1,16 +1,14 @@
-import { ChangeEvent, Component, Dispatch, FormEvent, ReactNode } from "react";
+import { ChangeEvent, Component, Dispatch, FormEvent } from "react";
 import { ConnectedProps, connect } from "react-redux";
 
 import { CommentCreateStart, CommentFetchSingleStart, commentCreateStart, commentFetchSingleStart } from "../../store/comment/comment.action";
 import { RootState } from "../../store/store";
 
 import { Card, Col, Form, Row } from "react-bootstrap";
-import { utcConverter } from "../../utils/date/date.utils";
-import { Post } from "../../store/post/post.types";
 import { Send } from "react-bootstrap-icons";
-import { CardContainer, CommentBarContainer, CommentContainer, FormContainer, TextCommentContainer, TextContainer } from "../../styles/messages/messages.styles";
-import { getSingleMarauder } from "../../utils/api/user.api";
 import { Marauder } from "../../store/marauder/marauder.types";
+import { Post } from "../../store/post/post.types";
+import { CardContainer, CommentBarContainer, CommentContainer, FormContainer, TextCommentContainer } from "../../styles/messages/messages.styles";
 import { AContainer } from "../../styles/poststab/poststab.styles";
 
 interface CommentQuery extends CommentProps {
@@ -136,7 +134,7 @@ export class Comment extends Component<CommentQuery, IDefaultFormFields> {
                                     <AContainer href={`/profile/${user.userId}`}>
                                     <Row xs={2}>
                                         <Col xs={2}>
-                                        <Card.Img src={`http://localhost:8000/images/${user.imageLink!}`}/>
+                                        <Card.Img src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user.imageLink!}`}/>
                                         </Col>
                                         <Col>
                                         <Card.Text style={{ marginBottom: '.5rem' }}>{user.username}</Card.Text>

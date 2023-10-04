@@ -1,8 +1,8 @@
+import { Vector3 } from "@react-three/fiber";
 import axios from "axios";
 import { Editor } from "../../store/editor/editor.types";
-import { Vector3 } from "@react-three/fiber";
 
-const api = "http://localhost:8000/api/shape";
+const api = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/shape`;
 
 const headers = {
   'Accept': 'application/json',

@@ -1,16 +1,14 @@
+import { useRouter } from "next/router";
 import { Fragment, useEffect } from "react";
 import { Card, Col, Row } from "react-bootstrap";
-import { useParams, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
 
-import { selectSinglePost } from "../../store/post/post.selector";
-import { postFetchSingleStart } from "../../store/post/post.action";
 import CommentsComponent from "../../components/comment/comments.component";
-import { SinglePostContainer } from "../../styles/messages/messages.styles";
 import { marauderFetchSingleStart } from "../../store/marauder/marauder.action";
 import { selectSingleMarauder } from "../../store/marauder/marauder.selector";
+import { postFetchSingleStart } from "../../store/post/post.action";
+import { selectSinglePost } from "../../store/post/post.selector";
+import { SinglePostContainer } from "../../styles/messages/messages.styles";
 
 const defaultFormFields = {
     commentValue: '',
@@ -46,7 +44,7 @@ function SinglePost() {
                     <div style={{  height: '5rem', color: 'white' }}>
                         <Row style={{ paddingBottom: '1rem' }} xs={2}>
                         <Col xs={1}>
-                        <Card.Img style={{ width: '2rem', height: '2rem' }} src={`http://localhost:8000/images/${post?.user.imageLink!}`}/>
+                        <Card.Img style={{ width: '2rem', height: '2rem' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${post?.user.imageLink!}`}/>
                         </Col>
                         <Col>
                         <Card.Text>{post?.user.username}</Card.Text>

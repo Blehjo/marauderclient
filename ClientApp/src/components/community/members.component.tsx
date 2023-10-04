@@ -1,11 +1,10 @@
 import { Component } from "react";
-import { ChatsContainer } from "../../styles/communities/communities.styles";
-import { AContainer, CardContainer } from "../../styles/poststab/poststab.styles";
-import { Card, Row, Col, Modal } from "react-bootstrap";
-import { XContainer } from "../../styles/devices/devices.styles";
+import { Card, Col, Modal, Row } from "react-bootstrap";
 import { XCircle } from "react-bootstrap-icons";
-import { SingleCommunityProps } from "../../pages/communities/[id]";
 import { Member } from "../../store/member/member.types";
+import { ChatsContainer } from "../../styles/communities/communities.styles";
+import { XContainer } from "../../styles/devices/devices.styles";
+import { AContainer, CardContainer } from "../../styles/poststab/poststab.styles";
 import { UserProfileCard } from "../profilecard/userprofilecard.component";
 
 interface IMembersChannel {
@@ -76,7 +75,7 @@ export class MembersChannel extends Component<any, IMembersChannel> {
                             <AContainer href={`/profile/${user.userId}`}>
                                 <Row xs={2}>
                                     <Col xs={3}>
-                                    <Card.Img style={{ width: '2rem', height: '2rem', objectFit: 'fill' }} src={`http://localhost:8000/images/${user?.imageLink!}`}/>
+                                    <Card.Img style={{ width: '2rem', height: '2rem', objectFit: 'fill' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user?.imageLink!}`}/>
                                     </Col>
                                     <Col>
                                     <Card.Text>{user.username}</Card.Text>

@@ -2,7 +2,7 @@ import axios from "axios";
 import { Panel } from "../../store/panel/panel.types";
 
 
-const api = "http://localhost:8000/api/panel";
+const api = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/panel`;
 
 const headers = {
   'Accept': 'application/json',

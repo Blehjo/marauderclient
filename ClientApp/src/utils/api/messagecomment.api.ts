@@ -1,7 +1,7 @@
 import axios from "axios";
 import { MessageComment } from "../../store/messagecomment/messagecomment.types";
 
-const api = "http://localhost:8000/api/messagecomment";
+const api = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/messagecomment`;
 
 const headers = {
   'Accept': 'application/x-www-form-urlencoded',

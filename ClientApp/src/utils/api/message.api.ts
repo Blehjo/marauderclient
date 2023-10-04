@@ -2,7 +2,7 @@ import axios from "axios";
 import { Marauder } from "../../store/marauder/marauder.types";
 import { Message } from "../../store/message/message.types";
 
-const api = "http://localhost:8000/api/message";
+const api = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/message`;
 
 const headers = {
   'Accept': 'application/json',

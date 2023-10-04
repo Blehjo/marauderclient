@@ -1,12 +1,11 @@
-import * as THREE from "three"
 import * as RAPIER from "@dimforge/rapier3d-compat"
-import { useEffect, useRef, useState } from "react"
-import { Vector3, useFrame, useThree } from "@react-three/fiber"
-import { useKeyboardControls } from "@react-three/drei"
-import { CapsuleCollider, RigidBody, useRapier } from "@react-three/rapier"
-import Axe from "./Axe"
-import Gun from "./Gun"
 import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr"
+import { useKeyboardControls } from "@react-three/drei"
+import { Vector3, useFrame, useThree } from "@react-three/fiber"
+import { CapsuleCollider, RigidBody, useRapier } from "@react-three/rapier"
+import { useEffect, useRef, useState } from "react"
+import * as THREE from "three"
+import Gun from "./Gun"
 
 
 const SPEED = 5
@@ -37,7 +36,7 @@ export function Player({ lerp = THREE.MathUtils.lerp }) {
 
   useEffect(() => {
     const newConnection = new HubConnectionBuilder()
-    .withUrl(`http://localhost:8000/hub/odyssey/${id}`)
+    .withUrl(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/hub/odyssey/${id}`)
     .withAutomaticReconnect()
     .build();
     setConnection(newConnection);

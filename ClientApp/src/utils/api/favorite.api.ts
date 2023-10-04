@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Favorite } from "../../store/favorite/favorite.types";
 
-const api = "http://localhost:8000/api/favorite";
+const api = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/favorite`;
 
 const headers = {
   'Accept': 'application/json',
@@ -44,7 +44,7 @@ export async function getFavorites(): Promise<Favorite[]> {
 export async function handleContent(url: string, favoriteId: number): Promise<any> {
   const response = await axios({
     method: 'get',
-    url: `http://localhost:8000/api/${url}/${favoriteId}`,
+    url: `{process.env.NEXT_PUBLIC_SUPABASE_URL}/api/${url}/${favoriteId}`,
     headers: headers,
     withCredentials: true
   });

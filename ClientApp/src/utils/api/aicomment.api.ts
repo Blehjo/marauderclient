@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ChatComment } from "../../store/chatcomment/chatcomment.types";
 
-const api = "http://localhost:8000/api/aicomment";
+const api = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/aicomment`;
 
 const headers = {
   'Accept': 'application/json',

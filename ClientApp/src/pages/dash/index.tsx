@@ -2,6 +2,7 @@ import { ChangeEvent, Component, Dispatch, FormEvent } from "react";
 import { Badge, Card, Col, Form, Image, Modal, Row } from "react-bootstrap";
 import { ArrowRight, Chat, Rocket, Send } from "react-bootstrap-icons";
 import { ConnectedProps, connect } from "react-redux";
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { ChatFetchAllStart, ChatFetchSingleStart, chatFetchAllStart, chatFetchSingleStart } from "../../store/chat/chat.action";
 import { Chat as ChatContent } from "../../store/chat/chat.types";
 import { ChatCommentFetchSingleStart, chatcommentFetchSingleStart } from "../../store/chatcomment/chatcomment.action";
@@ -22,7 +23,6 @@ import { CommentCreateStart as UserChatCommentCreateStart, CommentFetchSingleSta
 import { CommentContainer, ModalContainer, TextContainer } from "../../styles/modal/modal.styles";
 import { AContainer, BadgeContainer } from "../../styles/poststab/poststab.styles";
 import { ContentContainer, ResponsiveMemoryContainer } from "../../styles/responsivememory/responsivememory.styles";
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 export type DashData = {
     id: number;
@@ -288,7 +288,7 @@ class Dash extends Component<DashProps, IDash> {
                     <Card.Text>{element.postValue}</Card.Text>
                         <Row xs={2}>
                             <Col xs={2}>
-                            <Card.Img src={`http://localhost:8000/images/${element.user.imageLink!}`}/>
+                            <Card.Img src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${element.user.imageLink!}`}/>
                             </Col>
                             <Col>
                             <Card.Text>{element.user.username!}</Card.Text>
@@ -334,7 +334,7 @@ class Dash extends Component<DashProps, IDash> {
                                 <TextContainer>
                                 <Row xs={2}>
                                     <Col xs={2}>
-                                    <Card.Img style={{ width: '2rem', height: '2rem', marginBottom: '1rem' }} src={`http://localhost:8000/images/${singleContent?.user.imageLink!}`}/>
+                                    <Card.Img style={{ width: '2rem', height: '2rem', marginBottom: '1rem' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${singleContent?.user.imageLink!}`}/>
                                     </Col>
                                     <Col>
                                     <Card.Text>{singleContent?.user.username}</Card.Text>
@@ -355,7 +355,7 @@ class Dash extends Component<DashProps, IDash> {
                                             <AContainer href={`/profile/${user.userId}`}>
                                                 <Row xs={2}>
                                                     <Col xs={2}>
-                                                    <Card.Img src={`http://localhost:8000/images/${user.imageLink!}`}/>
+                                                    <Card.Img src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user.imageLink!}`}/>
                                                     </Col>
                                                     <Col>
                                                     <Card.Text>{user.username!}</Card.Text>

@@ -1,12 +1,12 @@
 import { ChangeEvent, Component } from "react";
 import { Modal } from "react-bootstrap";
 
-import { User } from "../../store/user/user.types";
-import { Post } from "../../store/post/post.types";
 import { Community } from "../../store/community/community.types";
 import { Gltf } from "../../store/gltf/gltf.types";
-import { SearchBox } from "./searchbox.component";
+import { Post } from "../../store/post/post.types";
+import { User } from "../../store/user/user.types";
 import { CardList } from "./cardlist.component";
+import { SearchBox } from "./searchbox.component";
 
 type DefaultProps = {
     users: User[],
@@ -33,19 +33,19 @@ export class Searchbar extends Component<{}, DefaultProps> {
     }
 
     componentDidMount(): void {
-        fetch('http://localhost:8000/api/user')
+        fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/user`)
         .then(response => response.json())
         .then(users => this.setState({ users: users }));
 
-        fetch('http://localhost:8000/api/post')
+        fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/post`)
         .then(response => response.json())
         .then(posts => this.setState({ posts: posts }));
 
-        fetch('http://localhost:8000/api/community')
+        fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/community`)
         .then(response => response.json())
         .then(communities => this.setState({ communities: communities }));
         
-        fetch('http://localhost:8000/api/gltfs')
+        fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/gltfs`)
         .then(response => response.json())
         .then(gltfs => this.setState({ gltfs: gltfs }));
     }

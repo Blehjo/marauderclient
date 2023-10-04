@@ -5,10 +5,10 @@ import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 import { ProfileProps } from "../../pages/profile";
 import { CommentState } from "../../store/comment/comment.reducer";
+import { Favorite } from "../../store/favorite/favorite.types";
 import { PostState } from "../../store/post/post.reducer";
 import { XContainer } from "../../styles/devices/devices.styles";
 import { AContainer, BadgeContainer, CommentContainer, ModalContainer, ModalPostContainer, PostContainer, TextContainer } from "../../styles/poststab/poststab.styles";
-import { Favorite } from "../../store/favorite/favorite.types";
 
 interface IDefaultFormFields {
     commentValue: string;
@@ -297,7 +297,7 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
                         <TextContainer style={{ color: 'white' }}>
                             <Row xs={2}>
                                 <Col xs={1}>
-                                <Card.Img style={{ width: '1rem', height: '1rem', objectFit: 'fill' }} src={`http://localhost:8000/images/${posts.singlePost?.user.imageLink!}`}/>
+                                <Card.Img style={{ width: '1rem', height: '1rem', objectFit: 'fill' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${posts.singlePost?.user.imageLink!}`}/>
                                 </Col>
                                 <Col>
                                 <Card.Text style={{ marginBottom: '.5rem' }}>{posts.singlePost?.user.username}</Card.Text>
@@ -318,7 +318,7 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
                                     <AContainer href={`/profile/${user.userId}`}>
                                         <Row xs={2}>
                                             <Col xs={2}>
-                                            <Card.Img style={{ width: '1rem', height: '1rem', objectFit: 'fill' }} src={`http://localhost:8000/images/${user.imageLink!}`}/>
+                                            <Card.Img style={{ width: '1rem', height: '1rem', objectFit: 'fill' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user.imageLink!}`}/>
                                             </Col>
                                             <Col>
                                             <Card.Text style={{ marginBottom: '.5rem' }}>{user.username}</Card.Text>

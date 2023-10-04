@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ChannelComment } from "../../store/channelcomment/channelcomment.types";
 
-const api = "http://localhost:8000/api/channelcomment";
+const api = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/channelcomment`;
 
 const headers = {
   'Accept': 'application/x-www-form-urlencoded',

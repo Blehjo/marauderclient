@@ -1,19 +1,17 @@
 import { Component, Dispatch } from "react";
 import { ConnectedProps, connect } from "react-redux";
-import type { InferGetServerSidePropsType, GetServerSideProps } from 'next'
 
 import ResponsiveMemory from "../../components/responsivememory/responsivememory.component";
 import { MarauderFetchAllStart, MarauderFetchSingleStart, MarauderSetIdStart, marauderFetchAllStart, marauderFetchSingleStart, marauderSetIdStart } from "../../store/marauder/marauder.action";
+import { Marauder } from "../../store/marauder/marauder.types";
 import { MessageCreateStart, MessageSetID, messageCreateStart, messageSetId } from "../../store/message/message.action";
 import { MessageCommentCreateStart, messagecommentCreateStart } from "../../store/messagecomment/messagecomment.action";
 import { RootState } from "../../store/store";
-import { Marauder } from "../../store/marauder/marauder.types";
-import { User } from "../../store/user/user.types";
 
 type MarauderProps = ConnectedProps<typeof connector>;
    
 // export const getServerSideProps = (async (context) => {
-//     const res = await fetch('http://localhost:8000/api/user')
+//     const res = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/user`)
 //     const marauders = await res.json()
 //     return { props: { marauders } }
 // }) satisfies GetServerSideProps<{

@@ -6,12 +6,11 @@ import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { ProfileProps } from "../../pages/profile";
 import { CommentState } from "../../store/comment/comment.reducer";
 import { GltfState } from "../../store/gltf/gltf.reducer";
-import { AContainer, BadgeContainer, CommentContainer, ModalContainer, ModalPostContainer, PostContainer, TextContainer } from "../../styles/poststab/poststab.styles";
+import { GltfCommentState } from "../../store/gltfcomment/gltfcomment.reducer";
+import { GltfComment } from "../../store/gltfcomment/gltfcomment.types";
 import { XContainer } from "../../styles/devices/devices.styles";
 import { CardContainer } from "../../styles/modal/modal.styles";
-import { GltfComment } from "../../store/gltfcomment/gltfcomment.types";
-import { utcConverter } from "../../utils/date/date.utils";
-import { GltfCommentState } from "../../store/gltfcomment/gltfcomment.reducer";
+import { AContainer, BadgeContainer, CommentContainer, ModalContainer, ModalPostContainer, PostContainer, TextContainer } from "../../styles/poststab/poststab.styles";
 
 interface IDefaultFormFields {
     commentValue: string;
@@ -283,7 +282,7 @@ export class GltfsTab extends Component<ProfileProps, IDefaultFormFields> {
                                         <AContainer href={`/profile/${user.userId}`}>
                                         <Row xs={2}>
                                             <Col xs={2}>
-                                            <Card.Img style={{ width: '1rem', height: '1rem', objectFit: 'fill' }} src={`http://localhost:8000/images/${user.imageLink!}`}/>
+                                            <Card.Img style={{ width: '1rem', height: '1rem', objectFit: 'fill' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user.imageLink!}`}/>
                                             </Col>
                                             <Col>
                                             <Card.Text style={{ marginBottom: '.5rem' }}>{user.username}</Card.Text>

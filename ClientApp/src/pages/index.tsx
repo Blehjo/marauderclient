@@ -10,7 +10,7 @@ class Index extends Component {
       <HomeContainer>
         <ImageContainer>
           <TextContainer>
-            M A R A U D E R S
+            M A R A U D E R S {}
           </TextContainer>
           <Image style={{ borderRadius: '1rem', objectFit: 'cover', width: '100rem', height: '45rem' }} src="/home.jpeg"/>
         </ImageContainer>

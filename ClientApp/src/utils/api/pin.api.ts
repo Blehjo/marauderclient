@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Pin } from "../../store/pin/pin.types";
 
-const api = "http://localhost:8000/api/pin";
+const api = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/pin`;
 
 const headers = {
   'Accept': 'application/x-www-form-urlencoded',

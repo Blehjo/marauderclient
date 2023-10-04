@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ArtificialIntelligence } from "../../store/artificialintelligence/artificialintelligence.types";
 
-const api = "http://localhost:8000/api/artificialintelligence";
+const api = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/artificialintelligence`;
 
 const headers = {
   'Accept': 'application/x-www-form-urlencoded',

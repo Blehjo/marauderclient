@@ -2,7 +2,7 @@
 import axios from "axios";
 import { User } from "../../store/user/user.types";
 
-const api = "http://localhost:8000/api/users";
+const api = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/users`;
 
 const headers = {
   'Accept': 'application/x-www-form-urlencoded',

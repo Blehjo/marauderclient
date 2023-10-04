@@ -1,27 +1,26 @@
+import { HubConnectionBuilder } from "@microsoft/signalr";
 import { ChangeEvent, Component, Dispatch, FormEvent, ReactNode } from "react";
-import { ContainerBox, FixedBox, OpenedBox } from "../../styles/messagebox/messagebox.styles";
+import { Card, Col, Image, Row, Tab, Tabs } from "react-bootstrap";
 import { ChevronDown, ChevronUp, PencilSquare, Search, ThreeDots, XCircle } from "react-bootstrap-icons";
 import { ConnectedProps, connect } from "react-redux";
-import { RootState } from "../../store/store";
-import { MessageCreateStart, MessageDeleteStart, MessageFetchUserMessagesStart, MessageSetID, messageCreateStart, messageDeleteStart, messageFetchUserMessagesStart, messageSetId } from "../../store/message/message.action";
-import { MessageCommentCreateStart, MessageCommentFetchSingleStart, MessageCommentSetID, messageCommentSetId, messagecommentCreateStart, messagecommentFetchSingleStart } from "../../store/messagecomment/messagecomment.action";
-import { Card, Col, Image, Row, Tab, Tabs } from "react-bootstrap";
-import { SetIsMessagesOpen, setIsMessagesOpen } from "../../store/messagebox/messagebox.action";
-import { XContainer } from "../../styles/devices/devices.styles";
-import { MessageComment } from "../../store/messagecomment/messagecomment.types";
-import { TextContainer, UserTextContainer } from "../../styles/messages/messages.styles";
-import { CheckUserSession, checkUserSession } from "../../store/user/user.action";
-import { MessageState } from "../../store/message/message.reducer";
-import { MessageCommentState } from "../../store/messagecomment/messagecomment.reducer";
-import { HubConnectionBuilder } from "@microsoft/signalr";
-import { User } from "../../store/user/user.types";
-import { Marauder } from "../../store/marauder/marauder.types";
-import { ArtificialIntelligenceState } from "../../store/artificialintelligence/artificialintelligence.reducer";
-import { ArtificialIntelligenceChatState } from "../../store/artificialIntelligencechat/artificialintelligencechat.reducer";
-import { ChatState } from "../../store/chat/chat.reducer";
 import { ArtificialIntelligenceFetchUsersStart, artificialIntelligenceFetchUsersStart } from "../../store/artificialintelligence/artificialintelligence.action";
+import { ArtificialIntelligenceState } from "../../store/artificialintelligence/artificialintelligence.reducer";
 import { ChatFetchUserChatsStart, chatFetchUserChatsStart } from "../../store/chat/chat.action";
+import { ChatState } from "../../store/chat/chat.reducer";
 import { ChatComment } from "../../store/chatcomment/chatcomment.types";
+import { Marauder } from "../../store/marauder/marauder.types";
+import { MessageCreateStart, MessageDeleteStart, MessageFetchUserMessagesStart, MessageSetID, messageCreateStart, messageDeleteStart, messageFetchUserMessagesStart, messageSetId } from "../../store/message/message.action";
+import { MessageState } from "../../store/message/message.reducer";
+import { SetIsMessagesOpen, setIsMessagesOpen } from "../../store/messagebox/messagebox.action";
+import { MessageCommentCreateStart, MessageCommentFetchSingleStart, MessageCommentSetID, messageCommentSetId, messagecommentCreateStart, messagecommentFetchSingleStart } from "../../store/messagecomment/messagecomment.action";
+import { MessageCommentState } from "../../store/messagecomment/messagecomment.reducer";
+import { MessageComment } from "../../store/messagecomment/messagecomment.types";
+import { RootState } from "../../store/store";
+import { CheckUserSession, checkUserSession } from "../../store/user/user.action";
+import { User } from "../../store/user/user.types";
+import { XContainer } from "../../styles/devices/devices.styles";
+import { ContainerBox, FixedBox, OpenedBox } from "../../styles/messagebox/messagebox.styles";
+import { TextContainer, UserTextContainer } from "../../styles/messages/messages.styles";
 import { AContainer } from "../../styles/poststab/poststab.styles";
 
 type MessageBoxProps = ConnectedProps<typeof connector>;
@@ -160,7 +159,7 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
         if (prevProps.messages.messageId != this.props.messages.messageId) {
             this.setState({
                 connection: new HubConnectionBuilder()
-                .withUrl(`http://localhost:8000/hub/${this.props.messages.messageId}`)
+                .withUrl(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/hub/${this.props.messages.messageId}`)
                 .withAutomaticReconnect()
                 .build()
             }, () => {
@@ -217,7 +216,7 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
                                 <AContainer >
                                 <Row xs={2}>
                                     <Col xs={2}>
-                                    <Card.Img src={`http://localhost:8000/images/${receiver?.imageLink!}`}/>
+                                    <Card.Img src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${receiver?.imageLink!}`}/>
                                     </Col>
                                     <Col>
                                     <Card.Text>{messageValue}</Card.Text>
@@ -238,7 +237,7 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
                                 <AContainer >
                                 <Row xs={2}>
                                     <Col xs={2}>
-                                    <Card.Img src={`http://localhost:8000/images/${artificialIntelligences?.imageLink!}`}/>
+                                    <Card.Img src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${artificialIntelligences?.imageLink!}`}/>
                                     </Col>
                                     <Col>
                                     <Card.Text>{title}</Card.Text>

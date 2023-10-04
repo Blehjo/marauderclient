@@ -174,7 +174,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                 <Card.Body>
                     <Row style={{ position: 'relative' }} xs={3}>
                         <Col xs={2}>
-                        <Card.Img src={`http://localhost:8000/images/${user.imageLink!}`}/>
+                        <Card.Img src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user.imageLink!}`}/>
                         </Col>
                         <Col>
                         <Card.Text style={{ marginBottom: '.5rem' }}>{user.username}</Card.Text>
@@ -220,7 +220,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                 <Card.Body>
                     <Row xs={2}>
                         <Col xs={2}>
-                        <Card.Img src={`http://localhost:8000/images/${user.imageLink!}`}/>
+                        <Card.Img src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user.imageLink!}`}/>
                         </Col>
                         <Col>
                         <Card.Text style={{ marginBottom: '.5rem' }}>{user.username}</Card.Text>
@@ -262,7 +262,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                 <Card.Body>
                     <Row xs={2}>
                         <Col xs={2}>
-                        <Card.Img src={`http://localhost:8000/images/${user.imageLink!}`}/>
+                        <Card.Img src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user.imageLink!}`}/>
                         </Col>
                         <Col>
                         <Card.Text>{user.username}</Card.Text>

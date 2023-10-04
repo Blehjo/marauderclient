@@ -1,16 +1,16 @@
 import { ChangeEvent, Component, FormEvent } from "react";
 import { Card, Col, Form, Image, Modal, Row } from "react-bootstrap";
 import { Send } from "react-bootstrap-icons";
-import { CommentContainer, ModalContainer, TextContainer, UserCommentContainer } from "../../styles/modal/modal.styles";
-import { Community } from "../../store/community/community.types";
-import { utcConverter } from "../../utils/date/date.utils";
-import { Post } from "../../store/post/post.types";
 import { Chat } from "../../store/chat/chat.types";
 import { ChatComment } from "../../store/chatcomment/chatcomment.types";
 import { Comment } from "../../store/comment/comment.types";
-import { Member } from "../../store/member/member.types";
+import { Community } from "../../store/community/community.types";
 import { Gltf } from "../../store/gltf/gltf.types";
+import { Member } from "../../store/member/member.types";
+import { Post } from "../../store/post/post.types";
+import { CommentContainer, ModalContainer, TextContainer, UserCommentContainer } from "../../styles/modal/modal.styles";
 import { AContainer } from "../../styles/poststab/poststab.styles";
+import { utcConverter } from "../../utils/date/date.utils";
 
 interface IModalContent {
     show: boolean;
@@ -117,7 +117,7 @@ class ModalContent extends Component<any, IModalContent> {
                             <TextContainer>
                             <Row xs={2}>
                                 <Col xs={2}>
-                                <Card.Img style={{ width: '2rem', height: '2rem', marginBottom: '1rem' }} src={`http://localhost:8000/images/${user.imageLink!}`}/>
+                                <Card.Img style={{ width: '2rem', height: '2rem', marginBottom: '1rem' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user.imageLink!}`}/>
                                 </Col>
                                 <Col>
                                 <Card.Text>{user.username}</Card.Text>
@@ -138,7 +138,7 @@ class ModalContent extends Component<any, IModalContent> {
                                             <AContainer href={`/profile/${user.userId}`}>
                                             <Row xs={2}>
                                                 <Col xs={2}>
-                                                <Card.Img src={`http://localhost:8000/images/${user.imageLink!}`}/>
+                                                <Card.Img src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user.imageLink!}`}/>
                                                 </Col>
                                                 <Col>
                                                 <Card.Text>{user.username}</Card.Text>
@@ -234,7 +234,7 @@ class ModalContent extends Component<any, IModalContent> {
                             <TextContainer>
                             <Row xs={2}>
                                 <Col xs={2}>
-                                <Card.Img style={{ width: '2rem', height: '2rem', marginBottom: '1rem' }} src={`http://localhost:8000/images/${user.imageLink!}`}/>
+                                <Card.Img style={{ width: '2rem', height: '2rem', marginBottom: '1rem' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user.imageLink!}`}/>
                                 </Col>
                                 <Col>
                                 <Card.Text>{user.username}</Card.Text>
@@ -255,7 +255,7 @@ class ModalContent extends Component<any, IModalContent> {
                                         <AContainer href={`/profile/${user.userId}`}>
                                         <Row xs={2}>
                                             <Col xs={2}>
-                                            <Card.Img src={`http://localhost:8000/images/${user.imageLink!}`}/>
+                                            <Card.Img src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user.imageLink!}`}/>
                                             </Col>
                                             <Col>
                                             <Card.Text>{user.username}</Card.Text>
@@ -337,7 +337,7 @@ class ModalContent extends Component<any, IModalContent> {
                                 <TextContainer>
                                 <Row xs={2}>
                                     <Col xs={2}>
-                                    <Card.Img style={{ width: '2rem', height: '2rem', marginBottom: '1rem' }} src={`http://localhost:8000/images/${singleGltf?.user.imageLink!}`}/>
+                                    <Card.Img style={{ width: '2rem', height: '2rem', marginBottom: '1rem' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${singleGltf?.user.imageLink!}`}/>
                                     </Col>
                                     <Col>
                                     <Card.Text>{singleGltf?.user.username}</Card.Text>
@@ -358,7 +358,7 @@ class ModalContent extends Component<any, IModalContent> {
                                             <AContainer href={`/profile/${user?.userId}`}>
                                             <Row xs={2}>
                                                 <Col xs={2}>
-                                                <Card.Img src={`http://localhost:8000/images/${user?.imageLink!}`}/>
+                                                <Card.Img src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user?.imageLink!}`}/>
                                                 </Col>
                                                 <Col>
                                                 <Card.Text>{user?.username}</Card.Text>
@@ -448,7 +448,7 @@ class ModalContent extends Component<any, IModalContent> {
                                     <AContainer href={`/profile/${user.userId}`}>
                                     <Row xs={2}>
                                         <Col xs={2}>
-                                        <Card.Img style={{ width: '2rem', height: '2rem', objectFit: 'fill' }} src={`http://localhost:8000/images/${user?.imageLink!}`}/>
+                                        <Card.Img style={{ width: '2rem', height: '2rem', objectFit: 'fill' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user?.imageLink!}`}/>
                                         </Col>
                                         <Col>
                                         <Card.Text>{user.username}</Card.Text>

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Chat } from "../../store/chat/chat.types";
 
-const api = "http://localhost:8000/api/chat";
+const api = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/chat`;
 
 const headers = {
   'Accept': 'application/json',

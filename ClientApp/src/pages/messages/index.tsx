@@ -4,6 +4,9 @@ import { Card, Col, Form, Modal, Row } from 'react-bootstrap';
 import { Send, XCircle } from "react-bootstrap-icons";
 import { ConnectedProps, connect } from "react-redux";
 
+import { MessageList } from '../../components/searchbar/messagelist.component';
+import { SearchBox } from '../../components/searchbar/searchbox.component';
+import { Marauder } from '../../store/marauder/marauder.types';
 import { MessageCreateStart, MessageDeleteStart, MessageFetchUserMessagesStart, MessageSetID, messageCreateStart, messageDeleteStart, messageFetchUserMessagesStart, messageSetId } from "../../store/message/message.action";
 import { MessageState } from "../../store/message/message.reducer";
 import { MessageCommentCreateStart, MessageCommentFetchSingleStart, MessageCommentSetID, messageCommentSetId, messagecommentCreateStart, messagecommentFetchSingleStart } from "../../store/messagecomment/messagecomment.action";
@@ -11,17 +14,10 @@ import { MessageCommentState } from "../../store/messagecomment/messagecomment.r
 import { MessageComment } from "../../store/messagecomment/messagecomment.types";
 import { RootState } from "../../store/store";
 import { CheckUserSession, checkUserSession } from "../../store/user/user.action";
+import { User } from '../../store/user/user.types';
 import { XContainer } from "../../styles/devices/devices.styles";
 import { Container, InputContainer, ListContainer, MessageContainer, MessageForm, TextContainer, UserTextContainer } from "../../styles/messages/messages.styles";
-import { Marauder } from '../../store/marauder/marauder.types';
 import { AContainer } from '../../styles/poststab/poststab.styles';
-import { SearchBox } from '../../components/searchbar/searchbox.component';
-import { AiList } from '../../components/searchbar/ailist.component';
-import { Chat } from '../../store/chat/chat.types';
-import { ChatComment } from '../../store/chatcomment/chatcomment.types';
-import { ArtificialIntelligence } from '../../store/artificialintelligence/artificialintelligence.types';
-import { MessageList } from '../../components/searchbar/messagelist.component';
-import { User } from '../../store/user/user.types';
 
 interface IMessage {
     users: User[];
@@ -178,11 +174,11 @@ class Messages extends Component<MessageProps, IMessage> {
         this.props.getMessages();
         this.props.checkUserSession();
 
-        fetch('http://localhost:8000/api/user')
+        fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/user`)
         .then(response => response.json())
         .then(users => this.setState({ users: users }));
        
-        fetch('http://localhost:8000/api/messagecomment')
+        fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/messagecomment`)
         .then(response => response.json())
         .then(messages => this.setState({ userMessages: messages }));
     }
@@ -191,7 +187,7 @@ class Messages extends Component<MessageProps, IMessage> {
         if (prevProps.messages.messageId != this.props.messages.messageId) {
             this.setState({
                 connection: new HubConnectionBuilder()
-                .withUrl(`http://localhost:8000/hub/${this.props.messages.messageId}`)
+                .withUrl(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/hub/${this.props.messages.messageId}`)
                 .withAutomaticReconnect()
                 .build()
             }, () => {
@@ -241,7 +237,7 @@ class Messages extends Component<MessageProps, IMessage> {
                                 <AContainer>
                                 <Row xs={2}>
                                     <Col xs={2}>
-                                    <Card.Img src={`http://localhost:8000/images/${receiver?.imageLink!}`}/>
+                                    <Card.Img src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${receiver?.imageLink!}`}/>
                                     </Col>
                                     <Col>
                                     <Card.Text>{messageValue}</Card.Text>

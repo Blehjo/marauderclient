@@ -25,7 +25,7 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                 sidemenu &&
                 <SidebarMenuContainer className='fixed-top bg-dark'>
                     <Row 
-                xs={1} 
+                        xs={1} 
                     >
                         <Nav.Item style={pathname == "/capcom" ? {background: 'rgb(255,83,73)', width: '82%', borderRadius: '.2rem' } : {visibility: 'visible'}} className="ms-4 d-flex align-items-center py-1">
                             <a href="/capcom">

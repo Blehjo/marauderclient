@@ -9,14 +9,12 @@ import { chatFetchSingleStart } from "../../store/chat/chat.action";
 import { selectIsChatLoading, selectSingleChat } from "../../store/chat/chat.selector";
 import { chatcommentFetchSingleStart } from "../../store/chatcomment/chatcomment.action";
 import { selectIsChatCommentLoading, selectUserChatcomments } from "../../store/chatcomment/chatcomment.selector";
-import { CardContainer, CommentBarContainer, CommentContainer, FormContainer, SingleChatContainer, TextContainer } from "../../styles/messages/messages.styles";
-import { utcConverter } from "../../utils/date/date.utils";
-import { selectAllComments, selectUserComments } from "../../store/userchatcomment/userchatcomment.selector";
 import { commentCreateStart, commentFetchSingleStart } from "../../store/userchatcomment/userchatcomment.action";
-import { AContainer } from "../../styles/poststab/poststab.styles";
-import { Comment } from "../../store/comment/comment.types";
+import { selectAllComments } from "../../store/userchatcomment/userchatcomment.selector";
 import { UserChatComment } from "../../store/userchatcomment/userchatcomment.types";
-import { addComment } from "../../utils/api/userchatcomment.api";
+import { CardContainer, CommentBarContainer, CommentContainer, FormContainer, SingleChatContainer, TextContainer } from "../../styles/messages/messages.styles";
+import { AContainer } from "../../styles/poststab/poststab.styles";
+import { utcConverter } from "../../utils/date/date.utils";
 
 interface IForm {
     commentValue: string;
@@ -102,7 +100,7 @@ function SingleChat() {
                         <Card.Img src="https://www.artlog.net/sites/default/files/styles/al_colorbox_rules/public/turrell_cregis_golay_federal_studio.jpg?itok=2M4Pyn0A"/>
                         <Row style={{ position: 'relative', color: 'white', marginTop: '1rem' }} xs={3}>
                         <Col xs={1}>
-                        <Card.Img style={{ width: '2rem', height: '2rem', objectFit: 'fill' }} src={`http://localhost:8000/images/${chat?.user.imageLink!}`}/>
+                        <Card.Img style={{ width: '2rem', height: '2rem', objectFit: 'fill' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${chat?.user.imageLink!}`}/>
                         </Col>
                         <Col>
                         <Card.Text style={{ marginBottom: '.5rem' }}>{chat?.user.username}</Card.Text>
@@ -138,7 +136,7 @@ function SingleChat() {
                                     <AContainer href={`/profile/${user.userId}`}>
                                     <Row xs={2}>
                                         <Col xs={2}>
-                                        <Card.Img src={`http://localhost:8000/images/${user.imageLink!}`}/>
+                                        <Card.Img src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user.imageLink!}`}/>
                                         </Col>
                                         <Col>
                                         <Card.Text>{user.username}</Card.Text>

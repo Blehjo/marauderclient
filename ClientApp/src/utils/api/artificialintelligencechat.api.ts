@@ -4,7 +4,7 @@ import { ArtificialIntelligence } from "../../store/artificialintelligence/artif
 import { Chat } from "../../store/chat/chat.types";
 
 
-const api = "http://localhost:8000/api/artificialintelligenceChat";
+const api = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/api/artificialintelligenceChat`;
 
 const headers = {
   'Accept': 'application/json',
