@@ -1,6 +1,6 @@
 import { Grid, OrbitControls, OrthographicCamera, TransformControls } from "@react-three/drei";
 import { Canvas, Vector3 } from "@react-three/fiber";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, createRef, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { Gizmo } from "../../components/gizmo/gizmo.component";
 import { ControlPanel } from "../../components/gui/controlpanel.component";
@@ -13,6 +13,8 @@ import { selectEditorShape, selectEditorShapes, selectEditorSingleShape } from "
 import { selectAllGltfs, selectSingleGltf, selectUserGltfs } from "../../store/gltf/gltf.selector";
 import { gltfFetchSingleStart, gltfFetchUserStart } from "../../store/gltf/gltf.action";
 import { useParams } from "next/navigation";
+import { selectIsMaraudersOpen } from "../../store/messagebox/messagebox.selector";
+import ShapesContainer from "../../components/editor/shapes.component";
 
 enum Controls {
   forward = 'forward',
@@ -127,6 +129,7 @@ function Shape({ shape, position, orbit, shapeId }: ShapeProps) {
 
 export default function Editor() {
   const file = useSelector(selectSingleGltf);
+  const sidemenu = useSelector(selectIsMaraudersOpen);
   const files = useSelector(selectAllGltfs);
   const shape = useSelector(selectEditorShape);
   const shapes = useSelector(selectEditorShapes);
@@ -139,6 +142,8 @@ export default function Editor() {
   const intensity = useSettings((s) => s.directionalLight.intensity.value);
   const directionalLightColor = new THREE.Color(directionalLightColors["color"]);
   const orbit = useRef<THREE.Mesh>(null!);
+  const refs = useRef(Array.from({length: 10}, a => createRef()));
+  console.log("REFS::: ", refs)
 
   function handleInquiry(value: string): void {
     dispatch(setShape(value))
@@ -170,7 +175,7 @@ export default function Editor() {
 
   return (
     <div style={{ height: '100vh' }}>
-      <Selectors getAllFiles={fetchFiles} getFile={fetchSingleFile} files={files} file={file} shapes={shapes} shape={shape} userShapes={userShapes} handleShape={handleInquiry} addShape={addShape} deleteShape={deleteShape} fetchShapes={fetchShapes}/>
+      <Selectors sidemenu={sidemenu} getAllFiles={fetchFiles} getFile={fetchSingleFile} files={files} file={file} shapes={userShapes} shape={shape} userShapes={userShapes} handleShape={handleInquiry} addShape={addShape} deleteShape={deleteShape} fetchShapes={fetchShapes}/>
       <Canvas
         camera={{ fov: 75, near: 0.1, far: 1000, position: [1, 2, 5] }}
       >
@@ -180,8 +185,8 @@ export default function Editor() {
         <directionalLight color={directionalLightColor} position={positionArray} />
         {
           userShapes.length > 0 &&
-          userShapes.map(({ shapeId, shapeName, positionX, positionY, positionZ }) => (
-            <Shape key={shapeId} shapeId={shapeId} shape={shapeName} orbit={orbit} position={{x: positionX, y: positionY, z: positionZ}}/>
+          userShapes.map(({ shapeId, shapeName, positionX, positionY, positionZ }, index) => (
+            <Shape key={shapeId} shapeId={shapeId} shape={shapeName} orbit={refs.current[index].current} position={{x: positionX, y: positionY, z: positionZ}}/>
           ))
         }
         <Gizmo/>

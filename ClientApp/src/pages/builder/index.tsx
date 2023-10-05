@@ -237,7 +237,7 @@ class Vitals extends Component<BuilderProps, IBuilder> {
         // const { builder, editor } = this.state;
         const { shapes, gltfs, builder, editor } = this.props;
         return (
-            <>
+            <div style={{ paddingBottom: '5rem'}}>
                 <VitalsContainer>
                     <InfoContainer>Get Started</InfoContainer>
                     <div className="subtitle">Create a new file and start building your imagination!</div>
@@ -275,7 +275,7 @@ class Vitals extends Component<BuilderProps, IBuilder> {
                     </Masonry>
                 </ResponsiveMasonry>
             </CardsContainer> */}
-            </>
+            </div>
         );
     }
 }

@@ -71,7 +71,7 @@ class Generation extends Component {
     }
 
     componentDidMount(): void {
-        this.setGeneration();
+        // this.setGeneration();
         const useSettings = create<Settings, [["zustand/immer", never]]>(
             immer((set) => ({
               ...initialState,
@@ -154,14 +154,14 @@ const initialState: SettingsState = {
     },
     grid: true,
     generation: {
-        // height: singleShape.height ? singleShape.height : 0,
-        // width: singleShape?.width,
-        // depth: singleShape?.depth,
-        // positionX: singleShape.positionX ? singleShape.positionX : 0,
-        // positionY: singleShape?.positionY,
-        // positionZ: singleShape?.positionZ,
-        // radius: singleShape?.radius,
-        // length: singleShape?.length
+        height: 0,
+        width: 0,
+        depth: 0,
+        positionX: 0,
+        positionY: 0,
+        positionZ: 0,
+        radius: 0,
+        length: 0
     }
 };
 

@@ -10,8 +10,10 @@ export const UiContainer = styled.div`
     display: flex;
     flex-direction: row;
     position: fixed;
+    left: 50%;
+    transform: translate(-50%, 0);
     top: 8%;
-    right: 16%;
+    // right: 16%;
     color: white;
     background: #212529;
     border-radius: .3rem;
@@ -56,4 +58,29 @@ export const Dot = styled.div`
     border-radius: 50%;
     transform: translate3d(-50%, -50%, 0);
     border: 2px solid white;
+`;
+
+export const ContainShapes = styled.div`
+    padding: 1rem;
+    position: fixed;
+    width: 20%;
+    height: auto;
+    top: 125%;
+    left: 55%;
+    background-color: #212529;
+    border-radius: .2rem;
+    border: solid 1px white;
+    text-align: center;
+`;
+
+export const SelectShape = styled.div`
+    cursor: pointer;
+    color: white;
+    z-index: 10;
+    padding: .2rem;
+    &:hover {
+        background: rgb(255,83,73);
+        border-radius: .2rem;
+        // border: solid 1px white;
+    }
 `;
