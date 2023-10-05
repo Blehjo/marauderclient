@@ -15,6 +15,9 @@ import { gltfFetchSingleStart, gltfFetchUserStart } from "../../store/gltf/gltf.
 import { useParams } from "next/navigation";
 import { selectIsMaraudersOpen } from "../../store/messagebox/messagebox.selector";
 import ShapesContainer from "../../components/editor/shapes.component";
+import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
+import { updateShape } from "../../store/editor/editor.saga";
+import { Editor as IndividualShape } from "../../store/editor/editor.types";
 
 enum Controls {
   forward = 'forward',
@@ -90,6 +93,7 @@ function Shape({ shape, position, orbit, shapeId }: ShapeProps) {
     hsl.l * 1
   );
 
+  console.log("POSITIONARRAY::: ", positionArray);
   useEffect(() => {
     if (transform.current) {
       const { current: controls } = transform
@@ -128,6 +132,7 @@ function Shape({ shape, position, orbit, shapeId }: ShapeProps) {
 }
 
 export default function Editor() {
+  const [connection, setConnection] = useState<HubConnection>();
   const file = useSelector(selectSingleGltf);
   const sidemenu = useSelector(selectIsMaraudersOpen);
   const files = useSelector(selectAllGltfs);
@@ -143,7 +148,20 @@ export default function Editor() {
   const directionalLightColor = new THREE.Color(directionalLightColors["color"]);
   const orbit = useRef<THREE.Mesh>(null!);
   const refs = useRef(Array.from({length: 10}, a => createRef()));
-  console.log("REFS::: ", refs)
+
+  function handlePositionUpdate(shapeId: number, position: Vector3): THREE.Vector3 {
+    dispatch(updateShape(shapeId, position))
+    connection?.send("newPosition", "foo", position);
+    return new THREE.Vector3(1,2,3);
+  }
+
+  function handleConnection(): void {
+    const hub = new HubConnectionBuilder()
+      .withUrl(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/hub/${file?.gltfId}`)
+      .withAutomaticReconnect()
+      .build();
+    setConnection(hub);
+  }
 
   function handleInquiry(value: string): void {
     dispatch(setShape(value))
@@ -171,11 +189,12 @@ export default function Editor() {
 
   useEffect(() => {
     fetchFiles();
+    handleConnection();
   }, [shapes.length]);
 
   return (
     <div style={{ height: '100vh' }}>
-      <Selectors sidemenu={sidemenu} getAllFiles={fetchFiles} getFile={fetchSingleFile} files={files} file={file} shapes={userShapes} shape={shape} userShapes={userShapes} handleShape={handleInquiry} addShape={addShape} deleteShape={deleteShape} fetchShapes={fetchShapes}/>
+      <Selectors connection={handlePositionUpdate} sidemenu={sidemenu} getAllFiles={fetchFiles} getFile={fetchSingleFile} files={files} file={file} shapes={userShapes} shape={shape} userShapes={userShapes} handleShape={handleInquiry} addShape={addShape} deleteShape={deleteShape} fetchShapes={fetchShapes}/>
       <Canvas
         camera={{ fov: 75, near: 0.1, far: 1000, position: [1, 2, 5] }}
       >

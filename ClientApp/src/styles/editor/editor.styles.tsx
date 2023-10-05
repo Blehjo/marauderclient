@@ -32,7 +32,7 @@ export const DivContainer = styled.div`
     cursor: pointer;
     z-index: 100;
     &:hover {
-        background-color: black;
+        background-color: rgb(255,83,73);
     }
 `;
 

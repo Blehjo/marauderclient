@@ -1,5 +1,3 @@
-import { Vector3 } from "@react-three/fiber";
-
 export enum EDITOR_ACTION_TYPES  {
     CREATE_START = 'editor/CREATE_START',
     CREATE_SUCCESS = 'editor/CREATE_SUCCESS',
