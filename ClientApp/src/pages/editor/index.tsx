@@ -8,7 +8,7 @@ import { ControlPanel } from "../../components/gui/controlpanel.component";
 import { useDispatch, useSelector } from "react-redux";
 import { Selectors } from "../../components/editor/selector.component";
 import { useSettings } from "../../components/gui/settings.component";
-import { editorCreateStart, editorDeleteStart, editorFetchAllStart, editorFetchSingleStart, setShape } from "../../store/editor/editor.action";
+import { editorCreateStart, editorDeleteStart, editorFetchAllStart, editorFetchSingleStart, editorUpdateStart, setShape } from "../../store/editor/editor.action";
 import { selectEditorShape, selectEditorShapes, selectEditorSingleShape } from "../../store/editor/editor.selector";
 import { selectAllGltfs, selectSingleGltf, selectUserGltfs } from "../../store/gltf/gltf.selector";
 import { gltfFetchSingleStart, gltfFetchUserStart } from "../../store/gltf/gltf.action";
@@ -18,6 +18,7 @@ import ShapesContainer from "../../components/editor/shapes.component";
 import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
 import { updateShape } from "../../store/editor/editor.saga";
 import { Editor as IndividualShape } from "../../store/editor/editor.types";
+import { Gltf } from "../../store/gltf/gltf.types";
 
 enum Controls {
   forward = 'forward',
@@ -36,6 +37,8 @@ type ShapeProps = {
   };
   orbit: any;
   shapeId: number;
+  connection: (editorId: number, shapeName?: string, gltfId?: number, position?: Vector3, height?: number, width?: number, depth?: number, radius?: number, length?: number, color?: string) => THREE.Vector3;
+  file: Gltf;
 }
 
 function handleShape(shape?: string): ReactNode {
@@ -79,7 +82,7 @@ function handleShape(shape?: string): ReactNode {
   }
 }
 
-function Shape({ shape, position, orbit, shapeId }: ShapeProps) {
+function Shape({ shape, position, orbit, shapeId, connection, file }: ShapeProps) {
   const transform = useRef<any>(null!);
   const [active, setActive] = useState(false);
   const positionArray: THREE.Vector3 = new THREE.Vector3(position?.x, position?.y, position?.z);
@@ -98,8 +101,10 @@ function Shape({ shape, position, orbit, shapeId }: ShapeProps) {
     if (transform.current) {
       const { current: controls } = transform
       const callback = (event: any) => {
-        orbit.current.enabled = !event.value
+        orbit.current.enabled = !event?.value
+        // editorId, shapeName, gltfId, position, height, width, depth, radius, length, color
       }
+      connection(shapeId, shape, 1, positionArray, height, undefined, undefined, undefined, undefined, color.toArray().toString())
       transform.current.addEventListener('dragging-changed', callback)
       return () => controls.removeEventListener('dragging-changed', callback)
     }
@@ -149,9 +154,12 @@ export default function Editor() {
   const orbit = useRef<THREE.Mesh>(null!);
   const refs = useRef(Array.from({length: 10}, a => createRef()));
 
-  function handlePositionUpdate(shapeId: number, position: Vector3): THREE.Vector3 {
-    // dispatch(updateShape(shapeId, position))
-    connection?.send("newPosition", "foo", position);
+  function handlePositionUpdate(editorId: number, shapeName?: string, gltfId?: number, position?: Vector3, height?: number, width?: number, depth?: number, radius?: number, length?: number, color?: string): THREE.Vector3 {
+    dispatch(editorUpdateStart(editorId, shapeName, gltfId, position, height, width, depth, radius, length, color))
+    connection?.send("newShape", "foo", position);
+    connection?.on("shapeReceived", (shape: any) => {
+      console.log('received', shape)
+    })
     return new THREE.Vector3(1,2,3);
   }
 
@@ -194,7 +202,7 @@ export default function Editor() {
 
   return (
     <div style={{ height: '100vh' }}>
-      <Selectors connection={handlePositionUpdate} sidemenu={sidemenu} getAllFiles={fetchFiles} getFile={fetchSingleFile} files={files} file={file} shapes={userShapes} shape={shape} userShapes={userShapes} handleShape={handleInquiry} addShape={addShape} deleteShape={deleteShape} fetchShapes={fetchShapes}/>
+      <Selectors sidemenu={sidemenu} getAllFiles={fetchFiles} getFile={fetchSingleFile} files={files} file={file} shapes={userShapes} shape={shape} userShapes={userShapes} handleShape={handleInquiry} addShape={addShape} deleteShape={deleteShape} fetchShapes={fetchShapes}/>
       <Canvas
         camera={{ fov: 75, near: 0.1, far: 1000, position: [1, 2, 5] }}
       >
@@ -205,7 +213,7 @@ export default function Editor() {
         {
           userShapes.length > 0 &&
           userShapes.map(({ shapeId, shapeName, positionX, positionY, positionZ }, index) => (
-            <Shape key={shapeId} shapeId={shapeId} shape={shapeName} orbit={refs.current[index].current} position={{x: positionX, y: positionY, z: positionZ}}/>
+            <Shape connection={handlePositionUpdate} key={shapeId} shapeId={shapeId} shape={shapeName} file={file!} orbit={refs.current[index].current} position={{x: positionX, y: positionY, z: positionZ}}/>
           ))
         }
         <Gizmo/>

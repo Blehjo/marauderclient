@@ -90,7 +90,6 @@ export class Selectors extends Component<any, SelectorProps> {
   render() {
     const { shapes, shape, files, file, sidemenu } = this.props;
     const { show, deleteMode, fileMode, shapesMode } = this.state;
-    // const fileName = file.fileInformation;
     return (
       <UiContainer style={sidemenu ? { marginLeft: '8rem' } : { visibility: 'visible' }}>
         <DivContainer key={"add"} onClick={this.openDropwDown}>+</DivContainer>

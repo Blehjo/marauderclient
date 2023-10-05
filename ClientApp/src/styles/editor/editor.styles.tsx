@@ -27,6 +27,7 @@ export const DivContainer = styled.div`
     border: 1px solid white;
     border-radius: .3rem;
     padding: .1rem;
+    justify-content: center;
     width: 2rem;
     text-align: center;
     cursor: pointer;

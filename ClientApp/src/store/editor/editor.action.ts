@@ -23,7 +23,7 @@ export type EditorCreateFailed = ActionWithPayload<
 >;
 
 export type EditorUpdateStart = ActionWithPayload<
-    EDITOR_ACTION_TYPES.UPDATE_START, { editorId: number, shapeName: string, position?: Vector3, height?: number, width?: number, depth?: number, radius?: number, length?: number, color?: string, gltfId: number }
+    EDITOR_ACTION_TYPES.UPDATE_START, { editorId: number, shapeName?: string, gltfId?: number, position?: Vector3, height?: number, width?: number, depth?: number, radius?: number, length?: number, color?: string }
 >;
 
 export type EditorUpdateSuccess = ActionWithPayload<
@@ -142,7 +142,7 @@ export const editorCreateFailed = withMatcher(
 );
  
 export const editorUpdateStart = withMatcher(
-    (editorId: number, shapeName: string, gltfId: number, position?: Vector3, height?: number, width?: number, depth?: number, radius?: number, length?: number, color?: string): EditorUpdateStart => 
+    (editorId: number, shapeName?: string, gltfId?: number, position?: Vector3, height?: number, width?: number, depth?: number, radius?: number, length?: number, color?: string): EditorUpdateStart => 
     createAction(EDITOR_ACTION_TYPES.UPDATE_START, { editorId, shapeName, gltfId, position, height, width, depth, radius, length, color })
 );
 
