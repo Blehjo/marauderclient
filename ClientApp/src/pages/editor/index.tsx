@@ -150,7 +150,7 @@ export default function Editor() {
   const refs = useRef(Array.from({length: 10}, a => createRef()));
 
   function handlePositionUpdate(shapeId: number, position: Vector3): THREE.Vector3 {
-    dispatch(updateShape(shapeId, position))
+    // dispatch(updateShape(shapeId, position))
     connection?.send("newPosition", "foo", position);
     return new THREE.Vector3(1,2,3);
   }
