@@ -33,3 +33,21 @@ a {
   background-color: #212529;
   color: white;
 }
+
+.tabscolor > li {
+  justify-content: space-evenly;
+  margin: 0rem .2rem 0rem .2rem;
+}
+
+.tabscolor .nav-link.active {
+  background-color: rgb(255,83,73);
+}
+
+.tabscolor .nav-link {
+  background-color: #212529;
+  color: white;
+  &:hover {
+    background-color: rgb(255,83,73);
+    color: gray;
+  }
+}

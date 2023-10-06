@@ -40,16 +40,16 @@ class Profile extends Component<ProfileProps> {
                 currentUser == null ? 
                 <Authentication/> :
                 <Row lg={2}>
-                    <Col style={{ marginBottom: '2rem' }}lg={4}>
+                    <Col style={{ marginBottom: '2rem' }} lg={4}>
                         <ProfileCard { ...this.props }/>
                     </Col>
                     <Col lg={8}>                
                     <Tabs
                         defaultActiveKey="posts"
                         justify
-                        className='mb-5'
+                        className='mb-5 tabscolor'
                         variant='pills'
-                        >
+                    >
                         <Tab eventKey="posts" title="Posts">
                             <PostsTab { ...this.props } />
                         </Tab>

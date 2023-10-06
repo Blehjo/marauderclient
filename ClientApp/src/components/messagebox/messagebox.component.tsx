@@ -206,7 +206,7 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
                     <Tabs
                         defaultActiveKey="messages"
                         justify
-                        className='mb-5'
+                        className='mb-5 tabscolor'
                         variant='pills'
                     >
                     <Tab eventKey="messages" title="Messages">

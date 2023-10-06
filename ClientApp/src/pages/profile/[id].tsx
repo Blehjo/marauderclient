@@ -47,7 +47,7 @@ function SingleProfile(props: SingleProfileProps) {
                 <Tabs
                     defaultActiveKey="posts"
                     justify
-                    className='mb-5'
+                    className='mb-5 tabscolor'
                     variant='pills'
                     >
                     <Tab eventKey="posts" title="Posts">

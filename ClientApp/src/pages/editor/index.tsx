@@ -104,7 +104,7 @@ function Shape({ shape, position, orbit, shapeId, connection, file }: ShapeProps
         orbit.current.enabled = !event?.value
         // editorId, shapeName, gltfId, position, height, width, depth, radius, length, color
       }
-      connection(shapeId, shape, 1, positionArray, height, undefined, undefined, undefined, undefined, color.toArray().toString())
+      // connection(shapeId, shape, 1, positionArray, height, undefined, undefined, undefined, undefined, color.toArray().toString())
       transform.current.addEventListener('dragging-changed', callback)
       return () => controls.removeEventListener('dragging-changed', callback)
     }
@@ -201,7 +201,7 @@ export default function Editor() {
 
   useEffect(() => {
     fetchFiles();
-    // if (connection?.state)
+    // if (connection?.state )
     handleConnection();
     console.log("CONNECTION::" , connection)
   }, [shapes.length, file]);
