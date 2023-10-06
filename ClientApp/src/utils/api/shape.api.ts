@@ -45,7 +45,7 @@ export async function getUsersShapes(): Promise<Editor[]> {
 export async function addShape(shapeName: string, gltfId: number, position?: Vector3, height?: number, width?: number, depth?: number, radius?: number, length?: number, color?: string): Promise<Editor[]> {
   const response = await axios({
     method: 'post',
-    url: api, 
+    url: `${api}/${gltfId}`, 
     data: {
       shapeName,
       gltfId,

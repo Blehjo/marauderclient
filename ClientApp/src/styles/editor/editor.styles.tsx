@@ -74,6 +74,18 @@ export const ContainShapes = styled.div`
     text-align: center;
 `;
 
+export const ContainDevices = styled.div`
+    padding: .5rem;
+    width: 50%;
+    margin-bottom: 1rem;
+    height: 100%;
+    background-color: #212529;
+    color: white;
+    border-radius: .5rem;
+    border: solid 1px white;
+    text-align: center;
+`;
+
 export const SelectShape = styled.div`
     cursor: pointer;
     color: white;

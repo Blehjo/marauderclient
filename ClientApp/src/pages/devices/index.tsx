@@ -1,6 +1,6 @@
 import { ChangeEvent, Component, Dispatch, FormEvent } from "react";
 import { Card, Col, Dropdown, Form, Image, Modal, Row } from "react-bootstrap";
-import { Plus, XCircle } from "react-bootstrap-icons";
+import { ChevronDown, ChevronUp, Plus, XCircle } from "react-bootstrap-icons";
 import { ConnectedProps, connect } from "react-redux";
 
 import { ButtonContainer, CardContainer, DeviceContainer, FormContainer, XContainer } from "../../styles/devices/devices.styles";
@@ -8,10 +8,12 @@ import { ListContainer, MessageForm } from "../../styles/messages/messages.style
 
 import { DeviceCreateStart, DeviceDeleteStart, DeviceFetchAllStart, deviceCreateStart, deviceDeleteStart, deviceFetchAllStart } from "../../store/device/device.action";
 import { RootState } from "../../store/store";
+import { ContainDevices, SelectShape } from "../../styles/editor/editor.styles";
 
 interface IDevice {
     deviceName: string;
     show: boolean;
+    showDropdown: boolean;
     dropDownValue: string;
     isConnected: boolean;
     toggleCharacteristic: any;
@@ -25,6 +27,7 @@ class Devices extends Component<DeviceProps, IDevice> {
         this.state = {
             deviceName: "",
             show: false,
+            showDropdown: false,
             dropDownValue: "Arduino",
             isConnected: false,
             toggleCharacteristic: null
@@ -32,6 +35,8 @@ class Devices extends Component<DeviceProps, IDevice> {
         this.handleChange = this.handleChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.openDropwDown = this.openDropwDown.bind(this);
+        this.handleSetDevice = this.handleSetDevice.bind(this);
     }
     
     async connect() {
@@ -78,6 +83,12 @@ class Devices extends Component<DeviceProps, IDevice> {
         this.props.deleteDevice(deviceId);
     }
 
+    handleSetDevice(device: string): void {
+        this.setState({
+            ...this.state, dropDownValue: device
+        })
+    }
+
     handleSubmit(event: FormEvent<HTMLFormElement>): void {
         event.preventDefault();
         const { deviceName, dropDownValue } = this.state;
@@ -108,13 +119,19 @@ class Devices extends Component<DeviceProps, IDevice> {
             show: !this.state.show
         });
     }
+
+    openDropwDown() {
+        this.setState({
+            showDropdown: !this.state.showDropdown
+        });
+    }
     
     componentDidMount(): void {
         this.props.getDevices();
     }
 
     render() {
-        const { deviceName, show, dropDownValue } = this.state;
+        const { deviceName, show, dropDownValue, showDropdown} = this.state;
         const { devices } = this.props;
         return (
             <DeviceContainer>
@@ -153,22 +170,27 @@ class Devices extends Component<DeviceProps, IDevice> {
             </ListContainer>
             </Col>
             <Col xs={12}>
-            <Modal show={show} onHide={this.handleClick}>
+            <Modal className="deviceModal" show={show} onHide={this.handleClick}>
                 <Modal.Header closeButton>Add new device?</Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={this.handleSubmit}>
+                        <ContainDevices onClick={this.openDropwDown} key="dropdown" >
+                            <SelectShape>
+                            {dropDownValue} {showDropdown ? <ChevronUp/> : <ChevronDown/>}
+                            </SelectShape>
+                            {
+                            showDropdown && <>
+                            <SelectShape onClick={() => this.handleSetDevice("Arduino")} key="6">Arduino</SelectShape>
+                            <SelectShape onClick={() => this.handleSetDevice("Arduino Nano")} key="1">Arduino Nano</SelectShape>
+                            <SelectShape onClick={() => this.handleSetDevice("Esp 32")} key="2">Esp 32</SelectShape>
+                            <SelectShape onClick={() => this.handleSetDevice("Esp 32 Camera")} key="3">Esp 32 Camera</SelectShape>
+                            <SelectShape onClick={() => this.handleSetDevice("Raspberry Pi 4")} key="4">Raspberry Pi 4</SelectShape>
+                            <SelectShape onClick={() => this.handleSetDevice("Raspberry Pi Zero W")} key="5">Raspberry Pi Zero W</SelectShape>
+                            </>
+                            }
+                        </ContainDevices>
                         <FormContainer>
-                            <Dropdown style={{ marginBottom: '1rem' }}>
-                            <Dropdown.Toggle variant="dark" id="dropdown-autoclose-true">{dropDownValue}</Dropdown.Toggle>
-                                {/* <Dropdown.Menu>
-                                    <Dropdown.Item eventKey="1">Arduino Nano</Dropdown.Item>
-                                    <Dropdown.Item eventKey="2">Esp 32</Dropdown.Item>
-                                    <Dropdown.Item eventKey="3">Esp 32 Camera</Dropdown.Item>
-                                    <Dropdown.Item eventKey="4">Raspberry Pi 4</Dropdown.Item>
-                                    <Dropdown.Item eventKey="4">Raspberry Pi Zero W</Dropdown.Item>
-                                </Dropdown.Menu> */}
-                            </Dropdown>
-                            <ButtonContainer className="btn btn-outline-dark" type="submit">
+                            <ButtonContainer className="btn btn-outline-light" type="submit">
                                 <Plus style={{ cursor: 'pointer' }} size={15}/>
                             </ButtonContainer>
                         </FormContainer>

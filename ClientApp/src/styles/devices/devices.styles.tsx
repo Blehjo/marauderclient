@@ -13,12 +13,13 @@ export const FormContainer = styled.div`
     position: relative;
     display: flex;
     flex-direction: row;
-    margin-bottom: 3rem;
+    // margin-bottom: 3rem;
 `;
 
 export const ButtonContainer = styled.button`
     border: solid 1px black;
     position: absolute;
+    top: -4rem;
     left: 90%;
 `;
 

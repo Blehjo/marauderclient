@@ -11,7 +11,7 @@ import { useSettings } from "../../components/gui/settings.component";
 import { editorCreateStart, editorDeleteStart, editorFetchAllStart, editorFetchSingleStart, editorUpdateStart, setShape } from "../../store/editor/editor.action";
 import { selectEditorShape, selectEditorShapes, selectEditorSingleShape } from "../../store/editor/editor.selector";
 import { selectAllGltfs, selectSingleGltf, selectUserGltfs } from "../../store/gltf/gltf.selector";
-import { gltfFetchSingleStart, gltfFetchUserStart } from "../../store/gltf/gltf.action";
+import { gltfCreateStart, gltfFetchSingleStart, gltfFetchUserStart } from "../../store/gltf/gltf.action";
 import { useParams } from "next/navigation";
 import { selectIsMaraudersOpen } from "../../store/messagebox/messagebox.selector";
 import ShapesContainer from "../../components/editor/shapes.component";
@@ -165,7 +165,7 @@ export default function Editor() {
 
   function handleConnection(): void {
     const hub = new HubConnectionBuilder()
-      .withUrl(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/hub/${file?.gltfId}`)
+      .withUrl(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/hub/editor/${file?.gltfId}`)
       .withAutomaticReconnect()
       .build();
     setConnection(hub);
@@ -195,14 +195,20 @@ export default function Editor() {
     dispatch(gltfFetchUserStart());
   }
 
+  function createGltfFile(fileInformation: string): void {
+    dispatch(gltfCreateStart(fileInformation));
+  }
+
   useEffect(() => {
     fetchFiles();
+    // if (connection?.state)
     handleConnection();
-  }, [shapes.length]);
+    console.log("CONNECTION::" , connection)
+  }, [shapes.length, file]);
 
   return (
     <div style={{ height: '100vh' }}>
-      <Selectors sidemenu={sidemenu} getAllFiles={fetchFiles} getFile={fetchSingleFile} files={files} file={file} shapes={userShapes} shape={shape} userShapes={userShapes} handleShape={handleInquiry} addShape={addShape} deleteShape={deleteShape} fetchShapes={fetchShapes}/>
+      <Selectors createGltfFile={createGltfFile} sidemenu={sidemenu} getAllFiles={fetchFiles} getFile={fetchSingleFile} files={files} file={file} shapes={userShapes} shape={shape} userShapes={userShapes} handleShape={handleInquiry} addShape={addShape} deleteShape={deleteShape} fetchShapes={fetchShapes}/>
       <Canvas
         camera={{ fov: 75, near: 0.1, far: 1000, position: [1, 2, 5] }}
       >

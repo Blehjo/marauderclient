@@ -1,6 +1,6 @@
 import { ChangeEvent, Component, Dispatch, FormEvent, ReactNode } from "react";
 import { Card, Col, Dropdown, Form, Image, Modal, Row } from "react-bootstrap";
-import { Clipboard, PencilSquare, Plus, Send, XCircle } from "react-bootstrap-icons";
+import { ChevronDown, ChevronUp, Clipboard, PencilSquare, Plus, Send, XCircle } from "react-bootstrap-icons";
 import { ConnectedProps, connect } from "react-redux";
 import { Textfit } from 'react-textfit';
 
@@ -34,6 +34,7 @@ import { AiList } from "../../components/searchbar/ailist.component";
 import { getUsersArtificialIntelligences } from "../../utils/api/artificialintelligence.api";
 import { getAllChatComments } from "../../utils/api/chatcomment.api";
 import { getUsersArtificialIntelligenceChats } from "../../utils/api/artificialintelligencechat.api";
+import { ContainDevices, SelectShape } from "../../styles/editor/editor.styles";
 
 interface ICrew {
     artificialIntelligences: ArtificialIntelligence[];
@@ -44,6 +45,7 @@ interface ICrew {
     imageSource: string | ArrayBuffer | null | undefined;
     imageFile: any;
     show: boolean;
+    showDropdown: boolean;
     messageValue: string;
     messages: Array<string>;
     chatId: number | null;
@@ -73,6 +75,7 @@ class Crew extends Component<CrewProps, ICrew> {
             chats: [],
             messages: [],
             show: false,
+            showDropdown: false,
             inputContainer: false,
             messageValue: "",
             dropDownValue: "Choose Crew",
@@ -89,6 +92,8 @@ class Crew extends Component<CrewProps, ICrew> {
         this.setDropDown = this.setDropDown.bind(this);
         this.getArtificialChat = this.getArtificialChat.bind(this);
         this.handleClickEvent = this.handleClickEvent.bind(this);
+        this.openDropwDown = this.openDropwDown.bind(this);
+        this.handleSetCrew = this.handleSetCrew.bind(this);
     }
 
     handleClickEvent() {
@@ -291,6 +296,18 @@ class Crew extends Component<CrewProps, ICrew> {
         return content;
     }
 
+    handleSetCrew(crew: string): void {
+        this.setState({
+            ...this.state, dropDownValue: crew
+        })
+    }
+
+    openDropwDown() {
+        this.setState({
+            showDropdown: !this.state.showDropdown
+        });
+    }
+
     onSearchChange = (event: ChangeEvent<HTMLInputElement>): void => {
         this.setState({ searchField: event.target.value });
     };
@@ -309,7 +326,7 @@ class Crew extends Component<CrewProps, ICrew> {
     }
 
     render() {
-        const { dropDownValue, show, role, name, messageValue, inputContainer, showInput, searchField, artificialIntelligences, userchats, userchatcomments } = this.state;
+        const { dropDownValue, show, showDropdown, role, name, messageValue, inputContainer, showInput, searchField, artificialIntelligences, userchats, userchatcomments } = this.state;
         const { artificialIntelligence, } = this.props;
         const filteredAis = artificialIntelligences.filter(artificialIntelligence =>
             artificialIntelligence.name?.toLowerCase().includes(searchField.toLowerCase()));
@@ -376,16 +393,20 @@ class Crew extends Component<CrewProps, ICrew> {
                 <ChatForm>
                     <Form onSubmit={this.sendMessage}>
                         <HeaderContainer>
-                        <Dropdown style={{ }}>
-                            <Dropdown.Toggle variant="dark" id="dropdown-autoclose-true">{dropDownValue}</Dropdown.Toggle>
-                            <Dropdown.Menu>
-                                {/* {
+                        <ContainDevices onClick={this.openDropwDown} key="dropdown" >
+                            <SelectShape>
+                            {dropDownValue} {showDropdown ? <ChevronUp/> : <ChevronDown/>}
+                            </SelectShape>
+                            {
+                            showDropdown && <>
+                            {
                                 artificialIntelligence.userArtificialIntelligences?.map(({ name, artificialIntelligenceId }) => (
-                                    <Dropdown.Item onClick={() => this.setDropDown(name, artificialIntelligenceId )} eventKey="1">{name}</Dropdown.Item>
-                                    ))
-                                } */}
-                            </Dropdown.Menu>
-                        </Dropdown>
+                                    <SelectShape onClick={() => this.setDropDown(name, artificialIntelligenceId )} key={name}>{name}</SelectShape>
+                                ))
+                            }
+                            </>
+                            }
+                        </ContainDevices>
                         <PenContainer onClick={this.createNewChat}>
                             <PencilSquare size={30}/>
                         </PenContainer>

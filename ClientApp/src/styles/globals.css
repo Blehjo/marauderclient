@@ -15,11 +15,6 @@ a {
   box-sizing: border-box;
 }
 
-.tools {
-  /* border-left: 1px solid white;
-  padding-left: 1.5rem; */
-}
-
 .shrink {
   display: none;
 }
@@ -32,4 +27,9 @@ a {
     color: white;
     background: black;
   }
+}
+
+.deviceModal .modal-content{
+  background-color: #212529;
+  color: white;
 }

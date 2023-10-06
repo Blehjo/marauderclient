@@ -6,15 +6,18 @@ import { RootState } from "../../store/store";
 import { DeviceCreateStart, DeviceDeleteStart, DeviceFetchAllStart, deviceCreateStart, deviceDeleteStart, deviceFetchAllStart } from "../../store/device/device.action";
 import { CardContainer, XContainer, ButtonContainer as DeleteContainer, ListContainer } from "../../styles/devices/devices.styles";
 import { Card, Col, Dropdown, Form, Image, Modal, Row } from "react-bootstrap";
-import { ChevronDown, ChevronUp, Plus, Search, ThreeDotsVertical, XCircle } from "react-bootstrap-icons";
-import { AContainer, FormContainer } from "../../styles/poststab/poststab.styles";
+import { ArrowsExpand, ChevronDown, ChevronUp, Plus, Search, ThreeDotsVertical, XCircle } from "react-bootstrap-icons";
+import { AContainer } from "../../styles/poststab/poststab.styles";
 import { SetIsDevicesOpen, setIsDevicesOpen } from "../../store/messagebox/messagebox.action";
 import { ContainerBox } from "../../styles/messagebox/messagebox.styles";
+import { ContainDevices, ContainShapes, SelectShape } from "../../styles/editor/editor.styles";
+import { ButtonContainer as SubmitContainer, FormContainer } from "../../styles/devices/devices.styles";
 
 interface ICapCom {
     light: boolean,
     deviceName: string;
     show: boolean;
+    showDropdown: boolean;
     dropDownValue: string;
     isConnected: boolean;
     toggleCharacteristic: any;
@@ -30,6 +33,7 @@ class CapCom extends Component<CapComProps, ICapCom> {
             light: false,
             deviceName: "",
             show: false,
+            showDropdown: false,
             dropDownValue: "Arduino",
             isConnected: false,
             toggleCharacteristic: null,
@@ -42,6 +46,8 @@ class CapCom extends Component<CapComProps, ICapCom> {
         this.handleClick = this.handleClick.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleOpenDevices = this.handleOpenDevices.bind(this);
+        this.openDropwDown = this.openDropwDown.bind(this);
+        this.handleSetDevice = this.handleSetDevice.bind(this);
     }
 
     handleChange(event: ChangeEvent<HTMLInputElement>): void {
@@ -65,6 +71,12 @@ class CapCom extends Component<CapComProps, ICapCom> {
             ...this.state, result: !result
         });
         this.props.openDevices(!result);
+    }
+
+    handleSetDevice(device: string): void {
+        this.setState({
+            ...this.state, dropDownValue: device
+        })
     }
 
     handleSubmit(event: FormEvent<HTMLFormElement>): void {
@@ -98,6 +110,12 @@ class CapCom extends Component<CapComProps, ICapCom> {
         });
     }
 
+    openDropwDown() {
+        this.setState({
+            showDropdown: !this.state.showDropdown
+        });
+    }
+
     togglePin() {
         const { light } = this.state;
         const socket = io('http://localhost:8000');
@@ -122,7 +140,7 @@ class CapCom extends Component<CapComProps, ICapCom> {
         socket.emit('lightson', light);
     }
     render() {
-        const { deviceName, show, dropDownValue } = this.state;
+        const { deviceName, show, dropDownValue, showDropdown } = this.state;
         const { devices, isDevicesOpen } = this.props; 
         return (
             <CapsuleContainer>
@@ -215,24 +233,31 @@ class CapCom extends Component<CapComProps, ICapCom> {
                 </SecondColumn>
                 </Col>
                 </Row>
-                <Modal show={show} onHide={this.handleClick}>
+                <Row>
+                <Col xs={12}>
+                <Modal className="deviceModal" show={show} onHide={this.handleClick}>
                     <Modal.Header closeButton>Add new device?</Modal.Header>
                     <Modal.Body>
                         <Form onSubmit={this.handleSubmit}>
+                            <ContainDevices onClick={this.openDropwDown} key="dropdown" >
+                                <SelectShape>
+                                    {dropDownValue} {showDropdown ? <ChevronUp/> : <ChevronDown/>}
+                                </SelectShape>
+                                {
+                                showDropdown && <>
+                                <SelectShape onClick={() => this.handleSetDevice("Arduino")} key="6">Arduino</SelectShape>
+                                <SelectShape onClick={() => this.handleSetDevice("Arduino Nano")} key="1">Arduino Nano</SelectShape>
+                                <SelectShape onClick={() => this.handleSetDevice("Esp 32")} key="2">Esp 32</SelectShape>
+                                <SelectShape onClick={() => this.handleSetDevice("Esp 32 Camera")} key="3">Esp 32 Camera</SelectShape>
+                                <SelectShape onClick={() => this.handleSetDevice("Raspberry Pi 4")} key="4">Raspberry Pi 4</SelectShape>
+                                <SelectShape onClick={() => this.handleSetDevice("Raspberry Pi Zero W")} key="5">Raspberry Pi Zero W</SelectShape>
+                                </>
+                                }
+                            </ContainDevices>
                             <FormContainer>
-                                <Dropdown style={{ marginBottom: '1rem' }}>
-                                <Dropdown.Toggle variant="dark" id="dropdown-autoclose-true">{dropDownValue}</Dropdown.Toggle>
-                                    {/* <Dropdown.Menu>
-                                        <Dropdown.Item eventKey="1">Arduino Nano</Dropdown.Item>
-                                        <Dropdown.Item eventKey="2">Esp 32</Dropdown.Item>
-                                        <Dropdown.Item eventKey="3">Esp 32 Camera</Dropdown.Item>
-                                        <Dropdown.Item eventKey="4">Raspberry Pi 4</Dropdown.Item>
-                                        <Dropdown.Item eventKey="4">Raspberry Pi Zero W</Dropdown.Item>
-                                    </Dropdown.Menu> */}
-                                </Dropdown>
-                                <DeleteContainer className="btn btn-outline-dark" type="submit">
+                                <SubmitContainer className="btn btn-outline-light" type="submit">
                                     <Plus style={{ cursor: 'pointer' }} size={15}/>
-                                </DeleteContainer>
+                                </SubmitContainer>
                             </FormContainer>
                             <Form.Group controlId="devicename">
                                 <Form.Control style={{ height: '.5rem' }} as="textarea" onChange={this.handleChange} value={deviceName} name="deviceName" placeholder="Device name" />
@@ -240,6 +265,8 @@ class CapCom extends Component<CapComProps, ICapCom> {
                         </Form>
                     </Modal.Body>
                 </Modal>
+                </Col>
+                </Row>
             </CapsuleContainer>
         )
     }
