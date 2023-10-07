@@ -80,7 +80,7 @@ export class Searchbar extends Component<{}, DefaultProps> {
         return (
             <>
                 <input style={{ borderRadius: ".5rem", width: "20rem", color: "white", background: "black", border: 'white solid 1px', textAlign: 'center', position: 'absolute', right: '38%', top: '25%' }} onClick={this.handleClickEvent} placeholder="Click here to search" />
-                {<Modal show={show} onHide={this.handleClickEvent}>
+                {<Modal className="deviceModal" show={show} onHide={this.handleClickEvent}>
                     <SearchBox onSearchChange={this.onSearchChange} />
                     {searchField.length > 0 && <CardList users={filteredUsers} posts={filteredPosts} communities={filteredCommunities} gltfs={filteredGltfs}/>}
                 </Modal>}

@@ -151,7 +151,7 @@ export class ProfileCard extends Component<ProfileProps, IDefaultFormFields> {
                         </Col>
                     </Row>
                 </Card.Body>
-                <Modal show={showEdit} onHide={this.handleClick}>
+                <Modal className="deviceModal" show={showEdit} onHide={this.handleClick}>
                     <Modal.Header closeButton></Modal.Header>
                     <Modal.Body>
                     <Form autoComplete="off" onSubmit={this.handleSubmit} style={{ marginTop: '1rem' }}>
@@ -181,10 +181,10 @@ export class ProfileCard extends Component<ProfileProps, IDefaultFormFields> {
                             <Form.Control onChange={this.showPreview} name="medialink" as="input" accept="image/*" type="file" placeholder="Media" />
                         </Form.Group>
                         <div className="col-6 mb-3" style={{ justifyContent: 'center' }}>
-                            <a className="col-12 mb-3 btn btn-dark" onClick={this.handleClick} >Cancel</a>
+                            <a className="col-12 mb-3 btn btn-light" onClick={this.handleClick} >Cancel</a>
                         </div>
                         <div className="col-6 mb-3" style={{ justifyContent: 'center' }}>
-                            <button className="col-12 mb-3 btn btn-dark" type="submit" >Update</button>
+                            <button className="col-12 mb-3 btn btn-light" type="submit" >Update</button>
                         </div>
                     </Row>
                     </Form>

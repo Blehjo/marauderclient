@@ -59,9 +59,11 @@ class Explore extends Component {
                                             <Card.Img style={{ position: 'relative', borderRadius: ".5rem", width: "100%", height: '25rem', objectFit: "cover" }} src={media_location_url} alt={type} />
                                         </ImageContainer>
                                         <Card.ImgOverlay >
+                                            <ImageOverlayContainer>
                                             <ExploreFontContainer>
-                                                <Card.Title id='explorefont'>{type}</Card.Title>
+                                                {type}
                                             </ExploreFontContainer>
+                                            </ImageOverlayContainer>
                                         </Card.ImgOverlay>
                                     </Card>
                                 </ExplorePanel>

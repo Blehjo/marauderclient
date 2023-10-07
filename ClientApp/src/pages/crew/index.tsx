@@ -341,9 +341,9 @@ class Crew extends Component<CrewProps, ICrew> {
                 <CrewMemberContainer>
                     <input style={{ borderRadius: ".3rem", width: "98%", border: 'white solid 1px', margin: '.2rem .2rem 1rem .2rem', background: 'black', textAlign: 'center' }} onClick={this.handleClickEvent} placeholder="Search" />
                     <SelectShape style={{ zIndex: '1', display: 'flex', flexDirection: 'row', position: 'relative', border: '1px white solid', margin: '.3rem .3rem 1rem .3rem', justifyContent: 'center', padding: '.5rem', borderRadius: '.5rem' }} key='cardcontainer' onClick={this.handleClick}>Add crew member</SelectShape>
-                    <Modal size="lg" style={{ color: 'white' }} show={showInput} onHide={this.handleClickEvent}>
+                    <Modal className="deviceModal" size="lg" style={{ color: 'white' }} show={showInput} onHide={this.handleClickEvent}>
                         <SearchBox onSearchChange={this.onSearchChange} />
-                        <div style={{ background: 'black' }}>
+                        <div >
                             {searchField.length > 0 && <AiList artificialIntelligences={filteredAis} chats={filteredChats} chatcomments={filteredChatcomments} />}
                         </div>
                     </Modal>

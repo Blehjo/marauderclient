@@ -44,7 +44,7 @@ function SinglePost() {
                     <div style={{  height: '5rem', color: 'white' }}>
                         <Row style={{ paddingBottom: '1rem' }} xs={2}>
                         <Col xs={1}>
-                        <Card.Img style={{ width: '2rem', height: '2rem' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${post?.user.imageLink!}`}/>
+                        <Card.Img style={{ width: '2rem', height: '2rem', objectFit: 'cover' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${post?.user.imageLink!}`}/>
                         </Col>
                         <Col>
                         <Card.Text>{post?.user.username}</Card.Text>

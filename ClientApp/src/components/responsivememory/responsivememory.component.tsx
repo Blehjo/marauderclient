@@ -173,11 +173,11 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                 </Card.ImgOverlay>
                 <Card.Body>
                     <Row style={{ position: 'relative' }} xs={3}>
-                        <Col xs={2}>
-                        <Card.Img src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user.imageLink!}`}/>
+                        <Col xs={3}>
+                        <Card.Img style={{ width: '2rem', height: '2rem', objectFit: 'cover' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user.imageLink!}`}/>
                         </Col>
                         <Col>
-                        <Card.Text style={{ marginBottom: '.5rem' }}>{user.username}</Card.Text>
+                        <Card.Text style={{ marginBottom: '.5rem', marginLeft: '-1rem' }}>{user.username}</Card.Text>
                         </Col>
                         <Col>
                         <Card.Text style={{ position: 'absolute', right: '0.5rem' }}>{utcConverter(dateCreated)}</Card.Text>
@@ -219,11 +219,11 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                 </Card.ImgOverlay>
                 <Card.Body>
                     <Row xs={2}>
-                        <Col xs={2}>
-                        <Card.Img src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user.imageLink!}`}/>
+                        <Col xs={3}>
+                        <Card.Img style={{ width: '2rem', height: '2rem', objectFit: 'cover' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user.imageLink!}`}/>
                         </Col>
                         <Col>
-                        <Card.Text style={{ marginBottom: '.5rem' }}>{user.username}</Card.Text>
+                        <Card.Text style={{ marginBottom: '.5rem', marginLeft: '-1rem' }}>{user.username}</Card.Text>
                         </Col>
                     </Row>
                     <Card.Text>{postValue}</Card.Text>
@@ -261,11 +261,11 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                 </Card.ImgOverlay>
                 <Card.Body>
                     <Row xs={2}>
-                        <Col xs={2}>
-                        <Card.Img src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user.imageLink!}`}/>
+                        <Col xs={3}>
+                        <Card.Img style={{ width: '2rem', height: '2rem', objectFit: 'cover' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user.imageLink!}`}/>
                         </Col>
                         <Col>
-                        <Card.Text>{user.username}</Card.Text>
+                        <Card.Text style={{ marginLeft: '-1rem' }}>{user.username}</Card.Text>
                         </Col>
                     </Row>
                     <Card.Text>{fileInformation}</Card.Text>

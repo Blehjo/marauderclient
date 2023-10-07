@@ -4,6 +4,7 @@ import { Globe, PersonBadge } from "react-bootstrap-icons";
 import { ArtificialIntelligence } from "../../store/artificialintelligence/artificialintelligence.types";
 import { Chat } from "../../store/chat/chat.types";
 import { ChatComment } from "../../store/chatcomment/chatcomment.types";
+import { SelectShape } from "../../styles/editor/editor.styles";
 
 interface ISearchProps {
     artificialIntelligences: ArtificialIntelligence[];
@@ -25,7 +26,7 @@ export class AiList extends Component<ISearchProps> {
                     A.I.s
                 </div>}
                 {artificialIntelligences.slice(0,5).map(artificialIntelligence => (
-                    <Card bg="dark" style={{ margin: ".2rem", position: "relative", color: 'white' }} key={artificialIntelligence.artificialIntelligenceId} >
+                    <SelectShape style={{ margin: "2rem", padding: '1rem', position: "relative", color: 'white', border: '1px white solid', borderRadius: '.5rem' }} key={artificialIntelligence.artificialIntelligenceId} >
                         <Row xs={2}>
                             <Col xs={10}>
                                 <Card.Body>{artificialIntelligence.name}</Card.Body>
@@ -36,13 +37,13 @@ export class AiList extends Component<ISearchProps> {
                                 </a>
                             </Col>
                         </Row>
-                    </Card>
+                    </SelectShape>
                 ))}
-                {chats.length > 0 && <div style={{ margin: ".5rem", color: "black" }}>
+                {chats.length > 0 && <div style={{ margin: ".5rem", color: "white" }}>
                     Chats
                 </div>}
                 {chats.slice(0,5).map(chat => (
-                    <Card bg="dark" style={{ margin: ".2rem", position: "relative", color: 'white' }} key={chat.chatId} >
+                    <SelectShape style={{ margin: "2rem", padding: '1rem', position: "relative", color: 'white', border: '1px white solid', borderRadius: '.5rem' }} key={chat.chatId} >
                         <Row xs={2}>
                             <Col xs={10}>
                                 <Card.Body>{chat.title}</Card.Body>
@@ -53,13 +54,13 @@ export class AiList extends Component<ISearchProps> {
                                 </a>
                             </Col>
                         </Row>
-                    </Card>
+                    </SelectShape>
                 ))}
                 {chatcomments.length > 0 && <div style={{ margin: ".5rem", color: "white" }}>
                     Comments
                 </div>}
                 {chatcomments.slice(0,5).map(chatcomment => (
-                    <Card bg="dark" style={{ margin: ".2rem", position: "relative", color: 'white' }} key={chatcomment.chatCommentId} >
+                    <SelectShape style={{ margin: "2rem", padding: '1rem', position: "relative", color: 'white', border: '1px white solid', borderRadius: '.5rem' }}>
                         <Row xs={2}>
                             <Col xs={10}>
                                 <Card.Body>{chatcomment.chatValue}</Card.Body>
@@ -70,7 +71,7 @@ export class AiList extends Component<ISearchProps> {
                                 </a>
                             </Col>
                         </Row>
-                    </Card>
+                    </SelectShape>
                 ))}
             </div>
         )

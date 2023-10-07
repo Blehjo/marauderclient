@@ -5,6 +5,7 @@ import { Community } from "../../store/community/community.types";
 import { Gltf } from "../../store/gltf/gltf.types";
 import { Post } from "../../store/post/post.types";
 import { User } from "../../store/user/user.types";
+import { SelectShape } from "../../styles/editor/editor.styles";
 
 interface ISearchProps {
     users: User[];
@@ -21,12 +22,12 @@ export class CardList extends Component<ISearchProps> {
     render() {
         const { users, communities, posts, gltfs } = this.props;
         return (
-            <div style={{ background: 'black' }}>
-                {users.length > 0 && <div style={{ margin: ".5rem", color: "black" }}>
+            <div >
+                {users.length > 0 && <div style={{ margin: ".5rem", color: "white" }}>
                     Users
                 </div>}
                 {users.slice(0,5).map(user => (
-                    <Card bg="dark" style={{ margin: ".2rem", position: "relative", color: 'white' }} key={user.userId} >
+                    <SelectShape style={{ margin: "2rem", padding: '1rem', position: "relative", color: 'white', border: '1px white solid', borderRadius: '.5rem' }} key={user.userId} >
                         <Row xs={2}>
                             <Col xs={10}>
                                 <Card.Body style={{ color: "white"}} >{user.username}</Card.Body>
@@ -37,13 +38,13 @@ export class CardList extends Component<ISearchProps> {
                                 </a>
                             </Col>
                         </Row>
-                    </Card>
+                    </SelectShape>
                 ))}
-                {communities.length > 0 && <div style={{ margin: ".5rem", color: "black" }}>
+                {communities.length > 0 && <div style={{ margin: ".5rem", color: "white" }}>
                     Communities
                 </div>}
                 {communities.slice(0,5).map(community => (
-                    <Card bg="dark" style={{ margin: ".2rem", position: "relative" }} key={community.communityId} >
+                    <SelectShape style={{ margin: "2rem", padding: '1rem', position: "relative", color: 'white', border: '1px white solid', borderRadius: '.5rem' }} key={community.communityId} >
                         <Row xs={2}>
                             <Col xs={10}>
                                 <Card.Body style={{ color: "white"}}>{community.communityName}</Card.Body>
@@ -54,13 +55,13 @@ export class CardList extends Component<ISearchProps> {
                                 </a>
                             </Col>
                         </Row>
-                    </Card>
+                    </SelectShape>
                 ))}
-                {posts.length > 0 && <div style={{ margin: ".5rem", color: "black" }}>
+                {posts.length > 0 && <div style={{ margin: ".5rem", color: "white" }}>
                     Posts
                 </div>}
                 {posts.slice(0,5).map(post => (
-                    <Card bg="dark" style={{ margin: ".2rem", position: "relative" }} key={post.postId} >
+                    <SelectShape style={{ margin: "2rem", padding: '1rem', position: "relative", color: 'white', border: '1px white solid', borderRadius: '.5rem' }} key={post.postId} >
                         <Row xs={2}>
                             <Col xs={10}>
                                 <Card.Body style={{ color: "white"}}>{post.postValue}</Card.Body>
@@ -71,13 +72,13 @@ export class CardList extends Component<ISearchProps> {
                                 </a>
                             </Col>
                         </Row>
-                    </Card>
+                    </SelectShape>
                 ))}
-                {gltfs.length > 0 && <div style={{ margin: ".5rem", color: "black" }}>
+                {gltfs.length > 0 && <div style={{ margin: ".5rem", color: "white" }}>
                     Files
                 </div>}
                 {gltfs.slice(0,5).map(gltf => (
-                    <Card bg="dark" style={{ margin: ".2rem", position: "relative" }} key={gltf.gltfId} >
+                    <SelectShape style={{ margin: "2rem", padding: '1rem', position: "relative", color: 'white', border: '1px white solid', borderRadius: '.5rem' }} key={gltf.gltfId} >
                         <Row xs={2}>
                             <Col xs={10}>
                                 <Card.Body style={{ color: "white"}}>{gltf.fileInformation}</Card.Body>
@@ -88,7 +89,7 @@ export class CardList extends Component<ISearchProps> {
                                 </a>
                             </Col>
                         </Row>
-                    </Card>
+                    </SelectShape>
                 ))}
             </div>
         )

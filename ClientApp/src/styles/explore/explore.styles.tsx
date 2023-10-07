@@ -18,6 +18,10 @@ object-fit: cover;
 
 export const ImageOverlayContainer = styled.div`
   position: absolute; 
+  width: 100%;
+  text-align: center;
+  justify-content: center;
+  height: 100%;
   left: 50%; 
   top: 50%; 
   border-radius: 1rem; 
@@ -25,10 +29,18 @@ export const ImageOverlayContainer = styled.div`
 `;
 
 export const ExploreFontContainer = styled.div`
-  font-size: 500%;
-  color: white;
-  background: black;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
   padding: 1rem;
+  color: white;
+  font-size: 500%;
+  background: rgb(0, 0, 0, .25);
   opacity: 0.7;
   border-radius: .5rem;
+  word-wrap: break-word;
+  &:hover {
+    background: black;
+  }
 `;

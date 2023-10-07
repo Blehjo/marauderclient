@@ -226,7 +226,7 @@ class Messages extends Component<MessageProps, IMessage> {
                     <SelectShape style={{ borderRadius: '.3rem', border: 'solid 1px white', margin: '.3rem .2rem 1rem .2rem', cursor: 'pointer', color: 'white', textAlign: 'center' }}>
                         New Message
                     </SelectShape>
-                    <Modal show={show} onHide={this.handleClickEvent}>
+                    <Modal className='deviceModal' show={show} onHide={this.handleClickEvent}>
                         <SearchBox onSearchChange={this.onSearchChange} />
                         <div>
                             {searchField.length > 0 && <MessageList users={filteredUsers} messages={filteredMessages}/>}

@@ -125,8 +125,8 @@ export class SidebarMenu extends Component<SidebarMenuProps> {
                                 Posts
                             </Nav.Link>
                         </Nav.Item>
-                        <Nav.Item style={pathname == "/posts" ? {background: 'rgb(255,83,73)', width: '82%', borderRadius: '.2rem' } : {visibility: 'visible'}} className="ms-4 d-flex align-items-center py-1">
-                            <a href="/posts">
+                        <Nav.Item style={pathname == "/gltfs" ? {background: 'rgb(255,83,73)', width: '82%', borderRadius: '.2rem' } : {visibility: 'visible'}} className="ms-4 d-flex align-items-center py-1">
+                            <a href="/gltfs">
                             <DeviceSsd className='icons' color="white" />
                             </a>
                             <Nav.Link href="/gltfs" className="tools ms-4">

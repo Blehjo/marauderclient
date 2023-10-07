@@ -176,8 +176,8 @@ class UserInterfaceCanvas extends Component<any, IUserCanvas> {
                             Posts
                         </Nav.Link>
                     </Nav.Item>
-                    <Nav.Item style={pathname == "/posts" ? {border: 'rgb(255,83,73) 1px solid', width: '88%', borderRadius: '.2rem' } : {visibility: 'visible' }} className="ms-4 d-flex align-items-center p-1">
-                            <a href="/posts">
+                    <Nav.Item style={pathname == "/gltfs" ? {border: 'rgb(255,83,73) 1px solid', width: '88%', borderRadius: '.2rem' } : {visibility: 'visible' }} className="ms-4 d-flex align-items-center p-1">
+                            <a href="/gltfs">
                             <DeviceSsd className='icons' color="white" />
                             </a>
                             <Nav.Link href="/gltfs" className="tools ms-4">

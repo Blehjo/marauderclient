@@ -133,8 +133,8 @@ export class Comment extends Component<CommentQuery, IDefaultFormFields> {
                                 <TextCommentContainer>
                                     <AContainer href={`/profile/${user.userId}`}>
                                     <Row xs={2}>
-                                        <Col xs={2}>
-                                        <Card.Img src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user.imageLink!}`}/>
+                                        <Col xs={3}>
+                                        <Card.Img style={{ width: '2rem', height: '2rem', objectFit: 'cover' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user.imageLink!}`}/>
                                         </Col>
                                         <Col>
                                         <Card.Text style={{ marginBottom: '.5rem' }}>{user.username}</Card.Text>

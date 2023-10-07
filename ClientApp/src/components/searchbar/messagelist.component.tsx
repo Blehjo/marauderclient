@@ -3,6 +3,7 @@ import { Card, Col, Row } from "react-bootstrap";
 import { Globe, PersonBadge } from "react-bootstrap-icons";
 import { MessageComment } from "../../store/messagecomment/messagecomment.types";
 import { User } from "../../store/user/user.types";
+import { SelectShape } from "../../styles/editor/editor.styles";
 
 interface ISearchProps {
     users: User[];
@@ -17,12 +18,12 @@ export class MessageList extends Component<ISearchProps> {
     render() {
         const { users, messages } = this.props;
         return (
-            <div style={{ background: 'black' }} className='card-list'>
+            <div style={{}} className='card-list'>
                 {users.length > 0 && <div style={{ margin: ".5rem", color: "white" }}>
                     Users
                 </div>}
                 {users.slice(0,5).map(user => (
-                    <Card bg="dark" style={{ margin: ".2rem", position: "relative", color: 'white' }} key={user.userId} >
+                    <SelectShape style={{ margin: "2rem", padding: '1rem', position: "relative", color: 'white', border: '1px white solid', borderRadius: '.5rem' }} key={user.userId} >
                         <Row xs={2}>
                             <Col xs={10}>
                                 <Card.Body>{user.username}</Card.Body>
@@ -33,13 +34,13 @@ export class MessageList extends Component<ISearchProps> {
                                 </a>
                             </Col>
                         </Row>
-                    </Card>
+                    </SelectShape>
                 ))}
                 {messages.length > 0 && <div style={{ margin: ".5rem", color: 'white' }}>
                     Messages
                 </div>}
                 {messages.slice(0,5).map(message => (
-                    <Card bg="dark" style={{ margin: ".2rem", position: "relative", color: 'white' }} key={message.messageId} >
+                    <SelectShape style={{ margin: "2rem", padding: '1rem', position: "relative", color: 'white', border: '1px white solid', borderRadius: '.5rem' }} key={message.messageId} >
                         <Row xs={2}>
                             <Col xs={10}>
                                 <Card.Body>{message.messageValue}</Card.Body>
@@ -50,7 +51,7 @@ export class MessageList extends Component<ISearchProps> {
                                 </a>
                             </Col>
                         </Row>
-                    </Card>
+                    </SelectShape>
                 ))}
             </div>
         )
