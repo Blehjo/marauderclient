@@ -1,7 +1,7 @@
 import { HubConnectionBuilder } from "@microsoft/signalr";
-import { ChangeEvent, Component, Dispatch, FormEvent, ReactNode } from "react";
-import { Card, Col, Image, Row, Tab, Tabs } from "react-bootstrap";
-import { ChevronDown, ChevronUp, PencilSquare, Search, ThreeDots, XCircle } from "react-bootstrap-icons";
+import { ChangeEvent, Component, Dispatch, FormEvent, ReactNode, useState } from "react";
+import { Card, Col, Form, Image, Row, Tab, Tabs } from "react-bootstrap";
+import { ChevronDown, ChevronUp, PencilSquare, Search, Send, ThreeDots, X, XCircle } from "react-bootstrap-icons";
 import { ConnectedProps, connect } from "react-redux";
 import { ArtificialIntelligenceFetchUsersStart, artificialIntelligenceFetchUsersStart } from "../../store/artificialintelligence/artificialintelligence.action";
 import { ArtificialIntelligenceState } from "../../store/artificialintelligence/artificialintelligence.reducer";
@@ -20,8 +20,11 @@ import { CheckUserSession, checkUserSession } from "../../store/user/user.action
 import { User } from "../../store/user/user.types";
 import { XContainer } from "../../styles/devices/devices.styles";
 import { ContainerBox, FixedBox, OpenedBox } from "../../styles/messagebox/messagebox.styles";
-import { TextContainer, UserTextContainer } from "../../styles/messages/messages.styles";
+import { Container, InputContainer, MessageForm, OpenedContainer, TextContainer, UserTextContainer } from "../../styles/messages/messages.styles";
 import { AContainer } from "../../styles/poststab/poststab.styles";
+import { Message } from "../../store/message/message.types";
+import { Chat } from "../../store/chat/chat.types";
+import { SelectShape } from "../../styles/editor/editor.styles";
 
 type MessageBoxProps = ConnectedProps<typeof connector>;
 
@@ -147,6 +150,97 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
         }
         return content;
     }
+
+    openMessage(): boolean {
+        const messageProps = {
+            opened: false
+        }
+        if (messageProps.opened == true) {
+            messageProps.opened = false;
+            console.log("OPENED::: ", messageProps.opened)
+            return messageProps.opened;
+        }
+        messageProps.opened = true;
+        console.log("OPENED::: ", messageProps.opened)
+        return messageProps.opened;
+    }
+
+    getMessage(message: Message): ReactNode {
+        const { messageId, messageValue, dateCreated, receiver, messageComments } = message;
+        return (
+            <>
+                <SelectShape style={{ display: 'flex', flexDirection: 'row', position: 'relative', background: '#212529', margin: '1rem', padding: '.5rem', borderRadius: '.5rem' }} key={messageId} onClick={this.openMessage}>
+                    <Image style={{ width: '3rem', height: '3rem', objectFit: 'cover', borderRadius: '.5rem' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${receiver?.imageLink!}`}/>
+                    <Row xs={1}>
+                    <Col>
+                    <div style={{ textAlign: 'left', marginLeft: '1rem' }}>
+                        {messageValue != null && messageValue.charAt(0).toUpperCase() + messageValue.slice(1)} 
+                    </div>
+                    </Col>
+                    <Col>
+                    <div style={{ textAlign: 'left', marginLeft: '1rem' }}>
+                        {messageComments[messageComments.length-1].messageValue.slice(0,25).length > 24 ? messageComments[0].messageValue.slice(0,25) + "..." : messageComments[0].messageValue.slice(0,25)}
+                    </div>
+                    </Col>
+                    </Row>
+                    <XContainer >
+                        <XCircle style={{ position: 'absolute', right: '0%', margin: '0rem 1rem 0rem 0rem' }} size={20} onClick={() => this.handleDelete(messageId)} />
+                    </XContainer>
+                </SelectShape>
+            
+            {
+                () => this.openMessage() && 
+                <OpenedContainer style={{ overflow: 'auto' }}>
+                <Form onSubmit={this.sendMessage}>
+                    <Container style={{ height: 'fit-content', overflow: 'auto' }}>
+                        {
+                            this.handleMessageComments()
+                        }
+                    </Container>
+                    <InputContainer>
+                    <Row xs={2}>
+                        <Col xs={10}>
+                        <Form.Group className="mb-3" controlId="request">
+                            <Form.Control style={{ height: '.5rem' }} as="textarea" onChange={this.handleChange} value={messageValue!} name="messageValue" placeholder="Write a message" />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="formMedia">
+                            <Form.Control onChange={this.showPreview} name="mediaLink" as="input" accept="image/*" type="file" placeholder="Media" />
+                        </Form.Group>
+                        </Col>
+                        <Col xs={2}>
+                        <button className="btn btn-outline-light" type="submit" ><Send/></button>
+                        </Col>
+                    </Row>
+                    </InputContainer>
+                </Form>
+                </OpenedContainer>
+            }
+            </>
+        )
+    }
+
+    displayMessages(): Array<ReactNode> {
+        const content: Array<ReactNode> = [];
+        const { messages } = this.props;
+        for (let i = 0; i < messages.userMessages?.length!; i++) {
+            if (messages.userMessages != null) {
+                content.push(this.getMessage(messages.userMessages[i]))
+            }
+        }
+        return content;
+    }
+
+    handleChatComments(message: ReactNode): Array<ReactNode> {
+        const content: Array<ReactNode> = [];
+        const { messagecomments } = this.props;
+        for (let i = 0; i < messagecomments.userMessagecomments.length; i++) {
+            content.push(this.messageFunction(messagecomments.userMessagecomments[i]));
+        }
+        if (message != undefined) {
+            content.push(message);
+        }
+        return content;
+    }
     
     componentDidMount(): void {
         this.props.getMessages();
@@ -173,6 +267,7 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
             });
         }
     }
+    
     render() {
         const { user, messagebox, messages, crewMessages } = this.props;
         return (
@@ -187,7 +282,7 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
                     <ContainerBox>
                         <Row xs={2}>
                         <Col xs={6}>
-                        <Image style={{ width: '2rem', height: '2rem', borderRadius: '1rem',  objectFit: 'fill' }} fluid src={user?.imageLink ? user?.imageSource! : ""}/>
+                        <Image style={{ width: '2rem', height: '2rem', borderRadius: '1rem',  objectFit: 'cover' }} fluid src={user?.imageLink ? user?.imageSource! : ""}/>
                         </Col>
                         <Col>
                             <div style={{ paddingTop: '.3rem' }}>Comms</div>
@@ -199,55 +294,40 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
                             <ThreeDots size={20} style={{ cursor: 'pointer' }}/>
                             <Search size={28} style={{ padding: '0rem .4rem 0rem .4rem', cursor: 'pointer' }}/>
                             <PencilSquare size={30} style={{ padding: '0rem .4rem 0rem .4rem', cursor: 'pointer' }}/>
-                            <ChevronDown onClick={this.handleOpen} size={20} style={{ cursor: 'pointer' }}/>
+                            <ChevronDown className="chevron" onClick={this.handleOpen} size={20} style={{ cursor: 'pointer' }}/>
                         </div>
                     </ContainerBox>
                     </div>
                     <Tabs
                         defaultActiveKey="messages"
                         justify
-                        className='mb-5 tabscolor'
+                        className='tabscolor'
                         variant='pills'
                     >
                     <Tab eventKey="messages" title="Messages">
-                    {
-                        messages.userMessages?.map(({ messageValue, messageId, dateCreated, receiver }) => (
-                            <Card onClick={() => this.handleClick(messageId)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '1rem 1rem 1rem 1rem', cursor: 'pointer', padding: '.5rem' }} key={messageId}>
-                                <AContainer >
-                                <Row xs={2}>
-                                    <Col xs={2}>
-                                    <Card.Img src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${receiver?.imageLink!}`}/>
-                                    </Col>
-                                    <Col>
-                                    <Card.Text>{messageValue}</Card.Text>
-                                    </Col>
-                                </Row>
-                                </AContainer>
-                                <XContainer style={{ position: 'absolute', top: '0.5rem', right: '0.5rem' }}>
-                                    <XCircle onClick={() => this.handleDelete(messageId)} />
-                                </XContainer>
-                            </Card>
-                        ))
-                    }
+                    {this.displayMessages()}
                     </Tab>
                     <Tab eventKey="chats" title="Chats">
                     {
-                        crewMessages.userChats?.map(({ title, chatId, dateCreated, artificialIntelligences }) => (
-                            <Card onClick={() => this.handleClick(chatId)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '1rem 1rem 1rem 1rem', cursor: 'pointer', padding: '.5rem' }} key={chatId}>
-                                <AContainer >
-                                <Row xs={2}>
-                                    <Col xs={2}>
-                                    <Card.Img src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${artificialIntelligences?.imageLink!}`}/>
-                                    </Col>
-                                    <Col>
-                                    <Card.Text>{title}</Card.Text>
-                                    </Col>
+                        crewMessages.userChats?.map(({ title, chatId, dateCreated, artificialIntelligences, chatComments }, index) => (
+                            <SelectShape style={{ zIndex: '1', display: 'flex', flexDirection: 'row', position: 'relative', background: '#212529', margin: '1rem', padding: '.5rem', borderRadius: '.5rem' }} /* onClick={() => this.handleChatSelect(chatId, artificialIntelligences?.artificialIntelligenceId, artificialIntelligences?.name)} */ key={index}>
+                                <Image style={{ width: '3rem', height: '3rem', objectFit: 'cover', borderRadius: '.5rem' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${artificialIntelligences?.imageLink!}`}/>
+                                <Row xs={1}>
+                                <Col>
+                                <div style={{ textAlign: 'left', marginLeft: '1rem' }}>
+                                    {title} 
+                                </div>
+                                </Col>
+                                <Col>
+                                <div style={{ textAlign: 'left', marginLeft: '1rem' }}>
+                                    {chatComments[chatComments.length-1].chatValue.slice(0,25).length > 24 ? chatComments[0].chatValue.slice(0,25) + "..." : chatComments[0].chatValue.slice(0,25)}
+                                </div>
+                                </Col>
                                 </Row>
-                                </AContainer>
                                 <XContainer style={{ position: 'absolute', top: '0.5rem', right: '0.5rem' }}>
                                     <XCircle onClick={() => this.handleDelete(chatId)} />
                                 </XContainer>
-                            </Card>
+                            </SelectShape>
                         ))
                     }
                     </Tab>
@@ -258,7 +338,7 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
                     <ContainerBox>
                         <Row xs={2}>
                         <Col xs={6}>
-                            <Image style={{ width: '2rem', height: '2rem', borderRadius: '1rem',  objectFit: 'fill' }} fluid src={user?.imageLink ? user?.imageSource! : ""}/>
+                            <Image style={{ width: '2rem', height: '2rem', borderRadius: '1rem',  objectFit: 'cover' }} fluid src={user?.imageLink ? user?.imageSource! : ""}/>
                         </Col>
                         <Col>
                             <div style={{ paddingTop: '.3rem' }}>Comms</div>
@@ -270,7 +350,7 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
                             <ThreeDots size={20} style={{ cursor: 'pointer' }}/>
                             <Search size={28} style={{ padding: '0rem .4rem 0rem .4rem', cursor: 'pointer' }}/>
                             <PencilSquare size={30} style={{ padding: '0rem .4rem 0rem .4rem', cursor: 'pointer' }}/>
-                            <ChevronUp onClick={this.handleOpen} size={20} style={{ cursor: 'pointer' }}/>
+                            <ChevronUp className="chevron" onClick={this.handleOpen} size={20} style={{ cursor: 'pointer' }}/>
                         </div>
                     </ContainerBox>
                     </div>

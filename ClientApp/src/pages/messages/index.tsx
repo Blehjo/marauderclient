@@ -1,6 +1,6 @@
 import { HubConnectionBuilder } from '@microsoft/signalr';
 import { ChangeEvent, Component, Dispatch, FormEvent, ReactNode } from "react";
-import { Card, Col, Form, Modal, Row } from 'react-bootstrap';
+import { Card, Col, Form, Image, Modal, Row } from 'react-bootstrap';
 import { Send, XCircle } from "react-bootstrap-icons";
 import { ConnectedProps, connect } from "react-redux";
 
@@ -18,6 +18,7 @@ import { User } from '../../store/user/user.types';
 import { XContainer } from "../../styles/devices/devices.styles";
 import { Container, InputContainer, ListContainer, MessageContainer, MessageForm, TextContainer, UserTextContainer } from "../../styles/messages/messages.styles";
 import { AContainer } from '../../styles/poststab/poststab.styles';
+import { SelectShape } from '../../styles/editor/editor.styles';
 
 interface IMessage {
     users: User[];
@@ -222,9 +223,9 @@ class Messages extends Component<MessageProps, IMessage> {
                     <Col xs={12} md={12} lg={4}>
                 <ListContainer>
                     <input style={{ borderRadius: ".3rem", width: "98%", border: 'white solid 1px', margin: '.2rem .2rem 1rem .2rem', background: 'black', textAlign: 'center' }} onClick={this.handleClickEvent} placeholder="Search" />
-                    <Card style={{ backgroundColor: 'black', borderRadius: '.3rem', border: 'solid 1px white', margin: '.3rem .2rem 1rem .2rem', cursor: 'pointer', color: 'white', textAlign: 'center' }}>
-                        New Message +
-                    </Card>
+                    <SelectShape style={{ borderRadius: '.3rem', border: 'solid 1px white', margin: '.3rem .2rem 1rem .2rem', cursor: 'pointer', color: 'white', textAlign: 'center' }}>
+                        New Message
+                    </SelectShape>
                     <Modal show={show} onHide={this.handleClickEvent}>
                         <SearchBox onSearchChange={this.onSearchChange} />
                         <div>
@@ -232,22 +233,25 @@ class Messages extends Component<MessageProps, IMessage> {
                         </div>
                     </Modal>
                     {
-                        this.props.messages.userMessages?.map(({ messageValue, messageId, dateCreated, receiver }) => (
-                            <Card onClick={() => this.handleClick(messageId)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', padding: '.5rem' }} key={messageId}>
-                                <AContainer>
-                                <Row xs={2}>
-                                    <Col xs={2}>
-                                    <Card.Img src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${receiver?.imageLink!}`}/>
-                                    </Col>
-                                    <Col>
-                                    <Card.Text>{messageValue}</Card.Text>
-                                    </Col>
-                                </Row>
-                                </AContainer>
-                                <XContainer style={{ position: 'absolute', top: '0.5rem', right: '0.5rem' }}>
-                                    <XCircle onClick={() => this.handleDelete(messageId)} />
-                                </XContainer>
-                            </Card>
+                        this.props.messages.userMessages?.map(({ messageValue, messageId, dateCreated, receiver, messageComments }) => (
+                        <SelectShape onClick={() => this.handleClick(messageId)} style={{ display: 'flex', flexDirection: 'row', position: 'relative', border: '1px white solid', margin: '.25rem', padding: '.5rem', borderRadius: '.5rem' }} key={messageId}>
+                            <Image style={{ width: '3rem', height: '3rem', objectFit: 'cover', borderRadius: '.5rem' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${receiver?.imageLink!}`}/>
+                            <Row xs={1}>
+                            <Col>
+                            <div style={{ textAlign: 'left', marginLeft: '1rem' }}>
+                                {messageValue != null && messageValue.charAt(0).toUpperCase() + messageValue.slice(1)} 
+                            </div>
+                            </Col>
+                            <Col>
+                            <div style={{ textAlign: 'left', marginLeft: '1rem' }}>
+                                {messageComments[messageComments.length-1].messageValue.slice(0,25).length > 24 ? messageComments[0].messageValue.slice(0,25) + "..." : messageComments[0].messageValue.slice(0,25)}
+                            </div>
+                            </Col>
+                            </Row>
+                            <XContainer >
+                                <XCircle style={{ position: 'absolute', right: '0%', margin: '0rem 1rem 0rem 0rem' }} size={20} onClick={() => this.handleDelete(messageId)} />
+                            </XContainer>
+                        </SelectShape>
                         ))
                     }
                 </ListContainer>

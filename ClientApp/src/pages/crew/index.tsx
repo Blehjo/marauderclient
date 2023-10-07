@@ -340,7 +340,7 @@ class Crew extends Component<CrewProps, ICrew> {
                     <Col xs={12} md={12} lg={4}>
                 <CrewMemberContainer>
                     <input style={{ borderRadius: ".3rem", width: "98%", border: 'white solid 1px', margin: '.2rem .2rem 1rem .2rem', background: 'black', textAlign: 'center' }} onClick={this.handleClickEvent} placeholder="Search" />
-                    <CardContainer key='cardcontainer' onClick={this.handleClick}>New Crew +</CardContainer>
+                    <SelectShape style={{ zIndex: '1', display: 'flex', flexDirection: 'row', position: 'relative', border: '1px white solid', margin: '.3rem .3rem 1rem .3rem', justifyContent: 'center', padding: '.5rem', borderRadius: '.5rem' }} key='cardcontainer' onClick={this.handleClick}>Add crew member</SelectShape>
                     <Modal size="lg" style={{ color: 'white' }} show={showInput} onHide={this.handleClickEvent}>
                         <SearchBox onSearchChange={this.onSearchChange} />
                         <div style={{ background: 'black' }}>
@@ -349,21 +349,24 @@ class Crew extends Component<CrewProps, ICrew> {
                     </Modal>
                     {
                         artificialIntelligence.userArtificialIntelligences?.map(({ artificialIntelligenceId, name, role, imageSource }, index) => (
-                            <Card key={artificialIntelligenceId} onClick={() => this.getArtificialChat(name, artificialIntelligenceId)} style={{ backgroundColor: 'black', borderRadius: '.3rem', border: 'solid 1px white', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', color: 'white', textAlign: 'center' }}>
-                                <AContainer >
-                                <Row xs={2}>
-                                    <Col xs={3}>
-                                    <Card.Img src={imageSource}/>
-                                    </Col>
-                                    <Col>
-                                    <Card.Text>{name}</Card.Text>
-                                    </Col>
+                            <SelectShape style={{ zIndex: '1', display: 'flex', flexDirection: 'row', position: 'relative', border: '1px white solid', margin: '.3rem', padding: '.5rem', borderRadius: '.5rem' }} onClick={() => this.getArtificialChat(name, artificialIntelligenceId)} key={index}>
+                                <Image style={{ width: '3rem', height: '3rem', objectFit: 'cover', borderRadius: '.5rem' }} src={imageSource}/>
+                                <Row xs={1}>
+                                <Col>
+                                <div style={{ textAlign: 'left', marginLeft: '1rem' }}>
+                                    {name} 
+                                </div>
+                                </Col>
+                                <Col>
+                                <div style={{ textAlign: 'left', marginLeft: '1rem' }}>
+                                    {role}
+                                </div>
+                                </Col>
                                 </Row>
-                                </AContainer>
-                                <XContainer style={{ position: 'absolute', top: '0rem', right: '0.5rem' }}>
+                                <XContainer style={{ position: 'absolute', top: '0.5rem', right: '0.5rem' }}>
                                     <XCircle onClick={() => this.handleDelete(artificialIntelligenceId)} />
                                 </XContainer>
-                            </Card>
+                            </SelectShape>
                         ))
                     }
                 </CrewMemberContainer>
@@ -372,19 +375,25 @@ class Crew extends Component<CrewProps, ICrew> {
                 <ChatsContainer>
                     <CardContainer>Chats</CardContainer>
                     {
-                        this.props.chats.userChats?.map(({ artificialIntelligences, chatId, title }, index) => (
-                            <Card onClick={() => this.handleChatSelect(chatId, artificialIntelligences?.artificialIntelligenceId, artificialIntelligences?.name)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', padding: '.5rem' }} key={index}>
-                                <AContainer>
+                        this.props.chats.userChats?.map(({ artificialIntelligences, chatId, title, chatComments }, index) => (
+                            <SelectShape style={{ zIndex: '1', display: 'flex', flexDirection: 'row', position: 'relative', border: '1px white solid', margin: '.3rem', padding: '.5rem', borderRadius: '.5rem' }} onClick={() => this.handleChatSelect(chatId, artificialIntelligences?.artificialIntelligenceId, artificialIntelligences?.name)} key={index}>
+                                <Image style={{ width: '3rem', height: '3rem', objectFit: 'cover', borderRadius: '.5rem' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${artificialIntelligences?.imageLink!}`}/>
                                 <Row xs={1}>
-                                    <Col>
-                                    <Card.Text>{title}</Card.Text>
-                                    </Col>
+                                <Col>
+                                <div style={{ textAlign: 'left', marginLeft: '1rem' }}>
+                                    {title} 
+                                </div>
+                                </Col>
+                                <Col>
+                                <div style={{ textAlign: 'left', marginLeft: '1rem' }}>
+                                    {chatComments[chatComments.length-1].chatValue.slice(0,25).length > 24 ? chatComments[0].chatValue.slice(0,25) + "..." : chatComments[0].chatValue.slice(0,25)}
+                                </div>
+                                </Col>
                                 </Row>
-                                </AContainer>
                                 <XContainer style={{ position: 'absolute', top: '0.5rem', right: '0.5rem' }}>
                                     <XCircle onClick={() => this.handleDelete(chatId)} />
                                 </XContainer>
-                            </Card>
+                            </SelectShape>
                         ))
                     }
                 </ChatsContainer>

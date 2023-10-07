@@ -116,6 +116,24 @@ export const Container = styled.div`
     overflow-y: auto;
 `;
 
+export const OpenedContainer = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin: .5rem;
+    padding: 1rem;
+    background: rgb(0, 0, 0, .75);
+    position: fixed;
+    width: 20rem;
+    height: 20rem;
+    border: 1px solid white;
+    border-radius: .5rem;
+    bottom: 1%;
+    text-align: start;
+    left: 0%;
+    overflow-y: auto;
+`;
+
 export const CommentBarContainer = styled.div`
     z-index: 1;
     @media (min-width: 900px) {

@@ -1,6 +1,6 @@
-import { Grid, OrbitControls, OrthographicCamera, TransformControls } from "@react-three/drei";
-import { Canvas, Vector3 } from "@react-three/fiber";
-import { ReactNode, createRef, useEffect, useRef, useState } from "react";
+import { Grid, OrbitControls, OrthographicCamera, TransformControls, useCursor } from "@react-three/drei";
+import { Canvas, Vector3, useThree } from "@react-three/fiber";
+import { ReactNode, Suspense, createRef, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { Gizmo } from "../../components/gizmo/gizmo.component";
 import { ControlPanel } from "../../components/gui/controlpanel.component";
@@ -19,6 +19,10 @@ import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
 import { updateShape } from "../../store/editor/editor.saga";
 import { Editor as IndividualShape } from "../../store/editor/editor.types";
 import { Gltf } from "../../store/gltf/gltf.types";
+import { proxy, useSnapshot } from "valtio";
+
+const modes: Array<"translate" | "rotate" | "scale" | undefined> = ["translate", "rotate", "scale"];
+const state = proxy({ current: null, mode: 0 });
 
 enum Controls {
   forward = 'forward',
@@ -85,6 +89,9 @@ function handleShape(shape?: string): ReactNode {
 function Shape({ shape, position, orbit, shapeId, connection, file }: ShapeProps) {
   const transform = useRef<any>(null!);
   const [active, setActive] = useState(false);
+  const snap = useSnapshot(state);
+  const [hovered, setHovered] = useState(false);
+  useCursor(hovered);
   const positionArray: THREE.Vector3 = new THREE.Vector3(position?.x, position?.y, position?.z);
   const colors = useSettings((s) => s.colors);
   const color = new THREE.Color(colors["Color"].color);
@@ -96,19 +103,18 @@ function Shape({ shape, position, orbit, shapeId, connection, file }: ShapeProps
     hsl.l * 1
   );
 
-  console.log("POSITIONARRAY::: ", positionArray);
-  useEffect(() => {
-    if (transform.current) {
-      const { current: controls } = transform
-      const callback = (event: any) => {
-        orbit.current.enabled = !event?.value
-        // editorId, shapeName, gltfId, position, height, width, depth, radius, length, color
-      }
-      // connection(shapeId, shape, 1, positionArray, height, undefined, undefined, undefined, undefined, color.toArray().toString())
-      transform.current.addEventListener('dragging-changed', callback)
-      return () => controls.removeEventListener('dragging-changed', callback)
-    }
-  });
+  // console.log("POSITIONARRAY::: ", positionArray);
+  // useEffect(() => {
+  //   if (transform.current) {
+  //     const { current: controls } = transform
+  //     const callback = (event: any) => {
+  //       orbit.current.enabled = !event?.value
+  //     }
+  //     // connection(shapeId, shape, 1, positionArray, height, undefined, undefined, undefined, undefined, color.toArray().toString())
+  //     transform.current.addEventListener('dragging-changed', callback)
+  //     return () => controls.removeEventListener('dragging-changed', callback)
+  //   }
+  // });
 
   return (
     <>
@@ -125,15 +131,37 @@ function Shape({ shape, position, orbit, shapeId, connection, file }: ShapeProps
         mode="translate"
       >
         <mesh 
-          onClick={() => {
+          onClick={(e) => {
+            (e.stopPropagation())
             setActive(!active)
-        }}>
+          }}
+          onPointerMissed={(e) => e.type === "click" && (state.current = null)}
+          // Right click cycles through the transform modes
+          onContextMenu={(e) => snap.current === name && (e.stopPropagation(), (state.mode = (snap.mode + 1) % modes.length))}
+          // eslint-disable-next-line no-sequences
+          onPointerOver={(e) => (e.stopPropagation(), setHovered(true))}
+          onPointerOut={(e) => setHovered(false)}
+        >
           {handleShape(shape)}
           <meshStandardMaterial color={color}/>
         </mesh>
       </TransformControls>
     </>
   )
+}
+
+function Controllers() {
+  // Get notified on changes to state
+  const snap = useSnapshot(state);
+  const scene = useThree((state) => state.scene);
+  return (
+    <>
+      {/* As of drei@7.13 transform-controls can refer to the target by children, or the object prop */}
+      {snap.current && <TransformControls object={scene.getObjectByName(snap.current)} mode={modes[snap.mode]} />}
+      {/* makeDefault makes the controls known to r3f, now transform-controls can auto-disable them when active */}
+      <OrbitControls makeDefault minPolarAngle={0} maxPolarAngle={Math.PI / 1.75} />
+    </>
+  );
 }
 
 export default function Editor() {
@@ -216,14 +244,19 @@ export default function Editor() {
         <OrthographicCamera />
         <ambientLight intensity={intensity} />
         <directionalLight color={directionalLightColor} position={positionArray} />
+        <Suspense fallback={null}>
+        <group>
         {
           userShapes.length > 0 &&
           userShapes.map(({ shapeId, shapeName, positionX, positionY, positionZ }, index) => (
             <Shape connection={handlePositionUpdate} key={shapeId} shapeId={shapeId} shape={shapeName} file={file!} orbit={refs.current[index].current} position={{x: positionX, y: positionY, z: positionZ}}/>
           ))
         }
+        </group>
+        </Suspense>
         <Gizmo/>
-        <OrbitControls makeDefault />
+        {/* <OrbitControls makeDefault /> */}
+        <Controllers/>
       </Canvas>
     </div>
   );

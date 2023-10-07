@@ -70,7 +70,7 @@ class NavMenu extends Component<NavMenuProps, INavMenu> {
                         <Searchbar/>
                         </SearchContainer>
                         <PersonContainer>
-                            {user?.imageSource ? <Image style={{ width: '2rem', height: '2rem', objectFit: 'fill', borderRadius: '1rem', border: 'white solid 1px' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user?.imageLink}`} onClick={this.handleClick}/> : <PersonCircle onClick={this.handleClick} size={30}/>}
+                            {user?.imageSource ? <Image style={{ width: '2rem', height: '2rem', objectFit: 'cover', borderRadius: '1rem', border: 'white solid 1px' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user?.imageLink}`} onClick={this.handleClick}/> : <PersonCircle onClick={this.handleClick} size={30}/>}
                             <UserInterfaceCanvas signOut={this.props.signOut} user={user} check={this.props.checkUserSession}  handleClick={this.handleClick} show={show}/>
                         </PersonContainer>
                     </Container>
