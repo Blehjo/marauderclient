@@ -65,10 +65,25 @@ class Messages extends Component<MessageProps, IMessage> {
         event.preventDefault();
         const { messageValue, imageFile } = this.state;
         this.props.createMessageComment(this.props.messages.messageId!, messageValue, imageFile);
-        this.state.connection.send("newMessage", "foo", messageValue);
-        this.state.connection.on('messageReceived', (message: any) => {
-            this.props.setMessageCommentId(message.messageCommentId);
-        })
+        if (this.state.connection == null) {
+            this.setState({
+                connection: new HubConnectionBuilder()
+                .withUrl(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/hub/${this.props.messages.messageId}`)
+                .withAutomaticReconnect()
+                .build()
+            }, () => {
+                this.state.connection.start().catch((err: string) => document.write(err));
+            });
+            this.state.connection.send("newMessage", "foo", messageValue);
+            this.state.connection.on('messageReceived', (message: any) => {
+                this.props.setMessageCommentId(message.messageCommentId);
+            });
+        } else {
+            this.state.connection.send("newMessage", "foo", messageValue);
+            this.state.connection.on('messageReceived', (message: any) => {
+                this.props.setMessageCommentId(message.messageCommentId);
+            });
+        }
         this.setState({
             ...this.state, messageValue: ""
         })
@@ -145,31 +160,6 @@ class Messages extends Component<MessageProps, IMessage> {
         }
         return content;
     }
-
-    // async speakWith(event: FormEvent<HTMLFormElement>) {
-    //     event.preventDefault();
-    //     const { artificialId, chatValue, chatId, imageFile } = this.state;
-    //     const { chats } = this.props;
-    //     try {
-    //         if (chats.chatId == null) {
-    //             await addChat(chatValue, artificialId)
-    //             .then((response) => this.props.setId(response.chatId))
-    //             .then((response) => this.props.createComment(this.props.chats.chatId!, chatValue, imageFile));
-
-    //             await callArtoo(chatValue)
-    //             .then((response) => this.props.createComment(this.props.chats.chatId!, response.data, imageFile));
-    //         } else {
-    //             this.props.createComment(this.props.chats.chatId!, chatValue, imageFile);
-
-    //             await callArtoo(chatValue)
-    //             .then((response) => this.props.createComment(this.props.chats.chatId!, response.data, imageFile));
-    //         }
-    //     } catch (error: any) {
-    //         if (error) {
-    //             alert(error)
-    //         }
-    //     }
-    // }
     
     componentDidMount(): void {
         this.props.getMessages();
@@ -202,10 +192,6 @@ class Messages extends Component<MessageProps, IMessage> {
             });
         }
     }
-
-    // componentWillUnmount () {
-    //     this.state.connection.stop();
-    // }
 
     onSearchChange = (event: ChangeEvent<HTMLInputElement>): void => {
         this.setState({ searchField: event.target.value });

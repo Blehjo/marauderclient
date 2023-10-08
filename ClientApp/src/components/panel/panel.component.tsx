@@ -7,6 +7,7 @@ import { Note } from "../../store/note/note.types";
 import { Panel as PanelType } from "../../store/panel/panel.types";
 import { ButtonContainer, CardContainer, FormContainer, XContainer } from "../../styles/devices/devices.styles";
 import { PanelContainer } from "../../styles/panel/panel.styles";
+import { SelectShape } from "../../styles/editor/editor.styles";
 
 const getItems = (count: number) => Array.from({length: count}, (v, k) => k).map(k => ({
     id: `item-${k}`,
@@ -35,7 +36,7 @@ const getItemStyle = (draggableStyle: any, isDragging: boolean) => ({
 
 const getListStyle = (isDraggingOver: boolean): CSSProperties => ({
     border: '1px solid white',
-    borderRadius: '1rem',
+    borderRadius: '.2rem',
     background: isDraggingOver ? 'lightgrey' : 'black',
     padding: grid,
     width: '100%',
@@ -201,25 +202,25 @@ class Panel extends Component<any, IPanel> {
         const { panels } = this.props;
         return (
             <PanelContainer>
-                {this.props.docFiles.singleDocFile?.docFileId && <CardContainer onClick={this.handleNewPanel} style={{ backgroundColor: 'black', borderRadius: '.3rem', border: 'solid 1px white', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', color: 'white', textAlign: 'center' }}>
-                    New Panel +
-                </CardContainer>}
+                {this.props.docFiles.singleDocFile?.docFileId && <SelectShape onClick={this.handleNewPanel} style={{ border: '1px solid white', borderRadius: '.5rem', marginBottom: '1rem', textAlign: 'center' }}>
+                    New Panel
+                </SelectShape>}
                 <Row xs={3}>
                 {
                     panels.panels?.map(({ panelId, title, notes }: PanelType, index: number) => (
                         <Col>
-                        <Card key={panelId} onClick={() => this.getPanel(panelId!)} style={{ border: '1px solid white', borderRadius: '1rem', background: 'black', padding: grid, width: '250', verticalAlign: 'middle', justifyContent: 'center', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer' }}>
+                        <SelectShape key={panelId} onClick={() => this.getPanel(panelId!)} style={{ border: '1px solid white', borderRadius: '.2rem', marginBottom: '1rem', position: 'relative' }}>
                             <Row style={{ lineHeight: '3rem' }} key={index} xs={2}>
                                 <Col key='col2' xs={10}>
                                     {title}
                                 </Col>
                                 <Col key='col3' xs={2}>
                                     <XContainer>
-                                        <XCircle style={{ position: 'absolute', right: '.5rem' }} onClick={() => this.handleDelete(panelId!)} />
+                                        <XCircle style={{ position: 'absolute', right: '5%', top: '30%' }} onClick={() => this.handleDelete(panelId!)} />
                                     </XContainer>
                                 </Col>
                             </Row>
-                        </Card>
+                        </SelectShape>
                         <DragDropContext onDragEnd={this.onDragEnd}>
                             <Droppable droppableId="droppable">
                             {(provided, snapshot) => (
@@ -228,9 +229,9 @@ class Panel extends Component<any, IPanel> {
                                 style={getListStyle(snapshot.isDraggingOver)} 
                                 {...provided.droppableProps}
                                 >
-                                <CardContainer onClick={() => this.handleClick(panelId!)} style={{ backgroundColor: 'black', borderRadius: '.3rem', border: 'solid 1px white', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', color: 'white', textAlign: 'center' }}>
-                                    New Note +
-                                </CardContainer>
+                                <SelectShape onClick={() => this.handleClick(panelId!)} style={{ border: '1px solid white', borderRadius: '.2rem', marginBottom: '1rem', textAlign: 'center' }}>
+                                    New Note
+                                </SelectShape>
                                 {notes?.map(({noteId, panelId, noteValue}: Note, index: number) => (
                                     <Draggable
                                     key={`${noteId}`}
@@ -267,12 +268,12 @@ class Panel extends Component<any, IPanel> {
                     ))
                 }
                 </Row>
-                <Modal show={show} onHide={this.closeModal}>
-                    <Modal.Header closeButton>Add note</Modal.Header>
+                <Modal className="deviceModal" show={show} onHide={this.closeModal}>
+                    <Modal.Header>Add note</Modal.Header>
                     <Modal.Body>
                     <Form onSubmit={this.handleSubmit}>
                         <FormContainer>
-                            <ButtonContainer className="btn btn-outline-dark" type="submit">
+                            <ButtonContainer className="btn btn-outline-light" type="submit">
                                 <Plus style={{ cursor: 'pointer' }} size={15}/>
                             </ButtonContainer>
                         </FormContainer>
@@ -285,12 +286,12 @@ class Panel extends Component<any, IPanel> {
                     </Form>
                     </Modal.Body>
                 </Modal>
-                <Modal show={showPanel} onHide={this.handleNewPanel}>
-                    <Modal.Header closeButton>Create new panel</Modal.Header>
+                <Modal className="deviceModal" show={showPanel} onHide={this.handleNewPanel}>
+                    <Modal.Header>Create new panel</Modal.Header>
                     <Modal.Body>
                     <Form onSubmit={this.handlePanel}>
                         <FormContainer>
-                            <ButtonContainer className="btn btn-outline-dark" type="submit">
+                            <ButtonContainer className="btn btn-outline-light" type="submit">
                                 <Plus style={{ cursor: 'pointer' }} size={15}/>
                             </ButtonContainer>
                         </FormContainer>

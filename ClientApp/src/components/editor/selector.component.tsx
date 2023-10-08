@@ -104,7 +104,7 @@ export class Selectors extends Component<any, SelectorProps> {
   handleNewFile(): ReactNode {
     const { showNewFileDialogue } = this.state;
     return (
-        <Modal show={showNewFileDialogue} onHide={this.handleFileClick}>
+        <Modal className="deviceModal" show={showNewFileDialogue} onHide={this.handleFileClick}>
             <Modal.Header closeButton>New GLTF File</Modal.Header>
             <Form onSubmit={this.submitGltfFile}>
                 <Modal.Body>

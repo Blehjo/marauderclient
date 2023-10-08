@@ -23,7 +23,7 @@ export class MessageList extends Component<ISearchProps> {
                     Users
                 </div>}
                 {users.slice(0,5).map(user => (
-                    <SelectShape style={{ margin: "2rem", padding: '1rem', position: "relative", color: 'white', border: '1px white solid', borderRadius: '.5rem' }} key={user.userId} >
+                    <SelectShape style={{ margin: "0rem 2rem 1rem 2rem", padding: '1rem', position: "relative", color: 'white', border: '1px white solid', borderRadius: '.5rem' }} key={user.userId} >
                         <Row xs={2}>
                             <Col xs={10}>
                                 <Card.Body>{user.username}</Card.Body>
@@ -40,7 +40,7 @@ export class MessageList extends Component<ISearchProps> {
                     Messages
                 </div>}
                 {messages.slice(0,5).map(message => (
-                    <SelectShape style={{ margin: "2rem", padding: '1rem', position: "relative", color: 'white', border: '1px white solid', borderRadius: '.5rem' }} key={message.messageId} >
+                    <SelectShape style={{ margin: "0rem 2rem 1rem 2rem", padding: '1rem', position: "relative", color: 'white', border: '1px white solid', borderRadius: '.5rem' }} key={message.messageId} >
                         <Row xs={2}>
                             <Col xs={10}>
                                 <Card.Body>{message.messageValue}</Card.Body>

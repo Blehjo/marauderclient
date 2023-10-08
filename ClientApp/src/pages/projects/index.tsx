@@ -11,6 +11,7 @@ import { RootState } from "../../store/store";
 import { ButtonContainer, CardContainer, FormContainer, XContainer } from "../../styles/devices/devices.styles";
 import { ListContainer } from "../../styles/messages/messages.styles";
 import { ProjectContainer } from "../../styles/project/project.styles";
+import { SelectShape } from "../../styles/editor/editor.styles";
 
 interface IProject {
     title: string;
@@ -90,23 +91,23 @@ class Projects extends Component<ProjectProps, IProject> {
                 <Row xs={1} md={2}>
                     <Col xs={12} md={12} lg={4}>
                 <ListContainer>
-                    <CardContainer onClick={this.newProject} style={{ backgroundColor: 'black', borderRadius: '.3rem', border: 'solid 1px white', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', color: 'white', textAlign: 'center' }}>
-                        New Project +
-                    </CardContainer>
+                    <SelectShape style={{ border: '1px solid white', borderRadius: '.5rem', marginBottom: '1rem', textAlign: 'center' }} onClick={this.newProject}>
+                        New Project
+                    </SelectShape>
                     {
                         docFiles.docFiles?.map(({ docFileId, title, notes }, index) => (
-                            <Card key={docFileId} onClick={() => this.handleGetProject(docFileId!)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer' }}>
+                            <SelectShape style={{ border: '1px solid white', borderRadius: '.2rem', marginBottom: '.5rem' }} key={docFileId} onClick={() => this.handleGetProject(docFileId!)}>
                                 <Row style={{ lineHeight: '3rem' }} key={index} xs={2}>
                                     <Col key='col2' xs={10}>
                                         {title}
                                     </Col>
                                     <Col key='col3' xs={2}>
                                         <XContainer>
-                                            <XCircle style={{ position: 'absolute', right: '.5rem', marginTop: '.5rem' }} onClick={() => this.deleteDocFile(docFileId!)} />
+                                            <XCircle style={{ position: 'absolute', right: '10%', marginTop: '5%' }} onClick={() => this.deleteDocFile(docFileId!)} />
                                         </XContainer>
                                     </Col>
                                 </Row>
-                            </Card>
+                            </SelectShape>
                         ))
                     }
                 </ListContainer>
@@ -114,12 +115,12 @@ class Projects extends Component<ProjectProps, IProject> {
                 <Col xs={12}>
                 <Panel {...this.props} />
                 </Col>
-                <Modal show={showProject} onHide={this.newProject}>
-                    <Modal.Header closeButton>Create new project</Modal.Header>
+                <Modal className="deviceModal" show={showProject} onHide={this.newProject}>
+                    <Modal.Header>Create new project</Modal.Header>
                     <Modal.Body>
                     <Form onSubmit={this.handleDocFile}>
                         <FormContainer>
-                            <ButtonContainer className="btn btn-outline-dark" type="submit">
+                            <ButtonContainer className="btn btn-outline-light" type="submit">
                                 <Plus style={{ cursor: 'pointer' }} size={15}/>
                             </ButtonContainer>
                         </FormContainer>

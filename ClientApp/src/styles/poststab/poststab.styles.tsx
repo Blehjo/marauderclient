@@ -88,6 +88,7 @@ export const AContainer = styled.a`
   text-decoration: none;
   color: white;
   &:hover {
+    cursor: pointer;
     color: gray;
   }
 `;

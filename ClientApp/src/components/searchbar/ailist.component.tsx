@@ -26,7 +26,7 @@ export class AiList extends Component<ISearchProps> {
                     A.I.s
                 </div>}
                 {artificialIntelligences.slice(0,5).map(artificialIntelligence => (
-                    <SelectShape style={{ margin: "2rem", padding: '1rem', position: "relative", color: 'white', border: '1px white solid', borderRadius: '.5rem' }} key={artificialIntelligence.artificialIntelligenceId} >
+                    <SelectShape style={{ margin: "0rem 2rem 1rem 2rem", padding: '1rem', position: "relative", color: 'white', border: '1px white solid', borderRadius: '.5rem' }} key={artificialIntelligence.artificialIntelligenceId} >
                         <Row xs={2}>
                             <Col xs={10}>
                                 <Card.Body>{artificialIntelligence.name}</Card.Body>
@@ -43,7 +43,7 @@ export class AiList extends Component<ISearchProps> {
                     Chats
                 </div>}
                 {chats.slice(0,5).map(chat => (
-                    <SelectShape style={{ margin: "2rem", padding: '1rem', position: "relative", color: 'white', border: '1px white solid', borderRadius: '.5rem' }} key={chat.chatId} >
+                    <SelectShape style={{ margin: "0rem 2rem 1rem 2rem", padding: '1rem', position: "relative", color: 'white', border: '1px white solid', borderRadius: '.5rem' }} key={chat.chatId} >
                         <Row xs={2}>
                             <Col xs={10}>
                                 <Card.Body>{chat.title}</Card.Body>
@@ -60,7 +60,7 @@ export class AiList extends Component<ISearchProps> {
                     Comments
                 </div>}
                 {chatcomments.slice(0,5).map(chatcomment => (
-                    <SelectShape style={{ margin: "2rem", padding: '1rem', position: "relative", color: 'white', border: '1px white solid', borderRadius: '.5rem' }}>
+                    <SelectShape style={{ margin: "0rem 2rem 1rem 2rem", padding: '1rem', position: "relative", color: 'white', border: '1px white solid', borderRadius: '.5rem' }}>
                         <Row xs={2}>
                             <Col xs={10}>
                                 <Card.Body>{chatcomment.chatValue}</Card.Body>

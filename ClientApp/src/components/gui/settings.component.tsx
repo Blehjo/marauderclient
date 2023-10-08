@@ -1,4 +1,4 @@
-import create from "zustand";
+import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 import { getSingleShape } from "../../utils/api/shape.api";
 import { Component } from "react";
@@ -52,84 +52,84 @@ interface IGeneration {
     radius?: number;
     length?: number;
 }
-class Generation extends Component {
-    state: IGeneration;
-    constructor(properties: IGeneration) {
-        super(properties)
-        this.state = properties;
-    }
+// class Generation extends Component {
+//     state: IGeneration;
+//     constructor(properties: IGeneration) {
+//         super(properties)
+//         this.state = properties;
+//     }
 
-    setGeneration(){
-        const singleShape: Array<Generation> = [];
-        getSingleShape(2).then((response) => { 
-            response.map(({ positionX, positionY, positionZ, height, width, depth, radius, length }) => {
-                const newShape = new Generation({ positionX, positionY, positionZ, height, width, depth, radius, length });
-                singleShape.push(newShape);
-            })
-            return singleShape;
-        });
-    }
+//     setGeneration(){
+//         const singleShape: Array<Generation> = [];
+//         getSingleShape(2).then((response) => { 
+//             response.map(({ positionX, positionY, positionZ, height, width, depth, radius, length }) => {
+//                 const newShape = new Generation({ positionX, positionY, positionZ, height, width, depth, radius, length });
+//                 singleShape.push(newShape);
+//             })
+//             return singleShape;
+//         });
+//     }
 
-    componentDidMount(): void {
-        // this.setGeneration();
-        const useSettings = create<Settings, [["zustand/immer", never]]>(
-            immer((set) => ({
-              ...initialState,
-              setDirectionalLightColorValue: (value) => 
-                  set((state) => {
-                      state.directionalLight.color.value = value;
-                  }),
-              setDirectionalLightColor: (color) =>
-                  set((state) => {
-                      state.directionalLight.color.color = color;
-                  }),
-              setDirectionalLightPosition(x, y, z) {
-                  set((state) => {
-                      state.directionalLight.position.x = x;
-                      state.directionalLight.position.y = y;
-                      state.directionalLight.position.z = z;
-                  })
-              },
-              setIntensity: (value: number) => 
-                  set((state) => {
-                      state.directionalLight.intensity.value = value;
-                  }),
-              setColorValue: (key, value) =>
-                  set((state) => {
-                      state.colors[key].value = value;
-                  }),
-              setColor: (key, color) =>
-                  set((state) => {
-                      state.colors[key].color = color;
-                  }),
-              toggleGrid: (value) => 
-                  set((state) => {
-                      state.grid = value;
-                  }),
-              setGeneration: (key, value) =>
-                  set((state) => {
-                      state.generation[key] = value;
-                  })
-            }))
-        );
-    }
+//     componentDidMount(): void {
+//         // this.setGeneration();
+//         const useSettings = create<Settings, [["zustand/immer", never]]>(
+//             immer((set) => ({
+//               ...initialState,
+//               setDirectionalLightColorValue: (value) => 
+//                   set((state) => {
+//                       state.directionalLight.color.value = value;
+//                   }),
+//               setDirectionalLightColor: (color) =>
+//                   set((state) => {
+//                       state.directionalLight.color.color = color;
+//                   }),
+//               setDirectionalLightPosition(x, y, z) {
+//                   set((state) => {
+//                       state.directionalLight.position.x = x;
+//                       state.directionalLight.position.y = y;
+//                       state.directionalLight.position.z = z;
+//                   })
+//               },
+//               setIntensity: (value: number) => 
+//                   set((state) => {
+//                       state.directionalLight.intensity.value = value;
+//                   }),
+//               setColorValue: (key, value) =>
+//                   set((state) => {
+//                       state.colors[key].value = value;
+//                   }),
+//               setColor: (key, color) =>
+//                   set((state) => {
+//                       state.colors[key].color = color;
+//                   }),
+//               toggleGrid: (value) => 
+//                   set((state) => {
+//                       state.grid = value;
+//                   }),
+//               setGeneration: (key, value) =>
+//                   set((state) => {
+//                       state.generation[key] = value;
+//                   })
+//             }))
+//         );
+//     }
     
     
-};
+// };
 
 
-function setGeneration(){
-    const singleShape: Array<Generation> = [];
-    // getSingleShape(2).then((response) => { 
-    //     response.map(({ positionX, positionY, positionZ, height, width, depth, radius, length }) => {
-    //         const newShape = new Generation({ positionX, positionY, positionZ, height, width, depth, radius, length });
-    //         singleShape.push(newShape);
-    //     })
-    // });
-    return singleShape;
-}
+// function setGeneration(){
+//     const singleShape: Array<Generation> = [];
+//     // getSingleShape(2).then((response) => { 
+//     //     response.map(({ positionX, positionY, positionZ, height, width, depth, radius, length }) => {
+//     //         const newShape = new Generation({ positionX, positionY, positionZ, height, width, depth, radius, length });
+//     //         singleShape.push(newShape);
+//     //     })
+//     // });
+//     return singleShape;
+// }
 
-setGeneration();
+// setGeneration();
 
 const initialState: SettingsState = {
     directionalLight: {

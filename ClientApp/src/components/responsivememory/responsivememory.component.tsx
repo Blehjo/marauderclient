@@ -12,6 +12,7 @@ import { BadgeContainer, ResponsiveMemoryContainer } from "../../styles/responsi
 import { utcConverter } from "../../utils/date/date.utils";
 import MessagemodalComponent from "../messagemodal/messagemodal.component";
 import ModalContent from "../modal/modal.component";
+import { AContainer } from "../../styles/poststab/poststab.styles";
 
 interface IDefaultFormFields {
     commentValue: string;
@@ -177,7 +178,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                         <Card.Img style={{ width: '2rem', height: '2rem', objectFit: 'cover' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user.imageLink!}`}/>
                         </Col>
                         <Col>
-                        <Card.Text style={{ marginBottom: '.5rem', marginLeft: '-1rem' }}>{user.username}</Card.Text>
+                        <AContainer href={`/profile/${user.userId}`} style={{ marginBottom: '.5rem', marginLeft: '-2rem' }}>{user.username}</AContainer>
                         </Col>
                         <Col>
                         <Card.Text style={{ position: 'absolute', right: '0.5rem' }}>{utcConverter(dateCreated)}</Card.Text>
@@ -218,15 +219,15 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                     </div>
                 </Card.ImgOverlay>
                 <Card.Body>
-                    <Row xs={2}>
+                    <Row style={{ position: 'relative' }} xs={2}>
                         <Col xs={3}>
                         <Card.Img style={{ width: '2rem', height: '2rem', objectFit: 'cover' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user.imageLink!}`}/>
                         </Col>
                         <Col>
-                        <Card.Text style={{ marginBottom: '.5rem', marginLeft: '-1rem' }}>{user.username}</Card.Text>
+                        <AContainer href={`/profile/${user.userId}`} style={{ marginBottom: '.5rem', marginLeft: '-1rem' }}>{user.username}</AContainer>
                         </Col>
                     </Row>
-                    <Card.Text>{postValue}</Card.Text>
+                    <Card.Text style={{ cursor: 'pointer'}}>{postValue}</Card.Text>
                 </Card.Body>
             </Card>
         )
@@ -260,12 +261,12 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                     </div>
                 </Card.ImgOverlay>
                 <Card.Body>
-                    <Row xs={2}>
+                    <Row style={{ position: 'relative' }} xs={2}>
                         <Col xs={3}>
                         <Card.Img style={{ width: '2rem', height: '2rem', objectFit: 'cover' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user.imageLink!}`}/>
                         </Col>
                         <Col>
-                        <Card.Text style={{ marginLeft: '-1rem' }}>{user.username}</Card.Text>
+                        <AContainer href={`/profile/${user.userId}`} style={{ marginBottom: '.5rem', marginLeft: '-1rem' }}>{user.username}</AContainer>
                         </Col>
                     </Row>
                     <Card.Text>{fileInformation}</Card.Text>

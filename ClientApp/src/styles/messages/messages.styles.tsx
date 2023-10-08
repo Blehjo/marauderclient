@@ -81,17 +81,18 @@ export const TextCommentContainer = styled.div`
 `;
 
 export const TextContainer = styled.div`
+    border: solid 1px #212529;
     border-radius: .3rem;
     padding: .2rem;
     color: white;
     margin: .5rem;
-    width: 90%;
+    width: 100%;
     text-align: left;
     z-index: 20;
 `;
 
 export const UserTextContainer = styled.div`
-    border: solid 1px blue;
+    border: solid 1px rgb(255,83,73);
     border-radius: .3rem;
     padding: .2rem;
     margin: .5rem;

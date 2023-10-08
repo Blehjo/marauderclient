@@ -97,6 +97,7 @@ function Shape({ shape, position, orbit, shapeId, connection, file }: ShapeProps
   const color = new THREE.Color(colors["Color"].color);
   const hsl = color.getHSL({ h: 0, s: 1, l: 1 });
   const height = useSettings((s) => s.generation.height);
+  const items = () => useSettings((s)=> s.setGeneration("positionX",1))
   color.setHSL(
     hsl.h,
     hsl.s * 1.7,
@@ -126,7 +127,7 @@ function Shape({ shape, position, orbit, shapeId, connection, file }: ShapeProps
         showX={active ? true : false}
         showY={active ? true : false}
         showZ={active ? true : false}
-        position={positionArray}
+        position={[0,0,0]}
         ref={transform}
         mode="translate"
       >
@@ -134,6 +135,7 @@ function Shape({ shape, position, orbit, shapeId, connection, file }: ShapeProps
           onClick={(e) => {
             (e.stopPropagation())
             setActive(!active)
+            // connection(shapeId, shape, file.gltfId, new THREE.Vector3())
           }}
           onPointerMissed={(e) => e.type === "click" && (state.current = null)}
           // Right click cycles through the transform modes
@@ -197,6 +199,7 @@ export default function Editor() {
       .withAutomaticReconnect()
       .build();
     setConnection(hub);
+    connection?.start().catch((err: string) => document.write(err));
   }
 
   function handleInquiry(value: string): void {
@@ -229,9 +232,7 @@ export default function Editor() {
 
   useEffect(() => {
     fetchFiles();
-    // if (connection?.state )
     handleConnection();
-    console.log("CONNECTION::" , connection)
   }, [shapes.length, file]);
 
   return (

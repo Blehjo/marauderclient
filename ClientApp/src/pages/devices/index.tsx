@@ -138,12 +138,12 @@ class Devices extends Component<DeviceProps, IDevice> {
                 <Row xs={1} md={2}>
                     <Col xs={12} md={12} lg={4}>
             <ListContainer>
-                <CardContainer onClick={this.handleClick}>
-                    New Device +
-                </CardContainer>
-                <CardContainer onClick={this.connect}>
+                <SelectShape style={{ border: '1px solid white', borderRadius: '.5rem', marginBottom: '1rem', textAlign: 'center' }} onClick={this.handleClick}>
+                    New Device
+                </SelectShape>
+                <SelectShape style={{ border: '1px solid white', borderRadius: '.5rem', marginBottom: '1rem', textAlign: 'center' }} onClick={this.connect}>
                     Search Bluetooth
-                </CardContainer>
+                </SelectShape>
                 {
                     devices.map(({ deviceId, deviceName, deviceType }, index) => (
                         <Card onClick={() => this.handleClick()} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer' }} key={index}>

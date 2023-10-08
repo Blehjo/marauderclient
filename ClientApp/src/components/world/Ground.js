@@ -3,7 +3,7 @@ import { useTexture } from "@react-three/drei"
 import { CuboidCollider, RigidBody } from "@react-three/rapier"
 
 export function Ground(props) {
-  const texture = useTexture("/grass.jpg")
+  const texture = useTexture("/dirt.jpg")
   texture.wrapS = texture.wrapT = THREE.RepeatWrapping
   return (
     <RigidBody {...props} type="fixed" colliders={false}>
