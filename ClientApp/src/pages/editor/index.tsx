@@ -22,7 +22,13 @@ import { Gltf } from "../../store/gltf/gltf.types";
 import { proxy, useSnapshot } from "valtio";
 
 const modes: Array<"translate" | "rotate" | "scale" | undefined> = ["translate", "rotate", "scale"];
-const state = proxy({ current: null, mode: 0 });
+
+type StateProps = {
+  current: string | null;
+  mode: number;
+}
+
+const state = proxy<StateProps>({ current: null, mode: 0 });
 
 enum Controls {
   forward = 'forward',
@@ -39,6 +45,12 @@ type ShapeProps = {
     y: number,
     z: number
   };
+  shapeHeight?: number;
+  shapeWidth?: number;
+  shapeDepth?: number;
+  shapeRadius?: number;
+  shapeLength?: number;
+  shapeColor: string;
   orbit: any;
   shapeId: number;
   connection: (editorId: number, shapeName?: string, gltfId?: number, position?: Vector3, height?: number, width?: number, depth?: number, radius?: number, length?: number, color?: string) => THREE.Vector3;
@@ -86,7 +98,7 @@ function handleShape(shape?: string): ReactNode {
   }
 }
 
-function Shape({ shape, position, orbit, shapeId, connection, file }: ShapeProps) {
+function Shape({ shape, position, orbit, shapeId, shapeHeight, shapeWidth, shapeDepth, shapeRadius, shapeLength, shapeColor, connection, file }: ShapeProps) {
   const transform = useRef<any>(null!);
   const [active, setActive] = useState(false);
   const snap = useSnapshot(state);
@@ -97,52 +109,44 @@ function Shape({ shape, position, orbit, shapeId, connection, file }: ShapeProps
   const color = new THREE.Color(colors["Color"].color);
   const hsl = color.getHSL({ h: 0, s: 1, l: 1 });
   const height = useSettings((s) => s.generation.height);
-  const items = () => useSettings((s)=> s.setGeneration("positionX",1))
+  const width = useSettings((s) => s.generation.width);
+  const depth = useSettings((s) => s.generation.depth);
+  const generationPositionX = useSettings((s) => s.generation.positionX);
+  const generationPositionY = useSettings((s) => s.generation.positionY);
+  const generationPositionZ = useSettings((s) => s.generation.positionZ);
   color.setHSL(
     hsl.h,
     hsl.s * 1.7,
     hsl.l * 1
   );
 
-  // console.log("POSITIONARRAY::: ", positionArray);
-  // useEffect(() => {
-  //   if (transform.current) {
-  //     const { current: controls } = transform
-  //     const callback = (event: any) => {
-  //       orbit.current.enabled = !event?.value
-  //     }
-  //     // connection(shapeId, shape, 1, positionArray, height, undefined, undefined, undefined, undefined, color.toArray().toString())
-  //     transform.current.addEventListener('dragging-changed', callback)
-  //     return () => controls.removeEventListener('dragging-changed', callback)
-  //   }
-  // });
-
   return (
     <>
       {
         active &&
-        <ControlPanel shapeId={shapeId}/>
+        <ControlPanel shapeId={shapeId} shapeName={shape!} positionX={position?.x!}  positionY={position?.y!}  positionZ={position?.z!} height={shapeHeight} width={shapeWidth} depth={shapeDepth} radius={shapeRadius} length={shapeLength} color={shapeColor}/>
       }
       <TransformControls
         showX={active ? true : false}
         showY={active ? true : false}
         showZ={active ? true : false}
-        position={[0,0,0]}
         ref={transform}
-        mode="translate"
-      >
+        position={[generationPositionX!, generationPositionY!, generationPositionZ!]}
+        mode={modes[snap.mode]}
+        >
         <mesh 
+          position={[generationPositionX!, generationPositionY!, generationPositionZ!]}
+        // scale={[height > 0 ? height : 10, width != 0 ? width : 10, depth != 0 ? depth : 10]}
           onClick={(e) => {
-            (e.stopPropagation())
+            (e.stopPropagation(), (state.current = shape!))
             setActive(!active)
-            // connection(shapeId, shape, file.gltfId, new THREE.Vector3())
           }}
+          // onPointerUp={()=> connection(shapeId, shape, file.gltfId, new THREE.Vector3())}
           onPointerMissed={(e) => e.type === "click" && (state.current = null)}
-          // Right click cycles through the transform modes
-          onContextMenu={(e) => snap.current === name && (e.stopPropagation(), (state.mode = (snap.mode + 1) % modes.length))}
-          // eslint-disable-next-line no-sequences
+          onContextMenu={(e) => snap.current === shape! && (e.stopPropagation(), (state.mode = (snap.mode + 1) % modes.length))}
           onPointerOver={(e) => (e.stopPropagation(), setHovered(true))}
           onPointerOut={(e) => setHovered(false)}
+          dispose={null}
         >
           {handleShape(shape)}
           <meshStandardMaterial color={color}/>
@@ -152,15 +156,12 @@ function Shape({ shape, position, orbit, shapeId, connection, file }: ShapeProps
   )
 }
 
-function Controllers() {
-  // Get notified on changes to state
+function Controller() {
   const snap = useSnapshot(state);
   const scene = useThree((state) => state.scene);
   return (
     <>
-      {/* As of drei@7.13 transform-controls can refer to the target by children, or the object prop */}
-      {snap.current && <TransformControls object={scene.getObjectByName(snap.current)} mode={modes[snap.mode]} />}
-      {/* makeDefault makes the controls known to r3f, now transform-controls can auto-disable them when active */}
+      {/* {snap.current && <TransformControls object={scene.getObjectByName(snap.current)} mode={modes[snap.mode]} />} */}
       <OrbitControls makeDefault minPolarAngle={0} maxPolarAngle={Math.PI / 1.75} />
     </>
   );
@@ -181,7 +182,6 @@ export default function Editor() {
   const grid = useSettings((s) => s.grid);
   const intensity = useSettings((s) => s.directionalLight.intensity.value);
   const directionalLightColor = new THREE.Color(directionalLightColors["color"]);
-  const orbit = useRef<THREE.Mesh>(null!);
   const refs = useRef(Array.from({length: 10}, a => createRef()));
 
   function handlePositionUpdate(editorId: number, shapeName?: string, gltfId?: number, position?: Vector3, height?: number, width?: number, depth?: number, radius?: number, length?: number, color?: string): THREE.Vector3 {
@@ -249,15 +249,14 @@ export default function Editor() {
         <group>
         {
           userShapes.length > 0 &&
-          userShapes.map(({ shapeId, shapeName, positionX, positionY, positionZ }, index) => (
-            <Shape connection={handlePositionUpdate} key={shapeId} shapeId={shapeId} shape={shapeName} file={file!} orbit={refs.current[index].current} position={{x: positionX, y: positionY, z: positionZ}}/>
+          userShapes.map(({ shapeId, shapeName, positionX, positionY, positionZ, height, width, depth, radius, length, color }, index) => (
+            <Shape connection={handlePositionUpdate} key={shapeId} shapeId={shapeId} shape={shapeName} shapeHeight={height} shapeWidth={width} shapeDepth={depth} shapeRadius={radius} shapeLength={length} shapeColor={color} file={file!} orbit={refs.current[index].current} position={{x: positionX, y: positionY, z: positionZ}}/>
           ))
         }
         </group>
         </Suspense>
         <Gizmo/>
-        {/* <OrbitControls makeDefault /> */}
-        <Controllers/>
+        <Controller/>
       </Canvas>
     </div>
   );

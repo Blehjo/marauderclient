@@ -29,7 +29,7 @@ import {
     getUsersShapes
 } from '../../utils/api/shape.api';
 
-export function* createShape({ payload: { shapeName, gltfId, position, height, width, depth, radius, length, color }}: EditorCreateStart ) {
+export function* createShape({ payload: { shapeName, gltfId, position, height, width, depth, radius, length, color, colorValue }}: EditorCreateStart ) {
     try {
         const editor = yield* call(
             addShape,
@@ -41,7 +41,8 @@ export function* createShape({ payload: { shapeName, gltfId, position, height, w
             depth, 
             radius, 
             length, 
-            color
+            color,
+            colorValue
         ); 
         yield* put(editorCreateSuccess(editor));
     } catch (error) {
@@ -49,7 +50,7 @@ export function* createShape({ payload: { shapeName, gltfId, position, height, w
     }
 }
 
-export function* updateShape({ payload: { editorId, shapeName, gltfId, position, height, width, depth, radius, length, color }}: EditorUpdateStart) {
+export function* updateShape({ payload: { editorId, shapeName, gltfId, position, height, width, depth, radius, length, color, colorValue }}: EditorUpdateStart) {
     try {
         const editor = yield* call(
             editShape,
@@ -62,7 +63,8 @@ export function* updateShape({ payload: { editorId, shapeName, gltfId, position,
             depth, 
             radius, 
             length, 
-            color
+            color,
+            colorValue
         ); 
         yield* put(editorUpdateSuccess(editor));
     } catch (error) {

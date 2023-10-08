@@ -39,6 +39,7 @@ export type Editor = {
     radius?: number;
     length?: number;
     color: string;
+    colorValue: string;
     grid: boolean;
     isLoading: boolean;
 }

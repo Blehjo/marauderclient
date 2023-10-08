@@ -17,8 +17,6 @@ export default function Builder() {
         style={{ paddingTop: '5rem' }}
       >
         <OrbitControls
-          autoRotate
-          autoRotateSpeed={0.2}
           enablePan={false}
           minDistance={3}
           maxDistance={12}

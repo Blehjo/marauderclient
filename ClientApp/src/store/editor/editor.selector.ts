@@ -25,6 +25,11 @@ export const selectEditorColor = createSelector(
     (editor) => editor.color
 );
 
+export const selectEditorColorValue = createSelector(
+    [selectEditorReducer],
+    (editor) => editor.colorValue
+);
+
 export const selectEditorIsGridVisible = createSelector(
     [selectEditorReducer],
     (editor) => editor.grid

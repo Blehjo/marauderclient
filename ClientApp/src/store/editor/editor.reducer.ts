@@ -23,6 +23,7 @@ export type EditorState = {
     readonly shapes: Array<Editor>;
     readonly grid: boolean;
     readonly color: string;
+    readonly colorValue: number;
     readonly isLoading: boolean;
 }
 
@@ -31,7 +32,8 @@ const INITIAL_STATE: EditorState = {
     singleShape: [],
     shapes: [],
     grid: true,
-    color: 'red',
+    color: '#ff0000',
+    colorValue: 0,
     isLoading: false
 };
 

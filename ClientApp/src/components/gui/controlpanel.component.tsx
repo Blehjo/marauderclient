@@ -1,19 +1,23 @@
-import { button, Leva, useControls } from "leva";
-import { Settings, useSettings } from "./settings.component";
-import { Editor } from "../../store/editor/editor.types";
-import { useEffect } from "react";
-import { editorFetchSingleStart } from "../../store/editor/editor.action";
-import { useDispatch, useSelector } from "react-redux";
-import { selectEditorShape, selectEditorSingleShape } from "../../store/editor/editor.selector";
+import { button, useControls } from "leva";
+import { useSettings } from "./settings.component";
 
 type ControlProps = {
   shapeId: number;
+  shapeName: string;
+  positionX: number;
+  positionY: number;
+  positionZ: number;
+  height?: number;
+  width?: number;
+  depth?: number;
+  radius?: number;
+  length?: number;
+  color: string;
 }
 
-export function ControlPanel({ shapeId }: ControlProps) {
-  const shape = useSelector(selectEditorSingleShape);
-  const dispatch = useDispatch();
+export function ControlPanel({ shapeId, shapeName, positionX, positionY, positionZ, height, width, depth, radius, length, color }: ControlProps) {
   const colors = useSettings((s) => s.colors);
+  const shapeColors = color;
   const directionalLight = useSettings((s) => s.directionalLight);
   const grid = useSettings((s) => s.grid);
   const generation = useSettings((s) => s.generation);
@@ -25,10 +29,6 @@ export function ControlPanel({ shapeId }: ControlProps) {
   const setIntensity = useSettings((s) => s.setIntensity);
   const setGeneration = useSettings((s) => s.setGeneration);
   const toggleGrid = useSettings((s) => s.toggleGrid);
-
-  // useEffect(() => {
-  //   dispatch(editorFetchSingleStart(shapeId))
-  // }, []);
 
   useControls("Directional Light", () => {
     const res = {} as any;
@@ -78,7 +78,7 @@ export function ControlPanel({ shapeId }: ControlProps) {
       };
 
       res[color] = {
-        value: colors[color].color,
+        value: shapeColors != null ? shapeColors : "#008000",
         onChange: (v: string) => setColor(color, v)
       };
     });
@@ -96,23 +96,47 @@ export function ControlPanel({ shapeId }: ControlProps) {
     //     onChange: (v: number) => setGeneration(param, v)
     //   };
     // });
-    res["Height"] = {
-      value: generation.height,
-      min: 0.01,
-      max: 1,
-      onChange: (v: number) => setGeneration("height", v)
-    };
+    // res["Depth"] = {
+    //   value: 10,
+    //   min: 0.01,
+    //   max: 100,
+    //   onChange: (v: number) => setGeneration("depth", v)
+    // };
+    // res["Width"] = {
+    //   value: 10,
+    //   min: 0.01,
+    //   max: 100,
+    //   onChange: (v: number) => setGeneration("width", v)
+    // };
+    // res["Height"] = {
+    //   value: 10,
+    //   min: 0.01,
+    //   max: 100,
+    //   onChange: (v: number) => setGeneration("height", v)
+    // };
     res["X"] = {
-      value: generation.positionX,
-      min: 0.01,
-      max: 20,
+      value: positionX,
+      min: -100,
+      max: 100,
       onChange: (v: number) => setGeneration("positionX", v)
+    };
+    res["Y"] = {
+      value: positionY,
+      min: -100,
+      max: 100,
+      onChange: (v: number) => setGeneration("positionY", v)
+    };
+    res["Z"] = {
+      value: positionZ,
+      min: -100,
+      max: 100,
+      onChange: (v: number) => setGeneration("positionZ", v)
     };
     return res;
   });
 
   useControls({
-    Regenerate: button(() => set({ Seed: Math.random() }))
+    Save: button(() => set({ Seed: Math.random() }))
   });
 
   return null;
