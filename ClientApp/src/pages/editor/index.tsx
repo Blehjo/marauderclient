@@ -136,7 +136,7 @@ function Shape({ shape, position, orbit, shapeId, shapeHeight, shapeWidth, shape
         >
         <mesh 
           position={[generationPositionX!, generationPositionY!, generationPositionZ!]}
-        // scale={[height > 0 ? height : 10, width != 0 ? width : 10, depth != 0 ? depth : 10]}
+        scale={[height > 0 ? height : 10, width != 0 ? width : 10, depth != 0 ? depth : 10]}
           onClick={(e) => {
             (e.stopPropagation(), (state.current = shape!))
             setActive(!active)

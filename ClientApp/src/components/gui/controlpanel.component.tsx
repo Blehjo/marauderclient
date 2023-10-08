@@ -96,24 +96,24 @@ export function ControlPanel({ shapeId, shapeName, positionX, positionY, positio
     //     onChange: (v: number) => setGeneration(param, v)
     //   };
     // });
-    // res["Depth"] = {
-    //   value: 10,
-    //   min: 0.01,
-    //   max: 100,
-    //   onChange: (v: number) => setGeneration("depth", v)
-    // };
-    // res["Width"] = {
-    //   value: 10,
-    //   min: 0.01,
-    //   max: 100,
-    //   onChange: (v: number) => setGeneration("width", v)
-    // };
-    // res["Height"] = {
-    //   value: 10,
-    //   min: 0.01,
-    //   max: 100,
-    //   onChange: (v: number) => setGeneration("height", v)
-    // };
+    res["Depth"] = {
+      value: 10,
+      min: 0.01,
+      max: 100,
+      onChange: (v: number) => setGeneration("depth", v)
+    };
+    res["Width"] = {
+      value: 10,
+      min: 0.01,
+      max: 100,
+      onChange: (v: number) => setGeneration("width", v)
+    };
+    res["Height"] = {
+      value: 10,
+      min: 0.01,
+      max: 100,
+      onChange: (v: number) => setGeneration("height", v)
+    };
     res["X"] = {
       value: positionX,
       min: -100,

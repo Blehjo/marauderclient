@@ -53,7 +53,7 @@ export const DropDownContainer = styled.div`
 export const Dot = styled.div`
     position: absolute;
     top: 50%;
-    left: 62%;
+    left: 50%;
     width: 10px;
     height: 10px;
     border-radius: 50%;
