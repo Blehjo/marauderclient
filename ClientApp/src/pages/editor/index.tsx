@@ -135,7 +135,7 @@ function Shape({ shape, position, orbit, shapeId, shapeHeight, shapeWidth, shape
         mode={modes[snap.mode]}
         >
         <mesh 
-          position={[generationPositionX!, generationPositionY!, generationPositionZ!]}
+          // position={[generationPositionX!, generationPositionY!, generationPositionZ!]}
         // scale={[height > 0 ? height : 10, width != 0 ? width : 10, depth != 0 ? depth : 10]}
           onClick={(e) => {
             (e.stopPropagation(), (state.current = shape!))
@@ -145,7 +145,7 @@ function Shape({ shape, position, orbit, shapeId, shapeHeight, shapeWidth, shape
           onPointerMissed={(e) => e.type === "click" && (state.current = null)}
           onContextMenu={(e) => snap.current === shape! && (e.stopPropagation(), (state.mode = (snap.mode + 1) % modes.length))}
           onPointerOver={(e) => (e.stopPropagation(), setHovered(true))}
-          onPointerOut={(e) => setHovered(false)}
+          // onPointerOut={(e) => setHovered(false)}
           dispose={null}
         >
           {handleShape(shape)}
