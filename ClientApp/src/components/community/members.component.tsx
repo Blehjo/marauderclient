@@ -1,11 +1,12 @@
 import { Component } from "react";
-import { Card, Col, Modal, Row } from "react-bootstrap";
+import { Card, Col, Image, Modal, Row } from "react-bootstrap";
 import { XCircle } from "react-bootstrap-icons";
 import { Member } from "../../store/member/member.types";
 import { ChatsContainer } from "../../styles/communities/communities.styles";
 import { XContainer } from "../../styles/devices/devices.styles";
 import { AContainer, CardContainer } from "../../styles/poststab/poststab.styles";
 import { UserProfileCard } from "../profilecard/userprofilecard.component";
+import { SelectShape } from "../../styles/editor/editor.styles";
 
 interface IMembersChannel {
     marauderId: string | null;
@@ -64,36 +65,29 @@ export class MembersChannel extends Component<any, IMembersChannel> {
 
     render() {
         const { members, main, communities } = this.props;
-        console.log(main, communities)
         const { showMarauder, showDelete } = this.state;
         return (
-            <ChatsContainer>
+            <ChatsContainer style={{ top: '10rem' }}>
                 <CardContainer>Members</CardContainer>
                 {
                     members.members?.map(({ memberId, dateCreated, user }: Member, index: number) => (
-                        <Card onClick={() => this.handleMemberSelect(user.userId)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', margin: '.2rem .2rem 1rem .2rem', cursor: 'pointer', padding: '.5rem' }} key={index}>
-                            <AContainer href={`/profile/${user.userId}`}>
-                                <Row xs={2}>
-                                    <Col xs={3}>
-                                    <Card.Img style={{ width: '2rem', height: '2rem', objectFit: 'fill' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user?.imageLink!}`}/>
-                                    </Col>
-                                    <Col>
-                                    <Card.Text>{user.username}</Card.Text>
-                                    </Col>
+                        <SelectShape onClick={() => this.handleMemberSelect(user.userId)} style={{ zIndex: '1', display: 'flex', flexDirection: 'row', position: 'relative', border: '1px white solid', margin: '.3rem', padding: '.5rem', borderRadius: '.5rem' }} key={index}>
+                            <Image style={{ width: '2rem', height: '2rem', objectFit: 'cover' }} src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/images/${user?.imageLink!}`}/>
+                                <Row xs={1}>
+                                <div style={{ textAlign: 'left', marginLeft: '1rem' }}>
+                                    {user.username}
+                                </div>
                                 </Row>
-                            </AContainer>
-                            <Col xs={2}>
-                                {main?.userId == communities.singleCommunity?.userId && <XContainer>
+                                {main?.userId == communities.singleCommunity?.userId && <XContainer style={{ position: 'absolute', top: '0.5rem', right: '0.5rem' }}>
                                     <XCircle onClick={this.deleteModal} />
                                 </XContainer>}
-                            </Col>
-                        </Card>
+                        </SelectShape>
                     ))
                 }
-                <Modal show={showMarauder} onHide={this.openModal}>
+                <Modal className="deviceModal" show={showMarauder} onHide={this.openModal}>
                     <UserProfileCard {...this.props} />
                 </Modal>
-                <Modal show={showDelete} onHide={this.deleteModal}>
+                <Modal className="deviceModal" show={showDelete} onHide={this.deleteModal}>
                     <Modal.Header closeButton/>
                     <Modal.Body style={{ textAlign: "center", color: "black" }}>
                         Are you sure you want to delete this chat?

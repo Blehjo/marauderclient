@@ -49,7 +49,6 @@ export class UserGltfsTab extends Component<any, IDefaultFormFields> {
         const { gltfs } = this.props;
         const gltfId = gltfs.singleGltf?.gltfId ? gltfs.singleGltf.gltfId : 0
         try {
-            console.log("HELLO::: ", commentValue, imageFile, gltfId)
             this.props.gltfCreateComment(commentValue, imageFile, gltfId);
         } catch (error) {
             return error;

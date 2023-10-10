@@ -36,14 +36,12 @@ class UserInterfaceCanvas extends Component<any, IUserCanvas> {
 
     componentDidMount(): void {
         if (this.props.user?.currentUser != null) {
-            console.log("CHECK::")
             this.props.check();
         }
     }
 
     componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<IUserCanvas>, snapshot?: any): void {
         if (prevProps.user?.currentUser != this.props.user?.currentUser) {
-            console.log("DIFFERENT::")
             this.setState({
                 ...this.state, authentication: false
             })

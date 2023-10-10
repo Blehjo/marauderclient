@@ -10,7 +10,7 @@ export const PostDashContainer = styled.div`
 `;
 
 export const ModalContainer = styled.div`
-  background: rgb(20, 20, 35);
+  background: #212529;
   color: white;
   position: relative;
 `;

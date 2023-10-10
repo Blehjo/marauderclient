@@ -220,15 +220,12 @@ class Dash extends Component<DashProps, IDash> {
 
     componentDidUpdate(prevProps: Readonly<{ posts: Post[]; singlePost: Post | null; comments: CommentState; chats: ChatContent[]; singleChat: ChatContent | null; chatcomments: ChatCommentState; gltfs: Gltf[]; singleGltf: Gltf | null; gltfcomments: GltfCommentState; currentUser: User | null; } & { getPosts: () => void; getChats: () => void; getGltfs: () => void; getPost: (postId: number) => void; getChat: (chatId: number) => void; getGltf: (gltfId: number) => void; getPostComments: (postId: number) => void; getChatComments: (chatId: number) => void; getGltfComments: (gltfId: number) => void; likePost: (postId: number, contentType: string) => void; createComment: (commentValue: string, imageFile: File, postId: number) => void; gltfCreateComment: (commentValue: string, imageFile: File, gltfId: number) => void; chatCreateComment: (commentValue: string, imageFile: File, gltfId: number) => void; }>, prevState: Readonly<IDash>, snapshot?: any): void {
         if (this.props.posts.length != prevProps.posts.length) {
-            console.log('Content has changed');
             this.checkType();
         }
         if (this.props.gltfs.length != prevProps.gltfs.length) {
-            console.log('Content has changed');
             this.checkType();
         }
         if (this.props.chats.length != prevProps.chats.length) {
-            console.log('Content has changed');
             this.checkType();
         }
 

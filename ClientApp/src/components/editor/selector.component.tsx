@@ -96,7 +96,6 @@ export class Selectors extends Component<any, SelectorProps> {
     this.setState({
       showNewFileDialogue: !this.state.showNewFileDialogue
     })
-    // console.log("FILES:: ", this.props.files)
     const file = this.props.gltfs?.gltfs.pop();
     this.getFile(file?.gltfId!)
 }

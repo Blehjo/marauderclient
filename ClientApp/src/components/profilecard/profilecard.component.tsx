@@ -50,7 +50,7 @@ export class ProfileCard extends Component<ProfileProps, IDefaultFormFields> {
             username: currentUser?.username!,
             about: currentUser?.about!,
             emailAddress: currentUser?.emailAddress!,
-            // dateOfBirth: currentUser?.dateOfBirth!,
+            dateOfBirth: new Date(currentUser?.dateOfBirth!.toString()!).toISOString().slice(0,10),
             password: currentUser?.password!,
             firstName: currentUser?.firstName!,
             lastName: currentUser?.lastName!
@@ -137,7 +137,7 @@ export class ProfileCard extends Component<ProfileProps, IDefaultFormFields> {
                                     <AContainer href={`/communities/${communityId}`}>
                                     <Row>
                                         <Col xs={2}>
-                                            <Image style={{ width: '2rem', height: '2rem', objectFit: 'fill' }} src={imageSource}/>
+                                            <Image style={{ width: '2rem', height: '2rem', objectFit: 'cover' }} src={imageSource}/>
                                         </Col>
                                         <Col>
                                             <Card.Text key={communityId}>{communityName}</Card.Text>

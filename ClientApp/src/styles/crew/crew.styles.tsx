@@ -1,7 +1,7 @@
 import { styled } from "styled-components";
 
 export const CrewContainer = styled.div`
-    padding-top: 5rem;
+    // padding-top: 5rem;
     position: relative;
 `;
 
@@ -118,5 +118,16 @@ export const Container = styled.div`
     text-align: start;
     left: 0%;
     padding-top: 8%;
+    overflow-y: auto;
+`;
+
+export const CommunityContainer = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    position: absolute;
+    width: 100%;
+    text-align: start;
+    left: 0%;
     overflow-y: auto;
 `;

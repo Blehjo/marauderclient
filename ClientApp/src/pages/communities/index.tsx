@@ -4,12 +4,11 @@ import { Send } from "react-bootstrap-icons";
 import { ConnectedProps, connect } from "react-redux";
 import ResponsiveMemory from "../../components/responsivememory/responsivememory.component";
 import { CommunityCreateStart, CommunityFetchAllStart, CommunityFetchSingleStart, communityCreateStart, communityFetchAllStart, communityFetchSingleStart } from "../../store/community/community.action";
+import { Community } from "../../store/community/community.types";
 import { MemberCreateStart, MemberFetchSingleStart, memberCreateStart, memberFetchSingleStart } from "../../store/member/member.action";
+import { MemberState } from "../../store/member/member.reducer";
 import { RootState } from "../../store/store";
 import { CommunityContainer } from "../../styles/communities/communities.styles";
-import { Community } from "../../store/community/community.types";
-import { Member } from "../../store/member/member.types";
-import { MemberState } from "../../store/member/member.reducer";
 
 type CommunityProps = ConnectedProps<typeof connector>;
 
@@ -89,7 +88,7 @@ class Communities extends Component<CommunityProps, ICommunity> {
         const { show } = this.state;
         return (
             <CommunityContainer>
-            <Modal show={show} onHide={this.handleCloseCreate}>
+            <Modal className="deviceModal" show={show} onHide={this.handleCloseCreate}>
                 <Modal.Header closeButton>
                     Create a new community?
                 </Modal.Header>

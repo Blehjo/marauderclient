@@ -55,7 +55,7 @@ class SignUpForm extends Component<SignUpProp, IDefaultFormFields> {
     }
     
     try {
-      this.props.signUpStart(username, firstName, lastName, dateOfBirth, emailAddress, password, about, imageLink, imageFile);
+      this.props.signUpStart(username, firstName, lastName, new Date(dateOfBirth.toString()).toISOString().slice(0,10), emailAddress, password, about, imageLink, imageFile);
     } catch (error) {
       if (error) {
         alert('Cannot create user, email already in use');
@@ -118,7 +118,7 @@ class SignUpForm extends Component<SignUpProp, IDefaultFormFields> {
                 <Form.Control className="form-control" onChange={this.handleChange} name="confirmPassword" value={confirmPassword} as="input" type="password" placeholder="Confirm Password" />
             </Form.Group>
             <Form.Group className="col-6 mb-3" controlId="formDateOfBirth">
-                <Form.Control className="form-control" onChange={this.handleChange} name="dateOfBirth" value={dateOfBirth.toString()} type="date" placeholder="Date Of Birth" />
+                <Form.Control className="form-control" onChange={this.handleChange} name="dateOfBirth" value={dateOfBirth} type="date" placeholder="Date Of Birth" />
             </Form.Group>
             <Form.Group className="col-6 mb-3" controlId="formAbout">
                 <Form.Control className="form-control" onChange={this.handleChange} name="about" value={about} type="input" placeholder="About" />

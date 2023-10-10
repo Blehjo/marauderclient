@@ -43,7 +43,7 @@ export class UserProfileCard extends Component<any> {
                                     <AContainer href={`/communities/${communityId}`}>
                                     <Row>
                                         <Col xs={2}>
-                                            <Image style={{ width: '2rem', height: '2rem', objectFit: 'fill' }} src={imageSource}/>
+                                            <Image style={{ width: '2rem', height: '2rem', objectFit: 'cover' }} src={imageSource}/>
                                         </Col>
                                         <Col>
                                             <Card.Text key={communityId}>{communityName}</Card.Text>

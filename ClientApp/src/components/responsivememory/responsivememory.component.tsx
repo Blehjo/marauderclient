@@ -375,6 +375,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                     show={this.state.show} 
                     onHide={() => this.handleClose}
                     variant={'dark'}
+                    className="deviceModal"
                 >
                     <ModalContent show={this.state.show} handleClose={this.handleClose} { ...this.props }/>
                     <Modal.Footer style={{ background: 'black', border: 'white solid 1px' }} >
@@ -389,6 +390,7 @@ class ResponsiveMemory extends Component<any, IDefaultFormFields> {
                     </Modal.Footer>
                 </Modal>
                 <Modal
+                    className="deviceModal"
                     size="lg"
                     show={this.state.openModal} 
                     onHide={() => this.openMessage()}

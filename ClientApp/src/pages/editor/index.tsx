@@ -1,6 +1,6 @@
 import { Grid, OrbitControls, OrthographicCamera, TransformControls, useCursor } from "@react-three/drei";
-import { Canvas, Vector3, useThree } from "@react-three/fiber";
-import { ReactNode, Suspense, createRef, useEffect, useRef, useState } from "react";
+import { Canvas, ThreeEvent, Vector3, useThree } from "@react-three/fiber";
+import { ReactNode, Suspense, createRef, useEffect, useLayoutEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { Gizmo } from "../../components/gizmo/gizmo.component";
 import { ControlPanel } from "../../components/gui/controlpanel.component";
@@ -54,6 +54,10 @@ type ShapeProps = {
   orbit: any;
   shapeId: number;
   connection: (editorId: number, shapeName?: string, gltfId?: number, position?: Vector3, height?: number, width?: number, depth?: number, radius?: number, length?: number, color?: string) => THREE.Vector3;
+  handleBrushPointerMove: ({ uv }: ThreeEvent<PointerEvent>) => void;
+  setAllowControls: (boolean: boolean) => void;
+  canvasRef: any;
+  textureRef: any;
   file: Gltf;
 }
 
@@ -98,7 +102,7 @@ function handleShape(shape?: string): ReactNode {
   }
 }
 
-function Shape({ shape, position, orbit, shapeId, shapeHeight, shapeWidth, shapeDepth, shapeRadius, shapeLength, shapeColor, connection, file }: ShapeProps) {
+function Shape({ shape, position, orbit, shapeId, shapeHeight, shapeWidth, shapeDepth, shapeRadius, shapeLength, shapeColor, connection, file, handleBrushPointerMove, setAllowControls, canvasRef, textureRef }: ShapeProps) {
   const selectedShape = useSelector(selectEditorSingleShape);
   const transform = useRef<any>(null!);
   const [active, setActive] = useState(false);
@@ -144,7 +148,9 @@ function Shape({ shape, position, orbit, shapeId, shapeHeight, shapeWidth, shape
             (e.stopPropagation(), (state.current = shape!))
             setActive(!active)
           }}
-          // onPointerUp={()=> connection(shapeId, shape, file.gltfId, new THREE.Vector3())}
+          onPointerDown={() => setAllowControls(false)}
+          onPointerUp={() => setAllowControls(true)}
+          onPointerMove={handleBrushPointerMove}
           onPointerMissed={(e) => e.type === "click" && (state.current = null)}
           onContextMenu={(e) => snap.current === shape! && (e.stopPropagation(), (state.mode = (snap.mode + 1) % modes.length))}
           onPointerOver={(e) => (e.stopPropagation(), setHovered(true))}
@@ -152,7 +158,13 @@ function Shape({ shape, position, orbit, shapeId, shapeHeight, shapeWidth, shape
           dispose={null}
         >
           {handleShape(shape)}
-          <meshStandardMaterial color={color}/>
+          <meshStandardMaterial color={color}>
+            <canvasTexture
+              ref={textureRef}
+              attach="map"
+              image={canvasRef.current}
+            />
+          </meshStandardMaterial>
         </mesh>
       </TransformControls>
     </>
@@ -172,6 +184,9 @@ function Controller() {
 
 export default function Editor() {
   const [connection, setConnection] = useState<HubConnection>();
+  const [allowControls, setAllowControls] = useState(true);
+  const canvasRef = useRef(document.createElement("canvas"));
+  const textureRef = useRef<THREE.CanvasTexture>();
   const file = useSelector(selectSingleGltf);
   const sidemenu = useSelector(selectIsMaraudersOpen);
   const files = useSelector(selectAllGltfs);
@@ -186,6 +201,41 @@ export default function Editor() {
   const intensity = useSettings((s) => s.directionalLight.intensity.value);
   const directionalLightColor = new THREE.Color(directionalLightColors["color"]);
   const refs = useRef(Array.from({length: 10}, a => createRef()));
+
+  useLayoutEffect(() => {
+    const canvas = canvasRef.current;
+
+    canvas.width = 1024;
+    canvas.height = 1024;
+
+    const context = canvas.getContext("2d");
+    if (context) {
+      context.rect(0, 0, canvas.width, canvas.height);
+      context.fillStyle = "white";
+      context.fill();
+    }
+  }, []);
+
+
+  function handleBrushPointerMove({ uv }: ThreeEvent<PointerEvent>) {
+    if (allowControls) {
+      return;
+    }
+    if (uv) {
+      const canvas = canvasRef.current;
+      const x = uv.x * canvas.width;
+      const y = (1 - uv.y) * canvas.height;
+
+      const context = canvas.getContext("2d");
+      if (context) {
+        context.beginPath();
+        context.arc(x - 2, y - 2, 4, 0, 2 * Math.PI);
+        context.fillStyle = "black";
+        context.fill();
+        textureRef.current!.needsUpdate = true;
+      }
+    }
+  }
 
   function handlePositionUpdate(editorId: number, shapeName?: string, gltfId?: number, position?: Vector3, height?: number, width?: number, depth?: number, radius?: number, length?: number, color?: string): THREE.Vector3 {
     dispatch(editorUpdateStart(editorId, shapeName, gltfId, position, height, width, depth, radius, length, color))
@@ -253,13 +303,13 @@ export default function Editor() {
         {
           userShapes.length > 0 &&
           userShapes.map(({ shapeId, shapeName, positionX, positionY, positionZ, height, width, depth, radius, length, color }, index) => (
-            <Shape connection={handlePositionUpdate} key={shapeId} shapeId={shapeId} shape={shapeName} shapeHeight={height} shapeWidth={width} shapeDepth={depth} shapeRadius={radius} shapeLength={length} shapeColor={color} file={file!} orbit={refs.current[index].current} position={{x: positionX, y: positionY, z: positionZ}}/>
+            <Shape canvasRef={canvasRef} textureRef={textureRef} setAllowControls={setAllowControls} handleBrushPointerMove={handleBrushPointerMove} connection={handlePositionUpdate} key={shapeId} shapeId={shapeId} shape={shapeName} shapeHeight={height} shapeWidth={width} shapeDepth={depth} shapeRadius={radius} shapeLength={length} shapeColor={color} file={file!} orbit={refs.current[index].current} position={{x: positionX, y: positionY, z: positionZ}}/>
           ))
         }
         </group>
         </Suspense>
         <Gizmo/>
-        <Controller/>
+        { allowControls && <Controller/> }
       </Canvas>
     </div>
   );

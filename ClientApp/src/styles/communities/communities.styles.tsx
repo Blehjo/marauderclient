@@ -79,5 +79,29 @@ export const ChatForm = styled.div`
         height: 60vh;
         margin-bottom: 3.5rem;
     }
-    
+`;
+
+export const CommunityChatForm = styled.div`
+    padding: 1rem;
+    position: absolute;
+    top: 10rem;
+    left: 22.5%;
+    height: 75vh;
+    width: 55%;
+    border: solid 1px white;
+    border-radius: 1rem;
+    @media (max-width: 1100px) {
+        position: absolute;
+        width: 100%;
+        height: 50vh;
+        top: 50vh;
+        left: 0%;
+    }
+    @media (max-width: 686px) {
+        position: static;
+        margin-top: 1rem;
+        width: 100%;
+        height: 60vh;
+        margin-bottom: 3.5rem;
+    }
 `;

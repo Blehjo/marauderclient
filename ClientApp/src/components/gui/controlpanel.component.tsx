@@ -41,9 +41,6 @@ export function ControlPanel({ shapeId, shapeName, positionX, positionY, positio
 
   useEffect(() => {
     dispatch(editorFetchSingleStart(shapeId));
-    // dispatch(gltfFetchSingleStart);
-    console.log("FILE:::: ", gltfFile)
-    console.log(shape)
   }, [shapeId])
   useControls("Directional Light", () => {
     const res = {} as any;

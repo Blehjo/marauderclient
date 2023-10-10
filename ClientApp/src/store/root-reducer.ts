@@ -9,6 +9,8 @@ import { chatReducer } from './chat/chat.reducer';
 import { chatcommentReducer } from './chatcomment/chatcomment.reducer';
 import { commentReducer } from './comment/comment.reducer';
 import { communityReducer } from './community/community.reducer';
+import { communityCommentReducer } from './communitycomment/communitycomment.reducer';
+import { communityPostReducer } from './communitypost/communitypost.reducer';
 import { docFileReducer } from './docfile/docfile.reducer';
 import { favoriteReducer } from './favorite/favorite.reducer';
 import { followerReducer } from './follower/follower.reducer';
@@ -46,6 +48,8 @@ export const rootReducer = combineReducers({
   chat: chatReducer,
   chatcomment: chatcommentReducer,
   community: communityReducer,
+  communityComment: communityCommentReducer,
+  communityPost: communityPostReducer,
   comment: commentReducer,
   device: deviceReducer,
   docFile: docFileReducer,

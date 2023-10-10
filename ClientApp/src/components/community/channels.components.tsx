@@ -7,6 +7,7 @@ import { Channel } from "../../store/channel/channel.types";
 import { CrewMemberContainer } from "../../styles/communities/communities.styles";
 import { CardContainer, XContainer } from "../../styles/devices/devices.styles";
 import { AContainer, ModalPostContainer } from "../../styles/poststab/poststab.styles";
+import { SelectShape } from "../../styles/editor/editor.styles";
 
 interface ICommunityChannels {
     description: string;
@@ -98,25 +99,25 @@ export class CommunityChannels extends Component<any, ICommunityChannels> {
         const { channels, communities, user } = this.props;
         const { description, deleteModal, createModal } = this.state;
         return (
-            <CrewMemberContainer>
-                {user?.userId == communities.singleCommunity?.userId && <CardContainer key='cardcontainer' onClick={this.handleClick}>New Channel +</CardContainer>}
+            <CrewMemberContainer style={{ top: '10rem'}}>
+                {user?.userId == communities.singleCommunity?.userId && <SelectShape style={{ marginBottom: '1rem', textAlign: 'center', borderRadius: '.2rem', border: '1px solid white' }} key='cardcontainer' onClick={this.handleClick}>Add new channel</SelectShape>}
                 {
                     channels.channels?.map(({ channelId, description, dateCreated, communityId }: Channel, index: number) => (
-                        <Card key={channelId} onClick={() => this.getChannelComments(channelId!)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', backgroundColor: 'black', cursor: 'pointer', padding: '.5rem' }}>
+                        <SelectShape key={channelId} onClick={() => this.getChannelComments(channelId!)} style={{ verticalAlign: 'middle', justifyContent: 'center', borderRadius: '.3rem', border: 'solid 1px white', color: 'white', cursor: 'pointer', padding: '.5rem', position: 'relative' }}>
                             <Row key={index}>
                                 <Col key='col2'>
                                     {description}
                                 </Col>
                             </Row>
-                                {user?.userId == communities.singleCommunity?.userId && 
-                                    <XContainer style={{ position: 'absolute', top: '0.5rem', right: '0.5rem' }}>
-                                        <XCircle onClick={() => this.handleDelete(channelId!)} />
-                                    </XContainer>
-                                }
-                        </Card>
+                            {user?.userId == communities.singleCommunity?.userId && 
+                                <XContainer >
+                                    <XCircle style={{ position: 'absolute', top: '0.5rem', right: '0.5rem' }} onClick={() => this.handleDelete(channelId!)} />
+                                </XContainer>
+                            }
+                        </SelectShape>
                     ))
                 }
-                <Modal show={createModal} onHide={() => this.handleClick()}>
+                <Modal className="deviceModal" show={createModal} onHide={() => this.handleClick()}>
                     <Modal.Header closeButton>
                     <Modal.Title>Channel</Modal.Title>
                     </Modal.Header>
@@ -141,8 +142,8 @@ export class CommunityChannels extends Component<any, ICommunityChannels> {
                     </Modal.Footer>
                     </Form>
                 </Modal>
-                <Modal show={deleteModal} onHide={() => this.openDeleteModal()}>
-                    <Modal.Body style={{ textAlign: "center", color: "black" }}>
+                <Modal className="deviceModal" show={deleteModal} onHide={() => this.openDeleteModal()}>
+                    <Modal.Body style={{ textAlign: "center", color: "white" }}>
                         Are you sure you want to delete this channel?
                     </Modal.Body>
                     <Modal.Footer style={{ justifyContent: "center" }}>

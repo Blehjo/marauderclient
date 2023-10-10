@@ -157,11 +157,9 @@ class MessageBox extends Component<MessageBoxProps, IMessageBox> {
         }
         if (messageProps.opened == true) {
             messageProps.opened = false;
-            console.log("OPENED::: ", messageProps.opened)
             return messageProps.opened;
         }
         messageProps.opened = true;
-        console.log("OPENED::: ", messageProps.opened)
         return messageProps.opened;
     }
 

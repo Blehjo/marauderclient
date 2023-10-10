@@ -3,8 +3,8 @@ import { ChangeEvent, Component, FormEvent, ReactNode } from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import { Send } from "react-bootstrap-icons";
 import { ChannelComment } from "../../store/channelcomment/channelcomment.types";
-import { ChatForm } from "../../styles/communities/communities.styles";
-import { Container } from "../../styles/crew/crew.styles";
+import { CommunityChatForm } from "../../styles/communities/communities.styles";
+import { CommunityContainer } from "../../styles/crew/crew.styles";
 import { InputContainer, TextContainer, UserTextContainer } from "../../styles/messages/messages.styles";
 
 interface IFormChannel {
@@ -148,13 +148,13 @@ export class FormChannel extends Component<any, IFormChannel> {
     render() {
         const { commentValue, inputContainer } = this.state;
         return (
-            <ChatForm>
+            <CommunityChatForm>
                 <Form onSubmit={this.sendMessage}>
-                    <Container style={{ height: '75%', overflow: 'auto' }}>
+                    <CommunityContainer style={{ overflow: 'auto' }}>
                         {
                             this.handleChannelComments()
                         }
-                    </Container>
+                    </CommunityContainer>
                     <InputContainer>
                     {inputContainer && <Row xs={2}>
                         <Col xs={10}>
@@ -171,7 +171,7 @@ export class FormChannel extends Component<any, IFormChannel> {
                     </Row>}
                     </InputContainer>
                 </Form>
-            </ChatForm>
+            </CommunityChatForm>
         )
     }
 }

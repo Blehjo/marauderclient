@@ -8,6 +8,8 @@ import { chatSagas } from './chat/chat.saga';
 import { chatCommentSagas } from './chatcomment/chatcomment.saga';
 import { commentSagas } from './comment/comment.saga';
 import { communitySagas } from './community/community.saga';
+import { communityCommentSagas } from './communitycomment/communitycomment.saga';
+import { communityPostSagas } from './communitypost/communitypost.saga';
 import { deviceSagas } from './device/device.saga';
 import { docFileSagas } from './docfile/docfile.saga';
 import { favoriteSagas } from './favorite/favorite.saga';
@@ -41,6 +43,8 @@ export function* rootSaga() {
     call(chatCommentSagas), 
     call(commentSagas), 
     call(communitySagas), 
+    call(communityCommentSagas), 
+    call(communityPostSagas), 
     call(deviceSagas), 
     call(docFileSagas), 
     call(favoriteSagas), 
