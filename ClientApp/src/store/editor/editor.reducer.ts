@@ -1,12 +1,13 @@
 import { AnyAction } from 'redux';
 
-
 import {
     addShape,
     editorCreateStart,
     editorCreateSuccess,
     editorFetchAllStart,
     editorFetchAllSuccess,
+    editorFetchSingleShapesStart,
+    editorFetchSingleShapesSuccess,
     editorFetchSingleStart,
     editorFetchSingleSuccess,
     setBrick,
@@ -19,7 +20,7 @@ import { Editor } from './editor.types';
 
 export type EditorState = {
     readonly shape: string;
-    readonly singleShape: Array<Editor>;
+    readonly singleShape: Editor | null;
     readonly shapes: Array<Editor>;
     readonly grid: boolean;
     readonly color: string;
@@ -29,7 +30,7 @@ export type EditorState = {
 
 const INITIAL_STATE: EditorState = {
     shape: "box",
-    singleShape: [],
+    singleShape: null,
     shapes: [],
     grid: true,
     color: '#ff0000',
@@ -63,13 +64,15 @@ export const editorReducer = (
     if (
         editorCreateStart.match(action) ||
         editorFetchSingleStart.match(action) ||
+        editorFetchSingleShapesStart.match(action) ||
         editorFetchAllStart.match(action)
     ) {
         return { ...state, isLoading: true }
     }
     if (
         editorCreateSuccess.match(action) || 
-        editorFetchAllSuccess.match(action)
+        editorFetchAllSuccess.match(action) ||
+        editorFetchSingleShapesSuccess.match(action)
     )   {
         return { ...state, isLoading: false, shapes: action.payload}
     }

@@ -8,7 +8,7 @@ import { ControlPanel } from "../../components/gui/controlpanel.component";
 import { useDispatch, useSelector } from "react-redux";
 import { Selectors } from "../../components/editor/selector.component";
 import { useSettings } from "../../components/gui/settings.component";
-import { editorCreateStart, editorDeleteStart, editorFetchAllStart, editorFetchSingleStart, editorUpdateStart, setShape } from "../../store/editor/editor.action";
+import { editorCreateStart, editorDeleteStart, editorFetchAllStart, editorFetchSingleShapesStart, editorFetchSingleStart, editorUpdateStart, setShape } from "../../store/editor/editor.action";
 import { selectEditorShape, selectEditorShapes, selectEditorSingleShape } from "../../store/editor/editor.selector";
 import { selectAllGltfs, selectSingleGltf, selectUserGltfs } from "../../store/gltf/gltf.selector";
 import { gltfCreateStart, gltfFetchSingleStart, gltfFetchUserStart } from "../../store/gltf/gltf.action";
@@ -99,6 +99,7 @@ function handleShape(shape?: string): ReactNode {
 }
 
 function Shape({ shape, position, orbit, shapeId, shapeHeight, shapeWidth, shapeDepth, shapeRadius, shapeLength, shapeColor, connection, file }: ShapeProps) {
+  const selectedShape = useSelector(selectEditorSingleShape);
   const transform = useRef<any>(null!);
   const [active, setActive] = useState(false);
   const snap = useSnapshot(state);
@@ -109,8 +110,11 @@ function Shape({ shape, position, orbit, shapeId, shapeHeight, shapeWidth, shape
   const color = new THREE.Color(colors["Color"].color);
   const hsl = color.getHSL({ h: 0, s: 1, l: 1 });
   const height = useSettings((s) => s.generation.height);
+  const updatedHeight = height != undefined && height > 0 ? height : 10;
   const width = useSettings((s) => s.generation.width);
+  const updatedWidth = width != undefined && width > 0 ? width : 10;
   const depth = useSettings((s) => s.generation.depth);
+  const updatedDepth = depth != undefined && depth > 0 ? depth : 10;
   const generationPositionX = useSettings((s) => s.generation.positionX);
   const generationPositionY = useSettings((s) => s.generation.positionY);
   const generationPositionZ = useSettings((s) => s.generation.positionZ);
@@ -127,16 +131,15 @@ function Shape({ shape, position, orbit, shapeId, shapeHeight, shapeWidth, shape
         <ControlPanel shapeId={shapeId} shapeName={shape!} positionX={position?.x!}  positionY={position?.y!}  positionZ={position?.z!} height={shapeHeight} width={shapeWidth} depth={shapeDepth} radius={shapeRadius} length={shapeLength} color={shapeColor}/>
       }
       <TransformControls
-        showX={active ? true : false}
-        showY={active ? true : false}
-        showZ={active ? true : false}
+        showX={active && selectedShape?.shapeId == shapeId ? true : false}
+        showY={active && selectedShape?.shapeId == shapeId ? true : false}
+        showZ={active && selectedShape?.shapeId == shapeId ? true : false}
         ref={transform}
-        position={[generationPositionX!, generationPositionY!, generationPositionZ!]}
+        position={active && selectedShape?.shapeId == shapeId ? [generationPositionX!, generationPositionY!, generationPositionZ!] : [position?.x!, position?.y!, position?.z!]}
+        scale={[updatedHeight, updatedWidth, updatedDepth]}
         mode={modes[snap.mode]}
-        >
+      >
         <mesh 
-          // position={[generationPositionX!, generationPositionY!, generationPositionZ!]}
-        // scale={[height > 0 ? height : 10, width != 0 ? width : 10, depth != 0 ? depth : 10]}
           onClick={(e) => {
             (e.stopPropagation(), (state.current = shape!))
             setActive(!active)
@@ -174,7 +177,7 @@ export default function Editor() {
   const files = useSelector(selectAllGltfs);
   const shape = useSelector(selectEditorShape);
   const shapes = useSelector(selectEditorShapes);
-  const userShapes = useSelector(selectEditorSingleShape);
+  const userShapes = useSelector(selectEditorShapes);
   const dispatch = useDispatch();
   const position = useSettings((s) => s.directionalLight.position.x);
   const positionArray = new THREE.Vector3(position);
@@ -214,8 +217,8 @@ export default function Editor() {
     dispatch(editorDeleteStart(shapeId));
   }
 
-  function fetchShapes(fileId: number): void {
-    dispatch(editorFetchSingleStart(fileId));
+  function fetchShapes(gltfId: number): void {
+    dispatch(editorFetchSingleShapesStart(gltfId));
   }
 
   function fetchSingleFile(gltfId: number): void {

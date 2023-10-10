@@ -455,12 +455,12 @@ class Crew extends Component<CrewProps, ICrew> {
                 </ChatForm>
                 </Col>
                 </Row>
-                <Modal show={show} onHide={this.handleClick}>
-                    <Modal.Header closeButton>Add a crew member</Modal.Header>
+                <Modal className="deviceModal" show={show} onHide={this.handleClick}>
+                    <Modal.Header>Add a crew member</Modal.Header>
                     <Modal.Body>
                     <Form onSubmit={this.handleSubmit}>
                         <FormContainer>
-                            <ButtonContainer className="btn btn-outline-dark" type="submit">
+                            <ButtonContainer className="btn btn-outline-light" type="submit">
                                 <Plus style={{ cursor: 'pointer' }} size={15}/>
                             </ButtonContainer>
                         </FormContainer>

@@ -11,6 +11,9 @@ export enum EDITOR_ACTION_TYPES  {
     FETCH_SINGLE_START = 'editor/FETCH_SINGLE_START',
     FETCH_SINGLE_SUCCESS = 'editor/FETCH_SINGLE_SUCCESS',
     FETCH_SINGLE_FAILED = 'editor/FETCH_SINGLE_FAILED',
+    FETCH_SINGLE_SHAPES_START = 'editor/FETCH_SINGLE_SHAPES_START',
+    FETCH_SINGLE_SHAPES_SUCCESS = 'editor/FETCH_SINGLE_SHAPES_SUCCESS',
+    FETCH_SINGLE_SHAPES_FAILED = 'editor/FETCH_SINGLE_SHAPES_FAILED',
     FETCH_USER_EDITOR_START = 'editor/FETCH_USER_EDITOR_START',
     FETCH_USER_EDITOR_SUCCESS = 'editor/FETCH_USER_EDITOR_SUCCESS',
     FETCH_USER_EDITOR_FAILED = 'editor/FETCH_USER_EDITOR_FAILED',
@@ -39,7 +42,7 @@ export type Editor = {
     radius?: number;
     length?: number;
     color: string;
-    colorValue: string;
+    colorValue: number;
     grid: boolean;
     isLoading: boolean;
 }

@@ -9,10 +9,21 @@ const headers = {
   'Content-Type': 'application/json' 
 }
 
-export async function getSingleShape(gltfId: number): Promise<Editor[]> {
+export async function getSingleShapes(gltfId: number): Promise<Editor[]> {
   const response = await axios({
     method: 'get',
     url: `${api}/${gltfId}`,
+    headers: headers,
+    withCredentials: true
+  });
+  const result = await response.data;
+  return result;
+}
+
+export async function getSingleShape(shapeId: number): Promise<Editor> {
+  const response = await axios({
+    method: 'get',
+    url: `${api}/shape/${shapeId}`,
     headers: headers,
     withCredentials: true
   });

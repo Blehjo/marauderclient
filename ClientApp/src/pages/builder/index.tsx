@@ -1,6 +1,6 @@
 import { ChangeEvent, Component, Dispatch, FormEvent, ReactNode } from "react";
 import { Badge, Card, Col, Form, Modal } from "react-bootstrap";
-import { ArrowsFullscreen, Chat, Rocket, Send, XCircle } from "react-bootstrap-icons";
+import { ArrowsFullscreen, Chat, Plus, Rocket, Send, XCircle } from "react-bootstrap-icons";
 import { ConnectedProps, connect } from "react-redux";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
@@ -17,7 +17,7 @@ import { Plane } from "@react-three/drei";
 import FlexDisplay from "../../components/builder/flex.component";
 import { EditorState } from "../../store/editor/editor.reducer";
 import { GltfState } from "../../store/gltf/gltf.reducer";
-import { XContainer } from "../../styles/devices/devices.styles";
+import { ButtonContainer, FormContainer, XContainer } from "../../styles/devices/devices.styles";
 import { SetIsBuilderOpen, SetIsEditorOpen, SetIsMaraudersOpen, setIsBuilderOpen, setIsEditorOpen, setIsMaraudersOpen } from "../../store/messagebox/messagebox.action";
 
 interface IBuilder {
@@ -100,19 +100,19 @@ class Vitals extends Component<BuilderProps, IBuilder> {
     handleNewFile(): ReactNode {
         const { showNewFileDialogue } = this.state;
         return (
-            <Modal show={showNewFileDialogue} onHide={this.handleFileClick}>
-                <Modal.Header closeButton>New GLTF File</Modal.Header>
+            <Modal className="deviceModal" show={showNewFileDialogue} onHide={this.handleFileClick}>
+                <Modal.Header>New GLTF File</Modal.Header>
                 <Form onSubmit={this.submitGltfFile}>
                     <Modal.Body>
+                        <FormContainer>
+                            <ButtonContainer className="btn btn-outline-light" type="submit">
+                                <Plus style={{ cursor: 'pointer' }} size={15}/>
+                            </ButtonContainer>
+                        </FormContainer>
                         <Form.Group className="mb-3" controlId="formMedia">
                             <Form.Control style={{ height: '.5rem' }} name="fileInformation" as="textarea" onChange={this.handleChange} placeholder=" Write your gltf project title here" />
                         </Form.Group>
                     </Modal.Body>
-                    <Modal.Footer>
-                    <button  style={{ textAlign: 'center', width: '100%', height: 'auto'}} className="btn btn-light" type="submit">
-                        <Send/>
-                    </button>
-                    </Modal.Footer>
                 </Form>
             </Modal>
         )
@@ -125,20 +125,20 @@ class Vitals extends Component<BuilderProps, IBuilder> {
     handleTeamClick(): ReactNode {
         const { showNewTeam } = this.state;
         return (
-            <Modal show={showNewTeam} onHide={this.handleNewTeamClick}>
-                <Modal.Header closeButton>Create Community</Modal.Header>
+            <Modal className="deviceModal" show={showNewTeam} onHide={this.handleNewTeamClick}>
+                <Modal.Header>Create Community</Modal.Header>
                 <Modal.Body>
+                        <FormContainer>
+                            <ButtonContainer className="btn btn-outline-light" type="submit">
+                                <Plus style={{ cursor: 'pointer' }} size={15}/>
+                            </ButtonContainer>
+                        </FormContainer>
                     <Form>
                         <Form.Group className="mb-3" controlId="formMedia">
                             <Form.Control style={{ height: '.5rem' }} name="fileInformation" as="textarea" onChange={this.handleChange} placeholder=" Write your gltf project title here" />
                         </Form.Group>
                     </Form>
                 </Modal.Body>
-                <Modal.Footer>
-                <button  style={{ textAlign: 'center', width: '100%', height: 'auto'}} className="btn btn-light" type="submit">
-                    <Send/>
-                </button>
-                </Modal.Footer>
             </Modal>
         )
     }
@@ -146,20 +146,20 @@ class Vitals extends Component<BuilderProps, IBuilder> {
     handleViewCommunities(): ReactNode {
         const { showShapes } = this.state;
         return (
-            <Modal show={showShapes} onHide={this.handleViewShapes}>
-                <Modal.Header closeButton>View Communities</Modal.Header>
+            <Modal className="deviceModal" show={showShapes} onHide={this.handleViewShapes}>
+                <Modal.Header >View Communities</Modal.Header>
                 <Modal.Body>
+                    <FormContainer>
+                        <ButtonContainer className="btn btn-outline-light" type="submit">
+                            <Plus style={{ cursor: 'pointer' }} size={15}/>
+                        </ButtonContainer>
+                    </FormContainer>
                     <Form>
                         <Form.Group className="mb-3" controlId="formMedia">
                             <Form.Control style={{ height: '.5rem' }} name="fileInformation" as="textarea" onChange={this.handleChange} placeholder=" Write your gltf project title here" />
                         </Form.Group>
                     </Form>
                 </Modal.Body>
-                <Modal.Footer>
-                <button  style={{ textAlign: 'center', width: '100%', height: 'auto'}} className="btn btn-light" type="submit">
-                    <Send/>
-                </button>
-                </Modal.Footer>
             </Modal>
         )
     }

@@ -12,6 +12,8 @@ import {
     editorFetchAllFailed,
     editorFetchAllSuccess,
     editorFetchSingleFailed,
+    EditorFetchSingleShapesStart,
+    editorFetchSingleShapesSuccess,
     EditorFetchSingleStart,
     editorFetchSingleSuccess,
     editorFetchUsersFailed,
@@ -26,6 +28,7 @@ import {
     editShape,
     getAllShapes,
     getSingleShape,
+    getSingleShapes,
     getUsersShapes
 } from '../../utils/api/shape.api';
 
@@ -96,12 +99,25 @@ export function* fetchUserShapes() {
 
 
 
-export function* fetchSingleShape({ 
-    payload: { gltfId } }: EditorFetchSingleStart) {
+export function* fetchSingleShapes({ 
+    payload: { gltfId } }: EditorFetchSingleShapesStart) {
+    try {
+        const editorSnapshot = yield* call(
+            getSingleShapes,
+            gltfId 
+        );
+        yield* put(editorFetchSingleShapesSuccess(editorSnapshot));
+    } catch (error) {
+        yield* put(editorFetchSingleFailed(error as Error));
+    }
+}
+
+export function* fetchSingle({ 
+    payload: { shapeId } }: EditorFetchSingleStart) {
     try {
         const editorSnapshot = yield* call(
             getSingleShape,
-            gltfId 
+            shapeId 
         );
         yield* put(editorFetchSingleSuccess(editorSnapshot));
     } catch (error) {
@@ -146,10 +162,17 @@ export function* onFetchUserShapesStart() {
     );
 }
 
-export function* onFetchSingleShapeStart() {
+export function* onFetchSingleShapesStart() {
+    yield* takeLatest(
+        EDITOR_ACTION_TYPES.FETCH_SINGLE_SHAPES_START, 
+        fetchSingleShapes
+    );
+}
+
+export function* onFetchSingleStart() {
     yield* takeLatest(
         EDITOR_ACTION_TYPES.FETCH_SINGLE_START, 
-        fetchSingleShape
+        fetchSingle
     );
 }
   
@@ -166,7 +189,8 @@ export function* shapeSagas() {
         call(onUpdateStart),
         call(onDeleteStart),
         call(onFetchUserShapesStart),
-        call(onFetchSingleShapeStart),
+        call(onFetchSingleStart),
+        call(onFetchSingleShapesStart),
         call(onFetchAllShapesStart)
     ]);
 }

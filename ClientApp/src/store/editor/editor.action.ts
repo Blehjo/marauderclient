@@ -50,13 +50,26 @@ export type EditorDeleteteFailed = ActionWithPayload<
     Error
 >;
    
+export type EditorFetchSingleShapesStart = ActionWithPayload<
+    EDITOR_ACTION_TYPES.FETCH_SINGLE_SHAPES_START, { gltfId: number }
+>;
+  
+export type EditorFetchSingleShapesSuccess = ActionWithPayload<
+    EDITOR_ACTION_TYPES.FETCH_SINGLE_SHAPES_SUCCESS, 
+    Editor[]
+>;
+
+export type EditorFetchSingleShapesFailed = ActionWithPayload<
+    EDITOR_ACTION_TYPES.FETCH_SINGLE_SHAPES_FAILED,
+    Error
+>; 
 export type EditorFetchSingleStart = ActionWithPayload<
-    EDITOR_ACTION_TYPES.FETCH_SINGLE_START, { gltfId: number }
+    EDITOR_ACTION_TYPES.FETCH_SINGLE_START, { shapeId: number }
 >;
 
 export type EditorFetchSingleSuccess = ActionWithPayload<
     EDITOR_ACTION_TYPES.FETCH_SINGLE_SUCCESS, 
-    Editor[]
+    Editor
 >;
 
 export type EditorFetchSingleFailed = ActionWithPayload<
@@ -171,13 +184,27 @@ export const editorDeleteFailed = withMatcher(
     createAction(EDITOR_ACTION_TYPES.DELETE_START, error)
 );
 
+export const editorFetchSingleShapesStart = withMatcher(
+    (gltfId: number): EditorFetchSingleShapesStart => 
+    createAction(EDITOR_ACTION_TYPES.FETCH_SINGLE_SHAPES_START, { gltfId })
+);
+
+export const editorFetchSingleShapesSuccess = withMatcher(
+    (editor: Editor[]): EditorFetchSingleShapesSuccess => 
+    createAction(EDITOR_ACTION_TYPES.FETCH_SINGLE_SHAPES_SUCCESS, editor)
+);
+
+export const editorFetchSingleShapesFailed = withMatcher(
+    (error: Error): EditorFetchSingleShapesFailed => 
+    createAction(EDITOR_ACTION_TYPES.FETCH_SINGLE_SHAPES_FAILED, error)
+);
 export const editorFetchSingleStart = withMatcher(
-    (gltfId: number): EditorFetchSingleStart => 
-    createAction(EDITOR_ACTION_TYPES.FETCH_SINGLE_START, { gltfId })
+    (shapeId: number): EditorFetchSingleStart => 
+    createAction(EDITOR_ACTION_TYPES.FETCH_SINGLE_START, { shapeId })
 );
 
 export const editorFetchSingleSuccess = withMatcher(
-    (editor: Editor[]): EditorFetchSingleSuccess => 
+    (editor: Editor): EditorFetchSingleSuccess => 
     createAction(EDITOR_ACTION_TYPES.FETCH_SINGLE_SUCCESS, editor)
 );
 
