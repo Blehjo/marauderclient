@@ -277,6 +277,7 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
             </Col>
         }
         <Modal 
+            className="deviceModal"
             size="lg"
             show={show} 
             onHide={() => this.handleClose()}
@@ -371,7 +372,7 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
             </Modal.Footer>
             </ModalContainer>
         </Modal>
-        <Modal show={showCreate} onHide={() => this.handleCloseCreate()}>
+        <Modal className="deviceModal" show={showCreate} onHide={() => this.handleCloseCreate()}>
             <ModalPostContainer>
             <Modal.Header closeButton>
             <Modal.Title>Data Log</Modal.Title>

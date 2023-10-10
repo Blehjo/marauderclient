@@ -1,8 +1,8 @@
-import { Dispatch, ReactNode, useState } from "react";
+import { ChangeEvent, Dispatch, FormEvent, ReactNode, useState } from "react";
 import { ConnectedProps, connect, useDispatch, useSelector } from "react-redux";
 
 import { useRouter } from "next/router";
-import { Badge, Card, Col, Modal, Row, Tab, Tabs } from "react-bootstrap";
+import { Badge, Card, Col, Form, Modal, Row, Tab, Tabs } from "react-bootstrap";
 import { CommunityChannels } from "../../components/community/channels.components";
 import { FormChannel } from "../../components/community/form.component";
 import { MembersChannel } from "../../components/community/members.component";
@@ -18,20 +18,37 @@ import { RootState } from "../../store/store";
 import { CrewContainer } from "../../styles/crew/crew.styles";
 import { CommunityPost } from "../../store/communitypost/communitypost.types";
 import { BadgeContainer, ResponsiveMemoryContainer } from "../../styles/responsivememory/responsivememory.styles";
-import { ArrowsFullscreen, Chat, Rocket } from "react-bootstrap-icons";
-import { AContainer } from "../../styles/poststab/poststab.styles";
+import { ArrowsFullscreen, Chat, Plus, Rocket } from "react-bootstrap-icons";
+import { AContainer, ModalPostContainer } from "../../styles/poststab/poststab.styles";
 import { favoriteCreateStart } from "../../store/favorite/favorite.action";
-import { communityPostFetchSingleStart } from "../../store/communitypost/communitypost.action";
+import { communityPostCreateStart, communityPostFetchSingleStart } from "../../store/communitypost/communitypost.action";
 import { communityCommentFetchSingleStart } from "../../store/communitycomment/communitycomment.action";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import ModalContent from "../../components/modal/modal.component";
 import { selectAllPosts, selectSinglePost } from "../../store/communitypost/communitypost.selector";
+import { ButtonContainer } from "../../styles/devices/devices.styles";
+import { SelectShape } from "../../styles/editor/editor.styles";
 
 export type SingleCommunityProps = ConnectedProps<typeof connector>;
 
+type DefaultForm = {
+    postValue: string;
+    mediaLink: string;
+    imageSource: string | ArrayBuffer | null | undefined;
+    imageFile: any;
+}
+
+const defaultFormFields: DefaultForm = {
+    postValue: "",
+    mediaLink: "",
+    imageSource: "",
+    imageFile: null,
+}
 
 function SingleCommunity(props: SingleCommunityProps) {
     const [show, setShow] = useState<boolean>(false);
+    const [showModal, setShowModal] = useState<boolean>(false);
+    const [formFields, setFormFields] = useState<DefaultForm>(defaultFormFields);
     const router = useRouter();
     const { id } = router.query;
     const dispatch = useDispatch();
@@ -48,9 +65,17 @@ function SingleCommunity(props: SingleCommunityProps) {
         dispatch(communityCommentFetchSingleStart(id));
         setShow(!show);
     }
+
+    function openModal(): void {
+        setShowModal(!showModal);
+    }
     
     function handleClose() {
-        setShow(false);
+        setShow(!show);
+    }
+    
+    function handleModalClose() {
+        setShowModal(false);
     }
 
     function postFunction(prop: CommunityPost) {
@@ -111,8 +136,48 @@ function SingleCommunity(props: SingleCommunityProps) {
             )
         }
 
-        console.log("CONTENT::: ", content)
         return content;
+    }
+
+    function handleSubmit(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        const { postValue, mediaLink, imageFile } = formFields;
+        try {
+            dispatch(communityPostCreateStart(postValue, mediaLink, imageFile));
+        } catch (error) {
+            if (error) {
+                alert('Try again, please');
+            } 
+        }
+        handleModalClose();
+    }
+
+    function handleChange(event: ChangeEvent<HTMLInputElement>): void {
+        const { name, value } = event.target;
+        setFormFields({ ...formFields, [name]: value });
+    }
+
+    function showPreview(event: ChangeEvent<HTMLInputElement>) {
+        if (event.target.files && event.target.files[0]) {
+          const { files } = event.target;
+          const selectedFiles = files as FileList;
+          let imageFile = selectedFiles[0];
+          const reader = new FileReader();
+          reader.onload = x => {
+            setFormFields({
+              ...formFields,
+              imageFile,
+              imageSource: x.target?.result
+            });
+          }
+          reader.readAsDataURL(imageFile);
+        } else {
+            setFormFields({
+                ...formFields,
+                imageFile: null,
+                imageSource: null
+            });
+        }
     }
 
     return (
@@ -126,13 +191,16 @@ function SingleCommunity(props: SingleCommunityProps) {
             style={{ zIndex: '100', position: 'absolute', top: '4rem', right: '0%' }}
         >
             <Tab eventKey="messages" title="Messages">
-                <CrewContainer style={{  }}>
+                <CrewContainer>
                 <CommunityChannels communityId={id} {...props} />
                 <MembersChannel communityId={id} {...props} />
                 <FormChannel communityId={id} {...props} />
                 </CrewContainer>
             </Tab>
             <Tab eventKey="posts" title="Posts">
+            <SelectShape onClick={openModal} style={{ zIndex: '100', position: 'fixed', width: '', right: '2%', top: '10rem', cursor: 'pointer' }} className="btn btn-outline-light">
+                <Plus size={25}/>
+            </SelectShape>
             <ResponsiveMemoryContainer style={{ position: 'fixed', top: '5rem', width: '100%'}}>
                 <ResponsiveMasonry columnsCountBreakPoints={{ 350: 2, 750: 3, 900: 3, 1050: 4 }}>
                     <Masonry>
@@ -141,24 +209,64 @@ function SingleCommunity(props: SingleCommunityProps) {
                 </ResponsiveMasonry>
             </ResponsiveMemoryContainer>
             <Modal
-                    size="lg"
-                    show={show} 
-                    onHide={() => handleClose}
-                    variant={'dark'}
-                    className="deviceModal"
-                >
-                    <ModalContent show={show} handleClose={handleClose} { ...props }/>
-                    <Modal.Footer style={{ background: 'black', border: 'white solid 1px' }} >
-                    <button className="btn btn-dark" onClick={() => handleClose()}>
-                        Close
-                    </button>
-                    <button className="btn btn-dark" >
-                        <a style={{ textDecoration: 'none', color: 'white', cursor: 'pointer' }} href={`/communitypost/${post?.communityPostId!}`}>
-                        {`See post`}
-                        </a>
-                    </button>
-                    </Modal.Footer>
-                </Modal>
+                size="lg"
+                show={show} 
+                onHide={() => handleClose}
+                variant={'dark'}
+                className="deviceModal"
+            >
+                <ModalContent show={show} handleClose={handleClose} { ...props }/>
+                <Modal.Footer style={{ background: 'black', border: 'white solid 1px' }} >
+                <button className="btn btn-dark" onClick={() => handleClose()}>
+                    Close
+                </button>
+                <button className="btn btn-dark" >
+                    <a style={{ textDecoration: 'none', color: 'white', cursor: 'pointer' }} href={`/communitypost/${post?.communityPostId!}`}>
+                    {`See post`}
+                    </a>
+                </button>
+                </Modal.Footer>
+            </Modal>
+            <Modal className="deviceModal" show={showModal} onHide={() => handleModalClose()}>
+                <ModalPostContainer>
+                <Modal.Header closeButton>
+                <Modal.Title>Data Log</Modal.Title>
+                </Modal.Header>
+                <Form autoComplete="off" onSubmit={handleSubmit}>
+                <Modal.Body>
+                    <Form.Group className="mb-3" controlId="formPostValue">
+                    <Form.Control
+                        onChange={handleChange}
+                        name="postValue"
+                        value={formFields.postValue}
+                        type="postValue"
+                        as="input"
+                        placeholder="Post"
+                        autoFocus
+                        />
+                    </Form.Group>
+                    <Form.Group
+                    className="mb-3"
+                    controlId="formFile"
+                    >
+                    <Form.Control 
+                        as="input"
+                        name="mediaLink"
+                        onChange={showPreview}
+                        accept="image/*"
+                        type="file" 
+                        placeholder="Media"
+                    />
+                    </Form.Group>
+                </Modal.Body>
+                <Modal.Footer>
+                <button type="submit" className="btn btn-light">
+                    Log
+                </button>
+                </Modal.Footer>
+                </Form>
+                </ModalPostContainer>
+            </Modal>
             </Tab>
         </Tabs>
         <Card.Img style={{ position: 'absolute', top: '4.5rem', borderRadius: '.2rem', width: '100%', height: '5rem', objectFit: 'cover'}} src={ community?.mediaLink ? community.imageSource : "https://www.artlog.net/sites/default/files/styles/al_colorbox_rules/public/turrell_cregis_golay_federal_studio.jpg?itok=2M4Pyn0A"}/>

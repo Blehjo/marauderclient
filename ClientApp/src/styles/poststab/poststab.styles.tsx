@@ -68,7 +68,7 @@ export const FormContainer = styled.div`
 `;
 
 export const ModalPostContainer = styled.div`
-    background: rgb(20, 20, 35);
+  background: #212529;
 `;
 
 export const BadgeContainer = styled.div`
