@@ -28,6 +28,7 @@ import ModalContent from "../../components/modal/modal.component";
 import { selectAllPosts, selectSinglePost } from "../../store/communitypost/communitypost.selector";
 import { ButtonContainer } from "../../styles/devices/devices.styles";
 import { SelectShape } from "../../styles/editor/editor.styles";
+import { ExploreFontContainer, ImageOverlayContainer } from "../../styles/explore/explore.styles";
 
 export type SingleCommunityProps = ConnectedProps<typeof connector>;
 
@@ -271,9 +272,13 @@ function SingleCommunity(props: SingleCommunityProps) {
         </Tabs>
         <Card.Img style={{ position: 'absolute', top: '4.5rem', borderRadius: '.2rem', width: '100%', height: '5rem', objectFit: 'cover'}} src={ community?.mediaLink ? community.imageSource : "https://www.artlog.net/sites/default/files/styles/al_colorbox_rules/public/turrell_cregis_golay_federal_studio.jpg?itok=2M4Pyn0A"}/>
         <Card.ImgOverlay>
-        <div style={{ position: "absolute", top: '7rem', left: '50%', transform: 'translate(-50%, -50%)', color: 'white', alignItems: 'center', fontSize: '200%'}}>
+        {/* <div style={{ position: "absolute", top: '7rem', left: '50%', transform: 'translate(-50%, -50%)', color: 'white', alignItems: 'center', fontSize: '200%'}}> */}
+        <ImageOverlayContainer style={{ height: '5rem', position: "absolute", top: '7rem', left: '50%', transform: 'translate(-50%, -50%)', color: 'white', alignItems: 'center', fontSize: '200%', borderRadius: '0rem' }}>
+            <ExploreFontContainer style={{ fontSize: '200%', borderRadius: '.2rem' }}>
             {community?.communityName ? community?.communityName : 'Marauders'}
-        </div>
+            </ExploreFontContainer>
+        </ImageOverlayContainer>
+        {/* </div> */}
         </Card.ImgOverlay>
         </Card>
         </>
