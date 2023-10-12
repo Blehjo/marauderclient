@@ -136,7 +136,7 @@ export class CommunityChannels extends Component<any, ICommunityChannels> {
                         </Form.Group>
                     </Modal.Body>
                     <Modal.Footer>
-                    <button type="submit" className="btn btn-primary">
+                    <button type="submit" className="btn btn-light">
                         Log
                     </button>
                     </Modal.Footer>

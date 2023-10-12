@@ -405,7 +405,7 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
                 </Form.Group>
             </Modal.Body>
             <Modal.Footer>
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn btn-light">
                 Log
             </button>
             </Modal.Footer>
@@ -420,7 +420,7 @@ export class PostsTab extends Component<ProfileProps, IDefaultFormFields> {
             <button className="btn btn-secondary" onClick={() => this.handleCloseDelete()}>
                 Cancel
             </button>
-            <button onClick={() => this.handleDelete()} className="btn btn-primary">
+            <button onClick={() => this.handleDelete()} className="btn btn-light">
                 Delete
             </button>
             </Modal.Footer>

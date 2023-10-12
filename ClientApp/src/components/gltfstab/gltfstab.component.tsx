@@ -370,7 +370,7 @@ export class GltfsTab extends Component<ProfileProps, IDefaultFormFields> {
                 </Form.Group>
             </Modal.Body>
             <Modal.Footer>
-            <button type="submit" className="btn btn-primary">
+            <button type="submit" className="btn btn-light">
                 Log
             </button>
             </Modal.Footer>
