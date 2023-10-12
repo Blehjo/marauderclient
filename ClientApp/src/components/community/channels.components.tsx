@@ -4,7 +4,7 @@ import { XCircle } from "react-bootstrap-icons";
 import { Textfit } from "react-textfit";
 
 import { Channel } from "../../store/channel/channel.types";
-import { CrewMemberContainer } from "../../styles/communities/communities.styles";
+import { ChannelsCommunityContainer, CrewMemberContainer } from "../../styles/communities/communities.styles";
 import { CardContainer, XContainer } from "../../styles/devices/devices.styles";
 import { AContainer, ModalPostContainer } from "../../styles/poststab/poststab.styles";
 import { SelectShape } from "../../styles/editor/editor.styles";
@@ -99,7 +99,7 @@ export class CommunityChannels extends Component<any, ICommunityChannels> {
         const { channels, communities, user } = this.props;
         const { description, deleteModal, createModal } = this.state;
         return (
-            <CrewMemberContainer style={{ top: '10rem'}}>
+            <ChannelsCommunityContainer>
                 {user?.userId == communities.singleCommunity?.userId && <SelectShape style={{ marginBottom: '1rem', textAlign: 'center', borderRadius: '.2rem', border: '1px solid white' }} key='cardcontainer' onClick={this.handleClick}>Add new channel</SelectShape>}
                 {
                     channels.channels?.map(({ channelId, description, dateCreated, communityId }: Channel, index: number) => (
@@ -155,7 +155,7 @@ export class CommunityChannels extends Component<any, ICommunityChannels> {
                     </button>
                     </Modal.Footer>
                 </Modal>
-            </CrewMemberContainer>
+            </ChannelsCommunityContainer>
         )
     }
 }

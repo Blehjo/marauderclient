@@ -2,7 +2,7 @@ import { Component } from "react";
 import { Card, Col, Image, Modal, Row } from "react-bootstrap";
 import { XCircle } from "react-bootstrap-icons";
 import { Member } from "../../store/member/member.types";
-import { ChatsContainer } from "../../styles/communities/communities.styles";
+import { ChatsCommunityContainer, ChatsContainer } from "../../styles/communities/communities.styles";
 import { XContainer } from "../../styles/devices/devices.styles";
 import { AContainer, CardContainer } from "../../styles/poststab/poststab.styles";
 import { UserProfileCard } from "../profilecard/userprofilecard.component";
@@ -67,7 +67,7 @@ export class MembersChannel extends Component<any, IMembersChannel> {
         const { members, main, communities } = this.props;
         const { showMarauder, showDelete } = this.state;
         return (
-            <ChatsContainer style={{ top: '10rem' }}>
+            <ChatsCommunityContainer>
                 <CardContainer>Members</CardContainer>
                 {
                     members.members?.map(({ memberId, dateCreated, user }: Member, index: number) => (
@@ -101,7 +101,7 @@ export class MembersChannel extends Component<any, IMembersChannel> {
                     </button>
                     </Modal.Footer>
                 </Modal>
-            </ChatsContainer>
+            </ChatsCommunityContainer>
         );
     }
 }

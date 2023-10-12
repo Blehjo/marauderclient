@@ -1,8 +1,18 @@
 import { styled } from "styled-components";
 
 export const CrewContainer = styled.div`
-    // padding-top: 5rem;
     position: relative;
+`;
+
+export const CommunityChannelsContainer = styled.div`
+    position: relative;
+    @media (max-width: 686px) {
+        display: flex;
+        flex-direction: column;
+        position: fixed; 
+        top: 5rem; 
+        width: 100%;
+    }
 `;
 
 export const PenContainer = styled.div`
@@ -37,6 +47,7 @@ export const CrewMemberContainer = styled.div`
         left: 0%;
     }
     @media (max-width: 686px) {
+        margin-top: 5rem;
         position: static;
         width: 100%;
         height: 25vh;

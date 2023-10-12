@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, FormEvent, ReactNode, useState } from "react";
+import { ChangeEvent, Dispatch, FormEvent, ReactNode, useEffect, useState } from "react";
 import { ConnectedProps, connect, useDispatch, useSelector } from "react-redux";
 
 import { useRouter } from "next/router";
@@ -15,13 +15,13 @@ import { MarauderFetchSingleStart, marauderFetchSingleStart } from "../../store/
 import { MemberDeleteStart, MemberFetchSingleStart, memberDeleteStart, memberFetchSingleStart } from "../../store/member/member.action";
 import { PostFetchUserPostsStart, postFetchUserPostsStart } from "../../store/post/post.action";
 import { RootState } from "../../store/store";
-import { CrewContainer } from "../../styles/crew/crew.styles";
+import { CommunityChannelsContainer, CrewContainer } from "../../styles/crew/crew.styles";
 import { CommunityPost } from "../../store/communitypost/communitypost.types";
 import { BadgeContainer, ResponsiveMemoryContainer } from "../../styles/responsivememory/responsivememory.styles";
 import { ArrowsFullscreen, Chat, Plus, Rocket } from "react-bootstrap-icons";
 import { AContainer, ModalPostContainer } from "../../styles/poststab/poststab.styles";
 import { favoriteCreateStart } from "../../store/favorite/favorite.action";
-import { communityPostCreateStart, communityPostFetchSingleStart } from "../../store/communitypost/communitypost.action";
+import { communityPostCreateStart, communityPostFetchAllStart, communityPostFetchSingleStart } from "../../store/communitypost/communitypost.action";
 import { communityCommentFetchSingleStart } from "../../store/communitycomment/communitycomment.action";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import ModalContent from "../../components/modal/modal.component";
@@ -181,6 +181,10 @@ function SingleCommunity(props: SingleCommunityProps) {
         }
     }
 
+    useEffect(() => {
+        dispatch(communityPostFetchAllStart());
+    }, [])
+
     return (
         <>
         <Card style={{ position: 'relative', color: 'white'}}>
@@ -192,11 +196,11 @@ function SingleCommunity(props: SingleCommunityProps) {
             style={{ zIndex: '100', position: 'absolute', top: '4rem', right: '0%' }}
         >
             <Tab eventKey="messages" title="Messages">
-                <CrewContainer>
+                <CommunityChannelsContainer>
                 <CommunityChannels communityId={id} {...props} />
                 <MembersChannel communityId={id} {...props} />
                 <FormChannel communityId={id} {...props} />
-                </CrewContainer>
+                </CommunityChannelsContainer>
             </Tab>
             <Tab eventKey="posts" title="Posts">
             <SelectShape onClick={openModal} style={{ zIndex: '100', position: 'fixed', width: '', right: '2%', top: '10rem', cursor: 'pointer' }} className="btn btn-outline-light">
